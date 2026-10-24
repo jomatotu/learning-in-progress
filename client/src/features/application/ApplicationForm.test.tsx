@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { LanguageProvider } from '@/components/LanguageProvider'
+import { LanguageToggle } from '@/components/LanguageToggle'
 import type { Survey } from '@/lib/survey'
 import { ApplicationForm } from './ApplicationForm'
 
@@ -55,6 +57,23 @@ const survey: Survey = {
   ],
 }
 
+// The same survey as GET /api/survey?lang=de would send it.
+const germanSurvey: Survey = {
+  ...survey,
+  categories: survey.categories.map((c) => ({ ...c, title: `DE ${c.title}` })),
+  questions: survey.questions.map((q) => ({ ...q, text: `DE ${q.text}` })),
+}
+
+// The form inside the site's language setting, starting in English, with the DE | EN switch.
+function renderForm() {
+  render(
+    <LanguageProvider initial="en">
+      <LanguageToggle />
+      <ApplicationForm />
+    </LanguageProvider>,
+  )
+}
+
 function urlOf(input: RequestInfo | URL) {
   return input instanceof Request ? input.url : input.toString()
 }
@@ -62,7 +81,9 @@ function urlOf(input: RequestInfo | URL) {
 // Answers GET /api/survey with the survey above and POST /api/profile with `profileResponse`.
 function mockServer(profileResponse: Response = Response.json({})) {
   const fetchMock = vi.fn<typeof fetch>(async (input) =>
-    urlOf(input) === '/api/survey' ? Response.json(survey) : profileResponse,
+    urlOf(input).startsWith('/api/survey')
+      ? Response.json(urlOf(input).includes('lang=de') ? germanSurvey : survey)
+      : profileResponse,
   )
   vi.stubGlobal('fetch', fetchMock)
   return fetchMock
@@ -81,13 +102,16 @@ async function fillAboutAndGoal(user: ReturnType<typeof userEvent.setup>) {
 }
 
 describe('ApplicationForm', () => {
-  beforeEach(() => sessionStorage.clear())
+  beforeEach(() => {
+    sessionStorage.clear()
+    localStorage.clear()
+  })
   afterEach(() => vi.unstubAllGlobals())
 
   it('asks for a name and a stage before leaving the about step', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
 
     await user.click(await screen.findByRole('button', { name: /continue/i }))
 
@@ -98,7 +122,7 @@ describe('ApplicationForm', () => {
   it('shows the questions from the server and asks for every answer in a part', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await fillAboutAndGoal(user)
 
     expect(screen.getByText('I know a lot.')).toBeInTheDocument()
@@ -125,7 +149,7 @@ describe('ApplicationForm', () => {
       }),
     )
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await fillAboutAndGoal(user)
 
     // Answer "Very much like me" on the first part, skip the second.
@@ -156,17 +180,17 @@ describe('ApplicationForm', () => {
     expect(body.material.topic).toBe('Fractions')
 
     expect(
-      await screen.findByRole('heading', { name: /magische lösung/i }),
+      await screen.findByRole('heading', { name: /magic solution/i }),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: /lösung öffnen/i }),
+      screen.getByRole('button', { name: /open solution/i }),
     ).toBeInTheDocument()
   })
 
   it('stays on the review with a message when the server can’t build the profile', async () => {
     mockServer(new Response(null, { status: 500 }))
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await fillAboutAndGoal(user)
     for (let i = 0; i < survey.categories.length; i++) {
       await user.click(screen.getByRole('button', { name: /skip this part/i }))
@@ -187,7 +211,7 @@ describe('ApplicationForm', () => {
       'fetch',
       vi.fn<typeof fetch>(async () => new Response(null, { status: 500 })),
     )
-    render(<ApplicationForm />)
+    renderForm()
 
     expect(
       await screen.findByText(/couldn’t load the form/i),
@@ -195,5 +219,22 @@ describe('ApplicationForm', () => {
     expect(
       screen.getByRole('button', { name: /try again/i }),
     ).toBeInTheDocument()
+  })
+
+  it('switches the questions to German without leaving the current step', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    renderForm()
+    await fillAboutAndGoal(user)
+    expect(screen.getByText('I know a lot.')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'German' }))
+
+    expect(await screen.findByText('DE I know a lot.')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Diesen Teil überspringen' }),
+    ).toBeInTheDocument()
+    expect(localStorage.getItem('language')).toBe('de')
+    expect(document.documentElement.lang).toBe('de')
   })
 })

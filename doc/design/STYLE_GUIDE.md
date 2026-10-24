@@ -102,17 +102,6 @@ Use these for illustrated tiles, tags, and category colour. Always pair them; ne
 | `#d9d5df` | Tag text on dark |
 | `#575260` / `#504b61` | Tag borders, decorative ring on dark |
 
-### Calm mode (application page only)
-
-A low-stimulation variant toggled by the "Calmer colours" button. It swaps the purple for a muted green.
-
-| Token | Normal | Calm |
-| --- | --- | --- |
-| Accent | `#6955c6` | `#5f7d72` |
-| Accent soft | `#f0ecfb` | `#e7efeb` |
-| Accent deep | `#5540b0` | `#3f5d52` |
-| Page | `#f7f5ef` | `#eef1ec` |
-
 ---
 
 ## 3. Typography
@@ -531,7 +520,7 @@ These live in `application.css` and follow the same rules.
 - Visible focus ring (see the application page rule).
 - Decoration is `aria-hidden`.
 - Respect `prefers-reduced-motion`.
-- The application page offers reading comfort controls: larger text (root 20px), more spacing (line height 1.95, letter spacing 0.04em), and calm mode.
+- Every page has a DE | EN language switch in the top bar (`client/src/components/LanguageToggle.tsx`): a small pill with the active language filled in ink `#292632`.
 
 ---
 

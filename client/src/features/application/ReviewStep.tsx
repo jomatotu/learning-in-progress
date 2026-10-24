@@ -1,8 +1,58 @@
 import type { ReactNode } from 'react'
+import { defineMessages, useLanguage, useMessages } from '@/lib/i18n'
 import { useSurvey } from '@/lib/survey'
+import { entryFor, labelFor, optionMessages } from './options'
 import { StepHeading } from './StepHeading'
 import type { StepId } from './profile'
 import type { StepProps } from './ApplicationForm'
+
+const messages = defineMessages({
+  en: {
+    label: 'Check your profile',
+    hint: 'This is what we’ll use to build your tool. Change anything that isn’t right.',
+    title: 'Does this',
+    titleEm: 'sound like you?',
+    edit: 'Edit',
+    about: 'About you',
+    into: (interests: string) => `Into ${interests}`,
+    goal: 'Your goal',
+    noGoal: 'No goal yet',
+    by: 'By',
+    learning: 'What you’re learning',
+    noMaterial: 'No material added yet',
+    material: (n: number) => `${n} ${n === 1 ? 'item' : 'items'} added`,
+    howYouLearn: 'How you learn',
+    skipped: 'Skipped',
+    answered: (n: number, total: number) =>
+      `${n} of ${total} questions answered`,
+    notes: 'Your notes',
+    likesAria: 'You like learning with',
+    noNotes: 'No notes yet',
+  },
+  de: {
+    label: 'Profil prüfen',
+    hint: 'Damit bauen wir dein Werkzeug. Ändere alles, was nicht stimmt.',
+    title: 'Klingt das',
+    titleEm: 'nach dir?',
+    edit: 'Ändern',
+    about: 'Über dich',
+    into: (interests: string) => `Interessiert an ${interests}`,
+    goal: 'Dein Ziel',
+    noGoal: 'Noch kein Ziel',
+    by: 'Bis',
+    learning: 'Was du lernst',
+    noMaterial: 'Noch kein Material hinzugefügt',
+    material: (n: number) =>
+      `${n} ${n === 1 ? 'Material' : 'Materialien'} hinzugefügt`,
+    howYouLearn: 'Wie du lernst',
+    skipped: 'Übersprungen',
+    answered: (n: number, total: number) =>
+      `${n} von ${total} Fragen beantwortet`,
+    notes: 'Deine Notizen',
+    likesAria: 'Du lernst gern mit',
+    noNotes: 'Noch keine Notizen',
+  },
+})
 
 function Section({
   title,
@@ -13,6 +63,8 @@ function Section({
   onEdit: () => void
   children: ReactNode
 }) {
+  const t = useMessages(messages)
+
   return (
     <section className="border-t border-dashed border-rule py-5 first:border-t-0 first:pt-0">
       <div className="flex items-baseline justify-between gap-4">
@@ -22,7 +74,7 @@ function Section({
           onClick={onEdit}
           className="text-sm text-ink underline decoration-rule decoration-[1.5px] underline-offset-4 hover:decoration-ink"
         >
-          Edit
+          {t.edit}
         </button>
       </div>
       <div className="mt-2">{children}</div>
@@ -38,82 +90,79 @@ function ReviewStep({
   profile,
   goTo,
 }: StepProps & { goTo: (step: StepId) => void }) {
+  const t = useMessages(messages)
+  const options = useMessages(optionMessages)
+  const { lang } = useLanguage()
   const answered = Object.keys(profile.answers).length
   const questions = useSurvey().questions.length
   const material =
     profile.texts.length + profile.links.length + profile.files.length
-  const stage = [profile.stage, profile.stageDetail].filter(Boolean).join(' · ')
+  const stageLabel =
+    entryFor(options.stages, profile.stage)?.label ?? profile.stage
+  const stage = [stageLabel, profile.stageDetail].filter(Boolean).join(' · ')
 
   return (
     <div>
-      <StepHeading
-        label="Check your profile"
-        hint="This is what we’ll use to build your tool. Change anything that isn’t right."
-      >
-        Does this <em>sound like you?</em>
+      <StepHeading label={t.label} hint={t.hint}>
+        {t.title} <em>{t.titleEm}</em>
       </StepHeading>
 
       <div className="rounded-2xl border border-rule bg-paper p-6">
-        <Section title="About you" onEdit={() => goTo('about')}>
+        <Section title={t.about} onEdit={() => goTo('about')}>
           <p className="font-normal">{profile.name}</p>
           {stage && <p className="text-graphite">{stage}</p>}
           {profile.interests && (
-            <p className="text-graphite">Into {profile.interests}</p>
+            <p className="text-graphite">{t.into(profile.interests)}</p>
           )}
         </Section>
 
-        <Section title="Your goal" onEdit={() => goTo('goal')}>
+        <Section title={t.goal} onEdit={() => goTo('goal')}>
           {profile.goalType || profile.goal ? (
             <>
               {profile.goalType && (
-                <p className="font-normal">{profile.goalType}</p>
+                <p className="font-normal">
+                  {labelFor(options.goalTypes, profile.goalType)}
+                </p>
               )}
               {profile.goal && <p>{profile.goal}</p>}
             </>
           ) : (
-            <Empty>No goal yet</Empty>
+            <Empty>{t.noGoal}</Empty>
           )}
           {profile.deadline && (
             <p className="text-graphite">
-              By{' '}
-              {new Date(profile.deadline).toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+              {t.by}{' '}
+              {new Date(profile.deadline).toLocaleDateString(
+                lang === 'de' ? 'de-DE' : 'en-GB',
+                { day: 'numeric', month: 'long', year: 'numeric' },
+              )}
             </p>
           )}
         </Section>
 
-        <Section title="What you’re learning" onEdit={() => goTo('goal')}>
+        <Section title={t.learning} onEdit={() => goTo('goal')}>
           <p className="font-normal">{profile.topic}</p>
           <p className="text-graphite">
-            {material === 0
-              ? 'No material added yet'
-              : `${material} ${material === 1 ? 'item' : 'items'} added`}
+            {material === 0 ? t.noMaterial : t.material(material)}
           </p>
         </Section>
 
-        <Section title="How you learn" onEdit={() => goTo('survey')}>
-          <p>
-            {answered === 0
-              ? 'Skipped'
-              : `${answered} of ${questions} questions answered`}
-          </p>
+        <Section title={t.howYouLearn} onEdit={() => goTo('survey')}>
+          <p>{answered === 0 ? t.skipped : t.answered(answered, questions)}</p>
         </Section>
 
-        <Section title="Your notes" onEdit={() => goTo('notes')}>
+        <Section title={t.notes} onEdit={() => goTo('notes')}>
           {profile.likes.length > 0 && (
             <ul
               className="mb-2 flex flex-wrap gap-1.5"
-              aria-label="You like learning with"
+              aria-label={t.likesAria}
             >
               {profile.likes.map((like) => (
                 <li
                   key={like}
                   className="rounded-lg border border-pine bg-pine-soft px-2.5 py-0.5 text-sm text-pine-deep"
                 >
-                  {like}
+                  {labelFor(options.likes, like)}
                 </li>
               ))}
             </ul>
@@ -121,7 +170,7 @@ function ReviewStep({
           {profile.notes ? (
             <p className="whitespace-pre-line">{profile.notes}</p>
           ) : (
-            !profile.likes.length && <Empty>No notes yet</Empty>
+            !profile.likes.length && <Empty>{t.noNotes}</Empty>
           )}
         </Section>
       </div>

@@ -34,17 +34,32 @@ class Survey(BaseModel):
     questions: list[Question]
 
 
-# The survey questions for the client to show, in order. Scoring details (reversed items, bands, instructions)
-# stay on the server.
+def _localised(entry: dict, key: str, lang: str):
+    # German texts live next to the English ones as "<key>_de"; English is the fallback.
+    return entry.get(f"{key}_{lang}", entry[key]) if lang != "en" else entry[key]
+
+
+# The survey questions for the client to show, in order, in English or German. Scoring details
+# (reversed items, bands, instructions) stay on the server and are the same in both languages.
 @router.get("/survey")
-async def get_survey() -> Survey:
+async def get_survey(lang: Literal["en", "de"] = "en") -> Survey:
     scale = load_scale()
+    response_scale = scale["response_scale"]
     return Survey(
         version=scale["version"],
-        response_scale=ResponseScale(**scale["response_scale"]),
-        categories=[Category(id=c["id"], title=c["title"], hint=c["hint"]) for c in scale["categories"]],
+        response_scale=ResponseScale(
+            min=response_scale["min"],
+            max=response_scale["max"],
+            labels=_localised(response_scale, "labels", lang),
+        ),
+        categories=[
+            Category(id=c["id"], title=_localised(c, "title", lang), hint=_localised(c, "hint", lang))
+            for c in scale["categories"]
+        ],
         questions=[
-            Question(id=item["id"], category=c["id"], text=item["text"], priority=item["priority"])
+            Question(
+                id=item["id"], category=c["id"], text=_localised(item, "text", lang), priority=item["priority"]
+            )
             for c in scale["categories"]
             for item in c["items"]
         ],

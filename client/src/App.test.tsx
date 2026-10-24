@@ -15,6 +15,8 @@ function renderAt(path: string) {
 }
 
 describe('App', () => {
+  beforeEach(() => localStorage.clear())
+
   it('renders the onboarding home screen', () => {
     renderAt('/')
 
@@ -41,7 +43,7 @@ describe('App', () => {
     await user.click(screen.getByRole('button', { name: /los geht's/i }))
 
     expect(
-      await screen.findByRole('heading', { name: /learning with/i }),
+      await screen.findByRole('heading', { name: /lernen wir/i }),
     ).toBeInTheDocument()
     vi.unstubAllGlobals()
   })
@@ -61,9 +63,24 @@ describe('App', () => {
     renderAt('/application')
 
     expect(
-      await screen.findByRole('heading', { name: /learning with/i }),
+      await screen.findByRole('heading', { name: /lernen wir/i }),
     ).toBeInTheDocument()
     vi.unstubAllGlobals()
+  })
+
+  it('switches the whole site to English and remembers it', async () => {
+    const user = userEvent.setup()
+    renderAt('/')
+
+    await user.click(screen.getByRole('button', { name: 'Englisch' }))
+
+    expect(
+      screen.getByRole('heading', { name: /your knowledge/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /let's go/i }),
+    ).toBeInTheDocument()
+    expect(localStorage.getItem('language')).toBe('en')
   })
 
   it('renders the build playground at /playground', () => {

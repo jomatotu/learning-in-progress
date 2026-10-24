@@ -12,6 +12,13 @@
       "Somewhat like me",
       "Quite like me",
       "Very much like me"
+    ],
+    "labels_de": [
+      "Trifft gar nicht zu",
+      "Trifft kaum zu",
+      "Trifft teils zu",
+      "Trifft eher zu",
+      "Trifft voll zu"
     ]
   },
   "scoring": {
@@ -54,19 +61,22 @@
           "id": "pk1",
           "text": "I already know quite a lot about the topic I'm learning.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich weiß schon ziemlich viel über das Thema, das ich gerade lerne."
         },
         {
           "id": "pk2",
           "text": "I could explain the basics of this topic to a friend.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich könnte jemandem die Grundlagen dieses Themas erklären."
         },
         {
           "id": "pk3",
           "text": "Most of this topic is completely new to me.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Das meiste an diesem Thema ist völlig neu für mich."
         }
       ],
       "bands": {
@@ -94,7 +104,9 @@
             "Focus on gaps, edge cases, and applying the knowledge."
           ]
         }
-      }
+      },
+      "title_de": "Was du schon weißt",
+      "hint_de": "Zu dem Thema, das du angegeben hast. Antworte nur für dieses Thema."
     },
     {
       "id": "working_memory",
@@ -114,25 +126,29 @@
           "id": "wm1",
           "text": "When I get instructions with several steps, I forget some of them.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn ich Anweisungen mit mehreren Schritten bekomme, vergesse ich einige davon."
         },
         {
           "id": "wm2",
           "text": "If someone interrupts me, I lose track of what I was doing.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Wenn mich jemand unterbricht, weiß ich nicht mehr, was ich gerade gemacht habe."
         },
         {
           "id": "wm3",
           "text": "I can keep several pieces of information in my head while I work something out.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich kann mehrere Informationen im Kopf behalten, während ich etwas ausarbeite."
         },
         {
           "id": "wm4",
           "text": "In a long explanation, I've forgotten the start by the time it ends.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Bei einer langen Erklärung habe ich den Anfang vergessen, wenn sie zu Ende ist."
         }
       ],
       "bands": {
@@ -160,7 +176,9 @@
             "Keep recaps brief; don't over-split the material."
           ]
         }
-      }
+      },
+      "title_de": "Dinge im Kopf behalten",
+      "hint_de": "Wie viel du dir merken kannst, während du arbeitest."
     },
     {
       "id": "attention",
@@ -184,25 +202,29 @@
           "id": "at1",
           "text": "My thoughts drift off without me noticing, even when I want to concentrate.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Meine Gedanken schweifen ab, ohne dass ich es merke, selbst wenn ich mich konzentrieren will."
         },
         {
           "id": "at2",
           "text": "I can stay focused for a long time, even when a task isn't exciting.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich kann mich lange konzentrieren, auch wenn eine Aufgabe nicht spannend ist."
         },
         {
           "id": "at3",
           "text": "My phone, noises, or other things easily pull me away from what I'm doing.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Mein Handy, Geräusche oder andere Dinge lenken mich leicht ab."
         },
         {
           "id": "at4",
           "text": "I reach the end of a page and realise I have no idea what it said.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich komme am Ende einer Seite an und merke, dass ich keine Ahnung habe, was dort stand."
         }
       ],
       "bands": {
@@ -230,7 +252,9 @@
             "Keep interruptions and check-ins to a minimum."
           ]
         }
-      }
+      },
+      "title_de": "Konzentriert bleiben",
+      "hint_de": "Wie es läuft, wenn du dich konzentrieren willst."
     },
     {
       "id": "reading",
@@ -254,25 +278,29 @@
           "id": "rd1",
           "text": "Reading takes me longer than most people my age.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich brauche zum Lesen länger als die meisten in meinem Alter."
         },
         {
           "id": "rd2",
           "text": "When I read, letters or words seem to jump, blur, or swap places.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Beim Lesen scheinen Buchstaben oder Wörter zu springen, zu verschwimmen oder die Plätze zu tauschen."
         },
         {
           "id": "rd3",
           "text": "I often have to read a sentence twice to understand it.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich muss einen Satz oft zweimal lesen, um ihn zu verstehen."
         },
         {
           "id": "rd4",
           "text": "The language my material is in is not my strongest language.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Die Sprache, in der mein Material ist, ist nicht meine stärkste Sprache."
         }
       ],
       "bands": {
@@ -299,7 +327,9 @@
             "Text is a good format for this student; no special reading support is needed."
           ]
         }
-      }
+      },
+      "title_de": "Lesen",
+      "hint_de": "Wie Lesen für dich läuft, in der Sprache deines Materials."
     },
     {
       "id": "self_regulation",
@@ -323,25 +353,29 @@
           "id": "sr1",
           "text": "I put off starting tasks, even when I know I should begin.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich schiebe Aufgaben auf, obwohl ich weiß, dass ich anfangen sollte."
         },
         {
           "id": "sr2",
           "text": "When I have a big task, I break it into smaller steps on my own.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Wenn ich eine große Aufgabe habe, teile ich sie selbst in kleinere Schritte auf."
         },
         {
           "id": "sr3",
           "text": "I usually finish what I planned to do.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich schaffe meistens, was ich mir vorgenommen habe."
         },
         {
           "id": "sr4",
           "text": "I lose track of time, and deadlines take me by surprise.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich verliere das Zeitgefühl, und Abgabetermine überraschen mich."
         }
       ],
       "bands": {
@@ -369,7 +403,9 @@
             "Offer tools such as checklists or timers as options, not rules."
           ]
         }
-      }
+      },
+      "title_de": "Anfangen und dranbleiben",
+      "hint_de": "Wie du planst, anfängst und Dinge zu Ende bringst."
     },
     {
       "id": "thinking_appetite",
@@ -389,25 +425,29 @@
           "id": "th1",
           "text": "I like problems that make me think hard.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich mag Aufgaben, bei denen ich richtig nachdenken muss."
         },
         {
           "id": "th2",
           "text": "I'd rather be told the answer than figure it out myself.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich bekomme lieber die Antwort gesagt, als sie selbst herauszufinden."
         },
         {
           "id": "th3",
           "text": "I enjoy finding a new way to solve something.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Es macht mir Spaß, einen neuen Weg zu finden, um etwas zu lösen."
         },
         {
           "id": "th4",
           "text": "Thinking about the same thing for a long time gets boring fast.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Lange über dieselbe Sache nachzudenken, wird mir schnell langweilig."
         }
       ],
       "bands": {
@@ -432,7 +472,9 @@
             "Offer optional deep dives and let the student explore different solutions."
           ]
         }
-      }
+      },
+      "title_de": "Wie du gern denkst",
+      "hint_de": "Ob du knifflige Aufgaben magst oder es lieber klar und einfach hast."
     },
     {
       "id": "self_belief",
@@ -452,19 +494,22 @@
           "id": "sb1",
           "text": "If I put in the effort, I can understand even hard topics.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn ich mich anstrenge, kann ich auch schwierige Themen verstehen."
         },
         {
           "id": "sb2",
           "text": "When something is new to me, I trust myself to figure it out.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn etwas neu für mich ist, traue ich mir zu, es herauszufinden."
         },
         {
           "id": "sb3",
           "text": "I can handle most learning tasks I'm given.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Die meisten Lernaufgaben, die ich bekomme, kann ich bewältigen."
         }
       ],
       "bands": {
@@ -489,7 +534,9 @@
             "Start at or slightly above the student's level and keep the challenge up."
           ]
         }
-      }
+      },
+      "title_de": "Dir selbst vertrauen",
+      "hint_de": "Wie sicher du dich beim Lernen fühlst."
     },
     {
       "id": "bouncing_back",
@@ -509,25 +556,29 @@
           "id": "bb1",
           "text": "When I get something wrong, I can shake it off and keep going.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn ich etwas falsch mache, kann ich es abhaken und weitermachen."
         },
         {
           "id": "bb2",
           "text": "One mistake or bad mark can ruin my whole day.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ein Fehler oder eine schlechte Note kann mir den ganzen Tag verderben."
         },
         {
           "id": "bb3",
           "text": "When learning gets frustrating, I give up quickly.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn Lernen frustrierend wird, gebe ich schnell auf."
         },
         {
           "id": "bb4",
           "text": "I can handle a lot of pressure from school or studying.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich komme mit viel Druck von Schule oder Studium gut klar."
         }
       ],
       "bands": {
@@ -553,7 +604,9 @@
             "Scores, streaks, and timed challenges can be used if the student enjoys them."
           ]
         }
-      }
+      },
+      "title_de": "Wenn etwas schiefgeht",
+      "hint_de": "Wie du mit Fehlern und frustrierenden Momenten umgehst."
     }
   ],
   "priority": "Each item is high or low priority: 20 high, 10 low. Scoring uses every answered item regardless of priority."

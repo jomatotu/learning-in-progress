@@ -34,10 +34,6 @@
   font-size: 17px;
 }
 
-:root[data-comfort-large]:has(.application-page) {
-  font-size: 20px;
-}
-
 .application-page h1,
 .application-page h2,
 .application-page h3 {
@@ -108,20 +104,6 @@
   outline: none;
   border-color: var(--pine);
   box-shadow: 0 0 0 3px #eeeafb;
-}
-
-/* Reading comfort settings (ReadingComfort.tsx sets these attributes while the page is open). */
-:root[data-comfort-spaced] .application-page {
-  line-height: 1.95;
-  letter-spacing: 0.04em;
-}
-
-:root[data-comfort-calm] .application-page {
-  --pine: #5f7d72;
-  --pine-soft: #e7efeb;
-  --pine-deep: #3f5d52;
-  --marigold: #b9a27a;
-  background: #eef1ec;
 }
 
 @media (prefers-reduced-motion: reduce) {

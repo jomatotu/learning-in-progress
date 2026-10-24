@@ -2,16 +2,57 @@ import { useState } from 'react'
 import { FileText, Link2, Type, Upload, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import type { Profile } from './profile'
 
 type Mode = 'text' | 'link' | 'file'
 
 const modes = [
-  { id: 'text', label: 'Paste text', icon: Type },
-  { id: 'link', label: 'Add a link', icon: Link2 },
-  { id: 'file', label: 'Upload files', icon: Upload },
+  { id: 'text', icon: Type },
+  { id: 'link', icon: Link2 },
+  { id: 'file', icon: Upload },
 ] as const
+
+const messages = defineMessages({
+  en: {
+    modes: { text: 'Paste text', link: 'Add a link', file: 'Upload files' },
+    howToAdd: 'How to add material',
+    pasteLabel: 'Paste your text',
+    pastePlaceholder:
+      'Paste a chapter, your lecture notes, or an exercise sheet',
+    addText: 'Add text',
+    linkLabel: 'Link to your material',
+    linkPlaceholder: 'youtube.com/watch?v=… or a course page',
+    add: 'Add',
+    badLink: 'That doesn’t look like a link. Check it and try again.',
+    drop: 'Drop files here or choose them',
+    fileTypes: 'PDF, Word, slides, images, or audio',
+    added: 'Added material',
+    remove: (label: string) => `Remove ${label}`,
+  },
+  de: {
+    modes: {
+      text: 'Text einfügen',
+      link: 'Link hinzufügen',
+      file: 'Dateien hochladen',
+    },
+    howToAdd: 'Wie du Material hinzufügst',
+    pasteLabel: 'Füg deinen Text ein',
+    pastePlaceholder:
+      'Füg ein Kapitel, deine Mitschrift oder ein Arbeitsblatt ein',
+    addText: 'Text hinzufügen',
+    linkLabel: 'Link zu deinem Material',
+    linkPlaceholder: 'youtube.com/watch?v=… oder eine Kursseite',
+    add: 'Hinzufügen',
+    badLink:
+      'Das sieht nicht nach einem Link aus. Prüf ihn und versuch es nochmal.',
+    drop: 'Dateien hierher ziehen oder auswählen',
+    fileTypes: 'PDF, Word, Folien, Bilder oder Audio',
+    added: 'Hinzugefügtes Material',
+    remove: (label: string) => `Entfernen: ${label}`,
+  },
+})
 
 // One place to add learning material: pasted text, links, or files. Added items are listed below.
 function MaterialInput({
@@ -24,6 +65,7 @@ function MaterialInput({
   const [mode, setMode] = useState<Mode>('text')
   const [draft, setDraft] = useState('')
   const [linkError, setLinkError] = useState('')
+  const t = useMessages(messages)
 
   const addText = () => {
     if (!draft.trim()) return
@@ -40,7 +82,7 @@ function MaterialInput({
       setDraft('')
       setLinkError('')
     } catch {
-      setLinkError('That doesn’t look like a link. Check it and try again.')
+      setLinkError(t.badLink)
     }
   }
 
@@ -71,11 +113,8 @@ function MaterialInput({
 
   return (
     <div className="flex flex-col gap-4">
-      <fieldset
-        aria-label="How to add material"
-        className="flex flex-wrap gap-2"
-      >
-        {modes.map(({ id, label, icon: Icon }) => (
+      <fieldset aria-label={t.howToAdd} className="flex flex-wrap gap-2">
+        {modes.map(({ id, icon: Icon }) => (
           <button
             key={id}
             type="button"
@@ -93,7 +132,7 @@ function MaterialInput({
             )}
           >
             <Icon className="size-4" strokeWidth={1.75} aria-hidden />
-            {label}
+            {t.modes[id]}
           </button>
         ))}
       </fieldset>
@@ -101,13 +140,13 @@ function MaterialInput({
       {mode === 'text' && (
         <div className="flex flex-col items-start gap-3">
           <Textarea
-            aria-label="Paste your text"
+            aria-label={t.pasteLabel}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="Paste a chapter, your lecture notes, or an exercise sheet"
+            placeholder={t.pastePlaceholder}
           />
           <button type="button" className="secondary-button" onClick={addText}>
-            Add text
+            {t.addText}
           </button>
         </div>
       )}
@@ -116,7 +155,7 @@ function MaterialInput({
         <div className="flex flex-col gap-2">
           <div className="flex gap-3">
             <Input
-              aria-label="Link to your material"
+              aria-label={t.linkLabel}
               value={draft}
               onChange={(e) => {
                 setDraft(e.target.value)
@@ -125,7 +164,7 @@ function MaterialInput({
               onKeyDown={(e) =>
                 e.key === 'Enter' && (e.preventDefault(), addLink())
               }
-              placeholder="youtube.com/watch?v=… or a course page"
+              placeholder={t.linkPlaceholder}
               aria-invalid={!!linkError}
             />
             <button
@@ -133,7 +172,7 @@ function MaterialInput({
               className="secondary-button"
               onClick={addLink}
             >
-              Add
+              {t.add}
             </button>
           </div>
           {linkError && (
@@ -156,10 +195,8 @@ function MaterialInput({
           }}
         >
           <Upload className="size-6 text-pine" strokeWidth={1.5} aria-hidden />
-          <span className="font-normal">Drop files here or choose them</span>
-          <span className="text-sm text-graphite">
-            PDF, Word, slides, images, or audio
-          </span>
+          <span className="font-normal">{t.drop}</span>
+          <span className="text-sm text-graphite">{t.fileTypes}</span>
           <input
             type="file"
             multiple
@@ -173,7 +210,7 @@ function MaterialInput({
       )}
 
       {items.length > 0 && (
-        <ul className="flex flex-col gap-2" aria-label="Added material">
+        <ul className="flex flex-col gap-2" aria-label={t.added}>
           {items.map(({ key, icon: Icon, label, remove }) => (
             <li
               key={key}
@@ -188,7 +225,7 @@ function MaterialInput({
               <button
                 type="button"
                 onClick={remove}
-                aria-label={`Remove ${label}`}
+                aria-label={t.remove(label)}
                 className="rounded-md p-1 hover:bg-sheet"
               >
                 <X className="size-4" aria-hidden />

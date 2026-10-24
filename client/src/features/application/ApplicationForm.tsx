@@ -7,12 +7,14 @@ import {
   useSurvey,
   type Survey,
 } from '@/lib/survey'
+import { defineMessages, useLanguage, useMessages, type Lang } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { AboutStep } from './AboutStep'
 import { createProfile, type StudentProfileJson } from './studentProfile'
 import { GoalStep } from './GoalStep'
 import { MagicStep } from './MagicStep'
 import { NotesStep } from './NotesStep'
+import { optionMessages } from './options'
 import { ProfilePanel } from './ProfilePanel'
 import { ReviewStep } from './ReviewStep'
 import { SurveyStep } from './SurveyStep'
@@ -36,43 +38,97 @@ export type StepProps = {
   errors: Partial<Record<keyof Profile, string>>
 }
 
+const messages = defineMessages({
+  en: {
+    errors: {
+      name: 'Tell us what to call you.',
+      stage: 'Pick the one that fits best.',
+      topic: 'Tell us the topic, even in a few words.',
+      answers: 'Answer each one, or skip this part for now.',
+    },
+    primary: {
+      continue: 'Continue',
+      build: 'Build my tool',
+      building: 'Building…',
+    },
+    step: (n: number, total: number) => `Step ${n} of ${total}`,
+    minutesLeft: (n: number) =>
+      `about ${n} ${n === 1 ? 'minute' : 'minutes'} left`,
+    almostDone: 'almost done',
+    saved: 'Saved',
+    buildFailed:
+      'We couldn’t build your profile. Check your connection and try again.',
+    back: 'Back',
+    skipPart: 'Skip this part',
+    skipForNow: 'Skip for now',
+    loading: 'Getting things ready…',
+    loadFailed:
+      'We couldn’t load the form. Check your connection and try again.',
+    tryAgain: 'Try again',
+  },
+  de: {
+    errors: {
+      name: 'Sag uns, wie wir dich nennen sollen.',
+      stage: 'Wähl das, was am besten passt.',
+      topic: 'Nenn uns das Thema, gern in wenigen Worten.',
+      answers: 'Beantworte jede Aussage oder überspring diesen Teil erst mal.',
+    },
+    primary: {
+      continue: 'Weiter',
+      build: 'Mein Werkzeug bauen',
+      building: 'Wird gebaut…',
+    },
+    step: (n: number, total: number) => `Schritt ${n} von ${total}`,
+    minutesLeft: (n: number) =>
+      `noch etwa ${n} ${n === 1 ? 'Minute' : 'Minuten'}`,
+    almostDone: 'fast geschafft',
+    saved: 'Gespeichert',
+    buildFailed:
+      'Wir konnten dein Profil nicht erstellen. Prüf deine Verbindung und versuch es nochmal.',
+    back: 'Zurück',
+    skipPart: 'Diesen Teil überspringen',
+    skipForNow: 'Erst mal überspringen',
+    loading: 'Wird vorbereitet…',
+    loadFailed:
+      'Wir konnten das Formular nicht laden. Prüf deine Verbindung und versuch es nochmal.',
+    tryAgain: 'Nochmal versuchen',
+  },
+})
+
+type Messages = (typeof messages)['en']
+
 // Returns what's missing before the student can leave this screen.
 function validate(
   screen: Screen,
   profile: Profile,
   survey: Survey,
+  t: Messages,
 ): StepProps['errors'] {
   if (screen.step === 'about') {
     return {
-      ...(!profile.name.trim() && { name: 'Tell us what to call you.' }),
-      ...(!profile.stage && { stage: 'Pick the one that fits best.' }),
+      ...(!profile.name.trim() && { name: t.errors.name }),
+      ...(!profile.stage && { stage: t.errors.stage }),
     }
   }
   if (screen.step === 'goal' && !profile.topic.trim()) {
-    return { topic: 'Tell us the topic, even in a few words.' }
+    return { topic: t.errors.topic }
   }
   if (screen.step === 'survey') {
     const missing = questionsIn(survey, screen.categoryId).some(
       (question) => profile.answers[question.id] === undefined,
     )
     if (missing) {
-      return { answers: 'Answer each one, or skip this part for now.' }
+      return { answers: t.errors.answers }
     }
   }
   return {}
 }
 
-const primaryLabel: Record<StepId, string> = {
-  about: 'Continue',
-  goal: 'Continue',
-  survey: 'Continue',
-  notes: 'Continue',
-  review: 'Build my tool',
-}
-
 // The intake flow: about you, your goal, the learning survey, your notes, and a final check.
 function Form() {
   const survey = useSurvey()
+  const t = useMessages(messages)
+  const options = useMessages(optionMessages)
   const screens = buildScreens(survey)
   const [index, setIndex] = useState(0)
   const [profile, setProfile] = useState<Profile>(loadProfile)
@@ -134,7 +190,7 @@ function Form() {
   const goTo = (id: StepId) => moveTo(screens.findIndex((s) => s.step === id))
 
   const next = () => {
-    const found = validate(screen, profile, survey)
+    const found = validate(screen, profile, survey, t)
     setErrors(found)
     if (Object.keys(found).length) return
     if (screen.step !== 'review') moveTo(index + 1)
@@ -157,15 +213,12 @@ function Form() {
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-6 py-4 text-sm md:px-8">
         <span>
           <span className="font-medium">
-            Step {stepNumber} of {counted.length}
+            {t.step(stepNumber, counted.length)}
           </span>{' '}
-          · {step.title}
+          · {options.steps[step.id]}
           <span className="text-graphite">
             {' '}
-            ·{' '}
-            {minutesLeft > 0
-              ? `about ${minutesLeft} ${minutesLeft === 1 ? 'minute' : 'minutes'} left`
-              : 'almost done'}
+            · {minutesLeft > 0 ? t.minutesLeft(minutesLeft) : t.almostDone}
           </span>
         </span>
         <div className="flex gap-1.5" aria-hidden>
@@ -183,7 +236,7 @@ function Form() {
             />
           ))}
         </div>
-        <span className="text-graphite">Saved</span>
+        <span className="text-graphite">{t.saved}</span>
       </div>
 
       <div className={cn('grid', showPanel && 'md:grid-cols-[1.45fr_1fr]')}>
@@ -215,8 +268,7 @@ function Form() {
               role="alert"
               className="mt-8 border-l-[3px] border-clay pl-3 text-sm"
             >
-              We couldn’t build your profile. Check your connection and try
-              again.
+              {t.buildFailed}
             </p>
           )}
 
@@ -228,7 +280,7 @@ function Form() {
                 onClick={() => moveTo(index - 1)}
               >
                 <ArrowLeft size={18} aria-hidden />
-                Back
+                {t.back}
               </button>
             ) : (
               <span />
@@ -240,13 +292,15 @@ function Form() {
                   className="text-button"
                   onClick={() => moveTo(index + 1)}
                 >
-                  {screen.step === 'survey' ? 'Skip this part' : 'Skip for now'}
+                  {screen.step === 'survey' ? t.skipPart : t.skipForNow}
                 </button>
               )}
               <button type="submit" className="primary large">
                 {result.status === 'loading'
-                  ? 'Building…'
-                  : primaryLabel[screen.step]}
+                  ? t.primary.building
+                  : screen.step === 'review'
+                    ? t.primary.build
+                    : t.primary.continue}
                 <ArrowRight size={18} aria-hidden />
               </button>
             </div>
@@ -262,21 +316,37 @@ function Form() {
 type SurveyLoad =
   { status: 'loading' | 'error' } | { status: 'ready'; survey: Survey }
 
-// Loads the survey questions from the server before showing the form.
+// Loads the survey questions from the server, in the chosen language, before showing the form.
 function ApplicationForm() {
+  const { lang } = useLanguage()
+  const t = useMessages(messages)
   const [load, setLoad] = useState<SurveyLoad>({ status: 'loading' })
 
   const loadSurvey = () => {
     setLoad({ status: 'loading' })
-    fetchSurvey().then(
+    fetchSurvey(lang).then(
       (survey) => setLoad({ status: 'ready', survey }),
       () => setLoad({ status: 'error' }),
     )
   }
 
-  // Runs once on mount; loadSurvey only sets state.
-  // oxlint-disable-next-line react/exhaustive-deps
-  useEffect(loadSurvey, [])
+  // Loads once on mount, then again when the language changes. A language switch keeps the
+  // current survey on screen while the new texts load, so the student stays on the same step.
+  const loadedLang = useRef<Lang | null>(null)
+  useEffect(() => {
+    if (loadedLang.current === lang) return
+    const first = loadedLang.current === null
+    loadedLang.current = lang
+    if (first) {
+      loadSurvey()
+      return
+    }
+    fetchSurvey(lang).then(
+      (survey) => setLoad({ status: 'ready', survey }),
+      () => {},
+    )
+    // oxlint-disable-next-line react/exhaustive-deps
+  }, [lang])
 
   if (load.status === 'ready') {
     return (
@@ -289,12 +359,12 @@ function ApplicationForm() {
   return (
     <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
       {load.status === 'loading' ? (
-        <p className="text-graphite">Getting things ready…</p>
+        <p className="text-graphite">{t.loading}</p>
       ) : (
         <div role="alert">
-          <p>We couldn’t load the form. Check your connection and try again.</p>
+          <p>{t.loadFailed}</p>
           <button className="primary mt-6" onClick={loadSurvey}>
-            Try again
+            {t.tryAgain}
           </button>
         </div>
       )}

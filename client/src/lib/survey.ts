@@ -1,4 +1,5 @@
 import { createContext, use } from 'react'
+import type { Lang } from './i18n'
 
 // The learning survey as GET /api/survey returns it. The server owns the questions and does the scoring;
 // the client only shows them and collects answers.
@@ -17,8 +18,8 @@ export type Survey = {
 export type SurveyCategory = Survey['categories'][number]
 export type Answers = Record<string, number>
 
-export async function fetchSurvey(): Promise<Survey> {
-  const response = await fetch('/api/survey')
+export async function fetchSurvey(lang: Lang): Promise<Survey> {
+  const response = await fetch(`/api/survey?lang=${lang}`)
   if (!response.ok) throw new Error(`Survey request failed: ${response.status}`)
   return response.json()
 }

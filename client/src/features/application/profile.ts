@@ -1,4 +1,5 @@
 import type { Answers, Survey } from '@/lib/survey'
+import { optionMessages } from './options'
 
 // Everything the application form collects. Sent to the server as the student profile.
 export type Profile = {
@@ -35,56 +36,23 @@ export const emptyProfile: Profile = {
   notes: '',
 }
 
-export const stages = [
-  {
-    value: 'School',
-    detailLabel: 'Which grade are you in?',
-    detailPlaceholder: 'Grade 10',
-  },
-  {
-    value: 'Vocational training',
-    detailLabel: 'What are you training as?',
-    detailPlaceholder: 'Electronics technician',
-  },
-  {
-    value: 'University',
-    detailLabel: 'What do you study?',
-    detailPlaceholder: 'Biology, 2nd semester',
-  },
-  {
-    value: 'Something else',
-    detailLabel: 'Tell us a bit more',
-    detailPlaceholder: 'Evening class in Spanish',
-  },
-]
+// The stored values for each choice. Their display texts, in both languages, are in options.ts.
+export const stages = Object.keys(optionMessages.en.stages)
 
-export const goalTypes = [
-  'Pass an exam',
-  'Understand a topic',
-  'Finish homework',
-  'Keep up in class',
-]
+export const goalTypes = Object.keys(optionMessages.en.goalTypes)
 
-export const likeSuggestions = [
-  'Short videos',
-  'Examples first',
-  'Text read aloud',
-  'Quizzes to check myself',
-  'Small steps with breaks',
-  'Pictures and diagrams',
-  'Talking it through',
-  'Less text on the screen',
-]
+export const likeSuggestions = Object.keys(optionMessages.en.likes)
 
 export type StepId = 'about' | 'goal' | 'survey' | 'notes' | 'review'
 
-export const steps: { id: StepId; title: string }[] = [
-  { id: 'about', title: 'About you' },
-  { id: 'about', title: 'About you' },
-  { id: 'goal', title: 'Your goal' },
-  { id: 'survey', title: 'How you learn' },
-  { id: 'notes', title: 'Your notes' },
-  { id: 'review', title: 'Check your profile' },
+// Step titles, in both languages, are in options.ts.
+export const steps: { id: StepId }[] = [
+  { id: 'about' },
+  { id: 'about' },
+  { id: 'goal' },
+  { id: 'survey' },
+  { id: 'notes' },
+  { id: 'review' },
 ]
 
 // One screen per step, except the survey, which gets one screen per category.

@@ -1,5 +1,23 @@
 import { Suspense, lazy, type ComponentType } from 'react'
 import { Link, useParams } from 'react-router'
+import { defineMessages, useMessages } from '@/lib/i18n'
+
+const messages = defineMessages({
+  en: {
+    kicker: 'Nothing here',
+    title: 'This page doesn’t exist (anymore).',
+    body: 'Generated pages live only on the server that built them.',
+    home: 'Back to the home page',
+    loading: 'Loading your solution…',
+  },
+  de: {
+    kicker: 'Nichts gefunden',
+    title: 'Diese Seite gibt es nicht (mehr).',
+    body: 'Erzeugte Seiten gibt es nur auf dem Server, der sie gebaut hat.',
+    home: 'Zur Startseite',
+    loading: 'Deine Lösung wird geladen…',
+  },
+})
 
 // One wildcard route serves every Hermes-generated Solution Page: the module
 // keys are the file paths, so the uuid picks the component (see ADR 0001).
@@ -23,19 +41,19 @@ const resolved = new Map<string, ComponentType>(
 )
 
 function NotFound() {
+  const t = useMessages(messages)
+
   return (
     <main className="app-shell application-page">
       <div className="mx-auto max-w-[1120px] px-4 py-10 md:px-6 md:py-14">
         <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
-          <span className="kicker">Nothing here</span>
+          <span className="kicker">{t.kicker}</span>
           <h2 tabIndex={-1} className="mt-3 text-[2rem] outline-none">
-            Diese Seite gibt es nicht (mehr).
+            {t.title}
           </h2>
-          <p className="mt-4 max-w-[46ch] text-graphite">
-            Generated pages live only on the server that built them.
-          </p>
+          <p className="mt-4 max-w-[46ch] text-graphite">{t.body}</p>
           <Link className="primary mt-8 inline-flex" to="/">
-            Zur Startseite
+            {t.home}
           </Link>
         </div>
       </div>
@@ -44,10 +62,12 @@ function NotFound() {
 }
 
 function Loading() {
+  const t = useMessages(messages)
+
   return (
     <main className="app-shell application-page">
       <div className="mx-auto max-w-[1120px] px-4 py-10 md:px-6 md:py-14">
-        <p className="text-graphite">Loading your solution…</p>
+        <p className="text-graphite">{t.loading}</p>
       </div>
     </main>
   )
