@@ -1,0 +1,34 @@
+{
+  "id": "peter-klasse-10-biologie",
+  "context": "bildung",
+  "role": "schueler",
+  "name": "Peter",
+  "language": "de",
+  "school": {
+    "grade": 10,
+    "subject": "Biologie"
+  },
+  "learnerProfile": {
+    "stage": "Sekundarstufe I",
+    "ageApprox": 16,
+    "goals": [
+      "Inhalte aus Biologie der 10. Klasse verstehen und in Aufgaben anwenden"
+    ],
+    "priorKnowledge": [
+      "Grundlagen zur Zelle und zu Lebewesen aus den vorherigen Klassen"
+    ],
+    "supportNeeds": [
+      "Fachbegriffe kurz und in einfacher Sprache erklären",
+      "Neue Inhalte an einem konkreten Beispiel festmachen"
+    ]
+  },
+  "tutorGuidance": {
+    "addressForm": "du",
+    "explanationStyle": "schrittweise, alltagsnah, auf dem Niveau der 10. Klasse",
+    "focusSubject": "Biologie",
+    "avoid": [
+      "Stoff deutlich über Klasse 10 ohne Einordnung",
+      "Lange Antworten ohne Beispiel"
+    ]
+  }
+}
