@@ -68,12 +68,17 @@ describe('isNullOriginFromSelf', () => {
   it.each([
     ['foreign referer', 'https://evil.example/', self],
     ['other port', 'http://localhost:9999/', self],
-    ['missing referer', undefined, self],
     ['garbage referer', 'not a url', self],
     ['rebinding host', 'http://evil.example:5175/', 'evil.example:5175'],
   ])('rejects %s', (_name, referer, host) =>
     expect(isNullOriginFromSelf({ origin: 'null', referer, host })).toBe(false),
   )
+
+  it('accepts a missing referer, which Chrome omits for sandboxed module scripts', () => {
+    expect(
+      isNullOriginFromSelf({ origin: 'null', referer: undefined, host: self }),
+    ).toBe(true)
+  })
 
   it('rejects a real origin', () => {
     expect(
