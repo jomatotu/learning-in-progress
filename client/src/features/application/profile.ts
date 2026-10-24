@@ -80,7 +80,6 @@ export type StepId = 'about' | 'goal' | 'survey' | 'notes' | 'review'
 
 export const steps: { id: StepId; title: string }[] = [
   { id: 'about', title: 'About you' },
-  { id: 'about', title: 'About you' },
   { id: 'goal', title: 'Your goal' },
   { id: 'survey', title: 'How you learn' },
   { id: 'notes', title: 'Your notes' },

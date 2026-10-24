@@ -95,6 +95,22 @@ describe('ApplicationForm', () => {
     expect(screen.getByText('Pick the one that fits best.')).toBeInTheDocument()
   })
 
+  it('counts the steps without repeating the about step', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    expect(await screen.findByText('Step 1 of 5')).toBeInTheDocument()
+
+    await user.type(
+      screen.getByLabelText('What should we call you?'),
+      'Lina',
+    )
+    await user.click(screen.getByRole('button', { name: 'School' }))
+    await user.click(screen.getByRole('button', { name: /continue/i }))
+
+    expect(screen.getByText('Step 2 of 5')).toBeInTheDocument()
+  })
+
   it('shows the questions from the server and asks for every answer in a part', async () => {
     mockServer()
     const user = userEvent.setup()
