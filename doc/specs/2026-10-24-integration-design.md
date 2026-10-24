@@ -50,13 +50,39 @@ teammates' work deleted without their OK; a browser that can steer a tool-using 
 | # | Student sees | Built from | Why this piece (research) |
 | --- | --- | --- | --- |
 | 1 | Landing | Nils (`Home`) | the front door; style guide hero layout |
-| 2 | About you: name, stage, goal, topic, material text; "So lernst du": Nils's 5 free-text questions (chips optional), optional challenge label | BlackBeardXD's form shell + Nils's questions | form is the best-engineered intake; free text gives Hermes the richest signal with low burden. **Fix first**: Nils's Q1 chips are visual/auditory/hands-on framing → reword; `Dialog.tsx` records the first chip when the answer is blank → fix |
-| 2b | "Mehr Details? 30 kurze Fragen (~5 Min)" — optional | BlackBeardXD's survey + server scoring | well built (deterministic, honest "not validated, no diagnosis"), but 30 mandatory items is too much → **opt-in**; only its `learning_instructions` go to Hermes |
-| 3 | "Das habe ich verstanden – bist du das?" Hermes' short description; confirm or edit; Hermes may ask 0–3 follow-up questions | ours (analysis run) + Ammar's adaptive-question idea from `/assess` | lets the student control how the AI sees them; adaptive follow-ups only when something is unclear |
+| 2 | **5 things about you**: name, interests, goal + material, what makes learning hard, what already helped (chips, free text or mic); optional challenge label | BlackBeardXD's form shell (about / goal / material steps) + Nils's chips and mic | richest signal for the least effort |
+| 3 | **Yes/no deck "Stimmt / Eher nicht"** (see "Intake deck") | `scale.json` band texts (BlackBeardXD) + Hermes-written cards | same information Hermes gets from the survey (one band per category), with consent, in about a minute |
+| 3b | "Genauer? 30 kurze Fragen" — optional | BlackBeardXD's survey + server scoring | kept for students who want it; overrides deck bands where answered |
+| 3c | "Das habe ich verstanden" — Hermes' summary in its own words; confirm or edit | ours (same Hermes session) | the student controls how the AI sees them |
 | 4 | Pick formats: 3–6 proposals | ours (proposals) + Ammar's 5 themes as Hermes skills | one menu, evidence notes attached |
 | 5 | Lesson builds: outline in seconds, then parts stream in with skeletons; live status | json-render streaming + Ammar's `HermesProgress` + our status | generative-UI research: outline-then-sections, stream patches, re-request only failed parts |
 | 6 | Lesson page `/learn/:id`, one tab per picked format; the top pick builds first, the others on demand | Ammar's `/learn/:id` tabs + our catalog blocks | parallel builds strain Hermes' 10-run limit |
 | 7 | "Was soll Hermes ändern?" per part | ours (same session) | feedback patches one part; Hermes remembers what helped |
+
+## Intake deck (decided by Chirag, 2026-10-25)
+
+- **Unit**: one mirror card at a time — kicker `Das heißt für dich`, one sentence, a one-line reason (`Deshalb …`), buttons
+  `Eher nicht` / `Stimmt →` (mockup "Mirror after each part"). Fits one screen; one tap.
+- **Base cards (instant, no AI)**: for each of the 8 `scale.json` categories start with the `low` band's `student_text`
+  (translated to German, `du`). `Stimmt` → band `low`, next category. `Eher nicht` → show the `high` band's text:
+  `Stimmt` → `high`, `Eher nicht` → `medium`. At most 2 cards per category (8–16 cards). A `Weiß nicht` skip leaves the
+  category unset. The resulting bands select the same `ai_instructions` the survey would.
+- **Hermes cards (in parallel)**: as soon as the 5 things are sent, one Hermes run writes 3–5 personal yes/no
+  hypotheses (e.g. `Hausaufgaben gehen besser mit Timer, wie ein Spiel?`) **with their follow-ups planned ahead**: each
+  card carries the next card for `Stimmt` and the next card for `Eher nicht` (a small decision tree, depth 2), so
+  answering never waits for Hermes. They join the deck after the base cards when ready; if the run is late, the deck
+  ends without them.
+- **Summary**: after the deck, the same Hermes session gets the answers (base bands + Hermes cards) and writes
+  `Das habe ich verstanden`; the student confirms or edits (step 3c).
+- **Speed budget**: base cards ~3 s each; Hermes cards must be ready within ~60 s of sending the 5 things; summary
+  within ~30 s. A fast GWDG model is used for these two small runs if the timing test shows the agent default is too
+  slow (Runs API accepts a per-request `model`). **First step of the intake plan: measure** both runs on the agent
+  default vs. fast models (and a direct model call without the agent loop) and pick the model by measured latency and
+  card quality.
+- **Request shape**: the server builds both Hermes inputs from validated data — the 5 things, the deck answers as
+  `{category: band}` plus Hermes-card answers, never raw survey items or free browser text beyond the 5 things.
+- **Memory check**: the plan verifies with test personas that the summary and later lesson runs in the same session
+  actually use the 5 things and the deck answers (recall check), and what Hermes stores in its own memory.
 
 ## Engine: server-side orchestration over the Runs API
 
