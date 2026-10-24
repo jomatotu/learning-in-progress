@@ -48,15 +48,18 @@ sequenceDiagram
   end
 
   Lernende->>Frontend: Lernziel und Rohdaten
-  Frontend->>API: Lernziel und Rohdaten (REST)
-  API->>Lernziel: Lernziel
-  API->>Charakter: Rohdaten
-  Lernziel->>Karte: target.json
-  Charakter->>Karte: persona.json
-  Karte->>UI: prompt.json
-  UI-->>API: Oberfläche
-  API-->>Frontend: Oberfläche (REST)
-  Frontend-->>Lernende: Generative UI im Browser
+  Frontend->>API: generateArtefact(Lernziel und Rohdaten) (REST)
+  API->>Lernziel: extractTarget(Lernziel)
+  Lernziel-->>API: target.json
+  API->>Charakter: generatePersona(Rohdaten)
+  Charakter-->>API: persona.json
+  API->>Karte: generateLernpfad(target.json, persona.json)
+  Karte-->>API: prompt.json
+  Karte->>UI: generateArtefact(prompt.json)
+  UI-->>API: ui-artefact.json
+  API-->>Frontend: ui-artefact.json
+  Frontend-->>Frontend: generateUI(ui-artefact.json)
+  Frontend->Lernende: generatedUI
 ```
 
 1. Die lernende Person gibt im Frontend ihr Lernziel und ihre Rohdaten ein (Profil, Ziele, Lernmaterial aus [3.1](03-kontextabgrenzung.md#31-fachlicher-kontext)). Das Frontend schickt beides per REST an die API des Backends.
