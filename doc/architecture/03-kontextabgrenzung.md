@@ -30,16 +30,18 @@ flowchart LR
 flowchart LR
   browser[Browser]
   frontend[Frontend]
-  backend[Backend]
-  hermes[Hermes-Agent]
   ki[KI-APIs]
   kontext[Kontextwissen]
 
+  subgraph backend [Backend]
+    direction LR
+    hermes[Hermes-Agent]
+  end
+
   browser --- frontend
-  frontend <-->|HTTP| backend
-  backend <-->|API| hermes
-  hermes <-->|KI-APIs| ki
+  frontend <-->|REST| backend
+  hermes <-->|REST| ki
   kontext -->|RAG| hermes
 ```
 
-Hermes-Agent spricht die KI-APIs an und liest Kontextwissen als RAG. Kontextwissen sind zum Beispiel Curricula und Ähnliches. Kanäle, Formate und Authentifizierung sind offen.
+Hermes-Agent ist die Ablaufumgebung der Orchestrierung innerhalb des Backends (siehe [Bausteinsicht](05-bausteinsicht.md#53-whitebox-orchestrierung)). Er spricht die KI-APIs an und liest Kontextwissen als RAG. Kontextwissen sind zum Beispiel Curricula und Ähnliches. Kanäle, Formate und Authentifizierung sind offen.
