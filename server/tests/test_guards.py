@@ -16,6 +16,12 @@ def real_limiter():
     guards.hermes_limiter.hits.clear()
 
 
+def test_post_from_null_origin_is_403():
+    response = client.post("/api/survey", json={}, headers={"Origin": "null"})
+    assert response.status_code == 403
+    assert response.json() == {"detail": "origin_not_allowed"}
+
+
 def test_post_from_foreign_origin_is_403():
     response = client.post("/api/survey", json={}, headers={"Origin": "https://evil.example"})
     assert response.status_code == 403

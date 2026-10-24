@@ -2,6 +2,8 @@ import os
 
 # Must run before any test imports app.main: middlewares read settings when the app is built.
 os.environ["ALLOWED_HOSTS"] = "testserver,localhost,127.0.0.1"
+# A developer's server/.env must not change test results.
+os.environ["APP_ORIGINS"] = "http://localhost:5175"
 
 import pytest
 
