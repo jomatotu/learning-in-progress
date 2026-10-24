@@ -1,10 +1,13 @@
+import json
 import os
+import uuid
 from collections.abc import AsyncIterator
 from functools import cache
 from typing import Literal
 
 import httpx
 from openai import AsyncOpenAI
+from pydantic import BaseModel
 
 # Hermes always serves its configured model under this name; the real LLM is set on the VPS.
 MODEL = "hermes-agent"
@@ -27,13 +30,22 @@ def get_client() -> AsyncOpenAI:
     )
 
 
+# Builds the chat messages: our rules as a system message, which Hermes layers on top of its own system prompt, then the new user message.
+def chat_messages(message: str, instructions: str | None) -> list[dict[str, str]]:
+    system = [{"role": "system", "content": instructions}] if instructions else []
+    return [*system, {"role": "user", "content": message}]
+
+
 # Sends one message to the Hermes agent and returns its reply.
 # Hermes keeps the history per session_id, so send only the new message. Prefix IDs (e.g. "lip-peter-1") because the team shares one Hermes.
-async def ask_hermes(message: str, session_id: str | None = None) -> str:
+# Without a session_id Hermes derives one from the messages, so identical requests would share a history.
+async def ask_hermes(message: str, session_id: str | None = None, instructions: str | None = None) -> str:
     headers = {"X-Hermes-Session-Id": session_id} if session_id else {}
+    # The SDK retries failed requests with the same headers, so this key stops Hermes from running the turn twice.
+    headers["Idempotency-Key"] = str(uuid.uuid4())
     response = await get_client().chat.completions.create(
         model=MODEL,
-        messages=[{"role": "user", "content": message}],
+        messages=chat_messages(message, instructions),
         extra_headers=headers,
     )
     choice = response.choices[0]
@@ -49,20 +61,22 @@ STALL_SECONDS = 120
 
 # Streams one Hermes turn as ("reasoning" | "text", piece) pairs, so callers can show progress while the agent works.
 async def stream_hermes(
-    message: str, session_id: str | None = None
+    message: str, session_id: str | None = None, instructions: str | None = None
 ) -> AsyncIterator[tuple[Literal["reasoning", "text"], str]]:
     headers = {"X-Hermes-Session-Id": session_id} if session_id else {}
     stream = await get_client().chat.completions.create(
         model=MODEL,
-        messages=[{"role": "user", "content": message}],
+        messages=chat_messages(message, instructions),
         extra_headers=headers,
         stream=True,
         timeout=httpx.Timeout(TIMEOUT_SECONDS, read=STALL_SECONDS),
     )
     async for chunk in stream:
-        if not chunk.choices:
+        # Hermes also streams its own events (e.g. hermes.tool.progress), which arrive without choices.
+        choices = getattr(chunk, "choices", None)
+        if not choices:
             continue
-        choice = chunk.choices[0]
+        choice = choices[0]
         # Reasoning isn't part of the OpenAI schema; Hermes sends it as an extra field on some models.
         reasoning = getattr(choice.delta, "reasoning_content", None) or getattr(choice.delta, "reasoning", None)
         if reasoning:
@@ -71,3 +85,35 @@ async def stream_hermes(
             yield "text", choice.delta.content
         if choice.finish_reason in ("error", "cancelled"):
             raise HermesError(f"Hermes turn {choice.finish_reason}")
+
+
+# Streams one Hermes turn that must end in JSON matching `schema`: yields ("tokens", count so far) while Hermes works, then ("result", parsed reply).
+# Hermes ignores response_format, so the schema goes into the instructions and the reply is checked here.
+# In tests against our Hermes (DeepSeek) the replies were plain JSON; the retry covers the rare bad one.
+async def stream_hermes_json[T: BaseModel](
+    message: str, schema: type[T], session_id: str, instructions: str | None = None
+) -> AsyncIterator[tuple[Literal["tokens"], int] | tuple[Literal["result"], T]]:
+    json_rule = (
+        "Reply with only one JSON object that matches this JSON schema. "
+        "No text before or after it, and no markdown code fences.\n"
+        + json.dumps(schema.model_json_schema())
+    )
+    instructions = f"{instructions}\n\n{json_rule}" if instructions else json_rule
+    # Each streamed piece is about one token, close enough for a progress count.
+    tokens = 0
+    for _ in range(2):
+        reply = ""
+        async for kind, piece in stream_hermes(message, session_id, instructions):
+            tokens += 1
+            if kind == "text":
+                reply += piece
+            yield "tokens", tokens
+        try:
+            result = schema.model_validate_json(reply)
+        except ValueError as error:
+            # Retry once in the same session, so Hermes sees its own reply and what was wrong with it.
+            message = f"That reply was not valid: {error}\n\n{json_rule}"
+            continue
+        yield "result", result
+        return
+    raise HermesError("Hermes did not return valid JSON")

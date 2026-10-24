@@ -14,6 +14,7 @@ from openai import OpenAIError
 from pydantic import BaseModel, Field
 
 from app import hermes
+from app.sse import sse
 from app.routers.assess import Answer
 
 router = APIRouter(tags=["generate"])
@@ -71,10 +72,6 @@ def progress_text(reply: str) -> str:
         return f"Writing the page… {(len(reply) - start.start()) // 1000} KB"
     lines = [line.strip() for line in reply.splitlines() if line.strip()]
     return lines[-1][:200] if lines else "Thinking…"
-
-
-def sse(event: str, data: dict[str, str]) -> str:
-    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
 
 
 # Runs one generation and yields server-sent events: "status" while Hermes works, then "done" with the page or "error".

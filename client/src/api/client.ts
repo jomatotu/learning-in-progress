@@ -103,6 +103,32 @@ export async function streamRequest(
   }
 }
 
+// Streams an endpoint that sends "status" events while it works, then "done" with the result or "error" with a message.
+// Calls onStatus with each status text and resolves with the data of the "done" event.
+export async function streamResult<T>(
+  path: string,
+  {
+    body,
+    timeoutMs,
+    onStatus,
+  }: { body: unknown; timeoutMs?: number; onStatus: (text: string) => void },
+): Promise<T> {
+  let result: { data: T } | undefined
+  await streamRequest(path, {
+    body,
+    timeoutMs,
+    onEvent: (event, data) => {
+      if (event === 'status') onStatus((data as { text: string }).text)
+      if (event === 'done') result = { data: data as T }
+      if (event === 'error') {
+        throw new ApiError((data as { message: string }).message)
+      }
+    },
+  })
+  if (!result) throw new ApiError('The server stopped before it was done.')
+  return result.data
+}
+
 function toApiError(error: unknown): ApiError {
   if (error instanceof DOMException && error.name === 'TimeoutError') {
     return new ApiError('The request timed out.')

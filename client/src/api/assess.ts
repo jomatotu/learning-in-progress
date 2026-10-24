@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { request } from '@/api/client'
+import { streamResult } from '@/api/client'
 
 export type Profile = {
   name: string
@@ -19,11 +20,20 @@ export type NextQuestion = {
 
 export type AssessInput = { profile: Profile; answers: Answer[] }
 
-export function assess(input: AssessInput): Promise<NextQuestion> {
-  // Gemini can take about a minute to answer.
-  return request('/assess', { method: 'POST', body: input, timeoutMs: 120_000 })
+export function assess(
+  input: AssessInput,
+  onStatus: (text: string) => void,
+): Promise<NextQuestion> {
+  return streamResult('/assess', { body: input, onStatus })
 }
 
 export function useAssess() {
-  return useMutation({ mutationFn: assess })
+  const [status, setStatus] = useState('')
+  const mutation = useMutation({
+    mutationFn: (input: AssessInput) => {
+      setStatus('')
+      return assess(input, setStatus)
+    },
+  })
+  return { ...mutation, status }
 }

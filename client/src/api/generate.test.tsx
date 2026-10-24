@@ -95,7 +95,7 @@ describe('useGeneratePage', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        'Generation stopped before the page was ready.',
+        'The server stopped before it was done.',
       ),
     )
   })

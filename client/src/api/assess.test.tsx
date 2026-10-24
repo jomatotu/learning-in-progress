@@ -22,12 +22,22 @@ function wrapper({ children }: { children: ReactNode }) {
   )
 }
 
+function sse(...events: [string, unknown][]) {
+  return new Response(
+    events
+      .map(
+        ([event, data]) => `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`,
+      )
+      .join(''),
+  )
+}
+
 afterEach(() => {
   vi.unstubAllGlobals()
 })
 
 describe('useAssess', () => {
-  it('posts the input and returns the next question', async () => {
+  it('posts the input, reports progress, and returns the next question', async () => {
     const question = {
       done: false,
       question: 'Morning or evening?',
@@ -35,14 +45,42 @@ describe('useAssess', () => {
     }
     const fetchMock = vi
       .fn<typeof fetch>()
-      .mockResolvedValue(new Response(JSON.stringify(question)))
+      .mockResolvedValue(
+        sse(
+          ['status', { text: 'Thinking about your answers… ~20 tokens' }],
+          ['done', question],
+        ),
+      )
     vi.stubGlobal('fetch', fetchMock)
     const { result } = renderHook(() => useAssess(), { wrapper })
 
     act(() => result.current.mutate(input))
 
     await waitFor(() => expect(result.current.data).toEqual(question))
+    expect(result.current.status).toBe(
+      'Thinking about your answers… ~20 tokens',
+    )
     expect(fetchMock.mock.calls[0][0]).toBe('/api/assess')
     expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(input))
+  })
+
+  it('fails with the message from an error event', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(
+          sse(['error', { message: "Hermes didn't answer. Try again." }]),
+        ),
+    )
+    const { result } = renderHook(() => useAssess(), { wrapper })
+
+    act(() => result.current.mutate(input))
+
+    await waitFor(() =>
+      expect(result.current.error?.message).toBe(
+        "Hermes didn't answer. Try again.",
+      ),
+    )
   })
 })
