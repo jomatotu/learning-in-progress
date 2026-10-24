@@ -13,8 +13,8 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAIError
 from pydantic import BaseModel, Field
 
-from app import hermes
-from app.sse import sse
+from app import hermes, themes
+from app.sse import TextBatch, sse
 from app.routers.assess import Answer
 
 router = APIRouter(tags=["generate"])
@@ -42,13 +42,18 @@ class GenerateRequest(BaseModel):
     profile: dict[str, Any] = Field(description="Student profile from the intake form.")
     answers: list[Answer] = Field(description="Answers from the assessment questions.")
     material: str = Field(min_length=1, description="The learning material, or the topic to learn.")
+    theme: themes.ThemeName = Field(
+        default=themes.DEFAULT_THEME, description="The theme to build, usually the assessment's top pick."
+    )
 
 
-# Fills the prompt with the student's data.
+# Fills the prompt with the chosen theme's design and the student's data.
+# The theme goes in first, so text inside the student's data can never be taken for a placeholder.
 def fill_prompt(request: GenerateRequest) -> str:
     answers = [answer.model_dump() for answer in request.answers]
     return (
-        PROMPT.replace("{{PROFILE}}", json.dumps(request.profile, ensure_ascii=False, indent=2))
+        PROMPT.replace("{{THEME}}", themes.THEMES[request.theme])
+        .replace("{{PROFILE}}", json.dumps(request.profile, ensure_ascii=False, indent=2))
         .replace("{{ANSWERS}}", json.dumps(answers, ensure_ascii=False, indent=2))
         .replace("{{MATERIAL}}", request.material)
     )
@@ -65,7 +70,7 @@ def prepare_page(reply: str) -> str | None:
 
 
 # Turns the reply so far into a short status line for the student.
-# Before the page starts, Hermes writes its tool progress as text lines; once the page starts, show how much is written.
+# Before the page starts, show the last line Hermes wrote; once the page starts, show how much is written.
 def progress_text(reply: str) -> str:
     start = DOCTYPE.search(reply)
     if start:
@@ -74,22 +79,32 @@ def progress_text(reply: str) -> str:
     return lines[-1][:200] if lines else "Thinking…"
 
 
-# Runs one generation and yields server-sent events: "status" while Hermes works, then "done" with the page or "error".
+# Runs one generation and yields server-sent events: "status" (the current step) and "reasoning" (Hermes thinking,
+# in chunks) while Hermes works, then "done" with the page or "error".
 async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
     started = time.monotonic()
     reply = ""
-    status = "Sending your profile to Hermes…"
+    status = "Hermes is planning your page…"
     yield sse("status", {"text": status})
+    reasoning = TextBatch()
     try:
         async with asyncio.timeout(GENERATE_TIMEOUT_SECONDS):
             # A fresh session per generation, prefixed because the team shares one Hermes.
             async for kind, piece in hermes.stream_hermes(fill_prompt(request), session_id=f"lip-generate-{uuid.uuid4()}"):
-                if kind == "text":
+                if kind == "reasoning":
+                    if text := reasoning.add(piece):
+                        yield sse("reasoning", {"text": text})
+                    continue
+                if kind == "tool":
+                    new_status = piece
+                else:
                     reply += piece
-                new_status = "Thinking…" if kind == "reasoning" else progress_text(reply)
+                    new_status = progress_text(reply)
                 if new_status != status:
                     status = new_status
                     yield sse("status", {"text": status})
+        if text := reasoning.flush():
+            yield sse("reasoning", {"text": text})
     except TimeoutError:
         logger.warning("Generation timed out after %.0fs", time.monotonic() - started)
         yield sse("error", {"message": "Hermes took too long. Try again."})
@@ -109,7 +124,7 @@ async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
     yield sse("done", {"html": html})
 
 
-# Asks Hermes to research, design and write a learning page for the student, streaming progress while it works.
+# Asks Hermes to write a learning page in the chosen theme for the student, streaming progress while it works.
 @router.post("/generate")
 async def generate(request: GenerateRequest) -> StreamingResponse:
     return StreamingResponse(generate_events(request), media_type="text/event-stream", headers={"Cache-Control": "no-cache"})

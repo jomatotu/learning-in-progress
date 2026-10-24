@@ -1,0 +1,73 @@
+## Step 2: Design — Chunked steps
+
+Build a "Chunked steps" page: the material split into small steps, one idea per screen, with short checks along the way. Follow this design exactly. Use your research from Step 1 only to tune the parts listed under "Adapt to this student". Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- Segmenting effect: splitting material into learner-paced parts improves memory and understanding and lowers mental load (Rey et al. 2019, meta-analysis of 56 studies; Mayer, Cambridge Handbook of Multimedia Learning).
+- Cognitive load theory: working memory holds only a few new items at once, so one idea at a time leaves room to understand it (Sweller).
+- Retrieval practice: answering short questions while learning makes facts stick better than rereading (Roediger and Karpicke 2006).
+- Small visible steps with a tick for each one help students who feel overwhelmed start and keep going (the idea behind goblin.tools Magic ToDo and Taskmaster).
+
+### Who it fits
+
+Students with ADHD, students who feel overwhelmed by long texts, and students with dyslexia. It works for any material with a sequence of ideas.
+
+### Screens, in this order
+
+1. Start screen
+   - The topic title, in plain words.
+   - One sentence on what the student will learn.
+   - The step list: every step title as a numbered list, so the whole path is visible before starting.
+   - About how long it takes, e.g. "About 10 minutes".
+   - One large "Start" button.
+2. Step screens, one per idea
+   - The step title.
+   - 1 to 3 short sentences, each under 20 words. One idea only.
+   - The 1 to 3 key terms of the step in bold. The first time a term appears, explain it in the same sentence.
+   - At most one visual: an inline SVG diagram, a short labelled list, or an example box. Use a visual only when it helps the idea, not as decoration.
+   - Optional: one example linked to the student's interests, in a clearly marked box ("Example:").
+   - Buttons: "Back" and "Next". No other buttons except the helpers from the "Adapt" section.
+3. Check screens, after every 3 step screens
+   - A "Quick check" heading and one question about the steps just covered. Multiple choice with 3 options, or true/false.
+   - After the student picks an answer: show right or wrong with an icon and a word (not only color), plus one sentence explaining why. Then show "Next".
+   - A wrong answer lets the student try again or continue. Never block progress.
+4. Recap screen
+   - A checklist of the key ideas, one short line per step, each with a tick.
+5. Done screen
+   - A short, warm message naming what they learned.
+   - Number of check questions right on the first try, framed positively.
+   - A "Start again" button that resets everything.
+
+Numbers:
+- 6 to 12 step screens. Use more steps rather than longer steps. If the material needs more than 12, merge the least important ideas but keep every key fact.
+- 1 check screen per 3 step screens, so 2 to 4 checks in total.
+- A whole session takes 8 to 12 minutes.
+
+### Always
+
+- One screen visible at a time. Nothing scrolls on a laptop screen unless the student made the text larger.
+- A progress bar at the top on every screen after the start screen, with the text "Step X of Y". It counts step screens only; on a check screen it stays at the step just finished.
+- "Back" and "Next" always in the same place at the bottom. "Back" is hidden on the first screen.
+- Keyboard: Right arrow or Enter goes next, Left arrow goes back.
+- Nothing advances, plays, or times out on its own.
+- The step list on the start screen matches the step screens exactly.
+
+### Adapt to this student
+
+- Step length: if the profile shows ADHD, overwhelm, or low focus, use 1 to 2 sentences per step and aim for the higher step count. Otherwise use up to 3 sentences.
+- Examples: write the example boxes around the student's interests and hobbies. If no interests are given, use everyday life examples.
+- Read aloud: if the profile mentions dyslexia, reading difficulty, or that listening helps, add a "Read aloud" button on each step screen. It uses browser speechSynthesis to read the step text and highlights the word being spoken. If speechSynthesis is missing, hide the button.
+- Text size: if the profile mentions reading difficulty or visual strain, add an "A+ / A-" control in the header that changes the text size.
+- What already works: if the student names something that helps them (e.g. pictures, examples, lists), use more of it in the step screens.
+- Tone: match the student's age and goals. Keep it friendly, never childish for older students.
+
+### Don't
+
+- Don't put more than one idea or more than 3 sentences on a step screen.
+- Don't drop key facts to make steps shorter. Add steps instead.
+- Don't add features outside this design, such as timers, scores with penalties, streaks, sidebars, menus, or navigation between pages.
+- Don't show the full material text anywhere on the page.
+- Don't write questions about facts that were not in the steps.
+- Don't use emoji as the only signal for right or wrong.
+- Don't reveal the next step until the student presses "Next".

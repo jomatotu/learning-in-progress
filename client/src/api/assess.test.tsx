@@ -9,7 +9,6 @@ const input: AssessInput = {
     challenges: ['ADHD'],
     goals: '',
     interests: [],
-    whatWorks: '',
   },
   answers: [],
 }
@@ -42,6 +41,7 @@ describe('useAssess', () => {
       done: false,
       question: 'Morning or evening?',
       options: ['Morning', 'Evening'],
+      themes: [],
     }
     const fetchMock = vi
       .fn<typeof fetch>()
@@ -62,6 +62,24 @@ describe('useAssess', () => {
     )
     expect(fetchMock.mock.calls[0][0]).toBe('/api/assess')
     expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(input))
+  })
+
+  it('returns the picked themes when done', async () => {
+    const finished = {
+      done: true,
+      question: '',
+      options: [],
+      themes: [{ theme: 'read-aloud', reason: 'Listening works for you.' }],
+    }
+    vi.stubGlobal(
+      'fetch',
+      vi.fn<typeof fetch>().mockResolvedValue(sse(['done', finished])),
+    )
+    const { result } = renderHook(() => useAssess(), { wrapper })
+
+    act(() => result.current.mutate(input))
+
+    await waitFor(() => expect(result.current.data).toEqual(finished))
   })
 
   it('fails with the message from an error event', async () => {

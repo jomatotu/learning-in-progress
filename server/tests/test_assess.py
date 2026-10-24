@@ -1,16 +1,28 @@
 import json
 
+import pytest
 from fastapi.testclient import TestClient
+from pydantic import ValidationError
 
-from app import hermes
+from app import hermes, themes
 from app.main import app
 from app.routers import assess
 
 client = TestClient(app)
 
 PROFILE = {"name": "Peter", "needs": ["ADHD"]}
-QUESTION = {"done": False, "question": "Do you prefer listening or reading?", "options": ["Listening", "Reading"]}
-FINISHED = {"done": True, "question": "", "options": []}
+QUESTION = {
+    "done": False,
+    "question": "Do you prefer listening or reading?",
+    "options": ["Listening", "Reading"],
+    "themes": [],
+}
+PICKS = [
+    {"theme": "read-aloud", "reason": "You said listening works best."},
+    {"theme": "chunked", "reason": "Short steps help you focus."},
+]
+FINISHED = {"done": True, "question": "", "options": [], "themes": PICKS}
+DEFAULT_FINISHED = {"done": True, "question": "", "options": [], "themes": [{"theme": "chunked", "reason": ""}]}
 
 
 def fake_stream_json(monkeypatch, reply, tokens=0, error=None):
@@ -50,6 +62,17 @@ def test_assess_streams_progress_then_question(monkeypatch):
     ]
 
 
+def test_assess_streams_reasoning_in_chunks(monkeypatch):
+    async def stream_hermes_json(message, schema, session_id, instructions=None):
+        for _ in range(5):
+            yield "reasoning", "x" * 50
+        yield "result", schema(**QUESTION)
+
+    monkeypatch.setattr(assess.hermes, "stream_hermes_json", stream_hermes_json)
+
+    assert ("reasoning", {"text": "x" * 200}) in events()
+
+
 def test_assess_sends_student_data_and_instructions_to_hermes(monkeypatch):
     calls = fake_stream_json(monkeypatch, FINISHED)
 
@@ -61,25 +84,61 @@ def test_assess_sends_student_data_and_instructions_to_hermes(monkeypatch):
     assert calls[0]["session_id"].startswith("lip-assess-")
 
 
-def test_assess_stops_after_max_questions_without_calling_hermes(monkeypatch):
-    calls = fake_stream_json(monkeypatch, QUESTION)
+def test_assess_asks_hermes_to_finish_after_max_questions(monkeypatch):
+    calls = fake_stream_json(monkeypatch, FINISHED)
     answers = [{"question": f"Q{i}", "answer": "A"} for i in range(assess.MAX_QUESTIONS)]
 
-    assert events(answers) == [("done", FINISHED)]
-    assert calls == []
+    assert events(answers)[-1] == ("done", FINISHED)
+    assert calls[0]["message"].endswith(assess.LAST_TURN)
+
+
+def test_assess_ends_with_default_theme_when_last_turn_returns_a_question(monkeypatch):
+    fake_stream_json(monkeypatch, QUESTION)
+    answers = [{"question": f"Q{i}", "answer": "A"} for i in range(assess.MAX_QUESTIONS)]
+
+    assert events(answers)[-1] == ("done", DEFAULT_FINISHED)
+
+
+def test_assess_returns_picked_themes_when_done(monkeypatch):
+    fake_stream_json(monkeypatch, FINISHED)
+
+    assert events()[-1] == ("done", FINISHED)
+
+
+def test_assess_lists_every_theme_in_instructions():
+    for name in themes.THEMES:
+        assert f"- {name} (" in assess.INSTRUCTIONS
 
 
 def test_assess_treats_incomplete_question_as_done(monkeypatch):
     replies = [
         {"done": False, "question": "", "options": ["A", "B"]},
         {"done": False, "question": "Pick one?", "options": []},
-        {"done": True, "question": "Leftover?", "options": ["A", "B"]},
     ]
 
     for reply in replies:
         fake_stream_json(monkeypatch, reply)
 
-        assert events()[-1] == ("done", FINISHED)
+        assert events()[-1] == ("done", DEFAULT_FINISHED)
+
+
+def test_assess_drops_themes_sent_with_a_question(monkeypatch):
+    fake_stream_json(monkeypatch, {**QUESTION, "themes": PICKS})
+
+    assert events()[-1] == ("done", QUESTION)
+
+
+@pytest.mark.parametrize(
+    "reply",
+    [
+        {"done": True, "question": "", "options": [], "themes": []},
+        {"done": True, "question": "", "options": [], "themes": [{"theme": "songs", "reason": "x"}]},
+        {"done": True, "question": "", "options": [], "themes": PICKS + PICKS},
+    ],
+)
+def test_next_question_rejects_bad_theme_picks(reply):
+    with pytest.raises(ValidationError):
+        assess.NextQuestion(**reply)
 
 
 def test_assess_reports_hermes_failure(monkeypatch):
