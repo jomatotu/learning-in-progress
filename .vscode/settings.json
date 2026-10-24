@@ -1,0 +1,8 @@
+{
+  "json.schemaDownload.trustedDomains": {
+    "https://ui.shadcn.com/": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

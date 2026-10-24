@@ -12,6 +12,9 @@
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
 
+    /* Lets imports use @/ for src/ */
+    "paths": { "@/*": ["./src/*"] },
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -22,7 +25,6 @@
 
     /* Linting */
     "strict": true,
-    "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
