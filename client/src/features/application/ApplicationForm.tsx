@@ -10,13 +10,12 @@ import {
 import { cn } from '@/lib/utils'
 import { AboutStep } from './AboutStep'
 import { createProfile, type StudentProfileJson } from './studentProfile'
-import { FinishedScreen } from './FinishedScreen'
 import { GoalStep } from './GoalStep'
+import { MagicStep } from './MagicStep'
 import { NotesStep } from './NotesStep'
 import { ProfilePanel } from './ProfilePanel'
 import { ReviewStep } from './ReviewStep'
 import { SurveyStep } from './SurveyStep'
-import { WelcomeStep } from './WelcomeStep'
 import {
   buildScreens,
   loadProfile,
@@ -64,7 +63,6 @@ function validate(
 }
 
 const primaryLabel: Record<StepId, string> = {
-  welcome: 'Let’s start',
   about: 'Continue',
   goal: 'Continue',
   survey: 'Continue',
@@ -72,7 +70,7 @@ const primaryLabel: Record<StepId, string> = {
   review: 'Build my tool',
 }
 
-// The intake flow: welcome, about you, your goal, the learning survey, your notes, and a final check.
+// The intake flow: about you, your goal, the learning survey, your notes, and a final check.
 function Form() {
   const survey = useSurvey()
   const screens = buildScreens(survey)
@@ -85,7 +83,7 @@ function Form() {
 
   const screen = screens[index]
   const step = steps.find((s) => s.id === screen.step)!
-  const counted = steps.slice(1)
+  const counted = steps
   const stepNumber = counted.findIndex((s) => s.id === screen.step) + 1
   const minutesLeft = Math.ceil(
     screens.slice(index).reduce((sum, s) => sum + s.minutes, 0),
@@ -148,15 +146,7 @@ function Form() {
   const canSkip = screen.step === 'survey' || screen.step === 'notes'
 
   if (finished && result.status === 'ready') {
-    return (
-      <div ref={panel}>
-        <FinishedScreen
-          name={profile.name}
-          profileJson={result.data}
-          onBack={() => setFinished(false)}
-        />
-      </div>
-    )
+    return <MagicStep topic={profile.topic} profileJson={result.data} />
   }
 
   return (
@@ -166,16 +156,10 @@ function Form() {
     >
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-6 py-4 text-sm md:px-8">
         <span>
-          {screen.step === 'welcome' ? (
-            <span className="font-medium">Your learning profile</span>
-          ) : (
-            <>
-              <span className="font-medium">
-                Step {stepNumber} of {counted.length}
-              </span>{' '}
-              · {step.title}
-            </>
-          )}
+          <span className="font-medium">
+            Step {stepNumber} of {counted.length}
+          </span>{' '}
+          · {step.title}
           <span className="text-graphite">
             {' '}
             ·{' '}
@@ -216,7 +200,6 @@ function Form() {
             screen.step === 'survey' && 'mx-auto w-full max-w-3xl',
           )}
         >
-          {screen.step === 'welcome' && <WelcomeStep />}
           {screen.step === 'about' && <AboutStep {...stepProps} />}
           {screen.step === 'goal' && <GoalStep {...stepProps} />}
           {screen.step === 'survey' && category && (
