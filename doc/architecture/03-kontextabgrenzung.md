@@ -33,13 +33,13 @@ flowchart LR
   backend[Backend]
   hermes[Hermes-Agent]
   ki[KI-APIs]
-  material[Lernmaterial]
+  kontext[Kontextwissen]
 
   browser --- frontend
   frontend <-->|HTTP| backend
   backend <-->|API| hermes
   hermes <-->|KI-APIs| ki
-  material -->|RAG| hermes
+  kontext -->|RAG| hermes
 ```
 
-Hermes-Agent spricht die KI-APIs an und liest das Lernmaterial als RAG. Kanäle, Formate und Authentifizierung sind offen.
+Hermes-Agent spricht die KI-APIs an und liest Kontextwissen als RAG. Kontextwissen sind zum Beispiel Curricula und Ähnliches. Kanäle, Formate und Authentifizierung sind offen.
