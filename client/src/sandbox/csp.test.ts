@@ -1,6 +1,7 @@
 import {
   SANDBOX_CSP,
   SANDBOX_META_CSP,
+  isNullOriginFromSelf,
   isSandboxPath,
   withCspMeta,
 } from '../../sandbox-csp'
@@ -30,6 +31,11 @@ describe('sandbox CSP', () => {
     expect(SANDBOX_CSP.startsWith(SANDBOX_META_CSP)).toBe(true)
   })
 
+  it('only the header policy carries the sandbox directive', () => {
+    expect(SANDBOX_CSP).toContain('; sandbox allow-scripts')
+    expect(SANDBOX_META_CSP).not.toContain('sandbox')
+  })
+
   it('puts the CSP meta first inside <head> of sandbox.html', () => {
     expect(sandboxHtml).toContain('<head>')
     const head = new DOMParser().parseFromString(
@@ -39,5 +45,43 @@ describe('sandbox CSP', () => {
     const first = head.firstElementChild
     expect(first?.getAttribute('http-equiv')).toBe('Content-Security-Policy')
     expect(first?.getAttribute('content')).toBe(SANDBOX_META_CSP)
+  })
+})
+
+describe('isNullOriginFromSelf', () => {
+  const self = 'localhost:5175'
+
+  it.each([
+    'http://localhost:5175/',
+    'http://localhost:5175/sandbox.html?page=x',
+    'http://127.0.0.1:5175/',
+  ])('accepts a sandboxed frame of our own server (referer %s)', (referer) =>
+    expect(
+      isNullOriginFromSelf({
+        origin: 'null',
+        referer,
+        host: referer.includes('127') ? '127.0.0.1:5175' : self,
+      }),
+    ).toBe(true),
+  )
+
+  it.each([
+    ['foreign referer', 'https://evil.example/', self],
+    ['other port', 'http://localhost:9999/', self],
+    ['missing referer', undefined, self],
+    ['garbage referer', 'not a url', self],
+    ['rebinding host', 'http://evil.example:5175/', 'evil.example:5175'],
+  ])('rejects %s', (_name, referer, host) =>
+    expect(isNullOriginFromSelf({ origin: 'null', referer, host })).toBe(false),
+  )
+
+  it('rejects a real origin', () => {
+    expect(
+      isNullOriginFromSelf({
+        origin: 'http://localhost:5175',
+        referer: 'http://localhost:5175/',
+        host: self,
+      }),
+    ).toBe(false)
   })
 })
