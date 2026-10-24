@@ -3,16 +3,17 @@
 ## 3.1 Fachlicher Kontext
 
 ```mermaid
-flowchart LR
-  learner[Lernende]
-  material[Lernmaterial]
-  system[Learning in Progress]
-  sources[Wissens- und Forschungsquellen]
+C4Context
 
-  learner -->|Profil, Ziele, Herausforderungen| system
-  material -->|Upload| system
-  system -->|angepasste Lernoberfläche| learner
-  system -->|Recherche, was diesem Profil hilft| sources
+
+```mermaid
+C4Context
+title Systemkontext
+Person(nutzer, "Nutzer", "Verwendet die Anwendung")
+System(app, "Anwendung", "Kernsystem")
+System_Ext(mail, "E-Mail", "Externer Maildienst")
+Rel(nutzer, app, "Nutzt")
+Rel(app, mail, "Sendet Mail", "SMTP")
 ```
 
 | Nachbar | Input | Output |
