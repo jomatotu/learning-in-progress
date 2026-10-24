@@ -5,6 +5,7 @@
 @import '@fontsource-variable/dm-sans';
 @import '@fontsource-variable/fraunces';
 @import './features/onboarding/onboarding.css';
+@import './features/application/application.css';
 
 @custom-variant dark (&:is(.dark *));
 

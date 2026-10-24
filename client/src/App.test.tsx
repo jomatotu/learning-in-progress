@@ -32,6 +32,26 @@ describe('App', () => {
     expect(screen.getByText(/wann fühlt sich lernen/i)).toBeInTheDocument()
   })
 
+  it('renders the application form at /application', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn<typeof fetch>(async () =>
+        Response.json({
+          version: 'test',
+          response_scale: { min: 1, max: 5, labels: [] },
+          categories: [],
+          questions: [],
+        }),
+      ),
+    )
+    renderAt('/application')
+
+    expect(
+      await screen.findByRole('heading', { name: /shape learning/i }),
+    ).toBeInTheDocument()
+    vi.unstubAllGlobals()
+  })
+
   it('renders the build playground at /playground', () => {
     renderAt('/playground')
 

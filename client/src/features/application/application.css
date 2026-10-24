@@ -1,0 +1,134 @@
+/* The /application page, in the main site's look (see ../onboarding/onboarding.css). Everything is scoped to
+   .application-page so the onboarding and playground pages are unaffected. */
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-rule: var(--rule);
+  --color-pine: var(--pine);
+  --color-pine-soft: var(--pine-soft);
+  --color-pine-deep: var(--pine-deep);
+  --color-marigold: var(--marigold);
+  --color-clay: var(--clay);
+  --shadow-card: 0 24px 70px rgba(60, 53, 88, 0.08);
+}
+
+.application-page {
+  --paper: #faf9f5;
+  --sheet: #ffffff;
+  --ink: #292632;
+  --graphite: #77727d;
+  --rule: #e5e1d9;
+  --pine: #6955c6;
+  --pine-soft: #f0ecfb;
+  --pine-deep: #5540b0;
+  --marigold: #e1765b;
+  --clay: #e67f63;
+  line-height: 1.6;
+}
+
+/* Sizes in the form are in rem, so the root size scales the whole page. Only while /application is open. */
+:root:has(.application-page) {
+  font-size: 17px;
+}
+
+:root[data-comfort-large]:has(.application-page) {
+  font-size: 20px;
+}
+
+.application-page h1,
+.application-page h2,
+.application-page h3 {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+/* Small grey caps above fields and sections. Purple section labels use main's .kicker. */
+.application-page .label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c8891;
+}
+
+.application-page :focus-visible {
+  outline: 3px solid var(--pine);
+  outline-offset: 2px;
+}
+
+/* Browsers give fieldsets a min-content width, which makes answer groups overflow on phones. */
+.application-page fieldset {
+  min-width: 0;
+}
+
+/* Quieter button next to main's .primary, for actions such as "Add" or "Copy JSON". */
+.application-page .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d9d5cc;
+  border-radius: 10px;
+  background: var(--sheet);
+  color: var(--ink);
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.application-page .secondary-button:hover {
+  border-color: var(--pine);
+  color: var(--pine-deep);
+}
+
+/* Text fields in the style of main's .topic-input. Unlayered, so this wins over the shared components' utilities. */
+.application-page [data-slot='input'],
+.application-page [data-slot='textarea'] {
+  min-height: 48px;
+  border: 1px solid #d9d5cc;
+  border-radius: 12px;
+  background: #fbfaf7;
+  padding: 12px 16px;
+  font-size: 1rem;
+}
+
+.application-page [data-slot='textarea'] {
+  min-height: 105px;
+}
+
+.application-page [data-slot='input']:focus-visible,
+.application-page [data-slot='textarea']:focus-visible {
+  outline: none;
+  border-color: var(--pine);
+  box-shadow: 0 0 0 3px #eeeafb;
+}
+
+/* Reading comfort settings (ReadingComfort.tsx sets these attributes while the page is open). */
+:root[data-comfort-spaced] .application-page {
+  line-height: 1.95;
+  letter-spacing: 0.04em;
+}
+
+:root[data-comfort-calm] .application-page {
+  --pine: #5f7d72;
+  --pine-soft: #e7efeb;
+  --pine-deep: #3f5d52;
+  --marigold: #b9a27a;
+  background: #eef1ec;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .application-page *,
+  .application-page *::before,
+  .application-page *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
