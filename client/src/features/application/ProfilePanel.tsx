@@ -37,10 +37,11 @@ const messages = defineMessages({
   },
 })
 
+// A label line and its value line(s). Both sit on the sheet's 32px rules (see .ruled-paper).
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="mb-5">
-      <span className="label mb-1 block">{label}</span>
+    <div>
+      <span className="label block">{label}</span>
       <div className="text-[0.92rem]">{children}</div>
     </div>
   )
@@ -56,7 +57,7 @@ function Pending({ children }: { children: ReactNode }) {
 
 function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="mr-1.5 mb-1.5 inline-block rounded-lg border border-pine bg-pine-soft px-2.5 py-0.5 text-[0.8rem] text-pine-deep">
+    <span className="ruled-tag mr-1.5 inline-block rounded-lg border border-pine bg-pine-soft px-2.5 text-[0.8rem] text-pine-deep">
       {children}
     </span>
   )
@@ -75,13 +76,12 @@ function ProfilePanel({ profile }: { profile: Profile }) {
   const totalQuestions = useSurvey().questions.length
 
   return (
-    <aside
-      aria-label={t.aria}
-      className="bg-[repeating-linear-gradient(var(--sheet)_0_31px,var(--pine-soft)_31px_32px)] p-8 md:p-10"
-    >
-      <div className="md:sticky md:top-8">
-        <span className="label">{t.label}</span>
-        <p className="mt-2 mb-6 text-[1.3rem] font-semibold">{t.title}</p>
+    <aside aria-label={t.aria} className="p-6 md:p-8">
+      {/* The rules are painted on this sheet, not on the panel, so they scroll along with the sticky text. */}
+      <div className="ruled-paper md:sticky md:top-8">
+        <span className="label block">{t.label}</span>
+        <p className="text-[1.3rem] font-semibold">{t.title}</p>
+        <div className="ruled-gap" />
 
         <Row label={t.you}>
           {profile.name || stage ? (
@@ -133,7 +133,8 @@ function ProfilePanel({ profile }: { profile: Profile }) {
           )}
         </Row>
 
-        <p className="mt-8 border-l-[3px] border-pine pl-3 text-sm text-graphite">
+        <div className="ruled-gap" />
+        <p className="border-l-[3px] border-pine pl-3 text-sm text-graphite">
           {t.note}
         </p>
       </div>
