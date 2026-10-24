@@ -1,3 +1,5 @@
+import base64
+
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import SecretStr
@@ -89,3 +91,64 @@ def test_wrong_passwords_count_against_the_limit():
     with TestClient(app) as client:
         codes = [post(client, auth=("x", "bad")).status_code for _ in range(7)]
     assert codes == [401] * 6 + [429]
+
+
+CHALLENGE = 'Basic realm="Learning in Progress", charset="UTF-8"'
+
+
+@pytest.mark.parametrize(
+    "header",
+    [
+        "Basic !!!",
+        "Basic " + base64.b64encode(b"nocolon").decode(),
+        "Basic " + base64.b64encode(b"x:\xff\xfe").decode(),
+        "Bearer x",
+        "Basic",
+    ],
+)
+def test_malformed_authorization_is_401_with_full_challenge(header):
+    use_code("abc")
+    with TestClient(app) as client:
+        response = post(client, headers={"Authorization": header})
+    assert response.status_code == 401
+    assert response.json() == {"detail": "access_required"}
+    assert response.headers["WWW-Authenticate"] == CHALLENGE
+
+
+def basic(user: str, password: str) -> dict[str, str]:
+    token = base64.b64encode(f"{user}:{password}".encode()).decode()
+    return {"Authorization": f"Basic {token}"}
+
+
+def test_non_ascii_password_is_accepted(monkeypatch):
+    use_code("äöü")
+    reach_route(monkeypatch)
+    with TestClient(app) as client:
+        assert post(client, headers=basic("x", "äöü")).status_code == 502
+
+
+def test_scheme_is_case_insensitive(monkeypatch):
+    use_code("abc")
+    reach_route(monkeypatch)
+    headers = {"Authorization": basic("x", "abc")["Authorization"].replace("Basic", "bAsIc")}
+    with TestClient(app) as client:
+        assert post(client, headers=headers).status_code == 502
+
+
+def test_empty_password_is_401():
+    use_code("abc")
+    with TestClient(app) as client:
+        assert post(client, auth=("x", "")).status_code == 401
+
+
+def test_configured_code_is_stripped(monkeypatch):
+    use_code("  abc\n")
+    reach_route(monkeypatch)
+    with TestClient(app) as client:
+        assert post(client, auth=("x", "abc")).status_code == 502
+
+
+def test_whitespace_only_code_is_503():
+    use_code("  \n")
+    with TestClient(app) as client:
+        assert post(client, auth=("x", "")).status_code == 503
