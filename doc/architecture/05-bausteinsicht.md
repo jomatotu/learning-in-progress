@@ -1,6 +1,6 @@
 # 5. Bausteinsicht
 
-Die Reihenfolge Lernziel → Charakter / KI-Zwilling → Lernpfadkarte → Generative UI → Prüfung steht in der [Laufzeitsicht](06-laufzeitsicht.md). Hier stehen die Teile, die diesen Ablauf tragen.
+Die Reihenfolge Lernziel → Charakter / KI-Zwilling → Lernpfadkarte → Generative UI steht in [6.2 Lernpfad erzeugen](06-laufzeitsicht.md#62-lernpfad-erzeugen). Hier stehen die Teile, die diesen Ablauf tragen. Der ältere Ablauf aus der Grundidee in [6.1 Lernmaterial anpassen](06-laufzeitsicht.md#61-lernmaterial-anpassen) ist noch keinen Bausteinen zugeordnet.
 
 ## 5.1 Whitebox Gesamtsystem
 
@@ -62,9 +62,9 @@ flowchart LR
     direction LR
     subgraph hermes [Hermes-Agent]
       direction LR
-      lernziel["<<Agent>>\nLernziel"]
-      charakter["<<Agent>>\nCharakter"]
-      karte["<<Agent>>\nLernpfadkarte"]
+      lernziel["&lt;&lt;Agent&gt;&gt;<br/>Lernziel"]
+      charakter["&lt;&lt;Agent&gt;&gt;<br/>Charakter"]
+      karte["&lt;&lt;Agent&gt;&gt;<br/>Lernpfadkarte"]
       ui[UI Generation]
     end
   end
@@ -73,9 +73,12 @@ flowchart LR
 
   api <-->|offen| orch
   orch <-->|REST| ai
+  api -->|Lernziel| lernziel
+  api -->|Rohdaten| charakter
   lernziel -->|target.json| karte
   charakter -->|persona.json| karte
   karte -->|prompt.json| ui
+  ui -->|Oberfläche| api
 ```
 
 | Baustein | Verantwortung |
@@ -85,4 +88,4 @@ flowchart LR
 | Lernpfadkarte | Leitet aus Lernziel und Charakter die Lernpfadkarte ab |
 | UI Generation | Lässt aus der Lernpfadkarte die Oberfläche erzeugen und gibt sie an die API zurück |
 
-Lernziel, Charakter und Lernpfadkarte sind `<<Agent>>`. Zur Lernpfadkarte führen `target.json` und `persona.json`, zur UI Generation `prompt.json`.
+Lernziel, Charakter und Lernpfadkarte sind `<<Agent>>`. Zur Lernpfadkarte führen `target.json` und `persona.json`, zur UI Generation `prompt.json`. Das Zusammenspiel zur Laufzeit zeigt [6.2 Lernpfad erzeugen](06-laufzeitsicht.md#62-lernpfad-erzeugen).
