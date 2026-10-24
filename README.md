@@ -2,7 +2,6 @@
 
 Monorepo for Learning in Progress.
 
-
 ## Grundidee
 
 Lernende mit Herausforderungen wie Legasthenie oder ADHS haben oft Schwierigkeiten, weil ihr Lernmaterial in einem festen Format kommt, das nicht zu ihrer Art zu lernen passt. Unsere App dreht das um: Nicht die Lernenden passen sich dem Werkzeug an, sondern das Werkzeug passt sich den Lernenden an.
@@ -22,16 +21,20 @@ Weitere Informationen zur Entwicklung der Grundidee findest du unter [doc/proces
 ## Dokumentation
 
 Weitere Informationen zu Entwicklung, Konzept und Architektur findest du unter [doc/README.md](doc/README.md).
-Monorepo for Learning in Progress 
-DESCRIBE THE IDEA HERE!!!!!
 
+## Aufbau
 
+| Ordner | Inhalt |
+| --- | --- |
+| `client/` | Web-Frontend. Setup und Scripts: [client/README.md](client/README.md) |
+| `server/` | API. Setup und Start: [server/README.md](server/README.md) |
+| `doc/` | Konzept, Prozess und Architektur |
 
-
-
-
+Der fachliche Ablauf steht in der [Lösungsstrategie](doc/architecture/04-loesungsstrategie.md): Lernziel, Charakter / KI-Zwilling, Lernpfadkarte, generative UI, Prüfung.
 
 ## Techstack
+
+**Achtung:** Der Techstack wird gerade noch einmal umgebaut. Die Liste beschreibt nur den aktuellen Stand im Repository und ist keine finale Entscheidung.
 
 Frontend:
 - TypeScript
@@ -42,8 +45,7 @@ Backend:
 - FastAPI
 
 AI Layer:
-- Gemini (TBD)
-- More details needed
+- Gemini
 
 ## Tools for development
 
