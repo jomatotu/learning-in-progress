@@ -1,29 +1,17 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import '@fontsource-variable/lexend';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/dm-sans';
 @import '@fontsource-variable/fraunces';
+@import './features/onboarding/onboarding.css';
+@import './features/application/application.css';
 
 @custom-variant dark (&:is(.dark *));
 
-/* Brand tokens: paper, ink, pine for actions, marigold for the student's own answers */
 @theme inline {
-  --font-heading: 'Fraunces Variable', Georgia, serif;
-  --font-sans: 'Lexend Variable', system-ui, sans-serif;
-  --color-paper: var(--paper);
-  --color-sheet: var(--sheet);
-  --color-ink: var(--ink);
-  --color-graphite: var(--graphite);
-  --color-rule: var(--rule);
-  --color-pine: var(--pine);
-  --color-pine-soft: var(--pine-soft);
-  --color-marigold: var(--marigold);
-  --color-marigold-soft: var(--marigold-soft);
-  --color-clay: var(--clay);
-  --shadow-hard-sm: 3px 3px 0 var(--ink);
-  --shadow-hard: 4px 4px 0 var(--ink);
-  --shadow-hard-lg: 6px 6px 0 var(--ink);
-  --shadow-soft: 4px 4px 0 var(--rule);
+  --font-heading: var(--font-sans);
+  --font-sans: 'Geist Variable', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -65,123 +53,82 @@
 }
 
 :root {
-  --paper: #f5f0e6;
-  --sheet: #fffcf6;
-  --ink: #1e2b2f;
-  --graphite: #5a6664;
-  --rule: #e3daca;
-  --pine: #1f5a4e;
-  --pine-soft: #dcebe5;
-  --marigold: #f4b740;
-  --marigold-soft: #fbe6b5;
-  --clay: #c95f43;
-
-  /* Reading comfort settings change these */
-  --text-base-size: 17px;
-  --leading: 1.65;
-  --tracking: 0.01em;
-
-  --background: var(--paper);
-  --foreground: var(--ink);
-  --card: var(--sheet);
-  --card-foreground: var(--ink);
-  --popover: var(--sheet);
-  --popover-foreground: var(--ink);
-  --primary: var(--pine);
-  --primary-foreground: var(--sheet);
-  --secondary: var(--paper);
-  --secondary-foreground: var(--ink);
-  --muted: var(--paper);
-  --muted-foreground: var(--graphite);
-  --accent: var(--marigold-soft);
-  --accent-foreground: var(--ink);
-  --destructive: var(--clay);
-  --border: var(--rule);
-  --input: var(--rule);
-  --ring: var(--pine);
-  --chart-1: var(--pine);
-  --chart-2: var(--marigold);
-  --chart-3: var(--clay);
-  --chart-4: var(--graphite);
-  --chart-5: var(--rule);
-  --radius: 0.875rem;
-  --sidebar: var(--sheet);
-  --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--pine);
-  --sidebar-primary-foreground: var(--sheet);
-  --sidebar-accent: var(--marigold-soft);
-  --sidebar-accent-foreground: var(--ink);
-  --sidebar-border: var(--rule);
-  --sidebar-ring: var(--pine);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
-:root[data-comfort-large] {
-  --text-base-size: 20px;
-}
-
-:root[data-comfort-spaced] {
-  --leading: 1.95;
-  --tracking: 0.04em;
-}
-
-:root[data-comfort-calm] {
-  --paper: #eef1ec;
-  --sheet: #f8faf6;
-  --marigold: #e9c77a;
-  --marigold-soft: #f1e5c4;
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  body {
+    @apply bg-background text-foreground;
+  }
   html {
     @apply font-sans;
-    font-size: var(--text-base-size);
-  }
-  body {
-    @apply bg-background font-light text-foreground;
-    line-height: var(--leading);
-    letter-spacing: var(--tracking);
-  }
-  h1,
-  h2,
-  h3 {
-    @apply font-heading font-semibold;
-    letter-spacing: -0.01em;
-    line-height: 1.15;
-  }
-  /* Browsers give fieldsets a min-content width, which makes answer groups overflow on phones. */
-  fieldset {
-    min-width: 0;
-  }
-  :focus-visible {
-    outline: 3px solid var(--pine);
-    outline-offset: 2px;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      transition: none !important;
-      animation: none !important;
-    }
-  }
-}
-
-@layer utilities {
-  /* Highlighter stroke behind a few key words. At most one per screen. */
-  .mark {
-    background: linear-gradient(
-      transparent 55%,
-      var(--marigold) 55%,
-      var(--marigold) 92%,
-      transparent 92%
-    );
-    padding: 0 0.1em;
-    box-decoration-break: clone;
-  }
-  .label {
-    @apply text-xs font-medium tracking-[0.08em] text-graphite uppercase;
   }
 }
