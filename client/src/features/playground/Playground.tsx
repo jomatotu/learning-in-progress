@@ -1,13 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { useAssess, type Answer, type Profile } from '@/api/assess'
-import { useGeneratePage } from '@/api/generate'
 import { HermesProgress } from '@/components/HermesProgress'
-import { LearningPage } from '@/components/LearningPage'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { saveRun } from '@/features/learn/learnStore'
 import { mockStudent } from './mockStudent'
 
-// Test page for the whole flow: runs the assessment for the profile in the box, then generates a learning page from the answers.
+// Test page for the whole flow: runs the assessment for the profile in the box, then opens a new tab that generates a page per picked theme.
 export function Playground() {
   const [profileText, setProfileText] = useState(
     JSON.stringify(mockStudent.profile, null, 2),
@@ -18,13 +17,6 @@ export function Playground() {
   const [profile, setProfile] = useState<Profile>()
   const [answers, setAnswers] = useState<Answer[]>([])
   const assess = useAssess()
-  const generate = useGeneratePage()
-
-  if (generate.data) {
-    return (
-      <LearningPage html={generate.data.html} onBack={() => generate.reset()} />
-    )
-  }
 
   function start(event: FormEvent) {
     event.preventDefault()
@@ -51,17 +43,23 @@ export function Playground() {
     assess.mutate({ profile, answers: next })
   }
 
+  // Generates in a new tab, so this page keeps its answers and can open the pages again.
+  function openPages() {
+    if (!profile || !themes) return
+    const id = saveRun({ profile, answers, material, themes })
+    window.open(`/learn/${id}`, '_blank')
+  }
+
   function restart() {
     assess.reset()
-    generate.reset()
     setProfile(undefined)
     setAnswers([])
   }
 
   const question = assess.data?.done === false ? assess.data : undefined
   const themes = assess.data?.done ? assess.data.themes : undefined
-  const busy = assess.isPending || generate.isPending
-  const error = parseError || assess.error?.message || generate.error?.message
+  const busy = assess.isPending
+  const error = parseError || assess.error?.message
 
   return (
     <main className="flex min-h-svh flex-col items-center gap-4 p-6">
@@ -126,33 +124,17 @@ export function Playground() {
                 <li key={pick.theme}>
                   <strong>{pick.theme}</strong>
                   {pick.reason ? `: ${pick.reason}` : ' (default theme)'}
-                  {profile && (
-                    <Button
-                      className="mt-1 block"
-                      disabled={busy}
-                      onClick={() =>
-                        generate.mutate({
-                          profile,
-                          answers,
-                          material,
-                          theme: pick.theme,
-                        })
-                      }
-                    >
-                      Generate {pick.theme}
-                    </Button>
-                  )}
                 </li>
               ))}
             </ol>
+            <Button className="self-start" onClick={openPages}>
+              Generate
+            </Button>
           </div>
         )}
 
         {busy && (
-          <HermesProgress
-            status={assess.isPending ? assess.status : generate.status}
-            reasoning={assess.isPending ? assess.reasoning : generate.reasoning}
-          />
+          <HermesProgress status={assess.status} reasoning={assess.reasoning} />
         )}
 
         {error && (

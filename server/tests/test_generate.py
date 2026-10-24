@@ -47,24 +47,24 @@ def events():
 def test_generate_streams_progress_then_page_with_csp(monkeypatch):
     fake_stream(
         monkeypatch,
-        [("reasoning", "x" * 250), ("tool", "🔍 web_search (ADHD learning)"), ("text", PAGE)],
+        [("reasoning", "x" * 250), ("tool", "Searching the web…"), ("text", PAGE)],
     )
 
     assert events() == [
         ("status", {"text": "Hermes is planning your page…"}),
         ("reasoning", {"text": "x" * 250}),
-        ("status", {"text": "🔍 web_search (ADHD learning)"}),
+        ("status", {"text": "Searching the web…"}),
         ("status", {"text": "Writing the page… 0 KB"}),
         ("done", {"html": "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"}),
     ]
 
 
 def test_generate_sends_status_only_when_it_changes(monkeypatch):
-    fake_stream(monkeypatch, [("tool", "🔍 web_search"), ("reasoning", "a"), ("tool", "🔍 web_search"), ("text", PAGE)])
+    fake_stream(monkeypatch, [("tool", "Searching the web…"), ("reasoning", "a"), ("tool", "Searching the web…"), ("text", PAGE)])
 
     statuses = [data["text"] for event, data in events() if event == "status"]
 
-    assert statuses.count("🔍 web_search") == 1
+    assert statuses.count("Searching the web…") == 1
 
 
 def test_generate_puts_profile_answers_and_material_into_prompt(monkeypatch):

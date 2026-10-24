@@ -120,7 +120,7 @@ def test_stream_hermes_yields_reasoning_and_text(monkeypatch):
 
     pieces = asyncio.run(collect(hermes.stream_hermes("Build", session_id="lip-test-1")))
 
-    assert pieces == [("reasoning", "Hmm"), ("tool", "🔍 web_search (ADHD learning)"), ("text", "<!doctype")]
+    assert pieces == [("reasoning", "Hmm"), ("tool", "Searching the web…"), ("text", "<!doctype")]
     assert calls[0]["stream"] is True
     assert calls[0]["extra_headers"] == {"X-Hermes-Session-Id": "lip-test-1"}
 
@@ -173,3 +173,4 @@ def test_stream_hermes_json_raises_after_second_invalid_reply(monkeypatch):
 
     with pytest.raises(hermes.HermesError, match="valid JSON"):
         asyncio.run(collect(hermes.stream_hermes_json("Pick one", Pick, "lip-test-1")))
+

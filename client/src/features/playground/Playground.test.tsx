@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { loadRun } from '@/features/learn/learnStore'
 import { Playground } from './Playground'
 import { mockStudent } from './mockStudent'
 
@@ -47,14 +48,14 @@ describe('Playground', () => {
     )
   })
 
-  it('asks questions until done, then generates the page from the answers', async () => {
-    const html = '<!doctype html><html><body>Osmose</body></html>'
+  it('asks questions until done, then opens the pages in a new tab', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
       .mockResolvedValueOnce(sse('done', question))
       .mockResolvedValueOnce(sse('done', finished))
-      .mockResolvedValueOnce(sse('done', { html }))
+    const openMock = vi.fn()
     vi.stubGlobal('fetch', fetchMock)
+    vi.stubGlobal('open', openMock)
     renderApp()
 
     await userEvent.click(screen.getByRole('button', startButton))
@@ -63,34 +64,21 @@ describe('Playground', () => {
     )
     expect(await screen.findByText(/You like listening/)).toBeInTheDocument()
     await userEvent.click(
-      screen.getByRole('button', { name: 'Generate read-aloud' }),
+      screen.getByRole('button', { name: 'Generate' }),
     )
 
-    const frame = await screen.findByTitle('Your learning page')
-    expect(frame).toHaveAttribute('sandbox', 'allow-scripts')
-    expect(frame).toHaveAttribute('srcdoc', html)
-    expect(fetchMock.mock.calls.map((call) => call[0])).toEqual([
-      '/api/assess',
-      '/api/assess',
-      '/api/generate',
-    ])
     expect(fetchMock.mock.calls[1][1]?.body).toBe(
       JSON.stringify({ profile: mockStudent.profile, answers }),
     )
-    expect(fetchMock.mock.calls[2][1]?.body).toBe(
-      JSON.stringify({
-        profile: mockStudent.profile,
-        answers,
-        material: mockStudent.material,
-        theme: 'read-aloud',
-      }),
-    )
-
-    await userEvent.click(screen.getByRole('button', { name: 'Back' }))
-
-    expect(
-      screen.getByRole('button', { name: 'Generate read-aloud' }),
-    ).toBeInTheDocument()
+    const [url, target] = openMock.mock.calls[0]
+    expect(target).toBe('_blank')
+    expect(loadRun(url.replace('/learn/', ''))).toEqual({
+      profile: mockStudent.profile,
+      answers,
+      material: mockStudent.material,
+      themes: finished.themes,
+    })
+    expect(screen.getByText(/You like listening/)).toBeInTheDocument()
   })
 
   it('shows the error and retries with the same answers', async () => {

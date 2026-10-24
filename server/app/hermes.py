@@ -15,6 +15,21 @@ MODEL = "hermes-agent"
 # An agent turn can run tools for several minutes.
 TIMEOUT_SECONDS = 600
 
+# Plain one-line status per Hermes tool, so the student never sees raw tool names or commands.
+TOOL_STATUS = {
+    "web_search": "Searching the web…",
+    "web_extract": "Reading a web page…",
+    "terminal": "Running code…",
+    "execute_code": "Running code…",
+    "read_file": "Reading files…",
+    "search_files": "Reading files…",
+    "write_file": "Writing files…",
+    "patch": "Writing files…",
+    "skill_view": "Checking its notes…",
+    "skills_list": "Checking its notes…",
+    "memory": "Checking its memory…",
+}
+
 
 class HermesError(Exception):
     pass
@@ -60,7 +75,7 @@ STALL_SECONDS = 120
 
 
 # Streams one Hermes turn as (kind, piece) pairs, so callers can show progress while the agent works.
-# Kinds: "reasoning" (the model thinking), "tool" (a tool Hermes started, as one short line), and "text" (the reply).
+# Kinds: "reasoning" (the model thinking), "tool" (a tool Hermes started, as a plain status line), and "text" (the reply).
 async def stream_hermes(
     message: str, session_id: str | None = None, instructions: str | None = None
 ) -> AsyncIterator[tuple[Literal["reasoning", "tool", "text"], str]]:
@@ -78,8 +93,7 @@ async def stream_hermes(
         if not choices:
             tool = getattr(chunk, "tool", None)
             if tool and getattr(chunk, "status", None) == "running":
-                label = getattr(chunk, "label", None)
-                yield "tool", " ".join(filter(None, [getattr(chunk, "emoji", None), tool, label and f"({label})"]))
+                yield "tool", TOOL_STATUS.get(tool, "Working…")
             continue
         choice = choices[0]
         # Reasoning isn't part of the OpenAI schema; Hermes sends it as an extra field on some models.
