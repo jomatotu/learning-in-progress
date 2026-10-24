@@ -2,17 +2,20 @@
 
 ## 3.1 Fachlicher Kontext
 
+
 ```mermaid
 flowchart LR
-  learner[Lernende]
+  nutzer([Lernende])
+  app[Learning-in-Progress]
   material[Lernmaterial]
-  system[Learning in Progress]
-  sources[Wissens- und Forschungsquellen]
+  quellen[Wissens- und Forschungsquellen]
 
-  learner -->|Profil, Ziele, Herausforderungen| system
-  material -->|Upload| system
-  system -->|angepasste Lernoberfläche| learner
-  system -->|Recherche, was diesem Profil hilft| sources
+  nutzer -->|Profil, Ziele, Feedback| app
+  material -->|Texte, Vorlesungen| app
+  quellen -->|Belege und Empfehlungen| app
+
+  app -->|Angepasste Lernoberfläche| nutzer
+  app -->|Transformierte Inhalte| material
 ```
 
 | Nachbar | Input | Output |
@@ -28,11 +31,15 @@ flowchart LR
   browser[Browser]
   frontend[Frontend]
   backend[Backend]
-  gemini[Gemini]
+  hermes[Hermes-Agent]
+  ki[KI-APIs]
+  kontext[Kontextwissen]
 
   browser --- frontend
   frontend <-->|HTTP| backend
-  backend <-->|API, Details offen| gemini
+  backend <-->|API| hermes
+  hermes <-->|KI-APIs| ki
+  kontext -->|RAG| hermes
 ```
 
-Kanäle, Formate und Authentifizierung sind offen.
+Hermes-Agent spricht die KI-APIs an und liest Kontextwissen als RAG. Kontextwissen sind zum Beispiel Curricula und Ähnliches. Kanäle, Formate und Authentifizierung sind offen.
