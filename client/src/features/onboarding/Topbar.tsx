@@ -1,4 +1,5 @@
 import { LanguageToggle } from '@/components/LanguageToggle'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { defineMessages, useMessages } from '@/lib/i18n'
 
 type TopbarProps = {
@@ -43,6 +44,7 @@ export function Topbar({ step, onHome }: TopbarProps) {
       )}
       <div className="flex items-center gap-3">
         <LanguageToggle />
+        <ThemeToggle />
         <button className="help" aria-label={t.help}>
           ?
         </button>

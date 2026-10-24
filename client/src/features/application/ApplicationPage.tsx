@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { LanguageToggle } from '@/components/LanguageToggle'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { defineMessages, useMessages } from '@/lib/i18n'
 import { ApplicationForm } from './ApplicationForm'
 
@@ -24,7 +25,10 @@ export function ApplicationPage() {
           </span>
           <span>learning in progress</span>
         </Link>
-        <LanguageToggle />
+        <div className="flex items-center gap-3">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
       </header>
       <div className="mx-auto max-w-[1120px] px-4 py-10 md:px-6 md:py-14">
         <ApplicationForm />

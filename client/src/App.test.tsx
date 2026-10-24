@@ -16,6 +16,7 @@ function renderAt(path: string) {
 
 describe('App', () => {
   beforeEach(() => localStorage.clear())
+  afterEach(() => document.documentElement.classList.remove('dark'))
 
   it('renders the onboarding home screen', () => {
     renderAt('/')
@@ -81,6 +82,21 @@ describe('App', () => {
       screen.getByRole('button', { name: /let's go/i }),
     ).toBeInTheDocument()
     expect(localStorage.getItem('language')).toBe('en')
+  })
+
+  it('switches the whole site to dark mode and remembers it', async () => {
+    const user = userEvent.setup()
+    renderAt('/')
+
+    await user.click(
+      screen.getByRole('button', { name: 'Zum dunklen Modus wechseln' }),
+    )
+
+    expect(document.documentElement).toHaveClass('dark')
+    expect(localStorage.getItem('theme')).toBe('dark')
+    expect(
+      screen.getByRole('button', { name: 'Zum hellen Modus wechseln' }),
+    ).toBeInTheDocument()
   })
 
   it('renders the build playground at /playground', () => {

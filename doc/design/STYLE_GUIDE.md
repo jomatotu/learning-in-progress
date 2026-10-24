@@ -102,6 +102,39 @@ Use these for illustrated tiles, tags, and category colour. Always pair them; ne
 | `#d9d5df` | Tag text on dark |
 | `#575260` / `#504b61` | Tag borders, decorative ring on dark |
 
+### Dark mode
+
+Every page has a dark version, switched with the sun / moon button in the top bar. It follows the device setting until the student picks one, and the choice is remembered. The class `dark` on `<html>` turns it on; all dark colours live in [client/src/styles/theme.css](../../client/src/styles/theme.css). Layout, type, and spacing never change, only colours.
+
+| Role | Light | Dark |
+| --- | --- | --- |
+| Page | `#f7f5ef` | `#14121a` |
+| Card / surface | `#ffffff` | `#1d1a25` |
+| Raised (chips) | `#faf9f5` | `#252131` |
+| Input field | `#fbfaf7` | `#18161f` |
+| Border | `#e5e1d9` | `#2f2a3b` |
+| Strong border | `#d9d5cc` | `#3d3750` |
+| Headings | `#292632` | `#eeebf5` |
+| Body text | `#1f1d2b` | `#d6d2e0` |
+| Muted text | `#77727d` | `#a6a1b3` |
+| Faint text | `#98939e` | `#827d90` |
+| Accent (text, borders, focus) | `#6955c6` | `#9b88f2` |
+| Accent fill (circles, particles) | `#6955c6` | `#7a66d6` |
+| Accent soft (selected) | `#f0ecfb` | `rgba(155, 136, 242, 0.14)` |
+| Accent deep (text on soft) | `#5540b0` | `#cfc4fb` |
+| Coral | `#e67f63` | `#ec8c72` |
+| Mint | `#89b6a1` | `#8fc0aa` |
+| Card shadow | `0 24px 70px rgba(60, 53, 88, 0.08)` | `0 24px 70px rgba(0, 0, 0, 0.45)` |
+
+Rules for dark:
+
+- **The primary button inverts:** light `#eeebf5` with dark text, turning purple `#9b88f2` on hover. Never a dark button on a dark page.
+- **Purple gets brighter** (`#9b88f2`) so text and borders keep their contrast; filled circles use the slightly deeper `#7a66d6`.
+- **Shadows are black and stronger**, because tinted shadows disappear on dark.
+- **Pastel tiles become deep tints** with light text: plum `#2a2342` / `#b9aaf6`, blue `#1d2a33` / `#8fb5cc`, mint `#1d2b25` / `#8fc0aa`, peach `#33231e` / `#e5a28c`, lavender `#2a2235` / `#c2a5e3`, yellow `#2f2a1a` / `#d8c07a`.
+- **Glows and blobs** use `#2a2342` / `#241f36` instead of the light lavender.
+- New colours go into `theme.css` next to the light ones, never as fixed hex in components. In Tailwind, use `dark:` variants (`dark:bg-[#1d1a25]`).
+
 ---
 
 ## 3. Typography
@@ -521,6 +554,7 @@ These live in `application.css` and follow the same rules.
 - Decoration is `aria-hidden`.
 - Respect `prefers-reduced-motion`.
 - Every page has a DE | EN language switch in the top bar (`client/src/components/LanguageToggle.tsx`): a small pill with the active language filled in ink `#292632`.
+- Next to it, a 32px round sun / moon button (`client/src/components/ThemeToggle.tsx`) switches light and dark mode, styled like the help button.
 
 ---
 

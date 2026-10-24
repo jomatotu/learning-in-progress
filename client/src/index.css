@@ -6,6 +6,7 @@
 @import '@fontsource-variable/fraunces';
 @import './features/_deprecated/onboarding.css';
 @import './features/application/application.css';
+@import './styles/theme.css';
 
 @custom-variant dark (&:is(.dark *));
 

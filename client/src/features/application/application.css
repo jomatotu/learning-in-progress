@@ -12,7 +12,7 @@
   --color-pine-deep: var(--pine-deep);
   --color-marigold: var(--marigold);
   --color-clay: var(--clay);
-  --shadow-card: 0 24px 70px rgba(60, 53, 88, 0.08);
+  --shadow-card: var(--card-shadow);
 }
 
 .application-page {
@@ -26,6 +26,7 @@
   --pine-deep: #5540b0;
   --marigold: #e1765b;
   --clay: #e67f63;
+  --card-shadow: 0 24px 70px rgba(60, 53, 88, 0.08);
   line-height: 1.6;
 }
 
