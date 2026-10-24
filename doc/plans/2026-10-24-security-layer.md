@@ -4,32 +4,32 @@
 
 **Goal:** Put a security layer in front of every Hermes-calling feature already on `main`, so the team's app can run on the shared VPS without letting any visitor or any generated page steer a tool-using agent or read the app's data.
 
-**Architecture:** Work on branch `integration/one-app` (worktree `.worktrees/integration`, created off `origin/main` `c7291a1`, local only). The server gets typed settings, an access-code gate with a `SameSite=Strict` HttpOnly cookie, Origin / Host / body-size / rate-limit guards, and a hardened CSP for generated HTML. Hermes-written React pages (`/api/solution`) stop running inside the app: they are served by a separate sandbox dev server (own origin, strict CSP) and shown in `<iframe sandbox="allow-scripts">`. Teammates' route modules are not edited; guards attach in `server/app/main.py`.
+**Architecture:** Work on branch `integration/one-app` (worktree `.worktrees/integration`, created off `origin/main` `c7291a1`, local only). The server gets typed settings, HTTP Basic auth on the Hermes routes, Host / Origin / body-size / rate-limit guards, and `base-uri 'none'` in the generated-HTML CSP. Hermes-written React pages (`/api/solution`) stop running inside the app: a second entry `sandbox.html` of the same Vite server loads them, shown in `<iframe sandbox="allow-scripts">` (opaque origin) with a strict CSP header. Teammates' route modules are not edited; guards attach in `server/app/main.py`.
 
-**Tech Stack:** FastAPI + Starlette + pydantic-settings + httpx (server, uv, pytest); Vite 8 + React 19 + TypeScript + react-router + Vitest + Testing Library (client, pnpm).
+**Tech Stack:** FastAPI + Starlette + pydantic-settings (already installed via `fastapi[standard]`) + httpx (server, uv, pytest); Vite 8 + React 19 + TypeScript + react-router + Vitest + Testing Library (client, pnpm).
 
-**Spec:** `doc/specs/2026-10-24-integration-design.md` (sections "Engine", "Lesson rendering", "Quality and repo hygiene"; phase 2 of the phase table). Later phases (porting our Runs-API engine, intake, skills, lesson page, design system, eval, VPS) get their own plans.
+**Spec:** `doc/specs/2026-10-24-integration-design.md` (sections "Engine", "Lesson rendering", "Quality and repo hygiene"; phase 2). Audited with ponytail-audit; cuts applied (Basic auth instead of a custom cookie gate, one Vite server, no CSP-meta stripping, glob map as the page allow-list, constants instead of unused settings, simpler limiter and body cap).
 
 ## Global Constraints
 
 - Branch `integration/one-app` in `/home/reallyboard/git/learning-in-progress/.worktrees/integration`. Never push. Commit per task, Conventional Commits.
-- Do not edit teammates' route modules (`server/app/routers/assess.py`, `generate.py`, `solution.py`, `profile.py`, `survey.py`) except where a task names the exact function (Task 5: `generate.prepare_page` and `generate.CSP`).
-- pnpm only in `client/` (never npm; `client/package-lock.json` stays untouched, `client/pnpm-lock.yaml` stays uncommitted). uv only in `server/`.
-- Never print secrets. Check `.env` keys with `grep -c '^NAME=' file`. Plain `grep` is rewritten to ripgrep in this shell: use `/usr/bin/grep` for GNU regex. The `rtk` hook rewrites some tool output (e.g. prettier, ps): use `rtk proxy <cmd>` when the exact output or exit code matters.
-- Ports for live checks in this worktree: Vite app `5175`, sandbox `5180`, FastAPI `8001`. The other worktree's servers (`5174`, `8000`) and Hermes (`8642`) stay running and untouched.
-- UI copy German, `du`, short and warm; errors coral with a left border, never red; visible focus ring (style guide `doc/design/STYLE_GUIDE.md` on branch `origin/Frontend_ApplicationForm`).
-- Error bodies are JSON `{"detail": "<code>"}` with these exact codes: `access_required`, `access_not_configured`, `invalid_access_code`, `too_many_attempts`, `origin_not_allowed`, `request_too_large`, `too_many_runs`.
-- `feat/hermes-demo` is **not** merged wholesale: `main` now has its own end-to-end flow (Nils, `c7291a1`: Home → `/application` → MagicStep → `/api/solution` → `/solution/:uuid`). Our pieces (Runs-API engine, json-render catalog, feedback loop, `hermes/`, `data/`) are ported in the next plan.
-- Settings names and defaults (exact): `HERMES_BASE_URL` (optional), `HERMES_API_KEY` (optional, secret), `ACCESS_CODE` (optional, secret; unset ⇒ gated routes answer 503 `access_not_configured`), `APP_ORIGINS` = `http://localhost:5173,http://localhost:5174,http://localhost:5175`, `ALLOWED_HOSTS` = `localhost,127.0.0.1`, `MAX_BODY_BYTES` = `262144`, `HERMES_RUNS_PER_MINUTE` = `6`, `ACCESS_ATTEMPTS_PER_MINUTE` = `10`. Lists are comma-separated in the environment.
-- Checks before every commit — server: `uv --directory server run pytest -v`, `uv --directory server run --with ruff ruff check .`; client (in `client/`): `pnpm test:run`, `pnpm typecheck`, `pnpm exec oxlint src`, `rtk proxy pnpm exec prettier --check src` (pre-existing failures in files a task does not touch are noted, not fixed), `pnpm build`.
+- `feat/hermes-demo` is **not** merged wholesale: `main` has its own end-to-end flow (Nils, `c7291a1`: Home → `/application` → MagicStep → `/api/solution` → `/solution/:uuid`). Our pieces are ported in the next plan.
+- Do not edit teammates' route modules (`server/app/routers/assess.py`, `generate.py`, `solution.py`, `profile.py`, `survey.py`) except `generate.CSP` in Task 4.
+- pnpm only in `client/` (never npm; `client/package-lock.json` untouched, `client/pnpm-lock.yaml` uncommitted). uv only in `server/`. No new dependencies.
+- Never print secrets. Check `.env` keys with `grep -c '^NAME=' file`. Plain `grep` is rewritten to ripgrep in this shell: use `/usr/bin/grep` for GNU regex. The `rtk` hook rewrites some tool output: use `rtk proxy <cmd>` when exact output or exit code matters (e.g. prettier).
+- Ports for live checks in this worktree: Vite `5175`, FastAPI `8001`. The other worktree's servers (`5174`, `8000`) and Hermes (`8642`) stay running and untouched.
+- Settings (environment, comma-separated lists): `HERMES_BASE_URL` (optional), `HERMES_API_KEY` (optional, secret), `ACCESS_CODE` (optional, secret; unset ⇒ gated routes answer 503), `APP_ORIGINS` default `http://localhost:5173,http://localhost:5174,http://localhost:5175`, `ALLOWED_HOSTS` default `localhost,127.0.0.1`. Constants in `server/app/guards.py`: `MAX_BODY_BYTES = 262_144`, `HERMES_RUNS_PER_MINUTE = 6`.
+- Error bodies are JSON `{"detail": "<code>"}` with exactly these codes: `access_required` (401), `access_not_configured` (503), `origin_not_allowed` (403), `length_required` (411), `request_too_large` (413), `too_many_requests` (429).
+- UI copy German, `du`; errors coral with a left border, never red (style guide `doc/design/STYLE_GUIDE.md` on `origin/Frontend_ApplicationForm`).
+- Checks before every commit — server: `uv --directory server run pytest -v`, `uv --directory server run --with ruff ruff check .`; client (in `client/`): `pnpm test:run`, `pnpm typecheck`, `pnpm exec oxlint src`, `rtk proxy pnpm exec prettier --check src` (pre-existing failures in untouched files are noted, not fixed), `pnpm build`.
 
 ## Review Focus
 
-1. A legitimate student retrying after a Hermes error within a minute must not be locked out: 6 Hermes runs per minute pass, the 7th gets 429 `too_many_runs` with a `Retry-After` header (Task 3).
-2. A full-size German material (60,000 characters with umlauts, plus profile JSON) must pass the body cap; only bodies over 262,144 bytes are refused with 413 (Task 3).
-3. The Vite proxy forwards `Host: localhost:5175`: a host with a port must pass `TrustedHostMiddleware`, `evil.example` must not (Task 3).
-4. An access code typed with surrounding spaces or a trailing newline must still work (strip before compare); a wrong code must not reveal whether a code is configured beyond `invalid_access_code` (Task 2).
-5. A Solution Page URL with an unknown or malformed uuid must show a friendly German "nicht gefunden" view inside the sandbox, not a blank frame or a stack trace (Task 4).
+1. A student retrying after a Hermes error must not be locked out: 6 Hermes calls per minute pass, the 7th gets 429 `too_many_requests` with `Retry-After` (Task 2).
+2. A full German material (60,000 characters with umlauts plus profile JSON) passes the body cap; only bodies over 262,144 bytes get 413 (Task 2).
+3. The Vite proxy forwards `Host: localhost:5175`: a host with a port passes, `evil.example` gets 400 (Task 2).
+4. A Basic-auth password typed with surrounding spaces still works; a wrong one gets 401 with a `WWW-Authenticate: Basic` challenge so the browser asks again (Task 3).
+5. A Solution Page URL with an unknown id shows the German "nicht gefunden" card inside the sandbox, not a blank frame or a stack trace (Task 5).
 
 ---
 
@@ -37,95 +37,93 @@
 
 **Files:**
 - Create: `server/app/settings.py`
-- Modify: `server/app/hermes.py` (`get_client` only), `server/.env.example`, `server/pyproject.toml` (+`pydantic-settings` if missing), `client/vite.config.ts` (proxy target)
+- Modify: `server/app/hermes.py` (`get_client` only), `server/.env.example`, `client/vite.config.ts` (proxy target)
 - Test: `server/tests/test_settings.py`
 
 **Interfaces:**
-- Produces: `class Settings(BaseSettings)` with fields `hermes_base_url: str | None`, `hermes_api_key: SecretStr | None`, `access_code: SecretStr | None`, `app_origins: list[str]`, `allowed_hosts: list[str]`, `max_body_bytes: int`, `hermes_runs_per_minute: int`, `access_attempts_per_minute: int` (defaults from Global Constraints; env file `.env`, case-insensitive); `def get_settings() -> Settings` (cached with `functools.lru_cache`). Comma-separated list parsing via `Annotated[list[str], NoDecode]` plus a `field_validator(..., mode="before")` that splits on commas and strips items.
-- Produces: Vite proxy target `env.API_URL || 'http://localhost:8000'` (read with `loadEnv(mode, process.cwd(), '')`).
+- Produces: `class Settings(BaseSettings)` with `hermes_base_url: str | None = None`, `hermes_api_key: SecretStr | None = None`, `access_code: SecretStr | None = None`, `app_origins: list[str]`, `allowed_hosts: list[str]` (defaults from Global Constraints; `.env` file; list fields as `Annotated[list[str], NoDecode]` with a `field_validator(..., mode="before")` that splits on commas and strips); `def get_settings() -> Settings` cached with `functools.lru_cache`.
+- Produces: Vite `/api` proxy target `env.API_URL || 'http://localhost:8000'` via `loadEnv(mode, process.cwd(), '')`.
 
-- [ ] **Step 1: Baseline.** In the worktree: `pnpm -C client install`, `uv --directory server sync`. Run all checks from Global Constraints. Record counts and any pre-existing failures in the report (expected roughly: server ~52 tests, client ~33).
-- [ ] **Step 2: Write failing tests** in `server/tests/test_settings.py`: `test_defaults` (no env → `app_origins == ["http://localhost:5173","http://localhost:5174","http://localhost:5175"]`, `allowed_hosts == ["localhost","127.0.0.1"]`, `max_body_bytes == 262144`, `hermes_runs_per_minute == 6`, `access_code is None`); `test_comma_lists_are_split_and_stripped` (`APP_ORIGINS=" http://a , http://b "` → `["http://a","http://b"]`); `test_access_code_is_secret` (`repr(Settings(access_code="x"))` does not contain `x`). Use `monkeypatch.setenv` and `Settings(_env_file=None)` so a local `.env` does not leak into tests.
-- [ ] **Step 3: Run** `uv --directory server run pytest -v tests/test_settings.py` → FAIL (module missing).
-- [ ] **Step 4: Implement** `server/app/settings.py`; switch `hermes.get_client()` to read `get_settings()` and raise `HermesError("HERMES_BASE_URL and HERMES_API_KEY must be set in server/.env")` when either is missing (keep the lazy, cached client so the server still starts without them). Add all settings names with comments to `server/.env.example` (no values for secrets).
-- [ ] **Step 5: Run** the settings tests and the full server suite → PASS (existing `test_hermes.py` may need `get_settings.cache_clear()` in a fixture if it sets env vars; adjust only test setup, not assertions).
-- [ ] **Step 6: Proxy target.** Change `client/vite.config.ts` to `defineConfig(({ mode }) => …)` with the `/api` proxy target from `API_URL`; `pnpm build` passes.
+- [ ] **Step 1: Baseline.** `pnpm -C client install`, `uv --directory server sync`; run all checks from Global Constraints; record counts and pre-existing failures in the report.
+- [ ] **Step 2: Write failing tests** (`test_settings.py`, `monkeypatch.setenv` + `Settings(_env_file=None)`): `test_defaults` (origins and hosts as in Global Constraints, `access_code is None`); `test_comma_lists_are_split_and_stripped` (`APP_ORIGINS=" http://a , http://b "` → `["http://a","http://b"]`); `test_access_code_is_secret` (`repr(Settings(access_code="x"))` does not contain `x`).
+- [ ] **Step 3: Run** `uv --directory server run pytest -v tests/test_settings.py` → FAIL.
+- [ ] **Step 4: Implement** `settings.py`; `hermes.get_client()` reads `get_settings()` and raises `HermesError("HERMES_BASE_URL and HERMES_API_KEY must be set in server/.env")` when either is missing (still lazy and cached). Document the five settings in `server/.env.example` (no secret values).
+- [ ] **Step 5: Run** full server suite → PASS (if `test_hermes.py` sets env vars, add `get_settings.cache_clear()` to its setup; assertions unchanged).
+- [ ] **Step 6: Proxy target** in `client/vite.config.ts` (`defineConfig(({ mode }) => …)`); `pnpm build` passes.
 - [ ] **Step 7: Commit** `feat: add typed server settings and configurable api proxy target`.
 
 ### Task 2: Request guards (Host, Origin, body size, rate limit)
 
 **Files:**
-- Create: `server/app/guards.py`, `server/tests/conftest.py` (shared settings override incl. `testserver` host)
+- Create: `server/app/guards.py`, `server/tests/conftest.py`
 - Modify: `server/app/main.py`
 - Test: `server/tests/test_guards.py`
 
 **Interfaces:**
 - Consumes: `get_settings()` (Task 1).
-- Produces: `class OriginCheckMiddleware` (pure ASGI): for methods other than GET, HEAD, OPTIONS, a present `Origin` not in `settings.app_origins` → 403 `origin_not_allowed`; a missing `Origin` passes. `class BodySizeLimitMiddleware` (pure ASGI): `Content-Length` above `max_body_bytes` → 413 `request_too_large`; without `Content-Length`, count received bytes and stop with 413 once exceeded. `class RateLimiter(per_minute: int, clock: Callable[[], float] = time.monotonic)` with `def hit(key: str) -> float | None` (seconds until retry, or `None` when allowed; sliding 60 s window, in memory) and dependency `async def limit_hermes_runs(request: Request) -> None` → 429 `too_many_runs` + `Retry-After: <int seconds>`; key = `request.client.host`. Mark with `# ponytail: in-process memory; move to Redis or the reverse proxy when running several workers.` `TrustedHostMiddleware(allowed_hosts=settings.allowed_hosts)` wired in `main.py`. Middleware must not buffer streamed (SSE) responses.
+- Produces: `class OriginCheckMiddleware` (pure ASGI): for methods other than GET, HEAD, OPTIONS, a present `Origin` not in `settings.app_origins` → 403 `origin_not_allowed`; a missing `Origin` passes. `class BodySizeLimitMiddleware` (pure ASGI, request headers only): POST/PUT/PATCH without `Content-Length` → 411 `length_required`; `Content-Length` above `MAX_BODY_BYTES` → 413 `request_too_large`. `class RateLimiter(per_minute: int)` with `def hit(key: str) -> int | None` (fixed one-minute window per key, `{key: (window_start, count)}`, `time.monotonic`; returns seconds until the window resets, or `None` when allowed) and `async def limit_hermes_runs(request: Request) -> None` → 429 `too_many_requests` with `Retry-After`; key `request.client.host`; one module-level limiter with `HERMES_RUNS_PER_MINUTE`. Comment: `# ponytail: in-process memory; move to Redis or the reverse proxy when running several workers.` `TrustedHostMiddleware(allowed_hosts=settings.allowed_hosts)` in `main.py`.
+- Produces (tests): `conftest.py` sets `ALLOWED_HOSTS=testserver,localhost,127.0.0.1` in `os.environ` at import time (before any test imports `app.main`) and has an autouse fixture that overrides `limit_hermes_runs` with a no-op, so existing suites are not rate limited; guard tests remove that override.
 
-- [ ] **Step 1: Write failing tests** (`test_guards.py`): `test_post_from_foreign_origin_is_403`; `test_post_without_origin_passes`; `test_get_from_foreign_origin_passes` (GET is not checked); `test_host_with_port_is_allowed` (`Host: localhost:5175` → not 400) and `test_foreign_host_is_400`; `test_body_over_limit_is_413` (262,145 bytes); `test_full_german_material_passes_limit` (JSON with 60,000 × `"ä"` plus a small profile, under 262,144 bytes → reaches the route); `test_seventh_run_in_a_minute_is_429` (6 × `POST /api/generate` pass the limiter, 7th → 429 with `Retry-After`; stub the route's Hermes call with monkeypatch as in `test_generate.py`); `test_limiter_window_slides` (`RateLimiter` with a fake clock: after 60 s a hit is allowed again); `test_sse_stream_is_not_buffered` (a streamed route through the middleware yields its first chunk before the body ends, e.g. via `httpx.AsyncClient(transport=ASGITransport(app))` streaming).
+- [ ] **Step 1: Write failing tests** (`test_guards.py`): `test_post_from_foreign_origin_is_403`; `test_post_without_origin_passes`; `test_get_from_foreign_origin_passes`; `test_host_with_port_is_allowed` (`Host: localhost:5175`); `test_foreign_host_is_400`; `test_post_without_length_is_411`; `test_body_over_limit_is_413` (262,145 bytes); `test_full_german_material_passes_limit` (60,000 × `"ä"` plus a small profile → reaches the route); `test_seventh_call_in_a_minute_is_429` (6 × `POST /api/generate` pass, 7th → 429 with `Retry-After`; stub Hermes as in `test_generate.py`); `test_limiter_resets_after_a_minute` (monkeypatch `time.monotonic`).
 - [ ] **Step 2: Run** `uv --directory server run pytest -v tests/test_guards.py` → FAIL.
-- [ ] **Step 3: Implement** `guards.py`; in `main.py` add the middlewares (TrustedHost outermost, then body size, then Origin) and `dependencies=[Depends(limit_hermes_runs)]` on `include_router` for `assess`, `generate`, `solution`.
-- [ ] **Step 4: Run** full server suite + ruff → PASS (existing tests send no `Origin` and small bodies; `TestClient`'s default host `testserver` is allowed through the `conftest.py` settings override, not through the defaults).
-- [ ] **Step 5: Live check:** start FastAPI on `8001` from this worktree (`uv --directory server run --env-file .env fastapi dev --port 8001` after copying `../feat-hermes-demo/server/.env` to `server/.env`, `chmod 600`); with curl: foreign `Origin` POST → 403; `Host: evil.example` → 400; oversized body → 413.
+- [ ] **Step 3: Implement** `guards.py`; in `main.py` add TrustedHost (outermost), body size, Origin; `include_router(..., dependencies=[Depends(limit_hermes_runs)])` for `assess`, `generate`, `solution`.
+- [ ] **Step 4: Run** full server suite + ruff → PASS.
+- [ ] **Step 5: Live check:** copy `../feat-hermes-demo/server/.env` to `server/.env` (`chmod 600`); start `uv --directory server run --env-file .env fastapi dev --port 8001`; with curl: foreign `Origin` POST → 403; `Host: evil.example` → 400; oversized body → 413.
 - [ ] **Step 6: Commit** `feat: add host, origin, body-size and rate-limit guards`.
 
-### Task 3: Access-code gate for Hermes routes
+### Task 3: HTTP Basic auth on the Hermes routes
 
 **Files:**
-- Create: `server/app/access.py`, `server/app/routers/access.py`, `client/src/api/access.ts`, `client/src/features/access/AccessGate.tsx`
-- Modify: `server/app/main.py` (include access router; add the gate dependency to the `assess`, `generate`, `solution` routers), `client/src/App.tsx` (wrap gated routes)
-- Test: `server/tests/test_access.py`, `client/src/features/access/AccessGate.test.tsx`
+- Create: `server/app/access.py`
+- Modify: `server/app/main.py`, `server/tests/conftest.py`, `server/README.md` (how to log in)
+- Test: `server/tests/test_access.py`
 
 **Interfaces:**
-- Consumes: `get_settings()` (Task 1); `RateLimiter` (Task 2).
-- Produces (server): `ACCESS_COOKIE = "lip_access"`; `def access_token(code: str) -> str` = HMAC-SHA256 hex of the message `b"lip-access-v1"` keyed by the stripped code; `async def require_access(request: Request, settings: Settings = Depends(get_settings)) -> None` (503 `access_not_configured` if no code configured; 401 `access_required` if cookie missing or `hmac.compare_digest` fails). Routes: `GET /api/access` → 204 when the cookie is valid, else the same errors as `require_access`; `POST /api/access` body `{"code": str}` (max 200 chars) → 204 with `Set-Cookie: lip_access=<token>; HttpOnly; SameSite=Strict; Path=/api; Max-Age=604800` plus `Secure` when the request scheme is `https`; wrong code → 401 `invalid_access_code`; limited per client by a second `RateLimiter(settings.access_attempts_per_minute)` (429 `too_many_runs` reused is wrong here: answer 429 with `{"detail": "too_many_attempts"}` and `Retry-After`).
-- Produces (client): `checkAccess(): Promise<boolean>`, `enterAccessCode(code: string): Promise<void>` (throws `ApiError` on 401) in `client/src/api/access.ts`; `<AccessGate>{children}</AccessGate>` that renders children only after `checkAccess()` is true, otherwise a centred card (style guide "Main card"): kicker `Zugang`, heading `Gib deinen <em>Zugangscode</em> ein.`, password input labelled `Zugangscode`, primary button `Weiter →`, coral error `Der Code stimmt nicht.` on 401, `Der Server ist noch nicht eingerichtet.` on 503.
+- Consumes: `get_settings()` (Task 1), `limit_hermes_runs` (Task 2).
+- Produces: `async def require_access(credentials: HTTPBasicCredentials | None = Depends(HTTPBasic(auto_error=False)), settings: Settings = Depends(get_settings)) -> None`: no `ACCESS_CODE` → 503 `access_not_configured`; missing credentials or `secrets.compare_digest(password.strip().encode(), code.encode())` false → 401 `access_required` with header `WWW-Authenticate: Basic realm="Learning in Progress", charset="UTF-8"`. The username is ignored. In `main.py` the three Hermes routers get `dependencies=[Depends(limit_hermes_runs), Depends(require_access)]` (limiter first, so wrong passwords count against the limit). `conftest.py` autouse-overrides `require_access` with a no-op for existing suites; access tests remove it.
 
-- [ ] **Step 1: Write failing server tests** (`server/tests/test_access.py`, `TestClient` used as a context manager, `app.dependency_overrides[get_settings]` for config): `test_gated_route_without_cookie_is_401` (`POST /api/solution` → 401 `access_required`); `test_unconfigured_code_is_503`; `test_correct_code_sets_strict_httponly_cookie` (check `HttpOnly`, `SameSite=Strict`, `Path=/api`, `Max-Age=604800`, no `Secure` over http); `test_code_with_whitespace_is_accepted` (`"  abc\n"` vs configured `abc`); `test_wrong_code_is_401_invalid`; `test_cookie_opens_gated_route` (after login, `POST /api/solution` reaches the route: monkeypatch `hermes.ask_hermes` to raise `hermes.HermesError` and expect the route's own 502, proving the gate passed); `test_ungated_routes_stay_open` (`GET /api/health`, `GET /api/survey` → 200 without cookie).
+- [ ] **Step 1: Write failing tests** (`test_access.py`, `TestClient` as a context manager, settings via `app.dependency_overrides[get_settings]`): `test_gated_route_without_credentials_is_401_with_challenge` (`POST /api/solution` → 401 `access_required`, `WWW-Authenticate` starts with `Basic`); `test_unconfigured_code_is_503`; `test_wrong_password_is_401`; `test_password_with_whitespace_is_accepted` (`auth=("x", "  abc ")` vs code `abc` reaches the route: monkeypatch `hermes.ask_hermes` to raise `hermes.HermesError` and expect the route's own 502); `test_username_is_ignored`; `test_ungated_routes_stay_open` (`GET /api/health`, `GET /api/survey` → 200); `test_wrong_passwords_count_against_the_limit` (7th wrong attempt in a minute → 429).
 - [ ] **Step 2: Run** → FAIL.
-- [ ] **Step 3: Implement** `access.py`, the access router, and in `main.py` pass `dependencies=[Depends(require_access)]` to `include_router` for `assess`, `generate`, `solution`.
-- [ ] **Step 4: Run** server suite → PASS. Existing tests of the gated routes must keep passing: give them a shared fixture that overrides `require_access` (add it to `server/tests/conftest.py`), do not change their assertions.
-- [ ] **Step 5: Write failing client tests** (`AccessGate.test.tsx`, `vi.stubGlobal('fetch', …)` as in `client/src/api/*.test.tsx`): shows children when `GET /api/access` is 204; shows the code card on 401; submitting a wrong code shows `Der Code stimmt nicht.`; a right code shows the children; 503 shows the not-configured text.
-- [ ] **Step 6: Implement** `access.ts` (reuse `request` from `client/src/api/client.ts`) and `AccessGate.tsx`; wrap the `/application`, `/playground`, `/learn/:id`, `/solution/:uuid` route elements in `App.tsx` (the landing `/` stays public).
-- [ ] **Step 7: Run** client checks → PASS. **Live check:** copy `../feat-hermes-demo/server/.env` to `server/.env` (`chmod 600`), append `ACCESS_CODE=$(openssl rand -hex 16)` without echoing it, start FastAPI on `8001` and Vite on `5175` (`API_URL=http://localhost:8001 pnpm dev --port 5175 --strictPort`), confirm with curl: `POST /api/solution` without cookie → 401; `POST /api/access` with the code (read it inside the command) → 204 + cookie.
-- [ ] **Step 8: Commit** `feat: gate hermes routes behind an access code`.
+- [ ] **Step 3: Implement** `access.py` and the router dependencies.
+- [ ] **Step 4: Run** full server suite + ruff → PASS.
+- [ ] **Step 5: Live check:** append `ACCESS_CODE=$(openssl rand -hex 16)` to `server/.env` without echoing it; restart FastAPI on `8001`; curl `POST /api/solution` without auth → 401 with challenge; with `-u x:<code read inside the command>` → past the gate. In a browser (chrome-devtools), open `http://localhost:5175` with Vite started as `API_URL=http://localhost:8001 pnpm dev --port 5175 --strictPort`, go through the form to the MagicStep, and record whether the browser's own login prompt appears for the `fetch` to `/api/solution`; if automation cannot answer the prompt, record that and verify with curl only.
+- [ ] **Step 6: Commit** `feat: require http basic auth for hermes routes`.
 
-### Task 4: Run Hermes-written Solution Pages in a sandbox origin
+### Task 4: `base-uri 'none'` in the generated-HTML CSP
 
 **Files:**
-- Create: `client/vite.sandbox.config.ts`, `client/sandbox.html`, `client/src/sandbox/main.tsx`, `client/src/sandbox/pages.ts`, `client/src/sandbox/origin.ts`, `client/src/sandbox/SandboxPage.tsx`
-- Modify: `client/src/features/application/SolutionRoute.tsx`, `client/package.json` (script `dev:sandbox`), `.gitignore` (+`client/src/features/application/generated/`), `client/README.md` (how to start the sandbox)
-- Test: `client/src/sandbox/pages.test.ts`, `client/src/features/application/SolutionRoute.test.tsx`
+- Modify: `server/app/routers/generate.py` (`CSP` constant only)
+- Test: `server/tests/test_generate.py` (add one case)
 
 **Interfaces:**
-- Produces: `PAGE_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/`; `function resolvePage(id: string | null, pages: Record<string, () => Promise<unknown>>): (() => Promise<unknown>) | null` in `client/src/sandbox/pages.ts` (null for a malformed id or a missing `./generated/<id>.tsx` key; the glob lives in `main.tsx`); `function sandboxOrigin(): string` = `import.meta.env.VITE_SANDBOX_ORIGIN ?? 'http://localhost:5180'` in `client/src/sandbox/origin.ts`.
-- Sandbox server (`vite.sandbox.config.ts`): port `5180`, `strictPort`; builds only `sandbox.html` (outDir `dist-sandbox`); response header `Content-Security-Policy` = `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' ws://localhost:5180; form-action 'none'; base-uri 'none'; object-src 'none'; frame-ancestors http://localhost:5173 http://localhost:5174 http://localhost:5175` (`'unsafe-inline'` scripts only for the dev React-refresh preamble; comment that a production build drops it); CORS that lets the opaque-origin frame load its own modules (`Origin: null`) — verify in the live step and adjust only the sandbox config.
-- `SolutionRoute` renders, for a well-formed uuid, `<iframe title="Deine Lernseite" sandbox="allow-scripts" src={`${sandboxOrigin()}/sandbox.html?page=${uuid}`}>` filling the page, and keeps its current `NotFound` for a malformed uuid. The app bundle no longer imports anything from `./generated/`.
-- `function SandboxPage({ load }: { load: (() => Promise<unknown>) | null })` in `client/src/sandbox/SandboxPage.tsx` renders the loaded default export inside `<div className="app-shell application-page">`, or, for `null` or a module without a default-export component, a German card: heading `Diese Seite gibt es nicht (mehr).`, text `Lass Hermes eine neue Seite für dich bauen.` `sandbox/main.tsx` only imports the app CSS (`../index.css`, `../features/application/application.css`), runs the glob, calls `resolvePage(new URLSearchParams(location.search).get('page'), pages)` and mounts `<SandboxPage>`.
+- Produces: `CSP` keeps its directives (`default-src 'none'`, inline scripts/styles, `img-src data: blob:`, `font-src data:`, `media-src data: blob:`, `form-action 'none'`) and adds `base-uri 'none'`. Extra model-written CSP metas need no stripping (additional policies only restrict); `base-uri 'none'` neutralises model `<base>` tags.
 
-- [ ] **Step 1: Write failing tests:** `pages.test.ts` — `resolvePage` returns the loader for an existing well-formed id, `null` for `"../../etc"`, `"abc"`, an uppercase or missing id, and an unknown well-formed id; `SandboxPage` with `load={null}` shows the heading `Diese Seite gibt es nicht (mehr).`, and with a loader resolving to `{ default: () => <h1>Test</h1> }` shows `Test`. `SolutionRoute.test.tsx` — for `/solution/<valid uuid>` an iframe with `sandbox` exactly `allow-scripts` and the expected `src`; for `/solution/not-a-uuid` the NotFound heading; `import.meta.glob` is not used in `SolutionRoute.tsx` (assert by reading the source file with `node:fs` like the existing drift test pattern, or by mocking — the implementer picks one).
-- [ ] **Step 2: Run** `pnpm test:run src/sandbox src/features/application/SolutionRoute.test.tsx` → FAIL.
-- [ ] **Step 3: Implement** the files above; add `"dev:sandbox": "vite --config vite.sandbox.config.ts"`.
-- [ ] **Step 4: Run** client checks → PASS.
-- [ ] **Step 5: Live check** (chrome-devtools tools, load with ToolSearch): create a throwaway page `client/src/features/application/generated/00000000-0000-4000-8000-000000000000.tsx` (a component showing a heading and running `fetch('http://localhost:5175/api/health')` in an effect), start the sandbox (`pnpm dev:sandbox`) and the app on `5175`, open `http://localhost:5175/solution/00000000-0000-4000-8000-000000000000` (after entering the access code): the heading renders inside the frame; the console shows the fetch blocked by CSP; `document.cookie` and `localStorage` in the frame do not expose the app's data. Delete the throwaway file. Record evidence (screenshot path, console lines) in the report.
-- [ ] **Step 6: Commit** `feat: isolate hermes-written solution pages in a sandbox origin`.
-
-### Task 5: Harden the CSP of generated HTML lessons
-
-**Files:**
-- Modify: `server/app/routers/generate.py` (`CSP` constant and `prepare_page` only)
-- Test: `server/tests/test_generate.py` (add cases; keep existing ones)
-
-**Interfaces:**
-- Produces: `prepare_page(reply: str) -> str | None` keeps its contract (HTML document from the reply, our CSP right after the doctype) and additionally removes every model-written `<meta http-equiv="Content-Security-Policy" …>` and every `<base …>` tag (case-insensitive) before inserting ours. `CSP` keeps its current directives and gains `form-action 'none'; base-uri 'none'` and allows no external script host (no `cdn.jsdelivr.net`).
-
-- [ ] **Step 1: Write failing tests:** `test_model_csp_meta_is_removed` (a reply with its own permissive CSP meta → only our CSP remains); `test_base_tag_is_removed`; `test_csp_forbids_forms_and_base`; `test_csp_comes_before_any_model_script` (a `<script>` placed before `<head>` still comes after our meta).
+- [ ] **Step 1: Write failing test** `test_page_csp_forbids_base_and_forms`: the page from `prepare_page` contains `base-uri 'none'` and `form-action 'none'` inside the first `<meta http-equiv="Content-Security-Policy"`.
 - [ ] **Step 2: Run** `uv --directory server run pytest -v tests/test_generate.py` → FAIL.
-- [ ] **Step 3: Implement** in `prepare_page` / `CSP`.
-- [ ] **Step 4: Run** server suite + ruff → PASS.
-- [ ] **Step 5: Commit** `fix: strip model csp and base tags from generated lessons`.
+- [ ] **Step 3: Implement** the one-line change.
+- [ ] **Step 4: Run** server suite → PASS.
+- [ ] **Step 5: Commit** `fix: forbid base urls in generated lessons`.
+
+### Task 5: Run Hermes-written Solution Pages in a sandboxed frame
+
+**Files:**
+- Create: `client/sandbox.html`, `client/src/sandbox/main.tsx`, `client/src/sandbox/SandboxPage.tsx`
+- Modify: `client/vite.config.ts` (second input, CSP header plugin, CORS for `null`), `client/src/features/application/SolutionRoute.tsx`, `.gitignore` (+`client/src/features/application/generated/`), `client/README.md`
+- Test: `client/src/sandbox/SandboxPage.test.tsx`, `client/src/features/application/SolutionRoute.test.tsx`
+
+**Interfaces:**
+- `client/vite.config.ts`: `build.rollupOptions.input` = `index.html` + `sandbox.html`; a small plugin whose `configureServer` (and `configurePreviewServer`) middleware sets, for requests to `/sandbox.html`, the header `Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src ws://localhost:*; form-action 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'self'` (`'unsafe-inline'` scripts for the dev React-refresh preamble; `connect-src` only the HMR websocket, so the frame cannot call `/api`); `server.cors.origin` additionally allows `'null'` so the opaque-origin frame can load its modules. Comment that production hosting must send the same header.
+- `function SandboxPage({ load }: { load: (() => Promise<unknown>) | undefined })` renders the module's default-export component inside `<div className="app-shell application-page">`, or, when `load` is undefined or the module has no default-export function, a German card: heading `Diese Seite gibt es nicht (mehr).`, text `Lass Hermes eine neue Seite für dich bauen.`
+- `client/src/sandbox/main.tsx`: imports `../index.css` and `../features/application/application.css`, `const pages = import.meta.glob('../features/application/generated/*.tsx')`, reads `page` from `location.search`, mounts `<SandboxPage load={pages[`../features/application/generated/${page}.tsx`]} />` (the glob's keys are the allow-list; nothing else can load).
+- `SolutionRoute` renders `<iframe title="Deine Lernseite" sandbox="allow-scripts" src={`/sandbox.html?page=${encodeURIComponent(uuid)}`}>` filling the page (keeps the existing back link if any); it no longer uses `import.meta.glob`, so the app bundle never imports generated code.
+
+- [ ] **Step 1: Write failing tests:** `SandboxPage.test.tsx` — `load={undefined}` shows `Diese Seite gibt es nicht (mehr).`; a loader resolving to `{ default: () => <h1>Test</h1> }` shows `Test`; a loader resolving to `{}` shows the not-found card. `SolutionRoute.test.tsx` — `/solution/abc` renders an iframe with `sandbox` exactly `allow-scripts` and `src` `/sandbox.html?page=abc`; the source of `SolutionRoute.tsx` (read with `node:fs`) contains no `import.meta.glob`.
+- [ ] **Step 2: Run** `pnpm test:run src/sandbox src/features/application/SolutionRoute.test.tsx` → FAIL.
+- [ ] **Step 3: Implement** the files above.
+- [ ] **Step 4: Run** client checks → PASS.
+- [ ] **Step 5: Live check** (chrome-devtools tools via ToolSearch): create a throwaway `client/src/features/application/generated/00000000-0000-4000-8000-000000000000.tsx` (a heading plus a `fetch('/api/health')` and a `localStorage.getItem('x')` in an effect), start Vite on `5175` (`API_URL=http://localhost:8001`), open `/solution/00000000-0000-4000-8000-000000000000`: the heading renders inside the frame; the console shows the fetch blocked by CSP and `localStorage` throwing (opaque origin); `/solution/unknown` shows the German not-found card in the frame. Delete the throwaway file. Record screenshot path and console lines in the report.
+- [ ] **Step 6: Commit** `feat: isolate hermes-written solution pages in a sandboxed frame`.
 
 ## Not in this plan (next plans)
 
-Porting our Runs-API engine as server-side endpoints (`/api/analyse`, `/api/lesson/*`, events relay, server-owned approvals auto-deny + log), CI workflow (after the team picks one package manager), intake changes, skills and `verify_quotes`, lesson page, design system, eval harness, VPS deployment with a sandboxed Hermes. Residual risk until the VPS plan: Hermes' own file tool can write anywhere its user can; on the laptop this is accepted for development, on the VPS Hermes runs in a container with only the generated-pages directory writable.
+Porting our Runs-API engine as server-side endpoints (`/api/analyse`, `/api/lesson/*`, events relay, server-owned approvals auto-deny + log), CI (after the team picks one package manager), intake changes, skills and `verify_quotes`, lesson page, design system, eval harness, VPS deployment (TLS so Basic auth is not sent in clear; production CSP header for `sandbox.html`; Hermes in a container with only the generated-pages directory writable). Residual risk until then: on the laptop Hermes' own file tool can write anywhere its user can.
