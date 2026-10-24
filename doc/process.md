@@ -1,25 +1,23 @@
 # Prozess
 
-Entwicklung der Grundidee von **Learning in Progress**.
+Diese Datei beschreibt, wie die [Grundidee](../README.md#grundidee) entstanden ist.
 
-Die Grundidee steht in der [README](../README.md#grundidee). Dieses Dokument hält fest, wie sie entsteht, geprüft und weiterentwickelt wird.
+## Auslöser
 
-## Zweck
+Konkreter Auslöser war die Schilderung eines Teammitglieds: Lehrkräften fehlt heute die Zeit, in Prüfungen auf besondere Bedürfnisse einzugehen, hier die Lese-Rechtschreibschwäche. Die Prüfungen sind deshalb nicht darauf angepasst, obwohl der Grundgedanke der Inklusion genau das fordert.
 
-Die Grundidee beschreibt, dass sich das Werkzeug den Lernenden anpasst. Hier wird der Weg dorthin dokumentiert: vom Bedarf über den Vorschlag bis zur gebauten Lösung.
+Festgehalten ist das auf dem nachfolgenden Foto. Der Auslöser auf dem Bild war die Karte „Tool to help … adaptive exams“.
 
-## Ablauf
+![Foto der ersten Ideensammlung. Der Auslöser war die Karte „Tool to help … adaptive exams“.](ersteIdee.jpg)
 
-1. **Bedarf verstehen.** Herausforderungen, Ziele und das, was für die Lernenden bereits funktioniert, festhalten.
-2. **Recherche.** Prüfen, was für dieses Profil nachweislich hilft.
-3. **Vorschlag.** Eine konkrete Form für das Lernmaterial ableiten.
-4. **Umsetzung.** Die Lösung direkt bauen, zum Beispiel im Browser mit generativer UI.
-5. **Rückblick.** Was sich bewährt hat, in die Grundidee zurückschreiben.
+## Transformation
 
-## Offene Punkte
+Um das konkrete Problem in einen größeren Kontext zu setzen, haben wir uns entschieden, nicht die konkrete Prüfung in den Mittelpunkt zu stellen, sondern uns auf den Lernprozess auf dem Weg zum erfolgreichen Bestehen einer Prüfung zu fokussieren.
 
-| Thema | Status |
-| --- | --- |
-| Konkrete Schritte und Verantwortlichkeiten | offen |
-| Kriterien, wann eine Lösung zur Grundidee passt | offen |
-| Beispiele aus der Entwicklung | offen |
+Im folgenden Foto ist der erste Versuch zu erkennen, wie das Ganze als Abfolge von Schritten in Software aussehen kann.
+
+![Erster Versuch, die Idee als Abfolge von Schritten in Software darzustellen.](transformation.jpg)
+
+## Fokussierung
+
+Um aus dem breiten Lösungsraum konkrete Lösungsideen zu entwickeln, nutzen wir Personas. So werden die Ideen greifbarer, und es entstehen umsetzbare Elemente für einen Hackathon.
