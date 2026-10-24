@@ -27,19 +27,6 @@ For each answer, the examiner lists the key facts in the reference answer, check
 | partially_correct | 0.5 | Covers some key facts, contradicts none |
 | incorrect | 0.0 | Covers no key fact, or contradicts the reference |
 
-## Metrics in the report
-
-| Metric | Meaning |
-|---|---|
-| **Strict accuracy** | Share of answers graded `correct`. Partial answers count as wrong. |
-| **Lenient score** | Average score, with `partially_correct` counting as half. |
-| **Change (points)** | With-context score minus zero-shot score, in percentage points. The size of this gain is how much the document helps. |
-| **95% CI** | Bootstrap confidence interval for the lenient score change. If it does not include 0, the improvement is not just noise. |
-| **Improved / got worse / unchanged** | Number of questions whose score went up, went down, or stayed the same with context. |
-| **Verdict transitions** | Table of zero-shot verdict (rows) against with-context verdict (columns) for each question. |
-| **Retrieval hit rate** | Share of questions where the chunk the question was written from is among the retrieved chunks. A miss means the student probably did not get the answer in its context. |
-| **Score by retrieval outcome** | Lenient scores split by hit and miss. A big gap means retrieval, not the student, is holding back the with-context score. |
-
 ## Caveats
 
 - The examiner writes the questions and the reference answers, so scores are only as good as its question writing and grading. The gap between the two runs is more reliable than the absolute scores.
@@ -47,16 +34,16 @@ For each answer, the examiner lists the key facts in the reference answer, check
 
 ## Using the results: guideline step in Hermes (hackathon demo)
 
-On the ADHD teaching guide, phi-4 scored 65.6% zero-shot and 96.1% with context (+30.5 points, 95% CI +24.0 to +37.0). Its own knowledge of teaching students with learning difficulties is unreliable, but it is accurate when given a guideline document. So the content agents in [Hermes Agent](https://hermes-agent.nousresearch.com/docs/) get one extra step before they write anything: gather guidelines for the student's described difficulty.
+On the ADHD teaching guide, phi-4 scored 66.4% zero-shot and 96.1% with context (+29.7 points, 95% CI +23.0 to +36.2). Its own knowledge of teaching students with learning difficulties is unreliable, but it is accurate when given a guideline document. So the content agents in [Hermes Agent](https://hermes-agent.nousresearch.com/docs/) get one extra step before they write anything: gather guidelines for the student's described difficulty.
 
 Published research shows the same effect. From the introduction of Shuster et al. (Meta AI), [Retrieval Augmentation Reduces Hallucination in Conversation](https://aclanthology.org/2021.findings-emnlp.320), Findings of EMNLP 2021:
 
 > "We show through automatic and human evaluations that standard (non-retrieval augmented) large language models indeed suffer from hallucination, whereas our best models substantially curtail the issue, reducing hallucinated responses by over 60%. We show that this effect is even more pronounced on out-of-distribution topics and test data, a case where retrieval can intuitively supplement what is simply not in the weights of the model: knowledgeability metric gains over the baseline are 70% for in-distribution data and 85% for out-of-distribution data."
 
 ```
-student: "I can't focus on long texts"
+student: "I can't focus on long texts" (or a result of a questionnare)
   -> 1. describe the need (no diagnosis)
-  -> 2. get guidelines: web search on trusted sites
+  -> 2. get guidelines: web search on trusted/known sites
   -> 3. generate the content following the guidelines
   -> 4. check the draft against the guidelines and safety rules
 ```
@@ -97,7 +84,7 @@ metadata:
 These go in `AGENTS.md` rather than `SOUL.md` because sub-agents only receive `AGENTS.md`.
 
 ```markdown
-- Describe needs, never diagnose ("you have ADHD" is not allowed).
+- Describe needs, never diagnose ("you have ADHD" for example is not allowed).
 - No medical, medication, or therapy advice.
 - Keep content age-appropriate and encouraging.
 - Use only guidelines from trusted sources, and cite them.

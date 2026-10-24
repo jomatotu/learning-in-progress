@@ -1,14 +1,4 @@
 {
-  "0": {
-    "answer": "Kelly Henderson served as the technical representative for the project.",
-    "verdict": "correct",
-    "reason": "The candidate answer accurately identifies Kelly Henderson as the technical representative for the project. [✓ Kelly Henderson; ✓ served as the technical representative; ✓ for the project]"
-  },
-  "1": {
-    "answer": "The toll-free number to call for requesting materials is 1-877-433-7827 (1-877-4-ED-PUBS).",
-    "verdict": "correct",
-    "reason": "The candidate correctly provides all key facts from the reference. [✓ toll-free number; ✓ 1-877-433-7827; ✓ 1-877-4-ED-PUBS; ✓ requesting materials]"
-  },
   "2": {
     "answer": "The core symptoms of Attention Deficit Hyperactivity Disorder (ADHD) are inattention, hyperactivity, and impulsivity. These symptoms can manifest in various behaviors such as difficulty sustaining attention, fidgeting, difficulty remaining seated, and blurting out answers before questions are completed.",
     "verdict": "correct",

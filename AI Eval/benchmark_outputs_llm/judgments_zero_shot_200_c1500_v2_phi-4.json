@@ -1,14 +1,4 @@
 {
-  "0": {
-    "answer": "I'm sorry, but I don't have specific information about who served as the technical representative for the project you are referring to. You may need to consult project documentation or contact relevant personnel for this information.",
-    "verdict": "incorrect",
-    "reason": "The candidate did not provide the name of the technical representative. [✗ Kelly Henderson served as the technical representative for the project]"
-  },
-  "1": {
-    "answer": "I'm sorry, but I don't have access to specific toll-free numbers for requesting materials, as they can vary depending on the organization or service. You may find this information on the official website of the organization or by contacting their customer service directly.",
-    "verdict": "incorrect",
-    "reason": "The candidate did not provide the specific toll-free number requested in the reference. [✗ toll-free number; ✗ specific number provided; ✗ 1-877-433-7827; ✗ 1-877-4-ED-PUBS]"
-  },
   "2": {
     "answer": "The core symptoms of Attention Deficit Hyperactivity Disorder (ADHD) are categorized into two main groups: inattention and hyperactivity-impulsivity. Inattention includes symptoms such as difficulty sustaining attention, forgetfulness, and being easily distracted. Hyperactivity-impulsivity involves excessive fidgeting, difficulty remaining seated, interrupting others, and acting without thinking.",
     "verdict": "correct",
