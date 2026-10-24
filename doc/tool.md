@@ -25,3 +25,4 @@ When adding a new tool:
 1. Document its purpose and usage in this file.
 2. Note any setup steps, environment variables, or dependencies.
 3. Keep examples short and runnable where possible.
+tj
