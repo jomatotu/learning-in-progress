@@ -23,5 +23,5 @@
 | Konvention | Hintergrund |
 | --- | --- |
 | Dokumentation unter `doc/` | Überblick in [doc/README.md](../README.md). |
-| Entwicklungswerkzeuge | Claude Code, OpenCode, Cursor, IntelliJ IDEA, VS Code. Siehe [README](../../README.md#tools-for-development). |
+| Entwicklungswerkzeuge | Claude Code, OpenCode, Cursor, IntelliJ IDEA, VSCode. Siehe [README](../../README.md#werkzeuge). |
 | Coding-Standards | offen |
