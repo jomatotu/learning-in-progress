@@ -1,13 +1,13 @@
 # Dokumentation
 
-Zentrale Dokumentation für **Learning in Progress**.
+Zentrale Dokumentation für **Learning in Progress**. Die Produktidee steht in der [Grundidee](../README.md#grundidee).
 
-## Bereiche
+## Dokumente
 
-| Bereich | Beschreibung |
+| Dokument | Inhalt |
 | --- | --- |
-| **Entwicklung** | Setup, Workflows, Coding-Standards und lokale Entwicklung |
-| **Konzept** | Produktidee, Ziele und fachliche Grundlagen |
-| **Architektur** | Systemaufbau, Komponenten und technische Entscheidungen nach [arc42](architecture/README.md) |
+| [Prozess](process.md) | Entstehung der Grundidee: Auslöser, Fokus auf den Lernprozess, Schärfung über Personas. |
+| [Architektur](architecture/README.md) | Systemaufbau nach [arc42](https://arc42.org/): Ziele, Kontext, Bausteine, Laufzeit und Entscheidungen. |
+| [Tools](tool.md) | Werkzeuge im Repository. Bisher nur ein Gerüst. |
 
-Die jeweiligen Dokumente werden in diesem Ordner ergänzt.
+Lokales Setup steht beim Code: [Client](../client/README.md) und [Server](../server/README.md). Coding-Standards sind noch offen, siehe [Randbedingungen](architecture/02-randbedingungen.md).

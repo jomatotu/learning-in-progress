@@ -20,7 +20,7 @@ Weitere Informationen zur Entwicklung der Grundidee findest du unter [doc/proces
 
 ## Dokumentation
 
-Weitere Informationen zu Entwicklung, Konzept und Architektur findest du unter [doc/README.md](doc/README.md).
+Überblick über die Dokumente in `doc/`: [doc/README.md](doc/README.md).
 
 ## Aufbau
 
