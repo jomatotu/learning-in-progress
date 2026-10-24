@@ -101,10 +101,7 @@ describe('ApplicationForm', () => {
     render(<ApplicationForm />)
     expect(await screen.findByText('Step 1 of 5')).toBeInTheDocument()
 
-    await user.type(
-      screen.getByLabelText('What should we call you?'),
-      'Lina',
-    )
+    await user.type(screen.getByLabelText('What should we call you?'), 'Lina')
     await user.click(screen.getByRole('button', { name: 'School' }))
     await user.click(screen.getByRole('button', { name: /continue/i }))
 
