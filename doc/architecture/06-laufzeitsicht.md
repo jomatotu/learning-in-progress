@@ -1,29 +1,31 @@
 # 6. Laufzeitsicht
 
-## 6.1 Vom Lernziel zur Prüfung
+## 6.1 Lernmaterial anpassen
 
-Ablauf aus dem ersten Zuschnitt in Software, festgehalten unter [Transformation](../process.md#transformation). Die Schritte tragen dieselben Namen wie die Verantwortungen in der [Bausteinsicht](05-bausteinsicht.md). Welche Bausteine welchen Schritt ausführen, und wie Fehler behandelt werden, ist offen.
+Ablauf aus der Grundidee. Beteiligte Bausteine und Fehlerfälle sind noch nicht festgelegt.
 
 ```mermaid
-flowchart LR
-  ziel[Lernziel]
-  charakter["Charakter / KI-Zwilling"]
-  karte[Lernpfadkarte]
-  ui[Generative UI]
-  pruefung[Prüfung]
-  rohdaten[Rohdaten]
+sequenceDiagram
+  actor Lernende
+  participant System as Learning in Progress
+  participant Quellen as Wissens- und Forschungsquellen
 
-  ziel --> charakter
-  rohdaten --> charakter
-  charakter --> karte
-  karte --> ui
-  ui --> pruefung
+  Lernende->>System: Anmelden
+  System-->>Lernende: Formular für Basisinformationen
+  Lernende->>System: Basisinformationen ausfüllen
+  System-->>Lernende: KI-gestützter Frage-Antwort-Schritt ergänzt die Informationen
+  System->>System: persona.json als Kontext für weitere KI-Schritte erstellen
+  System->>Quellen: Recherche, was diesem Profil hilft
+  Quellen-->>System: Belege
+  System-->>Lernende: Lösungsvorschlag
+  System-->>Lernende: Lösung im Browser
 ```
 
-1. **Lernziel.** Die lernende Person benennt, was sie erreichen will.
-2. **Charakter / KI-Zwilling.** Aus dem Lernziel und den Rohdaten entsteht ein Charakter der lernenden Person.
-3. **Lernpfadkarte.** Aus dem Charakter wird eine Karte des Lernwegs.
-4. **Generative UI.** Die Karte wird zur Oberfläche, in der gelernt wird.
-5. **Prüfung.** Der Weg führt zur Prüfung. Der Schwerpunkt liegt auf dem Lernen bis dorthin, siehe [Transformation](../process.md#transformation).
+1. Die lernende Person meldet sich an. Das System zeigt ein Formular für Basisinformationen.
+2. Die lernende Person füllt die Basisinformationen aus. Ein KI-gestützter Frage-Antwort-Schritt ergänzt diese Informationen.
+3. Learning in Progress ruft sich selbst auf und erstellt eine `persona.json` als Kontext für weitere KI-Schritte.
+4. Das System recherchiert, was diesem Profil nachweislich hilft.
+5. Das System schlägt eine Lösung vor.
+6. Das System baut diese Lösung im Browser.
 
 Offen aus der Ideensammlung, noch ohne eigenes Szenario: Mehrere Lösungen laufen im Hintergrund mit dem digitalen Zwilling. Konkrete Formen der Oberfläche, etwa zerlegte Texte, ein Chat über eine Videovorlesung oder eine Browser-Erweiterung, sind Beispiele.
