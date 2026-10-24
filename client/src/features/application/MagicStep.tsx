@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Loader2, Sparkles } from 'lucide-react'
 import type { StudentProfileJson } from './studentProfile'
+import { errorMessage } from '@/api/errorMessage'
 import { generateSolution } from './solution'
 
 // Rotating status lines shown while Hermes builds the Solution Page.
@@ -10,6 +11,9 @@ const buzzwords = [
   'Das Material wird angepasst…',
   'Alles wird geprüft…',
 ]
+
+const fallbackError =
+  'Das hat nicht geklappt. Prüf deine Verbindung und versuch es nochmal.'
 
 // The Magic Page: shown after "Build my tool". "Lösung öffnen" has Hermes build the
 // Solution Page, then redirects to it.
@@ -24,6 +28,7 @@ export function MagicStep({
   profileJson: StudentProfileJson
 }) {
   const [status, setStatus] = useState<'idle' | 'generating' | 'error'>('idle')
+  const [error, setError] = useState('')
   const [buzzword, setBuzzword] = useState(buzzwords[0])
   const interval = useRef<number>(undefined)
 
@@ -39,8 +44,9 @@ export function MagicStep({
       ({ url }) => {
         window.location.href = url
       },
-      () => {
+      (e: unknown) => {
         window.clearInterval(interval.current)
+        setError(errorMessage(e, fallbackError))
         setStatus('error')
       },
     )
@@ -110,8 +116,7 @@ export function MagicStep({
         </button>
         {status === 'error' && (
           <p role="alert" className="magic-back text-[13px]">
-            Das hat nicht geklappt. Prüf deine Verbindung und versuch es
-            nochmal.
+            {error}
           </p>
         )}
       </div>

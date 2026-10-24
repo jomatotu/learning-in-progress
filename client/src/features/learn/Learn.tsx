@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router'
 import type { ThemeName } from '@/api/assess'
+import { errorMessage } from '@/api/errorMessage'
 import { useGeneratePage } from '@/api/generate'
 import { HermesProgress } from '@/components/HermesProgress'
 import { LearningPage } from '@/components/LearningPage'
@@ -96,7 +97,7 @@ function ThemePanel({ id, run, theme, hidden }: ThemePanelProps) {
           {generate.isError ? (
             <>
               <p role="alert" className="text-destructive">
-                {generate.error.message}
+                {errorMessage(generate.error)}
               </p>
               <Button className="self-start" onClick={start}>
                 Try again

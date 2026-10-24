@@ -1,3 +1,4 @@
+import { request } from '@/api/client'
 import type { StudentProfileJson } from './studentProfile'
 
 // What POST /api/solution returns: the URL of the just-created Solution Page.
@@ -7,12 +8,9 @@ export type SolutionReply = { url: string }
 export async function generateSolution(
   profileJson: StudentProfileJson,
 ): Promise<SolutionReply> {
-  const response = await fetch('/api/solution', {
+  return request<SolutionReply>('/solution', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ profile: profileJson }),
+    body: { profile: profileJson },
+    timeoutMs: 900_000,
   })
-  if (!response.ok)
-    throw new Error(`Solution request failed: ${response.status}`)
-  return response.json()
 }
