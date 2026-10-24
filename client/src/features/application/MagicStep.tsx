@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Loader2, Sparkles } from 'lucide-react'
-import type { StudentProfileJson } from './studentProfile'
+import type { StudentProfile } from '@/api/profile'
 import { generateSolution } from './solution'
 
 // Rotating status lines shown while Hermes builds the Solution Page.
@@ -21,7 +21,7 @@ export function MagicStep({
   profileJson,
 }: {
   topic: string
-  profileJson: StudentProfileJson
+  profileJson: StudentProfile
 }) {
   const [status, setStatus] = useState<'idle' | 'generating' | 'error'>('idle')
   const [buzzword, setBuzzword] = useState(buzzwords[0])

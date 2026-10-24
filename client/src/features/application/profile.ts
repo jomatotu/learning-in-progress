@@ -8,10 +8,8 @@ export type Profile = {
   interests: string
   goalType: string
   goal: string
-  deadline: string
   topic: string
-  texts: string[]
-  links: string[]
+  text: string
   files: File[]
   answers: Answers
   likes: string[]
@@ -25,10 +23,8 @@ export const emptyProfile: Profile = {
   interests: '',
   goalType: '',
   goal: '',
-  deadline: '',
   topic: '',
-  texts: [],
-  links: [],
+  text: '',
   files: [],
   answers: {},
   likes: [],
@@ -79,7 +75,6 @@ export const likeSuggestions = [
 export type StepId = 'about' | 'goal' | 'survey' | 'notes' | 'review'
 
 export const steps: { id: StepId; title: string }[] = [
-  { id: 'about', title: 'About you' },
   { id: 'about', title: 'About you' },
   { id: 'goal', title: 'Your goal' },
   { id: 'survey', title: 'How you learn' },
