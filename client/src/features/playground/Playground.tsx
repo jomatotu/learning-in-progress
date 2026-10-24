@@ -60,7 +60,8 @@ export function Playground() {
   const question = assess.data?.done === false ? assess.data : undefined
   const themes = assess.data?.done ? assess.data.themes : undefined
   const busy = assess.isPending
-  const error = parseError || (assess.error ? errorMessage(assess.error) : undefined)
+  const error =
+    parseError || (assess.error ? errorMessage(assess.error) : undefined)
 
   return (
     <main className="flex min-h-svh flex-col items-center gap-4 p-6">
