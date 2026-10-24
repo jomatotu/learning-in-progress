@@ -1,11 +1,21 @@
+import { ApplicationForm } from '@/components/application-form/ApplicationForm'
+import { Logo } from '@/components/Logo'
+import { ReadingComfort } from '@/components/ReadingComfort'
+
 function App() {
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center gap-2 p-6 text-center">
-      <h1 className="text-4xl font-semibold tracking-tight">
-        Learning in Progress
-      </h1>
-      <p className="text-muted-foreground">Let&apos;s build something.</p>
-    </main>
+    <>
+      <header className="border-b-[1.5px] border-rule">
+        <div className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-4 px-6 py-4">
+          <h1 className="sr-only">Learning in Progress</h1>
+          <Logo />
+          <ReadingComfort />
+        </div>
+      </header>
+      <main className="mx-auto max-w-[1120px] scroll-mt-6 px-4 py-10 md:px-6 md:py-14">
+        <ApplicationForm />
+      </main>
+    </>
   )
 }
 

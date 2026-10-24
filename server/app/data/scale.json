@@ -1,0 +1,560 @@
+{
+  "id": "learning-profile-scale",
+  "version": "1.0.0",
+  "audience": "Students aged 13 to 17",
+  "description": "Short self-report survey (30 items, about 5 minutes) that measures eight learner characteristics known to change how someone should be taught. Items are our own teen-friendly wording, modelled on the published scales listed under each category. They are not the validated originals, so scores are for building a learning profile, never for diagnosis.",
+  "response_scale": {
+    "min": 1,
+    "max": 5,
+    "labels": [
+      "Not like me at all",
+      "Not much like me",
+      "Somewhat like me",
+      "Quite like me",
+      "Very much like me"
+    ]
+  },
+  "scoring": {
+    "method": "Reverse items marked reverse (6 - answer). Average the answered items of a category. Normalise the mean to 0-100 with (mean - 1) / 4 * 100. A category with no answers is reported as unknown.",
+    "direction": "Higher scores always mean the student finds this easier. The low band is where the student needs the most support.",
+    "bands": [
+      {
+        "id": "low",
+        "min": 0,
+        "max": 33
+      },
+      {
+        "id": "medium",
+        "min": 34,
+        "max": 66
+      },
+      {
+        "id": "high",
+        "min": 67,
+        "max": 100
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "prior_knowledge",
+      "name": "Prior knowledge",
+      "title": "What you already know",
+      "hint": "About the topic you told us about. Answer for this topic only.",
+      "measures": "How much the student already knows about the topic they are learning now.",
+      "why_it_matters": "The strongest known moderator of instruction (expertise reversal effect): guidance that helps beginners slows down students who already know the material.",
+      "based_on": [
+        {
+          "name": "Expertise reversal effect (Kalyuga, 2007)",
+          "url": "https://link.springer.com/article/10.1007/s10648-007-9054-3"
+        }
+      ],
+      "items": [
+        {
+          "id": "pk1",
+          "text": "I already know quite a lot about the topic I'm learning.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "pk2",
+          "text": "I could explain the basics of this topic to a friend.",
+          "reverse": false,
+          "priority": "low"
+        },
+        {
+          "id": "pk3",
+          "text": "Most of this topic is completely new to me.",
+          "reverse": true,
+          "priority": "high"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "This topic is mostly new to you, so we start from the ground up.",
+          "ai_instructions": [
+            "Treat the student as a beginner in this topic.",
+            "Start with a short overview of how the topic fits together.",
+            "Teach with worked examples before asking them to solve anything alone.",
+            "Define every technical term the first time it appears."
+          ]
+        },
+        "medium": {
+          "student_text": "You know some of this already, so we build on it.",
+          "ai_instructions": [
+            "Briefly check what they know, then skip what they have.",
+            "Mix worked examples with practice and reduce the guidance as they succeed."
+          ]
+        },
+        "high": {
+          "student_text": "You know this topic well, so we skip the basics.",
+          "ai_instructions": [
+            "Skip introductions to basics and avoid repeating what they know.",
+            "Lead with problems and challenges; give step-by-step guidance only when asked.",
+            "Focus on gaps, edge cases, and applying the knowledge."
+          ]
+        }
+      }
+    },
+    {
+      "id": "working_memory",
+      "name": "Working memory",
+      "title": "Keeping things in mind",
+      "hint": "How much you can hold in your head while you work.",
+      "measures": "How many pieces of information the student can hold and use at the same time.",
+      "why_it_matters": "Decides how much should be on screen at once and how big each step can be (cognitive load theory).",
+      "based_on": [
+        {
+          "name": "ADEXI working memory subscale (Holst & Thorell, 2018) and CHEXI (Thorell & Nyberg, 2008)",
+          "url": "https://pages.uc.pt/en/fpce/psyassessmentlab/tests/neuropsychological/adexi"
+        }
+      ],
+      "items": [
+        {
+          "id": "wm1",
+          "text": "When I get instructions with several steps, I forget some of them.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "wm2",
+          "text": "If someone interrupts me, I lose track of what I was doing.",
+          "reverse": true,
+          "priority": "low"
+        },
+        {
+          "id": "wm3",
+          "text": "I can keep several pieces of information in my head while I work something out.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "wm4",
+          "text": "In a long explanation, I've forgotten the start by the time it ends.",
+          "reverse": true,
+          "priority": "high"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "You learn best when there's one thing at a time on the screen.",
+          "ai_instructions": [
+            "Show one idea per screen, in chunks of at most three short sentences.",
+            "Never require the student to remember something from an earlier screen; repeat it where it is needed.",
+            "Give instructions as a numbered list they can see while working.",
+            "Add a one-line recap after every chunk.",
+            "Place labels and explanations directly next to the picture or example they belong to."
+          ]
+        },
+        "medium": {
+          "student_text": "You handle a fair amount at once, with a recap now and then.",
+          "ai_instructions": [
+            "Use moderate chunks of one short paragraph.",
+            "Recap at the end of each section and keep multi-step instructions visible."
+          ]
+        },
+        "high": {
+          "student_text": "You can juggle several ideas at once.",
+          "ai_instructions": [
+            "Longer explanations and several connected ideas per screen are fine.",
+            "Keep recaps brief; don't over-split the material."
+          ]
+        }
+      }
+    },
+    {
+      "id": "attention",
+      "name": "Attention",
+      "title": "Staying focused",
+      "hint": "How it goes when you try to concentrate.",
+      "measures": "How steadily the student keeps attention on a task and how easily it drifts or gets pulled away.",
+      "why_it_matters": "Sets session length, how often the tool checks in, and how much is shown at once.",
+      "based_on": [
+        {
+          "name": "Spontaneous Mind Wandering scale (Carriere, Seli & Smilek, 2013)",
+          "url": "https://econtent.hogrefe.com/doi/10.1027/1015-5759/a000470"
+        },
+        {
+          "name": "ADEXI inhibition subscale (Holst & Thorell, 2018)",
+          "url": "https://pages.uc.pt/en/fpce/psyassessmentlab/tests/neuropsychological/adexi"
+        }
+      ],
+      "items": [
+        {
+          "id": "at1",
+          "text": "My thoughts drift off without me noticing, even when I want to concentrate.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "at2",
+          "text": "I can stay focused for a long time, even when a task isn't exciting.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "at3",
+          "text": "My phone, noises, or other things easily pull me away from what I'm doing.",
+          "reverse": true,
+          "priority": "low"
+        },
+        {
+          "id": "at4",
+          "text": "I reach the end of a page and realise I have no idea what it said.",
+          "reverse": true,
+          "priority": "high"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "Your focus comes in short bursts, so we keep sessions short and active.",
+          "ai_instructions": [
+            "Keep sessions to 5-10 minutes with a clear end point.",
+            "Ask for a small interaction (a tap, a quick question) every 2-3 minutes so drifting is noticed early.",
+            "Offer a focus mode that shows only the current sentence or block and dims everything else.",
+            "Show visible progress after every step.",
+            "Avoid long passive content such as long videos or long pages of text."
+          ]
+        },
+        "medium": {
+          "student_text": "You can focus for a while, with a check-in now and then.",
+          "ai_instructions": [
+            "Use sessions of about 15-20 minutes.",
+            "Check understanding at the end of each section."
+          ]
+        },
+        "high": {
+          "student_text": "You can stay focused for long stretches.",
+          "ai_instructions": [
+            "Longer sessions and longer content are fine.",
+            "Keep interruptions and check-ins to a minimum."
+          ]
+        }
+      }
+    },
+    {
+      "id": "reading",
+      "name": "Reading and language",
+      "title": "Reading",
+      "hint": "How reading goes for you, in the language your material is in.",
+      "measures": "Whether reading itself, or the language of the material, is a barrier.",
+      "why_it_matters": "Decides whether text should be read aloud, simplified, or replaced by audio and visuals. Text-to-speech has a measurable benefit for students with reading difficulties.",
+      "based_on": [
+        {
+          "name": "Adult Reading History Questionnaire, short form (Khanolainen et al., 2024)",
+          "url": "https://jyx.jyu.fi/handle/123456789/93046"
+        },
+        {
+          "name": "Text-to-speech meta-analysis (Wood et al., 2018)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5494021/"
+        }
+      ],
+      "items": [
+        {
+          "id": "rd1",
+          "text": "Reading takes me longer than most people my age.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "rd2",
+          "text": "When I read, letters or words seem to jump, blur, or swap places.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "rd3",
+          "text": "I often have to read a sentence twice to understand it.",
+          "reverse": true,
+          "priority": "low"
+        },
+        {
+          "id": "rd4",
+          "text": "The language my material is in is not my strongest language.",
+          "reverse": true,
+          "priority": "high"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "Reading costs you extra energy, so we'll read things out and keep text light.",
+          "ai_instructions": [
+            "Offer read-aloud for all text and turn it on by default.",
+            "Use plain language, short sentences, and short paragraphs.",
+            "Use a large, clear font with extra line and letter spacing; never justify text.",
+            "Explain key words in a small glossary and show them visually where possible.",
+            "Prefer audio, diagrams, and examples over long text."
+          ]
+        },
+        "medium": {
+          "student_text": "Reading works, and we'll offer read-aloud when texts get long.",
+          "ai_instructions": [
+            "Offer an optional read-aloud button.",
+            "Keep paragraphs short and explain difficult words."
+          ]
+        },
+        "high": {
+          "student_text": "Reading comes easily to you.",
+          "ai_instructions": [
+            "Text is a good format for this student; no special reading support is needed."
+          ]
+        }
+      }
+    },
+    {
+      "id": "self_regulation",
+      "name": "Self-regulation",
+      "title": "Getting started and keeping on track",
+      "hint": "How you plan, start, and finish things.",
+      "measures": "How well the student starts tasks, plans, and keeps going without outside structure.",
+      "why_it_matters": "Decides how much outside structure the tool provides: a ready plan, reminders, and tiny first steps, or freedom to self-direct.",
+      "based_on": [
+        {
+          "name": "Irrational Procrastination Scale (Steel, 2010)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8558432"
+        },
+        {
+          "name": "Self-regulated learning research, short self-regulation questionnaires",
+          "url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2018.00259/pdf"
+        }
+      ],
+      "items": [
+        {
+          "id": "sr1",
+          "text": "I put off starting tasks, even when I know I should begin.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "sr2",
+          "text": "When I have a big task, I break it into smaller steps on my own.",
+          "reverse": false,
+          "priority": "low"
+        },
+        {
+          "id": "sr3",
+          "text": "I usually finish what I planned to do.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "sr4",
+          "text": "I lose track of time, and deadlines take me by surprise.",
+          "reverse": true,
+          "priority": "low"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "Starting is the hard part, so we'll hand you a plan and a tiny first step.",
+          "ai_instructions": [
+            "Give a ready-made plan instead of asking the student to plan.",
+            "Begin every session with one tiny first step that takes under two minutes.",
+            "Show one task at a time with a clear start button.",
+            "Make time visible: how long a step takes and how much is left.",
+            "Acknowledge every finished step right away."
+          ]
+        },
+        "medium": {
+          "student_text": "You can keep yourself going, and a plan helps.",
+          "ai_instructions": [
+            "Suggest a plan the student can adjust.",
+            "Use light reminders and show progress over the week."
+          ]
+        },
+        "high": {
+          "student_text": "You plan and start well on your own.",
+          "ai_instructions": [
+            "Let the student plan and choose the order.",
+            "Offer tools such as checklists or timers as options, not rules."
+          ]
+        }
+      }
+    },
+    {
+      "id": "thinking_appetite",
+      "name": "Appetite for thinking",
+      "title": "How you like to think",
+      "hint": "Whether you enjoy tricky problems or prefer things clear and simple.",
+      "measures": "How much the student enjoys effortful thinking and open problems.",
+      "why_it_matters": "Decides depth and openness: open questions and challenges, or concrete, guided tasks.",
+      "based_on": [
+        {
+          "name": "Need for Cognition, NCS-6 (Lins de Holanda Coelho, Hanel & Wolf, 2020)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7545655/"
+        }
+      ],
+      "items": [
+        {
+          "id": "th1",
+          "text": "I like problems that make me think hard.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "th2",
+          "text": "I'd rather be told the answer than figure it out myself.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "th3",
+          "text": "I enjoy finding a new way to solve something.",
+          "reverse": false,
+          "priority": "low"
+        },
+        {
+          "id": "th4",
+          "text": "Thinking about the same thing for a long time gets boring fast.",
+          "reverse": true,
+          "priority": "low"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "You like things clear and practical, so we keep it concrete.",
+          "ai_instructions": [
+            "Keep content concrete and practical, and explain why it is useful.",
+            "Use short, guided tasks with one clear answer.",
+            "Avoid open-ended puzzles until the student is confident."
+          ]
+        },
+        "medium": {
+          "student_text": "You like a mix of clear steps and a good challenge.",
+          "ai_instructions": [
+            "Mix guided tasks with an occasional open question or challenge."
+          ]
+        },
+        "high": {
+          "student_text": "You enjoy a real challenge, so we'll give you room to think.",
+          "ai_instructions": [
+            "Add open questions, 'why' prompts, and challenge problems.",
+            "Offer optional deep dives and let the student explore different solutions."
+          ]
+        }
+      }
+    },
+    {
+      "id": "self_belief",
+      "name": "Self-belief",
+      "title": "Trusting yourself",
+      "hint": "How sure you feel about handling learning.",
+      "measures": "How confident the student is in their own ability to learn and solve tasks (self-efficacy).",
+      "why_it_matters": "Decides how fast difficulty rises and how much early success and encouragement the student needs.",
+      "based_on": [
+        {
+          "name": "ASKU short general self-efficacy scale (Beierlein et al., 2013), translated",
+          "url": "https://zis.gesis.org/skala/openScale/348"
+        }
+      ],
+      "items": [
+        {
+          "id": "sb1",
+          "text": "If I put in the effort, I can understand even hard topics.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "sb2",
+          "text": "When something is new to me, I trust myself to figure it out.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "sb3",
+          "text": "I can handle most learning tasks I'm given.",
+          "reverse": false,
+          "priority": "low"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "We'll start with things you can win at and build from there.",
+          "ai_instructions": [
+            "Start below the student's level so the first tasks are clear wins.",
+            "Raise difficulty slowly and only after success.",
+            "Point out concrete progress often ('You can now do X, which you couldn't yesterday').",
+            "Give specific, encouraging feedback; never compare with others."
+          ]
+        },
+        "medium": {
+          "student_text": "You trust yourself with most things, and we'll keep it that way.",
+          "ai_instructions": [
+            "Start at the student's level and point out progress at the end of each session."
+          ]
+        },
+        "high": {
+          "student_text": "You're confident, so we can start right at your level.",
+          "ai_instructions": [
+            "Start at or slightly above the student's level and keep the challenge up."
+          ]
+        }
+      }
+    },
+    {
+      "id": "bouncing_back",
+      "name": "Bouncing back",
+      "title": "When things go wrong",
+      "hint": "How you deal with mistakes and frustrating moments.",
+      "measures": "How well the student copes with everyday setbacks such as mistakes, frustration, and pressure (academic buoyancy).",
+      "why_it_matters": "Decides feedback tone, how mistakes are shown, and when to suggest a break.",
+      "based_on": [
+        {
+          "name": "Academic Buoyancy Scale (Martin & Marsh, 2008)",
+          "url": "https://psytests.org/learn/absen.html"
+        }
+      ],
+      "items": [
+        {
+          "id": "bb1",
+          "text": "When I get something wrong, I can shake it off and keep going.",
+          "reverse": false,
+          "priority": "high"
+        },
+        {
+          "id": "bb2",
+          "text": "One mistake or bad mark can ruin my whole day.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "bb3",
+          "text": "When learning gets frustrating, I give up quickly.",
+          "reverse": true,
+          "priority": "high"
+        },
+        {
+          "id": "bb4",
+          "text": "I can handle a lot of pressure from school or studying.",
+          "reverse": false,
+          "priority": "low"
+        }
+      ],
+      "bands": {
+        "low": {
+          "student_text": "Mistakes hit hard, so we'll treat them as part of learning, never as failure.",
+          "ai_instructions": [
+            "Frame mistakes as 'not yet' and show the fix right away.",
+            "Avoid scores, red marks, streak losses, and visible timers.",
+            "After two mistakes in a row, make the next task easier or suggest a short break.",
+            "Keep the tone calm and warm."
+          ]
+        },
+        "medium": {
+          "student_text": "You usually bounce back, and we'll keep feedback clear and kind.",
+          "ai_instructions": [
+            "Give clear, kind feedback with the correct answer and a short explanation."
+          ]
+        },
+        "high": {
+          "student_text": "Setbacks don't throw you, so we can be direct with you.",
+          "ai_instructions": [
+            "Direct feedback is fine.",
+            "Scores, streaks, and timed challenges can be used if the student enjoys them."
+          ]
+        }
+      }
+    }
+  ],
+  "priority": "Each item is high or low priority: 20 high, 10 low. Scoring uses every answered item regardless of priority."
+}
