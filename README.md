@@ -17,6 +17,8 @@ In einem Satz: Wir verwandeln die Bedürfnisse der Lernenden in funktionierende 
 
 Wenn die Technologie von heute so flexibel ist, warum sind wir dann so darauf aus, die Lernenden zu verbiegen?
 
+Weitere Informationen zur Entwicklung der Grundidee findest du unter [doc/process.md](doc/process.md).
+
 ## Dokumentation
 
 Weitere Informationen zu Entwicklung, Konzept und Architektur findest du unter [doc/README.md](doc/README.md).
