@@ -1,0 +1,77 @@
+## Step 2: Design — Fill in the blanks
+
+Build a fill-in-the-blanks experience: the student first reads the material in short pieces, then recalls the key terms by filling gaps in the same sentences. Follow the structure below exactly; adapt only what the "Adapt to this student" section allows. Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- Retrieval practice: recalling information strengthens memory more than reading it again (Roediger & Karpicke 2006; Adesope et al. 2017, meta-analysis of over 100 studies).
+- Immediate, specific feedback helps students correct mistakes before they stick (Hattie & Timperley 2007).
+- Short pieces with one idea each lower the load on working memory (segmenting principle, Mayer).
+- A word bank turns recall into recognition and removes the spelling burden, which matters for students with dyslexia.
+
+Use these in the "Why it looks like this" box, choosing the ones that match this student.
+
+### Who it fits
+
+Students preparing for a test, students who need to memorise terms, and students who say they forget what they read. Works for ADHD (short active steps) and dyslexia (with the word bank).
+
+### Screens, in this order
+
+1. Start screen: the topic title, one sentence on what they will do ("First read, then fill in the missing words"), the number of rounds, and a Start button.
+2. For each round (4 to 6 rounds in total, one idea per round; if the material has more ideas, group related ones so every key fact is still covered):
+   a. Read screen: 2 to 4 short sentences about one idea, with the key terms in bold. A "I'm ready" button.
+   b. Blanks screen: the same sentences, with the bold key terms replaced by blanks. The read text is no longer visible. A "Check" button, and a "Peek at the text" button that shows the read screen again without penalty.
+   c. Feedback appears on the same blanks screen after Check (see below). Then a Next button.
+3. Final review screen: one mixed round of 5 to 8 blanks taken from earlier rounds, in new sentences or a different order, so it isn't just a copy. Use the same input mode as the rounds.
+4. Done screen: how many blanks they got right on the first try, a short encouraging message, the list of all key terms with a one-line meaning each, and a "Try again" button that restarts from round 1.
+
+Always show progress at the top, such as "Round 2 of 5".
+
+### Choosing the blanks
+
+- Blank only key terms: subject words, names of processes, parts, people, dates, numbers or formulas that the material is about.
+- Never blank articles, pronouns, linking words, or words the sentence gives away.
+- 1 to 2 blanks per sentence, never two blanks next to each other, 2 to 5 blanks per round, 12 to 25 blanks across all rounds, plus the final review.
+- Each blank must have one clear right answer from the context. If a term has accepted alternatives (a synonym, a plural, a common abbreviation), accept all of them.
+- Every key idea of the material must appear in at least one blank.
+
+### Answer input
+
+- Word bank mode: show the answers for the current round as buttons above the sentences, plus 1 to 2 plausible wrong options from the same material. The student picks a blank, then a word (or the other way round). Used words are marked as used but can be moved back. Must work fully by keyboard.
+- Typing mode: a text field inside each blank, sized to fit about the answer's length, with no autocomplete from the browser.
+- Use word bank mode if the student has dyslexia, struggles with spelling, is younger, or feels unsure. Otherwise use typing mode, with a visible toggle to switch to the word bank at any time.
+
+### Checking answers
+
+- Ignore upper and lower case, extra spaces, and punctuation at the ends.
+- In typing mode, accept small typos: none for words of up to 4 letters, up to 1 wrong letter for 5 to 8 letters, up to 2 for longer words. Never accept a typo that turns the answer into another key term or word bank option (e.g. "cation" for "anion"). Show the correct spelling next to an accepted answer with a typo, without marking it wrong.
+- Numbers, symbols, and abbreviations must be exact.
+
+### Feedback and hints
+
+- After Check, mark each blank as right or not yet, using an icon and text as well as color.
+- Each wrong blank gets one short neutral line: the correct answer and why, in one sentence ("It's mitochondria: they make the cell's energy").
+- Before checking, each blank can show a hint on request: first the first letter, then the number of letters. Using a hint is fine and is not counted against them.
+- Allow one retry of the wrong blanks before showing the answers. Then reveal the answers and let them continue.
+
+### Adapt to this student
+
+- Word bank or typing, as above.
+- Round count and blanks per round, within the ranges above: fewer and shorter for attention difficulties.
+- Example sentences and wrong options in the word bank can use the student's interests, as long as the key facts stay correct.
+- Offer read-aloud (speechSynthesis) on read screens and for the word bank if they have reading difficulties.
+
+### Always
+
+- Next and Back buttons; nothing moves on by itself, and there is no timer.
+- One round on screen at a time.
+- Score shows only as encouragement at the end, never as a running penalty.
+
+### Don't
+
+- Don't show the answers on the blanks screen before the student checks or asks.
+- Don't blank more than half of the words in a sentence, or make a sentence that can't be understood with its blanks.
+- Don't use dropdowns inside sentences or drag-and-drop that only works with a mouse.
+- Don't add extra games, timers, points, streaks, or leaderboards.
+- Don't change the facts between the read screen and the blanks screen.
+- Don't mark an answer wrong because of case, spacing, or an accepted synonym.

@@ -9,7 +9,6 @@ const input: GenerateInput = {
     challenges: ['ADHD'],
     goals: '',
     interests: [],
-    whatWorks: '',
   },
   answers: [{ question: 'Reading or doing?', answer: 'Doing' }],
   material: 'Osmosis',
@@ -44,6 +43,8 @@ describe('useGeneratePage', () => {
       .mockResolvedValue(
         sse(
           ['status', { text: 'Thinking…' }],
+          ['reasoning', { text: 'First the ' }],
+          ['reasoning', { text: 'research.' }],
           ['done', { html: '<!doctype html><html></html>' }],
         ),
       )
@@ -58,6 +59,7 @@ describe('useGeneratePage', () => {
       }),
     )
     expect(result.current.status).toBe('Thinking…')
+    expect(result.current.reasoning).toBe('First the research.')
     expect(fetchMock.mock.calls[0][0]).toBe('/api/generate')
     expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(input))
   })

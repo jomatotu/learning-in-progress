@@ -1,31 +1,33 @@
-import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import type { Answer, Profile } from '@/api/assess'
-import { streamResult } from '@/api/client'
+import type { Answer, Profile, ThemeName } from '@/api/assess'
+import { streamResult, type StreamProgress } from '@/api/client'
+import { useStreamProgress } from '@/api/progress'
 
 export type GenerateInput = {
   profile: Profile
   answers: Answer[]
   material: string
+  // The theme to build; the server uses "chunked" when it's left out.
+  theme?: ThemeName
 }
 
 export type BuiltPage = { html: string }
 
-// Streams the generation: calls onStatus with Hermes's progress, then resolves with the finished page.
+// Streams the generation: reports Hermes's progress, then resolves with the finished page.
 export function generatePage(
   input: GenerateInput,
-  onStatus: (text: string) => void,
+  progress: StreamProgress,
 ): Promise<BuiltPage> {
-  return streamResult('/generate', { body: input, onStatus })
+  return streamResult('/generate', { body: input, ...progress })
 }
 
 export function useGeneratePage() {
-  const [status, setStatus] = useState('')
+  const progress = useStreamProgress()
   const mutation = useMutation({
     mutationFn: (input: GenerateInput) => {
-      setStatus('')
-      return generatePage(input, setStatus)
+      progress.reset()
+      return generatePage(input, progress.callbacks)
     },
   })
-  return { ...mutation, status }
+  return { ...mutation, status: progress.status, reasoning: progress.reasoning }
 }

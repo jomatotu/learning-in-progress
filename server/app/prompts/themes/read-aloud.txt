@@ -1,0 +1,82 @@
+## Step 2: Design — Read aloud with word highlighting
+
+Build a read-aloud page: the material in short sections that the browser reads aloud while highlighting each word, then a few questions. Build this exact experience. Don't switch to a different format. Don't add features that aren't listed here. Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- Text-to-speech helps students with reading difficulties understand what they read (Wood et al. 2018, meta-analysis of 22 studies, Journal of Learning Disabilities).
+- Hearing the text while seeing each word highlighted links the sound to the written word. This reduces the effort of decoding, so attention goes to meaning (Microsoft Immersive Reader).
+- Short sections and a student-controlled pace keep the load low. Reading while listening helps most when the pace fits the reader (Clinton-Lisell 2023, meta-analysis).
+
+Use these points, with the short source names, in the "Why it looks like this" section.
+
+### Who it fits
+
+Students with dyslexia or slow, effortful reading. Students who understand better by listening. Students with ADHD who lose their place in long text.
+
+### Layout, top to bottom
+
+1. "Why it looks like this" section, collapsed by default.
+2. Title of the material and one sentence saying what the student will learn.
+3. Controls bar, which stays visible at the top while the page scrolls (position: sticky).
+4. Reading area: the material rewritten as 4 to 8 short sections. Each section has a heading and 1 to 3 short paragraphs. Use at most about 20 words per sentence. Keep every key idea.
+5. A progress line in the controls bar showing the section of the current sentence, for example "Section 2 of 6".
+6. "Check yourself" button. It appears below the last section and opens the questions screen.
+7. Questions screen: 3 to 4 multiple-choice questions about the key ideas, shown one at a time. Each question has 3 options and a "Read it to me" button for the question and its options. After an answer, show whether it's right and a one-sentence reason. Include a button that jumps back to the section containing the answer.
+8. Done screen: a short, kind message, the number of key ideas covered, and a "Read again" button.
+
+### Controls bar (exactly these, in this order)
+
+- Play/Pause: one large button. It shows "Play" or "Pause" with an icon and a text label. Space bar toggles it, except when focus is on another button, a select, or a slider.
+- Back and Forward: jump to the previous or next sentence.
+- Speed: a slider from 0.5 to 1.5 in steps of 0.1, default 0.9. Show the value as "0.9×". A change applies from the next sentence.
+- Voice: a select listing voices whose language matches the material's language. If none match, list all voices. Pick a default voice that has localService true when one exists.
+- Line focus: a toggle, off by default. When on, it dims everything except the current sentence to 30% opacity.
+- Text size: buttons A− and A+. Range 18px to 28px, default 20px.
+- Spacing: a toggle between normal (line height 1.6) and wide (line height 2.0, letter spacing 0.05em, word spacing 0.15em).
+
+Clicking or tapping any word starts reading from that word's sentence. Words must also be reachable by keyboard: the reading area gets one tab stop, and the arrow keys move between sentences.
+
+### Highlighting rules
+
+- Wrap every sentence in a span, and every word inside it in its own span. Keep a data index on each word span so it can be found quickly.
+- The current sentence gets a soft background, for example pale yellow.
+- The current word gets a stronger background plus an underline. Never rely on color alone.
+- Keep the current sentence in view: scroll smoothly only when it leaves the middle 60% of the screen. Don't scroll on every word.
+- When reading stops, keep the last sentence highlighted so the student knows where they were.
+
+### Speech technical rules (follow all of them)
+
+- Use window.speechSynthesis with one SpeechSynthesisUtterance per sentence, never the whole text. Chrome stops long utterances. When a sentence ends, start the next one from the end event.
+- Use the boundary event with name "word" and its charIndex to find the current word within the sentence.
+- Fallback timing: some voices never fire boundary events. If no boundary event arrives within 600 ms of a sentence starting, move the highlight with a timer. Give each word (word length + 2) × 60 ms, divided by the speed. Stop the timer when the sentence ends.
+- Voices load asynchronously. Read getVoices() at start and again on the voiceschanged event, then fill the voice select.
+- For pause, call speechSynthesis.cancel() and remember the current sentence. To resume, start that sentence again. Don't use pause() and resume(), which are unreliable across browsers.
+- cancel() fires the end or error event of the current utterance. Give each utterance a run id and ignore events from cancelled runs, so pausing or jumping never starts the next sentence by itself.
+- Call speechSynthesis.cancel() when the page loads, when the student jumps to another sentence, when they open the questions, and on pagehide.
+- Set utterance.lang to the material's language.
+- If speechSynthesis or SpeechSynthesisUtterance doesn't exist, or the voice list is still empty after 3 seconds, hide the speech controls. Instead, show a calm message such as "Read aloud isn't available in this browser. You can still read and use line focus." The highlighting, line focus and questions must still work without speech: the student then moves sentence by sentence with Back and Forward.
+
+### Adapt to this student
+
+- Start with line focus on if the student mentions ADHD, distraction, or losing their place.
+- Start with wide spacing and 22px text if they mention dyslexia or visual crowding.
+- Start the speed at 0.8 if reading is very hard for them. Start at 1.0 if they say listening works well.
+- Base one example or analogy in the text on their interests, and mark it clearly as an example.
+- Keep the vocabulary at their level. When a hard term is needed, explain it in a short sentence the first time it appears.
+
+### Always
+
+- Nothing plays until the student presses Play or clicks a word. Browsers block audio that starts on its own.
+- Every control has a visible text label or an aria-label, and is keyboard reachable.
+- Announce the play state changes and question feedback in an aria-live region.
+
+### Don't
+
+- Don't speak the whole text as one utterance.
+- Don't use the boundary event as the only way to highlight; the fallback timer is required.
+- Don't auto-advance to the questions, and don't start speech automatically.
+- Don't highlight with fast flashing or animations.
+- Don't put the reading text inside images or canvas; it must be real text so it can be highlighted.
+- Don't add parts-of-speech coloring, syllable splitting, translation, or a picture dictionary. Keep it to the controls listed above.
+- Don't leave sentences longer than about 20 words or sections longer than about 120 words.

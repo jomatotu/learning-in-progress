@@ -1,0 +1,60 @@
+## Step 2: Design — Teach the AI
+
+Build a "Teach the AI" page: the student teaches the material to a friendly learner character and fixes the mistakes it makes on purpose. The character tries to understand, asks questions and sometimes gets things wrong on purpose. The student spots and fixes the mistakes. The student should feel like the teacher, not like someone sitting a quiz. Button labels and screen text in quotes are examples; write them in the material's language.
+
+The page has no network access, so there is no live AI. Write the whole conversation in advance, inside the page, as a fixed script of turns.
+
+### Why it works
+
+- Protégé effect: students try harder and learn more when they teach someone else, especially lower achievers (Chase et al. 2009, "Betty's Brain").
+- Learning by teaching: explaining to someone else helps understanding and memory more than studying for yourself (Fiorella & Mayer 2013).
+- Erroneous examples: finding and fixing someone else's mistakes deepens understanding and removes misconceptions (Große & Renkl 2007; Adams et al. 2014).
+- Explain it simply: putting an idea in plain words shows where your understanding has gaps (the Feynman technique).
+
+Use these for the "Why it looks like this" section.
+
+### Who it fits
+
+Students who lose focus when reading passively (e.g. ADHD), students who need motivation, and students who want to check that they really understand. It also works for dyslexia, because each turn is short and read-aloud can be added.
+
+### The character
+
+- Give the character a short, friendly name and a simple drawn avatar (inline SVG or emoji). If the student has interests, give the character a matching hobby, e.g. a robot who loves football.
+- The character is curious and eager. It thanks the student for fixing mistakes ("Oh, that makes more sense, thanks!"). It is never sarcastic or smug, and never says the student is wrong in a way that feels like a test.
+- The character speaks in short sentences, at most 2 per message.
+
+### Flow, in this order
+
+1. Intro screen: the character introduces itself in 2 sentences and says it wants to learn the topic from the student. One "Let's start" button.
+2. Teaching turns, 6 to 8 in total, covering every key idea of the material in order. Each turn is one screen with a chat-style layout: the character's message on the left, the student's reply on the right.
+   - In each turn the character either asks a question about the idea ("What does X do?") or explains the idea back in its own words.
+   - Exactly 3 or 4 of the turns contain a planted mistake: a believable misconception about a key fact, never a silly one. Spread them out; never put two mistakes in a row.
+   - The student replies by choosing one of 3 answer buttons, written as things a teacher would say (e.g. "Not quite, X actually does Y", "Yes, that's right!", "Close, but you mixed up X and Z"). In turns without a mistake, one option confirms the character and the other two are wrong corrections.
+3. After the student chooses:
+   - Right choice: the character reacts with thanks, restates the correct idea in one sentence, and the "Next" button appears.
+   - Wrong choice: the character stays friendly and confused ("Hmm, I'm not sure. My notes say..."). It gives one short hint that points to the key fact and lets the student choose again. After 2 wrong tries, the character gently shows the right answer and explains it in one sentence, then "Next" appears. Never use a score or a penalty.
+4. Halfway point (after turn 3 or 4): one "Explain it in your own words" turn. The character asks the student to explain the main idea simply. The student types in a text box (optional, with a "Skip" button). Check the answer against 2 to 4 keywords and their simple forms. If found, the character repeats back what it learned. If not found, the character asks one follow-up and shows a model answer. Never mark the typed answer as wrong. This turn counts as a turn in the progress indicator.
+5. Wrap-up screen: the character summarises "what I learned from you" as 4 to 6 short bullet points covering every key idea, all correct. It names the mistakes the student fixed, including ones it showed after 2 tries. It ends with a clear done moment, e.g. "You taught me the whole topic!", and a "Start again" button.
+
+### Always
+
+- A small progress indicator, e.g. "Turn 3 of 8".
+- Back and Next buttons. Going back shows the earlier turn as it was answered.
+- The chat history for the current turn stays visible; older turns are hidden to keep the screen calm.
+- Every planted mistake is corrected on screen before the student moves on, so no wrong fact is left standing.
+
+### Adapt to this student
+
+- Use the student's interests for the character's hobby and in 1 or 2 of its examples. Keep them clearly marked as examples.
+- Set difficulty from the profile and answers: younger or struggling students get 6 turns, 3 mistakes and simpler wording; others get 8 turns and 4 mistakes.
+- If the student says reading is hard, add a read-aloud button on each character message.
+
+### Don't
+
+- Don't make it a quiz: no "Question 1", no score, no "Correct!" or "Wrong!", no timers.
+- Don't plant mistakes that are obviously silly or about unimportant details.
+- Don't let the character be smarter than the student or lecture them.
+- Don't make the correct option always the same position or always the longest; shuffle them.
+- Don't write long messages or more than 3 options per turn.
+- Don't pretend to be a live AI or show typing delays longer than 1 second.
+- Don't skip key ideas from the material, and don't add facts that aren't in it.

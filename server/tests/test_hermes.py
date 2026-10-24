@@ -111,7 +111,8 @@ def test_stream_hermes_yields_reasoning_and_text(monkeypatch):
         [
             chunk(reasoning="Hmm"),
             SimpleNamespace(choices=[]),
-            SimpleNamespace(data={"tool": "web_search"}, event="hermes.tool.progress"),
+            SimpleNamespace(tool="web_search", emoji="🔍", label="ADHD learning", status="running"),
+            SimpleNamespace(tool="web_search", emoji="🔍", label="ADHD learning", status="completed"),
             chunk(content="<!doctype"),
             chunk(finish_reason="stop"),
         ],
@@ -119,7 +120,7 @@ def test_stream_hermes_yields_reasoning_and_text(monkeypatch):
 
     pieces = asyncio.run(collect(hermes.stream_hermes("Build", session_id="lip-test-1")))
 
-    assert pieces == [("reasoning", "Hmm"), ("text", "<!doctype")]
+    assert pieces == [("reasoning", "Hmm"), ("tool", "🔍 web_search (ADHD learning)"), ("text", "<!doctype")]
     assert calls[0]["stream"] is True
     assert calls[0]["extra_headers"] == {"X-Hermes-Session-Id": "lip-test-1"}
 
@@ -148,7 +149,7 @@ def test_stream_hermes_json_counts_tokens_and_returns_parsed_reply(monkeypatch):
 
     events = asyncio.run(collect(hermes.stream_hermes_json("Pick one", Pick, "lip-test-1", instructions="Be kind.")))
 
-    assert events == [("tokens", 1), ("tokens", 2), ("result", Pick(option="A"))]
+    assert events == [("reasoning", "Hmm"), ("tokens", 1), ("tokens", 2), ("result", Pick(option="A"))]
     message, session_id, instructions = calls[0]
     assert message == "Pick one"
     assert session_id == "lip-test-1"

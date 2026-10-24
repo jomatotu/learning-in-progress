@@ -103,15 +103,24 @@ export async function streamRequest(
   }
 }
 
-// Streams an endpoint that sends "status" events while it works, then "done" with the result or "error" with a message.
-// Calls onStatus with each status text and resolves with the data of the "done" event.
+// Callbacks for the live progress a streaming endpoint sends while it works.
+export type StreamProgress = {
+  // The current step, e.g. a tool Hermes is running.
+  onStatus: (text: string) => void
+  // The next chunk of Hermes's reasoning, to append to what came before.
+  onReasoning?: (text: string) => void
+}
+
+// Streams an endpoint that sends "status" and "reasoning" events while it works, then "done" with the result or "error" with a message.
+// Passes the progress events to the callbacks and resolves with the data of the "done" event.
 export async function streamResult<T>(
   path: string,
   {
     body,
     timeoutMs,
     onStatus,
-  }: { body: unknown; timeoutMs?: number; onStatus: (text: string) => void },
+    onReasoning,
+  }: { body: unknown; timeoutMs?: number } & StreamProgress,
 ): Promise<T> {
   let result: { data: T } | undefined
   await streamRequest(path, {
@@ -119,6 +128,7 @@ export async function streamResult<T>(
     timeoutMs,
     onEvent: (event, data) => {
       if (event === 'status') onStatus((data as { text: string }).text)
+      if (event === 'reasoning') onReasoning?.((data as { text: string }).text)
       if (event === 'done') result = { data: data as T }
       if (event === 'error') {
         throw new ApiError((data as { message: string }).message)

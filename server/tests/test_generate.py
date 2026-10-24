@@ -6,6 +6,7 @@ from openai import APIConnectionError
 
 from app import hermes
 from app.main import app
+from app import themes
 from app.routers import generate
 
 client = TestClient(app)
@@ -46,24 +47,24 @@ def events():
 def test_generate_streams_progress_then_page_with_csp(monkeypatch):
     fake_stream(
         monkeypatch,
-        [("reasoning", "Let me think"), ("text", "🔍 web_search: ADHD learning\n"), ("text", PAGE)],
+        [("reasoning", "x" * 250), ("tool", "🔍 web_search (ADHD learning)"), ("text", PAGE)],
     )
 
     assert events() == [
-        ("status", {"text": "Sending your profile to Hermes…"}),
-        ("status", {"text": "Thinking…"}),
-        ("status", {"text": "🔍 web_search: ADHD learning"}),
+        ("status", {"text": "Hermes is planning your page…"}),
+        ("reasoning", {"text": "x" * 250}),
+        ("status", {"text": "🔍 web_search (ADHD learning)"}),
         ("status", {"text": "Writing the page… 0 KB"}),
         ("done", {"html": "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"}),
     ]
 
 
 def test_generate_sends_status_only_when_it_changes(monkeypatch):
-    fake_stream(monkeypatch, [("reasoning", "a"), ("reasoning", "b"), ("text", PAGE)])
+    fake_stream(monkeypatch, [("tool", "🔍 web_search"), ("reasoning", "a"), ("tool", "🔍 web_search"), ("text", PAGE)])
 
     statuses = [data["text"] for event, data in events() if event == "status"]
 
-    assert statuses.count("Thinking…") == 1
+    assert statuses.count("🔍 web_search") == 1
 
 
 def test_generate_puts_profile_answers_and_material_into_prompt(monkeypatch):
@@ -76,6 +77,30 @@ def test_generate_puts_profile_answers_and_material_into_prompt(monkeypatch):
     assert '"answer": "Doing"' in prompt
     assert "<material>\nOsmose ist die Diffusion von Wasser durch eine Membran.\n</material>" in prompt
     assert "{{" not in prompt
+
+
+def test_generate_uses_chunked_theme_by_default(monkeypatch):
+    calls = fake_stream(monkeypatch, [("text", PAGE)])
+
+    events()
+
+    assert themes.THEMES["chunked"] in calls[0]["message"]
+
+
+def test_generate_puts_requested_theme_into_prompt(monkeypatch):
+    calls = fake_stream(monkeypatch, [("text", PAGE)])
+
+    client.post("/api/generate", json={**REQUEST, "theme": "read-aloud"})
+
+    prompt = calls[0]["message"]
+    assert themes.THEMES["read-aloud"] in prompt
+    assert themes.THEMES["chunked"] not in prompt
+
+
+def test_generate_rejects_unknown_theme():
+    response = client.post("/api/generate", json={**REQUEST, "theme": "study-songs"})
+
+    assert response.status_code == 422
 
 
 def test_generate_starts_a_new_prefixed_session_each_time(monkeypatch):

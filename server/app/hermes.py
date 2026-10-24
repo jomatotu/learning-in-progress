@@ -3,7 +3,7 @@ import os
 import uuid
 from collections.abc import AsyncIterator
 from functools import cache
-from typing import Literal
+from typing import Any, Literal
 
 import httpx
 from openai import AsyncOpenAI
@@ -59,10 +59,11 @@ async def ask_hermes(message: str, session_id: str | None = None, instructions: 
 STALL_SECONDS = 120
 
 
-# Streams one Hermes turn as ("reasoning" | "text", piece) pairs, so callers can show progress while the agent works.
+# Streams one Hermes turn as (kind, piece) pairs, so callers can show progress while the agent works.
+# Kinds: "reasoning" (the model thinking), "tool" (a tool Hermes started, as one short line), and "text" (the reply).
 async def stream_hermes(
     message: str, session_id: str | None = None, instructions: str | None = None
-) -> AsyncIterator[tuple[Literal["reasoning", "text"], str]]:
+) -> AsyncIterator[tuple[Literal["reasoning", "tool", "text"], str]]:
     headers = {"X-Hermes-Session-Id": session_id} if session_id else {}
     stream = await get_client().chat.completions.create(
         model=MODEL,
@@ -72,9 +73,13 @@ async def stream_hermes(
         timeout=httpx.Timeout(TIMEOUT_SECONDS, read=STALL_SECONDS),
     )
     async for chunk in stream:
-        # Hermes also streams its own events (e.g. hermes.tool.progress), which arrive without choices.
+        # Hermes's own hermes.tool.progress events arrive without choices, with the tool fields on the chunk.
         choices = getattr(chunk, "choices", None)
         if not choices:
+            tool = getattr(chunk, "tool", None)
+            if tool and getattr(chunk, "status", None) == "running":
+                label = getattr(chunk, "label", None)
+                yield "tool", " ".join(filter(None, [getattr(chunk, "emoji", None), tool, label and f"({label})"]))
             continue
         choice = choices[0]
         # Reasoning isn't part of the OpenAI schema; Hermes sends it as an extra field on some models.
@@ -87,12 +92,13 @@ async def stream_hermes(
             raise HermesError(f"Hermes turn {choice.finish_reason}")
 
 
-# Streams one Hermes turn that must end in JSON matching `schema`: yields ("tokens", count so far) while Hermes works, then ("result", parsed reply).
+# Streams one Hermes turn that must end in JSON matching `schema`. While Hermes works it yields ("tokens", count so far)
+# plus the "reasoning" and "tool" pieces from stream_hermes; at the end it yields ("result", parsed reply).
 # Hermes ignores response_format, so the schema goes into the instructions and the reply is checked here.
 # In tests against our Hermes (DeepSeek) the replies were plain JSON; the retry covers the rare bad one.
 async def stream_hermes_json[T: BaseModel](
     message: str, schema: type[T], session_id: str, instructions: str | None = None
-) -> AsyncIterator[tuple[Literal["tokens"], int] | tuple[Literal["result"], T]]:
+) -> AsyncIterator[tuple[Literal["tokens", "reasoning", "tool", "result"], Any]]:
     json_rule = (
         "Reply with only one JSON object that matches this JSON schema. "
         "No text before or after it, and no markdown code fences.\n"
@@ -104,9 +110,14 @@ async def stream_hermes_json[T: BaseModel](
     for _ in range(2):
         reply = ""
         async for kind, piece in stream_hermes(message, session_id, instructions):
+            if kind == "tool":
+                yield "tool", piece
+                continue
             tokens += 1
             if kind == "text":
                 reply += piece
+            else:
+                yield "reasoning", piece
             yield "tokens", tokens
         try:
             result = schema.model_validate_json(reply)
