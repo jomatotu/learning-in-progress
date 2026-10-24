@@ -19,7 +19,6 @@ const messages = defineMessages({
     goal: 'Say it in your own words',
     goalPlaceholder:
       'Pass my biology exam and actually understand cell biology, not just memorise it',
-    deadline: 'Is there a date you’re working towards?',
     topic: 'What are you learning?',
     topicPlaceholder: 'Cell biology: membranes and transport',
     material: 'Add your material',
@@ -35,7 +34,6 @@ const messages = defineMessages({
     goal: 'Sag es in deinen eigenen Worten',
     goalPlaceholder:
       'Meine Bio-Prüfung bestehen und Zellbiologie wirklich verstehen, nicht nur auswendig lernen',
-    deadline: 'Gibt es ein Datum, auf das du hinarbeitest?',
     topic: 'Was lernst du gerade?',
     topicPlaceholder: 'Zellbiologie: Membranen und Transport',
     material: 'Füg dein Material hinzu',
@@ -78,16 +76,6 @@ function GoalStep({ profile, update, errors }: StepProps) {
             onChange={(e) => update({ goal: e.target.value })}
             placeholder={t.goalPlaceholder}
             className="min-h-20"
-          />
-        </Field>
-
-        <Field id="deadline" label={t.deadline} optional>
-          <Input
-            id="deadline"
-            type="date"
-            value={profile.deadline}
-            onChange={(e) => update({ deadline: e.target.value })}
-            className="max-w-56"
           />
         </Field>
 

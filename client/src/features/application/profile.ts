@@ -9,10 +9,8 @@ export type Profile = {
   interests: string
   goalType: string
   goal: string
-  deadline: string
   topic: string
-  texts: string[]
-  links: string[]
+  text: string
   files: File[]
   answers: Answers
   likes: string[]
@@ -26,10 +24,8 @@ export const emptyProfile: Profile = {
   interests: '',
   goalType: '',
   goal: '',
-  deadline: '',
   topic: '',
-  texts: [],
-  links: [],
+  text: '',
   files: [],
   answers: {},
   likes: [],
@@ -47,7 +43,6 @@ export type StepId = 'about' | 'goal' | 'survey' | 'notes' | 'review'
 
 // Step titles, in both languages, are in options.ts.
 export const steps: { id: StepId }[] = [
-  { id: 'about' },
   { id: 'about' },
   { id: 'goal' },
   { id: 'survey' },

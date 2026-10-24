@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react'
+import { useCreateProfile } from '@/api/profile'
+import { useSurveyQuestions } from '@/api/survey'
+import { defineMessages, useLanguage, useMessages } from '@/lib/i18n'
 import {
-  fetchSurvey,
   questionsIn,
   SurveyContext,
   useSurvey,
   type Survey,
 } from '@/lib/survey'
-import { defineMessages, useLanguage, useMessages, type Lang } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { AboutStep } from './AboutStep'
-import { createProfile, type StudentProfileJson } from './studentProfile'
+import { AssessmentScreen } from './AssessmentScreen'
+import { toProfileRequest } from './studentProfile'
 import { GoalStep } from './GoalStep'
 import { MagicStep } from './MagicStep'
 import { NotesStep } from './NotesStep'
@@ -28,9 +30,7 @@ import {
   type StepId,
 } from './profile'
 
-type ProfileResult =
-  | { status: 'idle' | 'loading' | 'error' }
-  | { status: 'ready'; data: StudentProfileJson }
+type Ending = 'assess' | 'magic'
 
 export type StepProps = {
   profile: Profile
@@ -50,6 +50,7 @@ const messages = defineMessages({
       continue: 'Continue',
       build: 'Build my tool',
       building: 'Building…',
+      magic: 'Magic page',
     },
     step: (n: number, total: number) => `Step ${n} of ${total}`,
     minutesLeft: (n: number) =>
@@ -59,6 +60,7 @@ const messages = defineMessages({
     buildFailed:
       'We couldn’t build your profile. Check your connection and try again.',
     back: 'Back',
+    skipRest: 'Skip the rest',
     skipPart: 'Skip this part',
     skipForNow: 'Skip for now',
     loading: 'Getting things ready…',
@@ -77,6 +79,7 @@ const messages = defineMessages({
       continue: 'Weiter',
       build: 'Mein Werkzeug bauen',
       building: 'Wird gebaut…',
+      magic: 'Magische Seite',
     },
     step: (n: number, total: number) => `Schritt ${n} von ${total}`,
     minutesLeft: (n: number) =>
@@ -86,6 +89,7 @@ const messages = defineMessages({
     buildFailed:
       'Wir konnten dein Profil nicht erstellen. Prüf deine Verbindung und versuch es nochmal.',
     back: 'Zurück',
+    skipRest: 'Den Rest überspringen',
     skipPart: 'Diesen Teil überspringen',
     skipForNow: 'Erst mal überspringen',
     loading: 'Wird vorbereitet…',
@@ -134,7 +138,9 @@ function Form() {
   const [profile, setProfile] = useState<Profile>(loadProfile)
   const [errors, setErrors] = useState<StepProps['errors']>({})
   const [finished, setFinished] = useState(false)
-  const [result, setResult] = useState<ProfileResult>({ status: 'idle' })
+  // Which flow runs after the profile is built: our assessment, or the Magic page.
+  const [ending, setEnding] = useState<Ending>('assess')
+  const createProfile = useCreateProfile()
   const panel = useRef<HTMLDivElement>(null)
 
   const screen = screens[index]
@@ -169,21 +175,18 @@ function Form() {
     )
   }
 
-  // "Build my tool": the server scores the survey and returns the student's profile JSON.
-  const buildProfile = () => {
-    setResult({ status: 'loading' })
-    createProfile(profile).then(
-      (data) => {
-        setResult({ status: 'ready', data })
-        setFinished(true)
-      },
-      () => setResult({ status: 'error' }),
-    )
+  // "Build my tool" and "Magic page": the server scores the survey and returns the student's profile JSON.
+  const buildProfile = (target: Ending) => {
+    if (createProfile.isPending) return
+    setEnding(target)
+    createProfile.mutate(toProfileRequest(profile), {
+      onSuccess: () => setFinished(true),
+    })
   }
 
   const moveTo = (target: number) => {
     setErrors({})
-    setResult({ status: 'idle' })
+    createProfile.reset()
     setIndex(target)
   }
 
@@ -194,15 +197,27 @@ function Form() {
     setErrors(found)
     if (Object.keys(found).length) return
     if (screen.step !== 'review') moveTo(index + 1)
-    else if (result.status !== 'loading') buildProfile()
+    else buildProfile('assess')
   }
 
   const stepProps = { profile, update, errors }
   const showPanel = ['about', 'goal', 'notes'].includes(screen.step)
   const canSkip = screen.step === 'survey' || screen.step === 'notes'
 
-  if (finished && result.status === 'ready') {
-    return <MagicStep topic={profile.topic} profileJson={result.data} />
+  if (finished && createProfile.data && ending === 'magic') {
+    return <MagicStep topic={profile.topic} profileJson={createProfile.data} />
+  }
+
+  if (finished && createProfile.data) {
+    return (
+      <div ref={panel}>
+        <AssessmentScreen
+          name={profile.name}
+          studentProfile={createProfile.data}
+          onBack={() => setFinished(false)}
+        />
+      </div>
+    )
   }
 
   return (
@@ -263,7 +278,7 @@ function Form() {
             <ReviewStep {...stepProps} goTo={goTo} />
           )}
 
-          {result.status === 'error' && (
+          {createProfile.isError && (
             <p
               role="alert"
               className="mt-8 border-l-[3px] border-clay pl-3 text-sm"
@@ -286,6 +301,16 @@ function Form() {
               <span />
             )}
             <div className="flex items-center gap-3">
+              {screen.step === 'survey' && part < survey.categories.length && (
+                // Skipped parts send no answers; the server leaves their categories out of the profile.
+                <button
+                  type="button"
+                  className="text-button"
+                  onClick={() => goTo('notes')}
+                >
+                  {t.skipRest}
+                </button>
+              )}
               {canSkip && (
                 <button
                   type="button"
@@ -295,8 +320,20 @@ function Form() {
                   {screen.step === 'survey' ? t.skipPart : t.skipForNow}
                 </button>
               )}
+              {screen.step === 'review' && (
+                <button
+                  type="button"
+                  className="primary large"
+                  onClick={() => buildProfile('magic')}
+                >
+                  {createProfile.isPending && ending === 'magic'
+                    ? t.primary.building
+                    : t.primary.magic}
+                  <Sparkles size={18} aria-hidden />
+                </button>
+              )}
               <button type="submit" className="primary large">
-                {result.status === 'loading'
+                {createProfile.isPending && ending === 'assess'
                   ? t.primary.building
                   : screen.step === 'review'
                     ? t.primary.build
@@ -313,44 +350,16 @@ function Form() {
   )
 }
 
-type SurveyLoad =
-  { status: 'loading' | 'error' } | { status: 'ready'; survey: Survey }
-
 // Loads the survey questions from the server, in the chosen language, before showing the form.
+// A language switch keeps the current survey on screen while the new texts load, so the step stays.
 function ApplicationForm() {
   const { lang } = useLanguage()
   const t = useMessages(messages)
-  const [load, setLoad] = useState<SurveyLoad>({ status: 'loading' })
+  const survey = useSurveyQuestions(lang)
 
-  const loadSurvey = () => {
-    setLoad({ status: 'loading' })
-    fetchSurvey(lang).then(
-      (survey) => setLoad({ status: 'ready', survey }),
-      () => setLoad({ status: 'error' }),
-    )
-  }
-
-  // Loads once on mount, then again when the language changes. A language switch keeps the
-  // current survey on screen while the new texts load, so the student stays on the same step.
-  const loadedLang = useRef<Lang | null>(null)
-  useEffect(() => {
-    if (loadedLang.current === lang) return
-    const first = loadedLang.current === null
-    loadedLang.current = lang
-    if (first) {
-      loadSurvey()
-      return
-    }
-    fetchSurvey(lang).then(
-      (survey) => setLoad({ status: 'ready', survey }),
-      () => {},
-    )
-    // oxlint-disable-next-line react/exhaustive-deps
-  }, [lang])
-
-  if (load.status === 'ready') {
+  if (survey.data) {
     return (
-      <SurveyContext value={load.survey}>
+      <SurveyContext value={survey.data}>
         <Form />
       </SurveyContext>
     )
@@ -358,15 +367,15 @@ function ApplicationForm() {
 
   return (
     <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
-      {load.status === 'loading' ? (
-        <p className="text-graphite">{t.loading}</p>
-      ) : (
+      {survey.isError ? (
         <div role="alert">
           <p>{t.loadFailed}</p>
-          <button className="primary mt-6" onClick={loadSurvey}>
+          <button className="primary mt-6" onClick={() => survey.refetch()}>
             {t.tryAgain}
           </button>
         </div>
+      ) : (
+        <p className="text-graphite">{t.loading}</p>
       )}
     </div>
   )

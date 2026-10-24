@@ -67,8 +67,7 @@ function Tag({ children }: { children: ReactNode }) {
 function ProfilePanel({ profile }: { profile: Profile }) {
   const t = useMessages(messages)
   const options = useMessages(optionMessages)
-  const material =
-    profile.texts.length + profile.links.length + profile.files.length
+  const material = (profile.text.trim() ? 1 : 0) + profile.files.length
   const stageLabel =
     entryFor(options.stages, profile.stage)?.label ?? profile.stage
   const stage = [stageLabel, profile.stageDetail].filter(Boolean).join(' · ')

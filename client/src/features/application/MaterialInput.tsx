@@ -1,52 +1,36 @@
 import { useState } from 'react'
-import { FileText, Link2, Type, Upload, X } from 'lucide-react'
-import { Input } from '@/components/ui/input'
+import { FileText, Type, Upload, X } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import { defineMessages, useMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import type { Profile } from './profile'
 
-type Mode = 'text' | 'link' | 'file'
+type Mode = 'text' | 'file'
 
+// Upload is off until the server reads files; for now it would send only the file names.
 const modes = [
-  { id: 'text', icon: Type },
-  { id: 'link', icon: Link2 },
-  { id: 'file', icon: Upload },
+  { id: 'text', icon: Type, disabled: false },
+  { id: 'file', icon: Upload, disabled: true },
 ] as const
 
 const messages = defineMessages({
   en: {
-    modes: { text: 'Paste text', link: 'Add a link', file: 'Upload files' },
+    modes: { text: 'Paste text', file: 'Upload files (soon)' },
     howToAdd: 'How to add material',
     pasteLabel: 'Paste your text',
     pastePlaceholder:
       'Paste a chapter, your lecture notes, or an exercise sheet',
-    addText: 'Add text',
-    linkLabel: 'Link to your material',
-    linkPlaceholder: 'youtube.com/watch?v=… or a course page',
-    add: 'Add',
-    badLink: 'That doesn’t look like a link. Check it and try again.',
     drop: 'Drop files here or choose them',
     fileTypes: 'PDF, Word, slides, images, or audio',
     added: 'Added material',
     remove: (label: string) => `Remove ${label}`,
   },
   de: {
-    modes: {
-      text: 'Text einfügen',
-      link: 'Link hinzufügen',
-      file: 'Dateien hochladen',
-    },
+    modes: { text: 'Text einfügen', file: 'Dateien hochladen (bald)' },
     howToAdd: 'Wie du Material hinzufügst',
     pasteLabel: 'Füg deinen Text ein',
     pastePlaceholder:
       'Füg ein Kapitel, deine Mitschrift oder ein Arbeitsblatt ein',
-    addText: 'Text hinzufügen',
-    linkLabel: 'Link zu deinem Material',
-    linkPlaceholder: 'youtube.com/watch?v=… oder eine Kursseite',
-    add: 'Hinzufügen',
-    badLink:
-      'Das sieht nicht nach einem Link aus. Prüf ihn und versuch es nochmal.',
     drop: 'Dateien hierher ziehen oder auswählen',
     fileTypes: 'PDF, Word, Folien, Bilder oder Audio',
     added: 'Hinzugefügtes Material',
@@ -54,7 +38,7 @@ const messages = defineMessages({
   },
 })
 
-// One place to add learning material: pasted text, links, or files. Added items are listed below.
+// One place to add learning material: one box of pasted text, or files, which are listed below.
 function MaterialInput({
   profile,
   update,
@@ -63,72 +47,35 @@ function MaterialInput({
   update: (patch: Partial<Profile>) => void
 }) {
   const [mode, setMode] = useState<Mode>('text')
-  const [draft, setDraft] = useState('')
-  const [linkError, setLinkError] = useState('')
   const t = useMessages(messages)
-
-  const addText = () => {
-    if (!draft.trim()) return
-    update({ texts: [...profile.texts, draft.trim()] })
-    setDraft('')
-  }
-
-  const addLink = () => {
-    const value = draft.trim()
-    if (!value) return
-    try {
-      const url = new URL(value.includes('://') ? value : `https://${value}`)
-      update({ links: [...profile.links, url.href] })
-      setDraft('')
-      setLinkError('')
-    } catch {
-      setLinkError(t.badLink)
-    }
-  }
 
   const addFiles = (files: FileList | null) => {
     if (files?.length) update({ files: [...profile.files, ...files] })
   }
 
-  const items = [
-    ...profile.texts.map((text, i) => ({
-      key: `t${i}`,
-      icon: Type,
-      label: text.length > 60 ? `${text.slice(0, 60)}…` : text,
-      remove: () => update({ texts: profile.texts.filter((_, j) => j !== i) }),
-    })),
-    ...profile.links.map((link, i) => ({
-      key: `l${i}`,
-      icon: Link2,
-      label: link,
-      remove: () => update({ links: profile.links.filter((_, j) => j !== i) }),
-    })),
-    ...profile.files.map((file, i) => ({
-      key: `f${i}`,
-      icon: FileText,
-      label: file.name,
-      remove: () => update({ files: profile.files.filter((_, j) => j !== i) }),
-    })),
-  ]
+  const items = profile.files.map((file, i) => ({
+    key: `f${i}`,
+    icon: FileText,
+    label: file.name,
+    remove: () => update({ files: profile.files.filter((_, j) => j !== i) }),
+  }))
 
   return (
     <div className="flex flex-col gap-4">
       <fieldset aria-label={t.howToAdd} className="flex flex-wrap gap-2">
-        {modes.map(({ id, icon: Icon }) => (
+        {modes.map(({ id, icon: Icon, disabled }) => (
           <button
             key={id}
             type="button"
+            disabled={disabled}
             aria-pressed={mode === id}
-            onClick={() => {
-              setMode(id)
-              setDraft('')
-              setLinkError('')
-            }}
+            onClick={() => setMode(id)}
             className={cn(
               'inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-[0.88rem] font-normal transition-colors',
               mode === id
                 ? 'border-pine bg-pine-soft text-pine-deep'
                 : 'border-rule bg-paper hover:border-graphite',
+              disabled && 'cursor-not-allowed opacity-50 hover:border-rule',
             )}
           >
             <Icon className="size-4" strokeWidth={1.75} aria-hidden />
@@ -138,49 +85,15 @@ function MaterialInput({
       </fieldset>
 
       {mode === 'text' && (
-        <div className="flex flex-col items-start gap-3">
-          <Textarea
-            aria-label={t.pasteLabel}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            placeholder={t.pastePlaceholder}
-          />
-          <button type="button" className="secondary-button" onClick={addText}>
-            {t.addText}
-          </button>
-        </div>
-      )}
-
-      {mode === 'link' && (
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-3">
-            <Input
-              aria-label={t.linkLabel}
-              value={draft}
-              onChange={(e) => {
-                setDraft(e.target.value)
-                setLinkError('')
-              }}
-              onKeyDown={(e) =>
-                e.key === 'Enter' && (e.preventDefault(), addLink())
-              }
-              placeholder={t.linkPlaceholder}
-              aria-invalid={!!linkError}
-            />
-            <button
-              type="button"
-              className="secondary-button"
-              onClick={addLink}
-            >
-              {t.add}
-            </button>
-          </div>
-          {linkError && (
-            <p role="alert" className="border-l-[3px] border-clay pl-3 text-sm">
-              {linkError}
-            </p>
-          )}
-        </div>
+        <Textarea
+          aria-label={t.pasteLabel}
+          value={profile.text}
+          onChange={(e) => update({ text: e.target.value })}
+          placeholder={t.pastePlaceholder}
+          // A pasted chapter can be very long, so the box stays 8 rows high and scrolls.
+          rows={8}
+          className="field-sizing-fixed resize-y overflow-y-auto"
+        />
       )}
 
       {mode === 'file' && (

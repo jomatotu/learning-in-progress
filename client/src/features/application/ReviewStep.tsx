@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { defineMessages, useLanguage, useMessages } from '@/lib/i18n'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { useSurvey } from '@/lib/survey'
 import { entryFor, labelFor, optionMessages } from './options'
 import { StepHeading } from './StepHeading'
@@ -17,7 +17,6 @@ const messages = defineMessages({
     into: (interests: string) => `Into ${interests}`,
     goal: 'Your goal',
     noGoal: 'No goal yet',
-    by: 'By',
     learning: 'What you’re learning',
     noMaterial: 'No material added yet',
     material: (n: number) => `${n} ${n === 1 ? 'item' : 'items'} added`,
@@ -39,7 +38,6 @@ const messages = defineMessages({
     into: (interests: string) => `Interessiert an ${interests}`,
     goal: 'Dein Ziel',
     noGoal: 'Noch kein Ziel',
-    by: 'Bis',
     learning: 'Was du lernst',
     noMaterial: 'Noch kein Material hinzugefügt',
     material: (n: number) =>
@@ -92,11 +90,9 @@ function ReviewStep({
 }: StepProps & { goTo: (step: StepId) => void }) {
   const t = useMessages(messages)
   const options = useMessages(optionMessages)
-  const { lang } = useLanguage()
   const answered = Object.keys(profile.answers).length
   const questions = useSurvey().questions.length
-  const material =
-    profile.texts.length + profile.links.length + profile.files.length
+  const material = (profile.text.trim() ? 1 : 0) + profile.files.length
   const stageLabel =
     entryFor(options.stages, profile.stage)?.label ?? profile.stage
   const stage = [stageLabel, profile.stageDetail].filter(Boolean).join(' · ')
@@ -128,15 +124,6 @@ function ReviewStep({
             </>
           ) : (
             <Empty>{t.noGoal}</Empty>
-          )}
-          {profile.deadline && (
-            <p className="text-graphite">
-              {t.by}{' '}
-              {new Date(profile.deadline).toLocaleDateString(
-                lang === 'de' ? 'de-DE' : 'en-GB',
-                { day: 'numeric', month: 'long', year: 'numeric' },
-              )}
-            </p>
           )}
         </Section>
 

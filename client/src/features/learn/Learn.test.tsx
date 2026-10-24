@@ -64,7 +64,7 @@ describe('Learn', () => {
     const [first, second] = screen.getAllByRole('tabpanel', { hidden: true })
     expect(first).toBeVisible()
     expect(second).not.toBeVisible()
-    await userEvent.click(screen.getByRole('tab', { name: 'chunked' }))
+    await userEvent.click(screen.getByRole('tab', { name: 'Chunked steps' }))
     expect(first).not.toBeVisible()
     expect(second).toBeVisible()
   })

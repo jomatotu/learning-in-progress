@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Loader2, Sparkles } from 'lucide-react'
-import type { StudentProfileJson } from './studentProfile'
+import type { StudentProfile } from '@/api/profile'
 import { generateSolution } from './solution'
 import { defineMessages, useMessages } from '@/lib/i18n'
 
@@ -51,7 +51,7 @@ export function MagicStep({
   profileJson,
 }: {
   topic: string
-  profileJson: StudentProfileJson
+  profileJson: StudentProfile
 }) {
   const t = useMessages(messages)
   const { buzzwords } = t
