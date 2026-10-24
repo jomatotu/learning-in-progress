@@ -4,13 +4,18 @@
 
 
 ```mermaid
-C4Context
-title Systemkontext
-Person(nutzer, "Nutzer", "Verwendet die Anwendung")
-System(app, "Anwendung", "Kernsystem")
-System_Ext(mail, "E-Mail", "Externer Maildienst")
-Rel(nutzer, app, "Nutzt")
-Rel(app, mail, "Sendet Mail", "SMTP")
+flowchart LR
+  nutzer([Lernende])
+  app[Learning-in-Progress]
+  material[Lernmaterial]
+  quellen[Wissens- und Forschungsquellen]
+
+  nutzer -->|Profil, Ziele, Feedback| app
+  material -->|Texte, Vorlesungen| app
+  quellen -->|Belege und Empfehlungen| app
+
+  app -->|Angepasste Lernoberfläche| nutzer
+  app -->|Transformierte Inhalte| material
 ```
 
 | Nachbar | Input | Output |
