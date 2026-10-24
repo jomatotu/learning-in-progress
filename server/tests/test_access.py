@@ -1,0 +1,91 @@
+import pytest
+from fastapi.testclient import TestClient
+from pydantic import SecretStr
+
+from app import guards, hermes
+from app.access import require_access
+from app.main import app
+from app.settings import Settings, get_settings
+
+PROFILE = {"profile": {}}
+
+
+def use_code(code: str | None):
+    app.dependency_overrides[get_settings] = lambda: Settings(
+        access_code=None if code is None else SecretStr(code)
+    )
+
+
+@pytest.fixture(autouse=True)
+def gate_on():
+    app.dependency_overrides.pop(require_access, None)
+    guards.hermes_limiter.hits.clear()
+    yield
+    app.dependency_overrides.pop(get_settings, None)
+    guards.hermes_limiter.hits.clear()
+
+
+def post(client: TestClient, **kwargs):
+    return client.post("/api/solution", json=PROFILE, **kwargs)
+
+
+def test_gated_route_without_credentials_is_401_with_challenge():
+    use_code("abc")
+    with TestClient(app) as client:
+        response = post(client)
+    assert response.status_code == 401
+    assert response.json() == {"detail": "access_required"}
+    assert response.headers["WWW-Authenticate"].startswith("Basic")
+
+
+@pytest.mark.parametrize("code", [None, ""])
+def test_unconfigured_code_is_503(code):
+    use_code(code)
+    with TestClient(app) as client:
+        response = post(client, auth=("x", ""))
+    assert response.status_code == 503
+    assert response.json() == {"detail": "access_not_configured"}
+
+
+def test_wrong_password_is_401():
+    use_code("abc")
+    with TestClient(app) as client:
+        response = post(client, auth=("x", "nope"))
+    assert response.status_code == 401
+    assert response.headers["WWW-Authenticate"].startswith("Basic")
+
+
+def reach_route(monkeypatch):
+    async def boom(*args, **kwargs):
+        raise hermes.HermesError("down")
+
+    monkeypatch.setattr(hermes, "ask_hermes", boom)
+
+
+def test_password_with_whitespace_is_accepted(monkeypatch):
+    use_code("abc")
+    reach_route(monkeypatch)
+    with TestClient(app) as client:
+        assert post(client, auth=("x", "  abc ")).status_code == 502
+
+
+def test_username_is_ignored(monkeypatch):
+    use_code("abc")
+    reach_route(monkeypatch)
+    with TestClient(app) as client:
+        assert post(client, auth=("anyone", "abc")).status_code == 502
+
+
+def test_ungated_routes_stay_open():
+    use_code("abc")
+    with TestClient(app) as client:
+        assert client.get("/api/health").status_code == 200
+        assert client.get("/api/survey").status_code == 200
+
+
+def test_wrong_passwords_count_against_the_limit():
+    use_code("abc")
+    app.dependency_overrides.pop(guards.limit_hermes_runs, None)
+    with TestClient(app) as client:
+        codes = [post(client, auth=("x", "bad")).status_code for _ in range(7)]
+    assert codes == [401] * 6 + [429]

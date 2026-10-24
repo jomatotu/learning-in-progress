@@ -9,6 +9,7 @@ from app.settings import get_settings
 
 get_settings.cache_clear()
 
+from app.access import require_access
 from app.guards import limit_hermes_runs
 from app.main import app
 
@@ -23,3 +24,11 @@ def hermes_limit_off():
     app.dependency_overrides[limit_hermes_runs] = no_limit
     yield
     app.dependency_overrides.pop(limit_hermes_runs, None)
+
+
+# Existing suites don't send credentials; access tests remove this override.
+@pytest.fixture(autouse=True)
+def access_off():
+    app.dependency_overrides[require_access] = no_limit
+    yield
+    app.dependency_overrides.pop(require_access, None)
