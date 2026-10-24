@@ -1,0 +1,2158 @@
+[
+  {
+    "question": "Who served as the technical representative for the project?",
+    "answer": "Kelly Henderson",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": {
+      "reason": "The question is straightforward and directly answerable from the passage, but it refers to a specific detail within the document rather than general knowledge of the subject.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 0
+  },
+  {
+    "question": "What is the toll-free number to call for requesting materials?",
+    "answer": "1-877-433-7827 (1-877-4-ED-PUBS).",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 1
+  },
+  {
+    "question": "What are the core symptoms of Attention Deficit Hyperactivity Disorder (ADHD)?",
+    "answer": "The core symptoms of ADHD are inattention, hyperactivity, and impulsivity.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 2
+  },
+  {
+    "question": "What is the estimated range of children with ADHD in the United States?",
+    "answer": "The estimated range of children with ADHD in the United States is 1.46 to 2.46 million.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 3
+  },
+  {
+    "question": "What are the two main categories of behaviors exhibited by children with ADHD?",
+    "answer": "Poor sustained attention and hyperactivity-impulsiveness.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 4
+  },
+  {
+    "question": "What is the range of rates for conduct or oppositional defiant disorders among children with ADHD?",
+    "answer": "From 43 to 93 percent.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 5
+  },
+  {
+    "question": "What is the purpose of an individualized educational program (IEP) for children with ADHD?",
+    "answer": "The purpose of an IEP is to combine selected educational practices into a plan that is integrated with educational activities provided to other children in the class.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The question is somewhat narrow and focuses on a specific part of the passage, but the answer is directly supported by the text and is clear.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 6
+  },
+  {
+    "question": "What are the three components of successful programs for children with ADHD?",
+    "answer": "The three components are Academic Instruction, Behavioral Interventions, and Classroom Accommodations.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 7
+  },
+  {
+    "question": "What is the first major component of the most effective instruction for children with ADHD?",
+    "answer": "The first major component is effective academic instruction.",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 8
+  },
+  {
+    "question": "What is the main goal of using an advance organizer in a lesson for students with ADHD?",
+    "answer": "To prepare students for the day’s lesson by outlining the sequence of activities, such as a review of the previous lesson followed by new information and both group and independent work.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": {
+      "reason": "The question is well-constructed and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 9
+  },
+  {
+    "question": "What should be identified when stating needed materials for a lesson?",
+    "answer": "All materials that the children will need during the lesson, rather than leaving them to figure out on their own.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more specific to align with the exact wording of the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 10
+  },
+  {
+    "question": "What should teachers do before calling on other students in a lesson for children with ADHD?",
+    "answer": "Probe for correct answers.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise by including the full context of 'probe for correct answers before calling on other students'.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 11
+  },
+  {
+    "question": "What is the recommended time to wait before giving the answer after a child has worked out a question?",
+    "answer": "At least 15 seconds.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 12
+  },
+  {
+    "question": "What is a recommended practice to reduce test anxiety for students with ADHD?",
+    "answer": "Eliminate or reduce the frequency of timed tests to allow students with ADHD more time to complete quizzes and tests.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 13
+  },
+  {
+    "question": "What is the recommended time frame for providing advance warnings before the end of a lesson?",
+    "answer": "5 or 10 minutes before the end of the lesson, particularly for seatwork and group projects.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 14
+  },
+  {
+    "question": "What is the name of the strategy that involves setting aside a fixed time each day for silent reading?",
+    "answer": "D.E.A.R.: Drop Everything and Read and Sustained Silent Reading.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": {
+      "reason": "The question is well-constructed but could be slightly more precise in phrasing to avoid ambiguity.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 15
+  },
+  {
+    "question": "What activity involves pairing a child with ADHD with another student who is a strong reader?",
+    "answer": "Partner reading activities, where the partners take turns reading orally and listening to each other.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 16
+  },
+  {
+    "question": "What type of games are suggested for students to practice phonetically irregular words?",
+    "answer": "Board games, such as bingo, are suggested for students to practice phonetically irregular words.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise by specifying 'phonetically irregular words' in the question text.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 17
+  },
+  {
+    "question": "What activity involves students writing, mailing, and receiving letters in the classroom?",
+    "answer": "Establishing a post office in the classroom, where students can write, mail, and receive letters to and from their classmates and teacher.",
+    "chunk_id": 21,
+    "pages": "17-17",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 18
+  },
+  {
+    "question": "What is one environment that can be provided for children with ADHD to complete handwriting assignments?",
+    "answer": "Provide the child with a special 'quiet place', such as a table outside the classroom, to complete his or her handwriting assignments.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": {
+      "reason": "The question is answerable by an expert and has a single clear answer based on the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 19
+  },
+  {
+    "question": "What is one instructional practice that can help children with ADHD improve their basic computation skills?",
+    "answer": "Partnering with another student to quiz each other about basic computation skills.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": {
+      "reason": "The question is good but could be slightly more specific to avoid ambiguity.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 20
+  },
+  {
+    "question": "What is one real-life example given for practicing money skills?",
+    "answer": "Ask the child to calculate his or her change when paying for lunch in the school cafeteria.",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 21
+  },
+  {
+    "question": "What role is designated for a specific teacher in supporting students with ADHD?",
+    "answer": "A specific teacher is designated as the student’s advisor or coordinator to review progress, act as a liaison between home and school, and meet regularly with the student to plan and organize tasks.",
+    "chunk_id": 26,
+    "pages": "20-21",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 22
+  },
+  {
+    "question": "What is one practice recommended to help children with ADHD break down long assignments?",
+    "answer": "Practicing sequencing activities by breaking down a long assignment into a sequence of short, interrelated activities.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 23
+  },
+  {
+    "question": "What are the academic subjects that can benefit from the use of Venn diagrams?",
+    "answer": "Reading, mathematics, and other academic subjects.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for a list of academic subjects that can benefit from Venn diagrams in general, not specifically as mentioned in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 24
+  },
+  {
+    "question": "What should be the primary concern when assigning homework to students with ADHD?",
+    "answer": "The quality, rather than the quantity, of homework assigned should be the primary concern.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": {
+      "reason": "The question is well-supported by the passage and has a clear, single answer.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 25
+  },
+  {
+    "question": "What is the main purpose of behavioral interventions in the classroom?",
+    "answer": "To assist students in displaying behaviors that are most conducive to their own learning and that of classmates.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 26
+  },
+  {
+    "question": "What should teachers focus on when giving praise to students?",
+    "answer": "Teachers should focus on the specific positive behavior displayed by the student.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": {
+      "reason": "The question is somewhat narrow but could be more comprehensive by including other aspects of praise mentioned in the passage",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 27
+  },
+  {
+    "question": "What is the primary reason negative consequences are less effective than praise?",
+    "answer": "Negative consequences rarely change attitudes and may increase the frequency and intensity of inappropriate behavior by rewarding misbehaving students with attention.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for multiple reasons rather than a single primary reason.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 28
+  },
+  {
+    "question": "What is the main benefit of allowing students with ADHD to leave the classroom briefly?",
+    "answer": "It can help them settle down and return to the room ready to concentrate.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 29
+  },
+  {
+    "question": "What are three types of behavioral prompts that effective teachers use with their students?",
+    "answer": "Visual cues, proximity control, and other unspecified prompts, with visual cues and proximity control being specifically mentioned as particularly helpful.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": {
+      "reason": "The question is somewhat open-ended as it asks for 'three types' of behavioral prompts, but the passage only explicitly lists two (visual cues and proximity control) and mentions a third as 'three, which may be particularly helpful' without specifying.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 30
+  },
+  {
+    "question": "What is one hand gesture used to communicate privately with a child with ADHD?",
+    "answer": "A closed fist can signal that the child knows the answer.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 31
+  },
+  {
+    "question": "What are the three steps involved in conducting a Functional Behavioral Assessment (FBA)?",
+    "answer": "The three steps involved in conducting a Functional Behavioral Assessment (FBA) are: (1) observing the behavior and identifying and defining its problematic characteristics, (2) identifying which actions or events precede and follow the behavior, and (3) determining how often the behavior occurs.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 32
+  },
+  {
+    "question": "What is the primary goal of Positive Behavioral Interventions and Supports (PBIS)?",
+    "answer": "The goal of PBIS is to eliminate problem behavior, replace it with more appropriate behavior, and increase a person’s skills and opportunities for an enhanced quality of life.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 33
+  },
+  {
+    "question": "What is the purpose of involving children in the selection of a reward?",
+    "answer": "Involving children in the selection of a reward makes them more likely to work for it because they are invested in the reward.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 34
+  },
+  {
+    "question": "What happens if the teacher and student ratings match or are within one point in a self-management system?",
+    "answer": "The student earns points.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 35
+  },
+  {
+    "question": "What is the purpose of seating a child with ADHD near the teacher?",
+    "answer": "To provide opportunities for the teacher to monitor and reinforce the child’s on-task behavior.",
+    "chunk_id": 40,
+    "pages": "28-28",
+    "review": {
+      "reason": "The question is well-constructed and directly answerable based on the passage, but the passage is incomplete and lacks sufficient detail to fully support the answer.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 36
+  },
+  {
+    "question": "What should teachers do when directing students to a quiet area for study or testing?",
+    "answer": "Direct them privately and discreetly to avoid the appearance of punishment.",
+    "chunk_id": 41,
+    "pages": "28-29",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 37
+  },
+  {
+    "question": "What type of music should be played for quiet activities done independently?",
+    "answer": "Quiet classical music.",
+    "chunk_id": 42,
+    "pages": "29-29",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 38
+  },
+  {
+    "question": "What are the three main components of a successful strategy for educating children with ADHD?",
+    "answer": "The three main components are academic instruction, behavioral interventions, and classroom accommodations.",
+    "chunk_id": 43,
+    "pages": "29-30",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 39
+  },
+  {
+    "question": "Who is the Acting Director of the Office of Special Education Programs?",
+    "answer": "Alexa Posny",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": {
+      "reason": "The question is straightforward and answerable based on the passage, but it refers to a specific detail within the document rather than general knowledge of the subject.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 40
+  },
+  {
+    "question": "What is the alternative number to call if the 877 service is not available in your area?",
+    "answer": "1-800-872-5327 (1-800-USA-LEARN).",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 41
+  },
+  {
+    "question": "What are the potential consequences of not implementing appropriate instructional methodologies and interventions for children with ADHD?",
+    "answer": "The potential consequences include difficulties with academics and forming relationships with peers.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": {
+      "reason": "The question is well-constructed but could be more specific to ensure a single answer.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 42
+  },
+  {
+    "question": "What percentage of the student population in the United States is estimated to have ADHD?",
+    "answer": "It is estimated that 3–5 percent of the student population in the United States has ADHD.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 43
+  },
+  {
+    "question": "How many subtypes of ADHD have been described in the DSM-IV?",
+    "answer": "Three subtypes: predominantly inattentive, predominantly hyperactive-impulsive, and combined types.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 44
+  },
+  {
+    "question": "What is the range of rates for anxiety or mood disorders among children with ADHD?",
+    "answer": "From 13 to 51 percent.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 45
+  },
+  {
+    "question": "What is the three-pronged strategy used by successful teachers to educate children with ADHD?",
+    "answer": "The three-pronged strategy involves identifying the child's unique needs, selecting appropriate educational practices, and combining these practices into an individualized educational program (IEP) or other individualized plan.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The question is well-structured and answerable based on the passage, but the answer is slightly simplified and omits the integration with classroom activities mentioned in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 46
+  },
+  {
+    "question": "What is the purpose of an IEP for children receiving special education services?",
+    "answer": "An IEP should reflect annual goals and special education-related services, along with supplementary aids and services necessary for attaining those goals.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "The question is answerable by an expert and has a single correct answer based on the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 47
+  },
+  {
+    "question": "What is the benefit of the techniques suggested for children with ADHD?",
+    "answer": "The techniques suggested have the additional benefit of enhancing the learning of other children in the classroom who do not have ADHD.",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 48
+  },
+  {
+    "question": "What is one teaching practice that helps students with ADHD learn best?",
+    "answer": "Providing a carefully structured academic lesson where the teacher explains what students will learn and places these skills in the context of previous lessons.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": {
+      "reason": "The answer is accurate but the question is somewhat vague as it asks for 'one teaching practice' which could have multiple valid answers from the passage",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 49
+  },
+  {
+    "question": "Why is it important to simplify instructions, choices, and scheduling for ADHD students?",
+    "answer": "The simpler the expectations communicated to an ADHD student, the more likely it is that he or she will comprehend and complete them in a timely and productive manner.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": {
+      "reason": "The question is well-structured and directly supported by the passage, but the answer is almost verbatim from the passage, which may indicate a lack of originality or critical thinking.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 50
+  },
+  {
+    "question": "What should teachers avoid when providing cues to students with ADHD?",
+    "answer": "Sarcasm and criticism.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 51
+  },
+  {
+    "question": "What is the purpose of asking probing questions in a lesson?",
+    "answer": "To allow children sufficient time to work out the answer to a question and to ask follow-up questions that give them an opportunity to demonstrate what they know.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 52
+  },
+  {
+    "question": "Why might timed tests be problematic for children with ADHD?",
+    "answer": "Timed tests may not allow children with ADHD to demonstrate what they truly know due to their potential preoccupation with elapsed time.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 53
+  },
+  {
+    "question": "What is the name of the strategy where students think about a topic, pair with a partner, and share ideas with the group?",
+    "answer": "Think-Pair-Share.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 54
+  },
+  {
+    "question": "What is the purpose of silent reading time for children with ADHD?",
+    "answer": "To help children with ADHD who are poor readers improve their reading comprehension skills.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage's context.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 55
+  },
+  {
+    "question": "What method involves creating visual representations of a story's main events?",
+    "answer": "Storyboards, which ask the child to illustrate the sequence of main events in a story.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "The question is clear and directly answerable based on the passage, but the answer is somewhat specific to the document's wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 56
+  },
+  {
+    "question": "What is one practice that helps children with ADHD in writing assignments?",
+    "answer": "Identify and teach the child classroom standards for acceptable written work, such as format and style.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": {
+      "reason": "The question is clear and directly answerable based on the passage, but the answer is somewhat specific to the document's wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 57
+  },
+  {
+    "question": "What technique involves students closing their eyes and visualizing a paragraph read aloud by the teacher?",
+    "answer": "Visualize compositions, where a child closes their eyes and visualizes a paragraph read aloud, or another student describes an event while others visualize it as a written paragraph.",
+    "chunk_id": 21,
+    "pages": "17-17",
+    "review": {
+      "reason": "The question is clear and directly references a specific technique from the passage, but the answer includes an extra detail not explicitly mentioned in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 58
+  },
+  {
+    "question": "What is one computer-based activity suggested for practicing basic computation?",
+    "answer": "Schedule computer time for the child to drill and practice basic computations, using appropriate games.",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 59
+  },
+  {
+    "question": "What organizational tool is suggested for children with ADHD to help manage assignments for different academic subjects?",
+    "answer": "Color-coded folders are suggested to help children with ADHD organize assignments for different academic subjects such as reading, mathematics, social science, and science.",
+    "chunk_id": 26,
+    "pages": "20-21",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 60
+  },
+  {
+    "question": "What is one benefit of well-managed classrooms?",
+    "answer": "They prevent many disciplinary problems and provide an environment most favorable for learning.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 61
+  },
+  {
+    "question": "What is the main purpose of giving specific praise to students?",
+    "answer": "To highlight exactly what part of the student’s behavior was desirable.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": {
+      "reason": "The question is somewhat narrow and focuses on a specific detail from the passage, but it could be more comprehensive in addressing the broader purpose of specific praise.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 62
+  },
+  {
+    "question": "What is the role of calming manipulatives in the classroom for students with ADHD?",
+    "answer": "They help children gain some needed sensory input while still attending to the lesson.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": {
+      "reason": "The question is well-constructed and directly answerable based on the passage, but the answer is very specific and may not capture the full range of the passage's intent.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 63
+  },
+  {
+    "question": "What is the purpose of peer mediation programs in schools?",
+    "answer": "To positively impact the behavior of students with ADHD by training students to manage disputes involving their classmates.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": {
+      "reason": "The question is somewhat narrow and focuses on a specific detail from the passage, but the answer is directly supported and the question is clear.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 64
+  },
+  {
+    "question": "What is one hand gesture used to indicate that a child with ADHD does not know the answer?",
+    "answer": "An open palm can signal that the child does not know the answer.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 65
+  },
+  {
+    "question": "Who is involved in evaluating whether behavioral interventions are appropriate for a child with ADHD?",
+    "answer": "Teachers, along with the family and other involved professionals, are involved in evaluating whether behavioral interventions are appropriate for a child with ADHD.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": {
+      "reason": "The question is clear and directly answerable from the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 66
+  },
+  {
+    "question": "What is the focus of Behavioral contracts and management plans?",
+    "answer": "Behavioral contracts and management plans focus on identifying specific academic or behavioral goals for the child with ADHD, along with behavior that needs to change and strategies for responding to inappropriate behavior.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers depending on interpretation of the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 67
+  },
+  {
+    "question": "What are two types of consequences that can be part of a token economy system?",
+    "answer": "Two types of consequences are earning points for completing homework on time and losing points for not completing homework on time.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 68
+  },
+  {
+    "question": "What is the main purpose of a self-management system in the context of students with ADHD?",
+    "answer": "To train students to monitor and evaluate their own behavior without constant feedback from the teacher.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": {
+      "reason": "The question is somewhat narrow and focuses on a specific detail from the passage, but it is still answerable by an expert without the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 69
+  },
+  {
+    "question": "What is the purpose of seating a child with ADHD near a student role model?",
+    "answer": "To provide opportunities for children to work cooperatively and to learn from their peers in the class.",
+    "chunk_id": 40,
+    "pages": "28-28",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 70
+  },
+  {
+    "question": "How can egg timers be used to help students during a 30-minute lesson?",
+    "answer": "By setting the timer for 10 minutes three times to provide interim prompts.",
+    "chunk_id": 41,
+    "pages": "28-29",
+    "review": {
+      "reason": "The question is somewhat narrow and specific to the document's example, limiting the scope of expert answerability.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 71
+  },
+  {
+    "question": "What type of music should be played for active group activities?",
+    "answer": "Jazz.",
+    "chunk_id": 42,
+    "pages": "29-29",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 72
+  },
+  {
+    "question": "What is the purpose of incorporating techniques from the three main components into everyday instructional practices?",
+    "answer": "To improve both the academic performance and the behavior of students with ADHD.",
+    "chunk_id": 43,
+    "pages": "29-30",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is directly supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 73
+  },
+  {
+    "question": "Who is the Director of the Research to Practice Division?",
+    "answer": "Louis Danielson",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": {
+      "reason": "The question is straightforward and answerable based on the passage, but it refers to a specific detail within the document rather than general knowledge of the subject.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 74
+  },
+  {
+    "question": "What number should be used by individuals who use a telecommunications device for the deaf (TDD) or a teletypewriter (TTY)?",
+    "answer": "1-877-576-7734.",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 75
+  },
+  {
+    "question": "How many times more often is ADHD diagnosed in boys compared to girls?",
+    "answer": "ADHD is diagnosed four to nine times more often in boys than in girls.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 76
+  },
+  {
+    "question": "What is one situation in which a child with ADHD may be able to focus?",
+    "answer": "When receiving frequent reinforcement or under very strict control.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "The question is clear and has a single answer, but the passage is incomplete and the answer is based on a specific example from the text.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 77
+  },
+  {
+    "question": "What percentage of parents of children with emotional disturbance report their children also have ADHD?",
+    "answer": "65 percent.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 78
+  },
+  {
+    "question": "What is the first step in the three-pronged strategy for teaching children with ADHD?",
+    "answer": "The first step is to identify the unique needs of the child, including how, when, and why the child is inattentive, impulsive, and hyperactive.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The question is well-structured and directly answerable based on the passage, but the answer is somewhat specific to the wording in the passage rather than a general principle.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 79
+  },
+  {
+    "question": "Who should be involved in creating an IEP for a child with ADHD?",
+    "answer": "An IEP should be created in consultation with other educators and parents.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for a list of stakeholders rather than a specific answer.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 80
+  },
+  {
+    "question": "For which age group have the practices been used most widely?",
+    "answer": "The practices have been used most widely with children at the elementary level.",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 81
+  },
+  {
+    "question": "What is the purpose of an advance organizer in a lesson?",
+    "answer": "To prepare students for the day’s lesson by quickly summarizing the order of various activities planned.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": {
+      "reason": "The question is well-structured and answerable based on the passage, but the answer is very specific and directly quotes the passage, which may limit its generality.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 82
+  },
+  {
+    "question": "What is the purpose of explaining additional resources to students?",
+    "answer": "To tell students how to obtain help in mastering the lesson.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": {
+      "reason": "The question is clear and directly answerable based on the passage, but it could be slightly more specific to ensure a single answer.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 83
+  },
+  {
+    "question": "What should teachers do to help students with ADHD stay on task during transitions?",
+    "answer": "Prepare them for transitions.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 84
+  },
+  {
+    "question": "What should be done before the lesson begins to help children with ADHD focus on directions?",
+    "answer": "Prepare the worksheet before the lesson begins.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": {
+      "reason": "The question is somewhat narrow but could be interpreted as asking for a single answer, though the passage provides more context that could be used to form a broader answer.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 85
+  },
+  {
+    "question": "What is one benefit of using assistive technology for students with ADHD?",
+    "answer": "It makes instruction more visual and allows students to participate actively.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": {
+      "reason": "The question is well-constructed and directly supported by the passage, but could be slightly more specific to ensure a single answer.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 86
+  },
+  {
+    "question": "What are the two main components of the D.E.A.R. strategy?",
+    "answer": "Drop Everything and Read and Sustained Silent Reading.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for the full name or the acronym of the D.E.A.R. strategy rather than its two main components.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 87
+  },
+  {
+    "question": "What activity allows a child to retell a story they have recently read?",
+    "answer": "Storytelling sessions, where the child can retell a story that he or she has read recently.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "The question is clear and directly answerable from the passage, but the answer is somewhat repetitive and could be more concise.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 88
+  },
+  {
+    "question": "What is the purpose of using computer games for phonics?",
+    "answer": "Use a computer to provide opportunities for students to drill and practice with phonics or grammar lessons.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": {
+      "reason": "The question is answerable and directly supported by the passage, but the answer is very specific to the document's wording and examples.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 89
+  },
+  {
+    "question": "What tool can be used as an alternative to writing assignments for students?",
+    "answer": "Tape recorders, where the student dictates writing assignments into a tape recorder instead of writing them.",
+    "chunk_id": 21,
+    "pages": "17-17",
+    "review": {
+      "reason": "The question is clear and has one correct answer, but it is slightly narrow in scope and could be more open-ended to allow for multiple valid responses.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 90
+  },
+  {
+    "question": "What is the duration of the 'magic minute' drills?",
+    "answer": "Students perform a quick (60-second) drill every day to practice basic computation of math facts.",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": {
+      "reason": "The question is clear and directly answerable from the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 91
+  },
+  {
+    "question": "What item is provided to children with ADHD to help organize homework and other seatwork?",
+    "answer": "An assignment notebook is provided to children with ADHD to help organize homework and other seatwork.",
+    "chunk_id": 26,
+    "pages": "20-21",
+    "review": {
+      "reason": "The question is clear and has a single answer, but it could be more precise by specifying 'items' rather than 'item' to match the plural usage in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 92
+  },
+  {
+    "question": "What is a consequence of students' behaviors not being focused on the lesson?",
+    "answer": "The teacher's time is spent interacting with those students, leaving less time to assist other students.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 93
+  },
+  {
+    "question": "What is the recommended approach for teachers to maintain the effectiveness of praise?",
+    "answer": "Teachers should vary their praise statements and be consistent in their approach.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": {
+      "reason": "The question is somewhat narrow but misses the full scope of the passage, which includes multiple strategies for maintaining praise effectiveness.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 94
+  },
+  {
+    "question": "What activity is suggested in social skills classes for children with ADHD?",
+    "answer": "Role-playing and modeling different solutions to common social problems.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more specific to avoid ambiguity.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 95
+  },
+  {
+    "question": "What is the purpose of a Functional Behavioral Assessment (FBA)?",
+    "answer": "A Functional Behavioral Assessment (FBA) is a systematic process for describing problem behavior and identifying the environmental factors and surrounding events associated with problem behavior.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": {
+      "reason": "The answer is accurate but could be more comprehensive as the passage also mentions the use of FBA results to develop interventions.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 96
+  },
+  {
+    "question": "Who is typically involved in creating Behavioral contracts and management plans?",
+    "answer": "Schools, families, and communities are typically involved in creating Behavioral contracts and management plans.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for the typical participants in such plans, which may vary depending on context.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 97
+  },
+  {
+    "question": "In what setting are token economy systems often used?",
+    "answer": "Token economy systems are often used for entire classrooms, as opposed to solely for individual students.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 98
+  },
+  {
+    "question": "What is the exchange system in a self-management system based on?",
+    "answer": "Points earned are exchanged for privileges.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is directly supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 99
+  },
+  {
+    "question": "What is one special seating arrangement for children with ADHD that promotes cooperative learning?",
+    "answer": "Seat the child near a student role model.",
+    "chunk_id": 40,
+    "pages": "28-28",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for any seating arrangement that promotes cooperation, not specifically one mentioned in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 100
+  },
+  {
+    "question": "What is a general rule of thumb for selecting the right desk and chair for children with ADHD?",
+    "answer": "A child should be able to put his or her elbows on the surface of the desk and have his or her chin fit comfortably in the palm of the hand.",
+    "chunk_id": 42,
+    "pages": "29-29",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 101
+  },
+  {
+    "question": "What is the effect of incorporating the three main components into classroom management practices?",
+    "answer": "The effect is empowering teachers to improve both the academic performance and the behavior of their students with ADHD.",
+    "chunk_id": 43,
+    "pages": "29-30",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is directly supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 102
+  },
+  {
+    "question": "What is the e-mail address to contact for more information about accessible formats?",
+    "answer": "omalternateformatcenter@ed.gov.",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 103
+  },
+  {
+    "question": "What is one behavior associated with preschool children with ADHD?",
+    "answer": "A behavior associated with preschool children with ADHD is gross motor overactivity, such as always running or climbing and frequently shifting from one activity to another.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 104
+  },
+  {
+    "question": "What is one difference between children with ADHD and other children of the same age regarding symptoms?",
+    "answer": "The symptoms are more frequent and more severe in children with ADHD.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is directly supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 105
+  },
+  {
+    "question": "What is the range of comorbidity rates for ADHD and learning disabilities according to some studies?",
+    "answer": "From 7 to 92 percent.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": {
+      "reason": "The question is clear and answerable based on the passage, but the range provided in the answer (7 to 92 percent) is not explicitly stated in the passage; it is inferred from the cited studies.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 106
+  },
+  {
+    "question": "What are the three components of the educational practices selected by teachers for children with ADHD?",
+    "answer": "The three components are academic instruction, behavioral interventions, and classroom accommodations.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The question is well-structured and answerable based on the passage, but the answer is somewhat directly stated in the passage, making it less challenging for an expert.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 107
+  },
+  {
+    "question": "What is the main reason no single educational program will be best for all children with ADHD?",
+    "answer": "Because no two children with ADHD are alike, each child's needs and responses to educational programs can vary.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is directly supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 108
+  },
+  {
+    "question": "Are the practices useful for older students as well?",
+    "answer": "Yes, the practices are useful for older students as well.",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": {
+      "reason": "The question is straightforward and can be answered based on the passage, but it is somewhat generic and could be improved by specifying the practices in question.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 109
+  },
+  {
+    "question": "What should teachers avoid when interacting with students with ADHD?",
+    "answer": "Bringing attention to differences between ADHD students and their classmates.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": {
+      "reason": "The question is clear and has one expected answer, but it is somewhat narrow and focuses on a specific detail from the passage rather than broader strategies.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 110
+  },
+  {
+    "question": "What is one alternative method to help students with ADHD demonstrate their knowledge?",
+    "answer": "Provide them with other opportunities, methods, or test formats to demonstrate their knowledge.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": {
+      "reason": "The question is answerable by an expert but the answer is directly taken from the passage, making it somewhat dependent on the document's specific wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 111
+  },
+  {
+    "question": "What is the purpose of providing advance warnings before the end of a lesson?",
+    "answer": "To inform students how much time remains and to help them prepare for the next activity.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more specific about the purpose of advance warnings as outlined in the text.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 112
+  },
+  {
+    "question": "What is the main goal of individualizing instructional practices for students with ADHD?",
+    "answer": "To provide structured opportunities for the child to review and master an academic lesson that was previously presented to the entire class.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": {
+      "reason": "The question is somewhat open-ended and could have multiple valid answers based on the passage's context.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 113
+  },
+  {
+    "question": "What activity involves role-playing different characters in a favorite story?",
+    "answer": "Playacting sessions, where the child can role-play different characters in a favorite story.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "The question is clear and directly references content in the passage, but the answer is somewhat repetitive and could be more concise.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 114
+  },
+  {
+    "question": "What are the two types of games suggested for practicing phonics with children with ADHD?",
+    "answer": "Board games and computer games.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": {
+      "reason": "The question is clear and directly answerable from the passage, but the phrasing could be slightly more precise to avoid ambiguity.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 115
+  },
+  {
+    "question": "What activity involves a teacher or another student writing down a story told by a child with ADHD?",
+    "answer": "Dictate writing assignments, where the teacher or another student writes down a story told by a child with ADHD.",
+    "chunk_id": 21,
+    "pages": "17-17",
+    "review": {
+      "reason": "The question is clear and directly references a specific activity in the passage, but the answer is somewhat dependent on the document's specific wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 116
+  },
+  {
+    "question": "What is the purpose of color coding arithmetic symbols?",
+    "answer": "Color coding arithmetic symbols, such as +, –, and =, is done to provide visual cues for children when they are computing whole numbers.",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 117
+  },
+  {
+    "question": "What strategy involves assigning a partner to assist a child with ADHD in managing homework and other tasks?",
+    "answer": "Working with a homework partner involves assigning a partner to help record homework and other seatwork in the assignment notebook and file worksheets and other papers in the proper folders.",
+    "chunk_id": 26,
+    "pages": "20-21",
+    "review": {
+      "reason": "The question is clear and directly references a strategy mentioned in the passage, but the answer is somewhat verbose and could be more concise.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 118
+  },
+  {
+    "question": "What is the most common form of verbal reinforcement?",
+    "answer": "Praise given to a student when he or she begins and completes an activity or exhibits a particular desired behavior.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 119
+  },
+  {
+    "question": "What is the purpose of providing structured opportunities for children with ADHD to use social skills?",
+    "answer": "To ensure the generalization of these skills.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 120
+  },
+  {
+    "question": "What is the main goal of using behavioral interventions for children with ADHD?",
+    "answer": "The main goal of using behavioral interventions for children with ADHD is to teach them how to manage their own behavior.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for the purpose of behavioral interventions in general rather than specifically as described in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 121
+  },
+  {
+    "question": "What is the purpose of involving the child in setting goals for Behavioral contracts and management plans?",
+    "answer": "The purpose of involving the child is to ensure that the child agrees that his or her goals are important to master.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": {
+      "reason": "The question is somewhat narrow and focuses on a specific detail from the passage, but it could be more open-ended to allow for a broader understanding of the purpose of involving children in goal-setting.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 122
+  },
+  {
+    "question": "What is a token economy system used for?",
+    "answer": "A token economy system is used to motivate a child to achieve a goal identified in a behavioral contract.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": {
+      "reason": "The question is somewhat narrow and could be considered good, but the answer is very specific and may not fully capture the broader purpose of token economy systems as described in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 123
+  },
+  {
+    "question": "What is the role of the teacher in a self-management system over time?",
+    "answer": "The teacher involvement is removed as the student becomes responsible for self-monitoring.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is directly supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 124
+  },
+  {
+    "question": "Why is it important for the desk and chair used by children with ADHD to be the right size?",
+    "answer": "Because if they are not, the child will be more inclined to squirm and fidget.",
+    "chunk_id": 42,
+    "pages": "29-29",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 125
+  },
+  {
+    "question": "What are the telephone numbers to contact for more information about accessible formats?",
+    "answer": "202-260-0852 or 202-260-0818.",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 126
+  },
+  {
+    "question": "What is a common behavior of older children with ADHD in school?",
+    "answer": "A common behavior of older children with ADHD in school is being restless and fidgeting in their seats or playing with their chairs and desks.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 127
+  },
+  {
+    "question": "What is one characteristic of children with ADHD who have the predominantly inattentive subtype?",
+    "answer": "They may act lethargic or restless.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 128
+  },
+  {
+    "question": "What should be considered when evaluating the settings and contexts for a child with ADHD?",
+    "answer": "The settings and contexts in which challenging behaviors occur should be considered in the evaluation.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for a broader consideration of settings and contexts beyond what is explicitly stated in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 129
+  },
+  {
+    "question": "What is the role of behavioral interventions in successful programs for children with ADHD?",
+    "answer": "Behavioral interventions are one of the three components of successful programs and are designed to address the behavioral needs of children with ADHD.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 130
+  },
+  {
+    "question": "In the example given, which words should be underlined in the sentence 'Mary has two apples, and John has three'?",
+    "answer": "Two, and, and three.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": {
+      "reason": "The question is somewhat ambiguous as it could be interpreted as asking for all key words or just one example, but the answer provided is clear and directly supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 131
+  },
+  {
+    "question": "What is one action effective teachers take when concluding lessons?",
+    "answer": "Checking completed assignments for at least some students.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": {
+      "reason": "The question is clear and has one expected answer, but it refers to specific content from the passage rather than general knowledge of the subject.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 132
+  },
+  {
+    "question": "What is the main reason children with ADHD may need individualized instructional practices?",
+    "answer": "Because children with ADHD have different ways of learning and retaining information, not all of which involve traditional reading and listening.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for a broader educational principle rather than a specific detail from the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 133
+  },
+  {
+    "question": "What tool is used to keep track of new or difficult sight-vocabulary words?",
+    "answer": "A word bank or dictionary of new or 'hard-to-read' sight-vocabulary words.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "The question is clear and directly answerable from the passage, but the answer is explicitly stated in the passage, making it somewhat dependent on the document's specific wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 134
+  },
+  {
+    "question": "What is the purpose of picture-letter charts for children with ADHD?",
+    "answer": "To help children who know sounds but do not know the letters that go with them.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": {
+      "reason": "The question is clear and directly answerable based on the passage, but the answer is very specific to the document's wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 135
+  },
+  {
+    "question": "How do effective teachers praise children with ADHD?",
+    "answer": "They praise them frequently and look for a behavior to praise before, and not after, a child gets off task.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 136
+  },
+  {
+    "question": "What is encouraged for children with ADHD to resolve their problems in a supervised setting?",
+    "answer": "Talking to each other.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 137
+  },
+  {
+    "question": "What is the role of the team working with a child exhibiting problem behavior during an FBA?",
+    "answer": "The role of the team working with a child exhibiting problem behavior during an FBA is to observe the behavior, identify and define its problematic characteristics, identify which actions or events precede and follow the behavior, and determine how often the behavior occurs.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": {
+      "reason": "The question is well-structured and directly answerable based on the passage, but the answer is very specific to the document's wording and examples, which may limit its generalizability.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 138
+  },
+  {
+    "question": "What is the main difference between PBIS and Behavioral contracts and management plans?",
+    "answer": "PBIS is a systems approach used across schools, families, and communities, while Behavioral contracts and management plans are typically used with individual children and focus on specific goals.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 139
+  },
+  {
+    "question": "What is the main idea of using tangible rewards and token economy systems?",
+    "answer": "The main idea is to reinforce appropriate behavior and motivate children to achieve goals through rewards and structured systems.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": {
+      "reason": "The question is somewhat vague and could allow for multiple interpretations of the main idea.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 140
+  },
+  {
+    "question": "What is a common behavior of adolescents with ADHD?",
+    "answer": "A common behavior of adolescents with ADHD is being more withdrawn and less communicative.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "The question is well-supported by the passage and has a single clear answer, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 141
+  },
+  {
+    "question": "What is the overall strategy for the successful instruction of children with ADHD?",
+    "answer": "The overall strategy is a three-pronged approach that includes evaluating the child's individual needs and strengths, selecting appropriate educational practices, and integrating these into an individualized plan.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The answer is accurate but slightly simplified and omits specific details from the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 142
+  },
+  {
+    "question": "What is the name of the strategy that involves instructing students on how to begin preparing for the next lesson?",
+    "answer": "Preview the next lesson.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for a strategy related to preparing for the next lesson in general, not specifically the one mentioned in the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 143
+  },
+  {
+    "question": "What activity involves playing board games that focus on reading comprehension skills?",
+    "answer": "Board games for reading comprehension, which provide practice with target reading-comprehension skills or sight-vocabulary words.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "The question is clear and directly answerable based on the passage, but the answer is somewhat repetitive and could be more concise.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 144
+  },
+  {
+    "question": "What kind of phrases are used as verbal reinforcement?",
+    "answer": "Simple phrases such as 'good job' encourage a child to act appropriately.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": {
+      "reason": "The question is somewhat narrow and specific to the passage's example, limiting the scope of possible answers.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 145
+  },
+  {
+    "question": "What is the benefit of offering social skills classes to the general school population?",
+    "answer": "It can positively affect the school climate.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": {
+      "reason": "The question is clear and directly supported by the passage, but could be slightly more precise in wording.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 146
+  },
+  {
+    "question": "What is the recommended approach for ensuring the child's agreement on goals in Behavioral contracts and management plans?",
+    "answer": "The recommended approach is to work with the child to cooperatively identify appropriate goals and ensure that the child agrees that his or her goals are important to master.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": {
+      "reason": "The question is clear and directly answerable based on the passage, but the answer is somewhat repetitive and could be more concise.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 147
+  },
+  {
+    "question": "What is one characteristic of adolescents with ADHD related to their actions?",
+    "answer": "Adolescents with ADHD are often impulsive, reacting spontaneously without regard to previous plans or necessary tasks and homework.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "none",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 5
+    },
+    "review_score": 5,
+    "id": 148
+  },
+  {
+    "question": "What activity involves using computer time for drill-and-practice with sight vocabulary words?",
+    "answer": "Computer games for reading comprehension, where the child schedules computer time for drill-and-practice with sight vocabulary words.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "The question is clear and directly answerable from the passage, but the answer provided is slightly verbose and could be more concise.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 149
+  },
+  {
+    "question": "What is the main emphasis of PBIS in terms of behavior improvement?",
+    "answer": "The main emphasis of PBIS is to create effective environments to improve behavior by eliminating problem behavior and replacing it with more appropriate behavior.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, though the answer is supported by the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 150
+  },
+  {
+    "question": "What is the age range in which ADHD symptoms are typically visible?",
+    "answer": "ADHD symptoms are typically visible as early as age 3.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for a range rather than a specific age.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 151
+  },
+  {
+    "question": "What materials can stimulate interest in traditional reading and reinforce reading lessons?",
+    "answer": "Recorded books, which are available from many libraries and can stimulate interest in traditional reading and reinforce reading lessons.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": {
+      "reason": "The question is answerable by an expert but the answer is not fully supported by the passage as it includes additional details not explicitly stated.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 152
+  },
+  {
+    "question": "What is a key point about ADHD in relation to adolescence?",
+    "answer": "It is now known that while the symptoms of ADHD may change as a child ages, many children with ADHD do not grow out of it.",
+    "chunk_id": 4,
+    "pages": "7-7",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for a general fact about ADHD in adolescence rather than a specific point from the passage.",
+      "single_answer": true,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4,
+    "id": 153
+  }
+]
