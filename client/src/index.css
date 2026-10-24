@@ -7,6 +7,9 @@
 @import './features/_deprecated/onboarding.css';
 @import './features/application/application.css';
 
+/* Hermes-written pages may be git-ignored; Tailwind must still scan them. */
+@source './features/application/generated';
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
