@@ -21,3 +21,11 @@ Node 24 (see `.nvmrc`).
 
 Never put API keys (e.g. Gemini) in `VITE_*` env vars: they are bundled into the
 browser code. Keep keys on the Python server.
+
+## Solution Pages
+
+Hermes-written pages (`src/features/application/generated/`) never run in the
+app origin. `/solution/:uuid` embeds `sandbox.html` in
+`<iframe sandbox="allow-scripts">` (opaque origin, no `/api`). The dev and
+preview servers send a strict `Content-Security-Policy` for `/sandbox.html`
+(see `vite.config.ts`); production hosting must send the same header.

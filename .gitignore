@@ -31,3 +31,6 @@ venv/
 .env
 .env.*
 !.env.example
+
+# Hermes-written Solution Pages
+client/src/features/application/generated/
