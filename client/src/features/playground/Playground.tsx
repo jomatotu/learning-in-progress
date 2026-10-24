@@ -1,23 +1,23 @@
 import { useState, type FormEvent } from 'react'
-import { useBuildPage, type BuildInput } from '@/api/build'
+import { useGeneratePage, type GenerateInput } from '@/api/generate'
 import { LearningPage } from '@/components/LearningPage'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { mockStudent } from './mockStudent'
 
-// Test page for the build step: sends the student data typed in the box to Hermes and shows the page it builds.
+// Test page for the generate step: sends the student data typed in the box to Hermes and shows the page it builds.
 export function Playground() {
   const [input, setInput] = useState(JSON.stringify(mockStudent, null, 2))
   const [parseError, setParseError] = useState('')
-  const build = useBuildPage()
+  const generate = useGeneratePage()
 
-  if (build.data) {
-    return <LearningPage html={build.data.html} onBack={() => build.reset()} />
+  if (generate.data) {
+    return <LearningPage html={generate.data.html} onBack={() => generate.reset()} />
   }
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    let student: BuildInput
+    let student: GenerateInput
     try {
       student = JSON.parse(input)
     } catch {
@@ -25,10 +25,10 @@ export function Playground() {
       return
     }
     setParseError('')
-    build.mutate(student)
+    generate.mutate(student)
   }
 
-  const error = parseError || build.error?.message
+  const error = parseError || generate.error?.message
 
   return (
     <main className="flex min-h-svh flex-col items-center gap-4 p-6">
@@ -42,14 +42,14 @@ export function Playground() {
           onChange={(event) => setInput(event.target.value)}
           rows={20}
           className="font-mono text-sm"
-          disabled={build.isPending}
+          disabled={generate.isPending}
         />
-        <Button type="submit" disabled={build.isPending}>
+        <Button type="submit" disabled={generate.isPending}>
           Build learning page
         </Button>
-        {build.isPending && (
+        {generate.isPending && (
           <p aria-live="polite" className="text-muted-foreground">
-            {build.status || 'Starting…'}
+            {generate.status || 'Starting…'}
           </p>
         )}
         {error && (

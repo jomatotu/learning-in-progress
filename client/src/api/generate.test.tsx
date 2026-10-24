@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { act, renderHook, waitFor } from '@testing-library/react'
-import { useBuildPage, type BuildInput } from './build'
+import { useGeneratePage, type GenerateInput } from './generate'
 
-const input: BuildInput = {
+const input: GenerateInput = {
   profile: {
     name: 'Peter',
     challenges: ['ADHD'],
@@ -37,7 +37,7 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('useBuildPage', () => {
+describe('useGeneratePage', () => {
   it('posts the input, reports progress, and returns the page', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
@@ -48,7 +48,7 @@ describe('useBuildPage', () => {
         ),
       )
     vi.stubGlobal('fetch', fetchMock)
-    const { result } = renderHook(() => useBuildPage(), { wrapper })
+    const { result } = renderHook(() => useGeneratePage(), { wrapper })
 
     act(() => result.current.mutate(input))
 
@@ -58,7 +58,7 @@ describe('useBuildPage', () => {
       }),
     )
     expect(result.current.status).toBe('Thinking…')
-    expect(fetchMock.mock.calls[0][0]).toBe('/api/build')
+    expect(fetchMock.mock.calls[0][0]).toBe('/api/generate')
     expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(input))
   })
 
@@ -71,7 +71,7 @@ describe('useBuildPage', () => {
           sse(['error', { message: 'Hermes stopped responding. Try again.' }]),
         ),
     )
-    const { result } = renderHook(() => useBuildPage(), { wrapper })
+    const { result } = renderHook(() => useGeneratePage(), { wrapper })
 
     act(() => result.current.mutate(input))
 
@@ -89,13 +89,13 @@ describe('useBuildPage', () => {
         .fn<typeof fetch>()
         .mockResolvedValue(sse(['status', { text: 'Thinking…' }])),
     )
-    const { result } = renderHook(() => useBuildPage(), { wrapper })
+    const { result } = renderHook(() => useGeneratePage(), { wrapper })
 
     act(() => result.current.mutate(input))
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        'The build stopped before the page was ready.',
+        'Generation stopped before the page was ready.',
       ),
     )
   })

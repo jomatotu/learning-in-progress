@@ -45,7 +45,7 @@ describe('Playground', () => {
     const frame = await screen.findByTitle('Your learning page')
     expect(frame).toHaveAttribute('sandbox', 'allow-scripts')
     expect(frame).toHaveAttribute('srcdoc', html)
-    expect(fetchMock.mock.calls[0][0]).toBe('/api/build')
+    expect(fetchMock.mock.calls[0][0]).toBe('/api/generate')
     expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(mockStudent))
 
     await userEvent.click(screen.getByRole('button', { name: 'Back' }))

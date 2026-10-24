@@ -1,7 +1,7 @@
-import type { BuildInput } from '@/api/build'
+import type { GenerateInput } from '@/api/generate'
 
 // Made-up demo student, standing in for the intake and assessment steps until they exist.
-export const mockStudent: BuildInput = {
+export const mockStudent: GenerateInput = {
   profile: {
     name: 'Peter',
     challenges: ['ADHD'],

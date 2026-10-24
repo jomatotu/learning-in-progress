@@ -6,7 +6,7 @@ from openai import APIConnectionError
 
 from app import hermes
 from app.main import app
-from app.routers import build
+from app.routers import generate
 
 client = TestClient(app)
 
@@ -28,13 +28,13 @@ def fake_stream(monkeypatch, pieces, error=None):
         if error:
             raise error
 
-    monkeypatch.setattr(build.hermes, "stream_hermes", stream_hermes)
+    monkeypatch.setattr(generate.hermes, "stream_hermes", stream_hermes)
     return calls
 
 
-# Posts a build and returns its server-sent events as (event, data) pairs.
+# Posts a generation and returns its server-sent events as (event, data) pairs.
 def events():
-    response = client.post("/api/build", json=REQUEST)
+    response = client.post("/api/generate", json=REQUEST)
     assert response.headers["content-type"].startswith("text/event-stream")
     parsed = []
     for block in response.text.strip().split("\n\n"):
@@ -43,7 +43,7 @@ def events():
     return parsed
 
 
-def test_build_streams_progress_then_page_with_csp(monkeypatch):
+def test_generate_streams_progress_then_page_with_csp(monkeypatch):
     fake_stream(
         monkeypatch,
         [("reasoning", "Let me think"), ("text", "🔍 web_search: ADHD learning\n"), ("text", PAGE)],
@@ -54,11 +54,11 @@ def test_build_streams_progress_then_page_with_csp(monkeypatch):
         ("status", {"text": "Thinking…"}),
         ("status", {"text": "🔍 web_search: ADHD learning"}),
         ("status", {"text": "Writing the page… 0 KB"}),
-        ("done", {"html": "<!DOCTYPE html>" + build.CSP + "<html><body><h1>Osmose</h1></body></html>"}),
+        ("done", {"html": "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"}),
     ]
 
 
-def test_build_sends_status_only_when_it_changes(monkeypatch):
+def test_generate_sends_status_only_when_it_changes(monkeypatch):
     fake_stream(monkeypatch, [("reasoning", "a"), ("reasoning", "b"), ("text", PAGE)])
 
     statuses = [data["text"] for event, data in events() if event == "status"]
@@ -66,7 +66,7 @@ def test_build_sends_status_only_when_it_changes(monkeypatch):
     assert statuses.count("Thinking…") == 1
 
 
-def test_build_puts_profile_answers_and_material_into_prompt(monkeypatch):
+def test_generate_puts_profile_answers_and_material_into_prompt(monkeypatch):
     calls = fake_stream(monkeypatch, [("text", PAGE)])
 
     events()
@@ -78,17 +78,17 @@ def test_build_puts_profile_answers_and_material_into_prompt(monkeypatch):
     assert "{{" not in prompt
 
 
-def test_build_starts_a_new_prefixed_session_each_time(monkeypatch):
+def test_generate_starts_a_new_prefixed_session_each_time(monkeypatch):
     calls = fake_stream(monkeypatch, [("text", PAGE)])
 
     events()
     events()
 
-    assert calls[0]["session_id"].startswith("lip-build-")
+    assert calls[0]["session_id"].startswith("lip-generate-")
     assert calls[0]["session_id"] != calls[1]["session_id"]
 
 
-def test_build_strips_text_and_fences_around_page(monkeypatch):
+def test_generate_strips_text_and_fences_around_page(monkeypatch):
     fake_stream(monkeypatch, [("text", f"Here is your page:\n```html\n{PAGE}\n```\nEnjoy!")])
 
     event, data = events()[-1]
@@ -98,13 +98,13 @@ def test_build_strips_text_and_fences_around_page(monkeypatch):
     assert data["html"].endswith("</html>")
 
 
-def test_build_reports_reply_without_page(monkeypatch):
+def test_generate_reports_reply_without_page(monkeypatch):
     fake_stream(monkeypatch, [("text", "Sorry, I hit a rate limit.")])
 
     assert events()[-1] == ("error", {"message": "Hermes did not return a page. Try again."})
 
 
-def test_build_reports_hermes_failure(monkeypatch):
+def test_generate_reports_hermes_failure(monkeypatch):
     fake_stream(
         monkeypatch,
         [("text", "Working")],
@@ -114,13 +114,13 @@ def test_build_reports_hermes_failure(monkeypatch):
     assert events()[-1] == ("error", {"message": "Hermes stopped responding. Try again."})
 
 
-def test_build_reports_failed_hermes_turn(monkeypatch):
+def test_generate_reports_failed_hermes_turn(monkeypatch):
     fake_stream(monkeypatch, [], error=hermes.HermesError("Hermes turn error"))
 
     assert events()[-1] == ("error", {"message": "Hermes stopped responding. Try again."})
 
 
-def test_build_rejects_empty_material():
-    response = client.post("/api/build", json={**REQUEST, "material": ""})
+def test_generate_rejects_empty_material():
+    response = client.post("/api/generate", json={**REQUEST, "material": ""})
 
     assert response.status_code == 422
