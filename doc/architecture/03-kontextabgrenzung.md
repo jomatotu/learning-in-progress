@@ -31,11 +31,15 @@ flowchart LR
   browser[Browser]
   frontend[Frontend]
   backend[Backend]
-  gemini[Gemini]
+  hermes[Hermes-Agent]
+  ki[KI-APIs]
+  material[Lernmaterial]
 
   browser --- frontend
   frontend <-->|HTTP| backend
-  backend <-->|API, Details offen| gemini
+  backend <-->|API| hermes
+  hermes <-->|KI-APIs| ki
+  material -->|RAG| hermes
 ```
 
-Kanäle, Formate und Authentifizierung sind offen.
+Hermes-Agent spricht die KI-APIs an und liest das Lernmaterial als RAG. Kanäle, Formate und Authentifizierung sind offen.
