@@ -18,6 +18,7 @@ describe('SolutionRoute', () => {
   })
 
   it('never imports generated code into the app bundle', () => {
+    expect(source).toContain('SolutionRoute')
     expect(source).not.toContain('import.meta.glob')
   })
 })

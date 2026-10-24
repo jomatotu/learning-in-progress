@@ -2,17 +2,11 @@
 import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
+import { SANDBOX_CSP, isSandboxPath, withCspMeta } from './sandbox-csp.js'
 import { defineConfig, loadEnv, type Connect, type Plugin } from 'vite'
 
-// Hermes-written pages run in sandbox.html inside <iframe sandbox="allow-scripts">.
-// connect-src allows only the HMR websocket, so the frame cannot call /api.
-// 'unsafe-inline' scripts are for the dev React-refresh preamble.
-// Production hosting must send this same header for /sandbox.html.
-const SANDBOX_CSP =
-  "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src ws://localhost:*; form-action 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'self'"
-
 const sandboxCsp: Connect.NextHandleFunction = (req, res, next) => {
-  if (req.url?.split('?')[0] === '/sandbox.html') {
+  if (req.url && isSandboxPath(req.url)) {
     res.setHeader('Content-Security-Policy', SANDBOX_CSP)
   }
   next()
@@ -21,6 +15,11 @@ const sandboxCsp: Connect.NextHandleFunction = (req, res, next) => {
 function sandboxCspPlugin(): Plugin {
   return {
     name: 'sandbox-csp',
+    transformIndexHtml: {
+      order: 'pre',
+      handler: (html, ctx) =>
+        ctx.filename.endsWith('sandbox.html') ? withCspMeta(html) : html,
+    },
     configureServer: (server) => void server.middlewares.use(sandboxCsp),
     configurePreviewServer: (server) => void server.middlewares.use(sandboxCsp),
   }
