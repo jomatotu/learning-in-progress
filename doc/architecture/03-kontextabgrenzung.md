@@ -2,9 +2,6 @@
 
 ## 3.1 Fachlicher Kontext
 
-```mermaid
-C4Context
-
 
 ```mermaid
 C4Context
