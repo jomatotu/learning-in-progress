@@ -1,5 +1,4 @@
 import json
-import os
 import uuid
 from collections.abc import AsyncIterator
 from functools import cache
@@ -8,6 +7,8 @@ from typing import Any, Literal
 import httpx
 from openai import AsyncOpenAI
 from pydantic import BaseModel
+
+from app.settings import get_settings
 
 # Hermes always serves its configured model under this name; the real LLM is set on the VPS.
 MODEL = "hermes-agent"
@@ -38,9 +39,12 @@ class HermesError(Exception):
 # Shares one Hermes client across requests. Created on first use so the server still starts without the env vars.
 @cache
 def get_client() -> AsyncOpenAI:
+    settings = get_settings()
+    if not settings.hermes_base_url or not settings.hermes_api_key:
+        raise HermesError("HERMES_BASE_URL and HERMES_API_KEY must be set in server/.env")
     return AsyncOpenAI(
-        base_url=os.environ["HERMES_BASE_URL"],
-        api_key=os.environ["HERMES_API_KEY"],
+        base_url=settings.hermes_base_url,
+        api_key=settings.hermes_api_key.get_secret_value(),
         timeout=TIMEOUT_SECONDS,
     )
 
