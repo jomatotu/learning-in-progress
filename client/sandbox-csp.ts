@@ -28,11 +28,9 @@ export function withCspMeta(html: string): string {
   )
 }
 
-// True for a request that may be our own sandboxed frame: opaque origin 'null' with
-// no Referer or one from this dev server (loopback host only, so DNS rebinding does not
-// count). Chrome sends no Referer for module scripts of a sandboxed document, so a
-// missing one must pass; a foreign Referer is refused.
-// ponytail: a page that strips its Referer still gets through; the VPS build has no dev server.
+// Dev-only convenience, not an attacker barrier: origin 'null' with no Referer or a
+// loopback Referer of this dev server is allowed; a foreign Referer is refused. A page
+// that omits its Referer still gets through. Removed when the sandbox gets its own origin.
 export function isNullOriginFromSelf(request: {
   origin?: string
   referer?: string

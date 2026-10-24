@@ -17,8 +17,9 @@ const sandboxCsp: Connect.NextHandleFunction = (req, res, next) => {
   next()
 }
 
-// The sandboxed frame has the opaque origin 'null' and still needs to load its modules.
-// Allow that origin only when the request comes from this dev server's own pages.
+// Dev-only convenience, not an attacker barrier: the sandboxed frame has origin 'null'
+// and Chrome sends no Referer for its module scripts, so a missing Referer is allowed.
+// Removed when the sandbox gets its own origin (VPS plan).
 const allowOwnSandbox: Connect.NextHandleFunction = (req, res, next) => {
   if (
     isNullOriginFromSelf({
