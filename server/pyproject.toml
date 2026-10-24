@@ -1,0 +1,17 @@
+[project]
+name = "learning-in-progress-server"
+version = "0.1.0"
+description = "API server for Learning in Progress"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.162.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+# Tells the fastapi CLI (and editor tooling) where the app lives, so `fastapi dev` / `fastapi run` need no path.
+[tool.fastapi]
+entrypoint = "app.main:app"
