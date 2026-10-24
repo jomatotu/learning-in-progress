@@ -149,3 +149,11 @@ def test_generate_rejects_empty_material():
     response = client.post("/api/generate", json={**REQUEST, "material": ""})
 
     assert response.status_code == 422
+
+
+def test_page_csp_forbids_base_and_forms():
+    page = generate.prepare_page("<!doctype html><html><head></head><body></body></html>")
+
+    csp_tag = page[page.index('<meta http-equiv="Content-Security-Policy"') :].split(">", 1)[0]
+    assert "base-uri 'none'" in csp_tag
+    assert "form-action 'none'" in csp_tag

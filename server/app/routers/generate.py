@@ -32,7 +32,7 @@ GENERATE_TIMEOUT_SECONDS = 900
 CSP = (
     '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; '
     "script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; "
-    "font-src data:; media-src data: blob:; form-action 'none'\">"
+    "font-src data:; media-src data: blob:; base-uri 'none'; form-action 'none'\">"
 )
 
 DOCTYPE = re.compile(r"<!doctype html[^>]*>", re.IGNORECASE)
