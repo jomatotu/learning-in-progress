@@ -47,10 +47,30 @@ Backend:
 AI Layer:
 - Gemini
 
-## Tools for development
+## Werkzeuge
 
-- Claude Code
-- OpenCode
-- Cursor
-- IntelliJ IDEA
-- VSCode
+Dokumentation der Werkzeuge, Hilfsmittel und Abläufe, die Entwicklung und Lernen in diesem Repository unterstützen.
+
+### Einstieg
+
+1. Repository klonen.
+2. Diesen Abschnitt lesen, um die verfügbaren Werkzeuge und ihre Nutzung zu kennen.
+3. Die werkzeugspezifischen Abschnitte unten nutzen, sobald sie ergänzt werden.
+
+### Werkzeugindex
+
+| Werkzeug | Zweck | Status |
+| --- | --- | --- |
+| Claude Code | Entwicklung | im Einsatz |
+| OpenCode | Entwicklung | im Einsatz |
+| Cursor | Entwicklung | im Einsatz |
+| IntelliJ IDEA | Entwicklung | im Einsatz |
+| VSCode | Entwicklung | im Einsatz |
+
+### Mitwirken
+
+Beim Hinzufügen eines neuen Werkzeugs:
+
+1. Zweck und Nutzung in dieser Datei dokumentieren.
+2. Setup-Schritte, Umgebungsvariablen und Abhängigkeiten nennen.
+3. Beispiele kurz und, wo möglich, ausführbar halten.
