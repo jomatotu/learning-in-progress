@@ -17,6 +17,19 @@ describe('SolutionRoute', () => {
     expect(frame.getAttribute('src')).toBe('/sandbox.html?page=abc')
   })
 
+  it('links back to the start page outside the frame', () => {
+    render(
+      <MemoryRouter initialEntries={['/solution/abc']}>
+        <Routes>
+          <Route path="/solution/:uuid" element={<SolutionRoute />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+    expect(
+      screen.getByRole('link', { name: 'Zur Startseite' }),
+    ).toHaveAttribute('href', '/')
+  })
+
   it('never imports generated code into the app bundle', () => {
     expect(source).toContain('SolutionRoute')
     expect(source).not.toContain('import.meta.glob')
