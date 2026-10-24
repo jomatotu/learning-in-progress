@@ -1,0 +1,25 @@
+name: Client
+
+on:
+  push:
+    branches: [main]
+    paths: ['client/**', '.github/workflows/client.yml']
+  pull_request:
+    paths: ['client/**', '.github/workflows/client.yml']
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: client/.nvmrc
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
