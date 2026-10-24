@@ -15,9 +15,11 @@ Copy `.env.example` to `.env` and add your Gemini API key.
 ## Run
 
 ```sh
-uv run --env-file .env fastapi dev   # development: auto-reload, localhost only
-uv run --env-file .env fastapi run   # production: no reload, listens on 0.0.0.0
+uv run --env-file .env fastapi dev --no-proxy-headers   # development: auto-reload, localhost only
+uv run --env-file .env fastapi run --forwarded-allow-ips <proxy ip>   # production: no reload, listens on 0.0.0.0
 ```
+
+Rate limits key on the client address. uvicorn trusts `X-Forwarded-For` from 127.0.0.1 by default, and the Vite dev proxy forwards that header, so in development anyone could rotate it to dodge the limit: always start dev with `--no-proxy-headers`. On the VPS, trust only the reverse proxy: `--forwarded-allow-ips <proxy ip>` (never `*`).
 
 API docs: http://localhost:8000/docs
 
