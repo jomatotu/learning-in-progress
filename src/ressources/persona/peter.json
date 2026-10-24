@@ -1,34 +1,141 @@
 {
-  "id": "peter-klasse-10-biologie",
-  "context": "bildung",
-  "role": "schueler",
-  "name": "Peter",
-  "language": "de",
-  "school": {
-    "grade": 10,
-    "subject": "Biologie"
-  },
-  "learnerProfile": {
-    "stage": "Sekundarstufe I",
-    "ageApprox": 16,
-    "goals": [
-      "Inhalte aus Biologie der 10. Klasse verstehen und in Aufgaben anwenden"
+  "persona": {
+    "meta": {
+      "version": "0.1",
+      "basis": "fiktiv | angelehnt an Interviews | validiert",
+      "hinweis": "ADHS ist ein Spektrum, Peter ist ein Individuum und kein Diagnose-Archetyp"
+    },
+
+    "identitaet": {
+      "name": "Peter",
+      "alter": 16,
+      "klassenstufe": 10,
+      "schulform": "",
+      "wohnsituation": "",
+      "interessen": ["", ""],
+      "persoenliches_zitat": "Ich weiß, was ich machen soll. Ich fange nur nicht an."
+    },
+
+    "einschraenkungen": {
+      "adhs": {
+        "ausprägung": "kombiniert | unaufmerksam | hyperaktiv-impulsiv",
+        "medikation": { "ja_nein": null, "wirkfenster": "z. B. 8-14 Uhr, danach Crash/Rebound" },
+        "kernsymptome_im_alltag": {
+          "aufmerksamkeit": "Fokus bricht nach ca. 7-12 Min. bei unattraktiven Aufgaben ab",
+          "impulsivitaet": "klickt weg, unterbricht, springt zwischen Aufgaben",
+          "hyperaktivitaet": "Zappeln, Bewegungsdrang, Stillsitzen kostet Energie"
+        },
+        "exekutive_funktionen": {
+          "aufgabenstart": "Startproblem, nicht Faulheit",
+          "zeitgefuehl": "Zeitblindheit, 'gleich' ist unscharf",
+          "arbeitsgedaechtnis": "Anweisungen mit mehr als 2 Schritten gehen verloren",
+          "planung_priorisierung": "",
+          "emotionsregulation": "schnelle Frustration, Aufgeben nach Fehlern"
+        },
+        "staerken": ["Hyperfokus bei Interesse", "Kreativität", "Energie", "schnelle Auffassung bei Neuem"]
+      },
+      "physisches_feedback_beduerfnis": {
+        "beschreibung": "Rein visuelles/digitales Feedback wird übersehen oder ist abstrakt. Er braucht greifbare, körperlich spürbare Rückmeldung.",
+        "bevorzugte_kanaele": ["haptisch (Vibration)", "taktil (Knopf, Schalter, Drehregler)", "Licht (LED)", "Ton (Buzzer)"],
+        "vermeidet": ["Reizüberflutung", "Dauerpiepen", "grelles Blinken"],
+        "ursache_unklar": "Offen: Ist das sensorisch bedingt, diagnostiziert oder eine Lernpräferenz?"
+      }
+    },
+
+    "kontext": {
+      "schulalltag": {
+        "typischer_tag": [],
+        "problemfaecher": [],
+        "lieblingsfaecher": [],
+        "hausaufgaben_ritual": "Ort, Uhrzeit, Ablenker"
+      },
+      "umfeld": {
+        "eltern": "",
+        "lehrkraefte": "",
+        "peers": "",
+        "nachteilsausgleich": null
+      },
+      "technik_zugang": {
+        "geraete": ["Smartphone", "Laptop"],
+        "digitale_ablenker": ["Games", "TikTok", "Discord"],
+        "technikaffinitaet": "mittel-hoch",
+        "bastelerfahrung": "z. B. kein Löten, aber Scratch/Minecraft Redstone"
+      }
+    },
+
+    "ziele_und_motivation": {
+      "ziele_kurzfristig": ["Hausaufgaben in unter 45 Min. schaffen"],
+      "ziele_langfristig": ["Quali/Mittlere Reife", "Ausbildung oder Oberstufe"],
+      "intrinsische_antreiber": ["Sofort-Belohnung", "Wettbewerb", "Neuheit", "Autonomie"],
+      "was_ihn_wirklich_bewegt": "Nicht als dumm oder faul zu gelten"
+    },
+
+    "frustrationen_und_barrieren": {
+      "pain_points": [
+        "Zu viele Schritte bis zum Start",
+        "Feedback kommt zu spät",
+        "Erwachsene erklären statt zu zeigen"
+      ],
+      "abbruchausloeser": ["Langeweile", "Fehler ohne klare Korrektur", "Überforderung durch große Aufgaben"],
+      "frueher_gescheiterte_loesungen": ["To-do-Apps", "Timer-Apps", "Handy-Verbot"]
+    },
+
+    "verhalten_und_muster": {
+      "arbeitsmuster": {
+        "fokusfenster_min": 10,
+        "pausenbedarf": "alle 10-15 Min. kurze Bewegung",
+        "tageszeit_leistung": ""
+      },
+      "mediennutzung": "",
+      "reaktion_auf_belohnung": "Sofort > aufgeschoben",
+      "reaktion_auf_kritik": "",
+      "hilfesuchverhalten": "fragt nicht, tarnt Unsicherheit mit Humor"
+    },
+
+    "interaktion_mit_raspberry_pi": {
+      "zielbild": "Der Pi macht Fortschritt, Zeit und Erfolg greifbar.",
+      "hardware_ideen": [
+        { "bauteil": "Vibrationsmotor", "zweck": "Start-Impuls / sanfte Erinnerung" },
+        { "bauteil": "LED-Ring oder -Streifen", "zweck": "Fortschritt und Restzeit sichtbar" },
+        { "bauteil": "Großer Taster", "zweck": "'Ich starte jetzt' / 'Fertig'" },
+        { "bauteil": "Drehregler", "zweck": "Zeit oder Schwierigkeit einstellen" },
+        { "bauteil": "Buzzer", "zweck": "Erfolgsjingle, kurz und dezent" },
+        { "bauteil": "Servo oder Display", "zweck": "Fortschritt als physische Bewegung" }
+      ],
+      "designprinzipien": [
+        "Maximal 1 Handlung pro Schritt",
+        "Feedback unter 1 Sekunde",
+        "Unterscheidbare Signale für Start, Pause, Erfolg und Fehler",
+        "Keine Bestrafungssignale, nur neutrale Korrektur",
+        "Anpassbare Intensität"
+      ]
+    },
+
+    "szenarien": [
+      {
+        "titel": "Hausaufgaben starten",
+        "ausloeser": "",
+        "ist_ablauf": "",
+        "soll_ablauf_mit_pi": "",
+        "erfolgsmerkmal": ""
+      }
     ],
-    "priorKnowledge": [
-      "Grundlagen zur Zelle und zu Lebewesen aus den vorherigen Klassen"
-    ],
-    "supportNeeds": [
-      "Fachbegriffe kurz und in einfacher Sprache erklären",
-      "Neue Inhalte an einem konkreten Beispiel festmachen"
-    ]
-  },
-  "tutorGuidance": {
-    "addressForm": "du",
-    "explanationStyle": "schrittweise, alltagsnah, auf dem Niveau der 10. Klasse",
-    "focusSubject": "Biologie",
-    "avoid": [
-      "Stoff deutlich über Klasse 10 ohne Einordnung",
-      "Lange Antworten ohne Beispiel"
-    ]
+
+    "anti_persona_und_grenzen": {
+      "nicht_geeignet_fuer": ["Lange Texteinführungen", "Menüs mit vielen Ebenen"],
+      "risiken": ["Gerät wird selbst zur Ablenkung", "Gamification-Sättigung nach 2 Wochen"]
+    },
+
+    "design_implikationen": {
+      "muss": [],
+      "soll": [],
+      "darf_nicht": []
+    },
+
+    "validierung": {
+      "annahmen_zu_pruefen": [],
+      "erfolgsmetriken": ["Zeit bis Aufgabenstart", "Abbruchquote", "Nutzung nach Woche 2"],
+      "quellen": ["Interview Betroffene/Eltern/Lehrkraft", "Fachliteratur ADHS", "Beobachtung"]
+    }
   }
 }
