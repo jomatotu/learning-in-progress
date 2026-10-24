@@ -1,12 +1,29 @@
 # 6. Laufzeitsicht
 
-## 6.1 Lernmaterial anpassen
+## 6.1 Vom Lernziel zur Prüfung
 
-Ablauf aus der Grundidee. Beteiligte Bausteine und Fehlerfälle sind noch nicht festgelegt.
+Ablauf aus dem ersten Zuschnitt in Software, festgehalten unter [Transformation](../process.md#transformation). Die Schritte tragen dieselben Namen wie die Verantwortungen in der [Bausteinsicht](05-bausteinsicht.md). Welche Bausteine welchen Schritt ausführen, und wie Fehler behandelt werden, ist offen.
 
-1. Die lernende Person lädt Material hoch und beschreibt Profil, Ziele und bekannte Hilfen.
-2. Das System recherchiert, was diesem Profil nachweislich hilft.
-3. Das System schlägt eine Lösung vor.
-4. Das System baut diese Lösung im Browser.
+```mermaid
+flowchart LR
+  ziel[Lernziel]
+  charakter["Charakter / KI-Zwilling"]
+  karte[Lernpfadkarte]
+  ui[Generative UI]
+  pruefung[Prüfung]
+  rohdaten[Rohdaten]
 
-Weitere Szenarien, etwa Browser-Erweiterung oder Chat über eine Videovorlesung, sind Beispiele und noch keine festgelegten Laufzeitsichten.
+  ziel --> charakter
+  rohdaten --> charakter
+  charakter --> karte
+  karte --> ui
+  ui --> pruefung
+```
+
+1. **Lernziel.** Die lernende Person benennt, was sie erreichen will.
+2. **Charakter / KI-Zwilling.** Aus dem Lernziel und den Rohdaten entsteht ein Charakter der lernenden Person.
+3. **Lernpfadkarte.** Aus dem Charakter wird eine Karte des Lernwegs.
+4. **Generative UI.** Die Karte wird zur Oberfläche, in der gelernt wird.
+5. **Prüfung.** Der Weg führt zur Prüfung. Der Schwerpunkt liegt auf dem Lernen bis dorthin, siehe [Transformation](../process.md#transformation).
+
+Offen aus der Ideensammlung, noch ohne eigenes Szenario: Mehrere Lösungen laufen im Hintergrund mit dem digitalen Zwilling. Konkrete Formen der Oberfläche, etwa zerlegte Texte, ein Chat über eine Videovorlesung oder eine Browser-Erweiterung, sind Beispiele.
