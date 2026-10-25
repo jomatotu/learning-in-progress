@@ -7,7 +7,7 @@ Vorgesehen, ohne Deployment-Entscheidung:
 | Knoten | Enthält |
 | --- | --- |
 | Browser der lernenden Person | Frontend, generierte Oberfläche |
-| Backend-Dienst | FastAPI |
+| Backend-Dienst | FastAPI, Hermes-Agent (Ablaufumgebung der Orchestrierung) |
 | Externer KI-Dienst | Gemini (TBD) |
 
 Betrieb, Umgebungen und Infrastruktur sind offen.
