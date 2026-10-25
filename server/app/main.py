@@ -3,7 +3,16 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from app.access import require_access
 from app.guards import BodySizeLimitMiddleware, OriginCheckMiddleware, limit_hermes_runs
-from app.routers import assess, generate, health, intake, profile, solution, survey
+from app.routers import (
+    assess,
+    generate,
+    health,
+    intake,
+    profile,
+    research,
+    solution,
+    survey,
+)
 from app.settings import get_settings
 
 app = FastAPI(title="Learning in Progress API")
@@ -24,3 +33,4 @@ app.include_router(intake.router, prefix="/api", dependencies=hermes_gate)
 app.include_router(survey.router, prefix="/api")
 app.include_router(profile.router, prefix="/api")
 app.include_router(solution.router, prefix="/api", dependencies=hermes_gate)
+app.include_router(research.router, prefix="/api", dependencies=hermes_gate)
