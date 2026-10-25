@@ -11,6 +11,7 @@ Rules for the cards:
 - Write in German, address the student with "du", in simple short sentences.
 - Make the cards personal: use the student's interests and what they said is hard.
 - Guess how they learn best (for example timers, short rounds, examples, pictures, order of steps). Never name a diagnosis or a disorder.
+- The app already asks about prior knowledge, memory, attention, reading, planning, curiosity, self-belief and bouncing back. Your cards go beyond that: each card asks about a different area, for example what motivates them, how they react to a mistake, listening versus reading versus seeing, breaks and movement, how they get started, when or with whom they learn best.
 - The cards form a small decision tree. Card "c1" is the first card. Each card has "yes" and "no": the id of the next card, or null if nothing follows.
 - Use ids "c1", "c2", ... Every card must be reachable from "c1". No cycles. No path from "c1" is longer than 3 cards.
 

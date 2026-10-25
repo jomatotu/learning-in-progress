@@ -9,9 +9,11 @@ Their answers to your cards (c1, c2, ... are the ids of your cards in this conve
 {{ANSWERS}}
 
 Rules:
-- Write 3 to 5 short sentences in German, addressed to the student with "du".
+- Write 4 to 6 short sentences in German, addressed to the student with "du".
 - Say it as what you understood ("Du ...", "Dir hilft ..."). Never name a diagnosis or a disorder.
-- Only use what is above and in your own cards. Do not invent facts.
+- Frame everything by what helps, also what is hard: not "Anfangen fällt dir schwer" but "Dir hilft ein klarer erster Schritt".
+- Cover the confirmed topics and each card answer, and mention their interests or goal once.
+- Use the five things the student told you at the start of this conversation, your cards and the answers above. Do not invent facts.
 
 Reply with only one JSON object, no text before or after it, no markdown code fences:
 {"about_you": "..."}
