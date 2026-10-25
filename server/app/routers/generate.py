@@ -6,7 +6,7 @@ import time
 import uuid
 from collections.abc import AsyncIterator
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
@@ -14,6 +14,7 @@ from openai import OpenAIError
 from pydantic import BaseModel, Field, ValidationError
 
 from app import hermes, learner, themes
+from app.routers import generate_html
 from app.routers.assess import Answer
 from app.routers.solution import CATALOG, REQUIRED_PROPS, Element, LessonSpec
 from app.sse import TextBatch, sse
@@ -25,7 +26,7 @@ logger = logging.getLogger("uvicorn.error")
 
 # Rules for the lesson Hermes streams, with the catalog filled in; {{THEME}} is filled per request.
 PROMPT = (
-    (Path(__file__).parent.parent / "prompts" / "generate_page.txt")
+    (Path(__file__).parent.parent / "prompts" / "generate_lesson.txt")
     .read_text(encoding="utf-8")
     .replace("{{CATALOG}}", json.dumps(CATALOG["components"], ensure_ascii=False))
 )
@@ -53,6 +54,9 @@ class GenerateRequest(BaseModel):
         default=themes.DEFAULT_THEME, description="The theme to build, usually the assessment's top pick."
     )
     student_id: learner.StudentId | None = None
+    format: Literal["spec", "html"] = Field(
+        default="spec", description='"spec" streams json-render blocks; "html" has Hermes write a whole page.'
+    )
 
 
 # The student's data goes into the user message, fenced, so nothing in it reads as our rules.
@@ -218,7 +222,9 @@ async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
     yield sse("done", {"spec": spec.model_dump()})
 
 
-# Asks Hermes to build a lesson in the chosen theme for the student, streaming each block as it is written.
+# Asks Hermes to build a lesson in the chosen theme for the student, streaming each block (or the HTML page) as it
+# is written.
 @router.post("/generate")
 async def generate(request: GenerateRequest) -> StreamingResponse:
-    return StreamingResponse(generate_events(request), media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
+    events = generate_html.generate_events(request) if request.format == "html" else generate_events(request)
+    return StreamingResponse(events, media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
