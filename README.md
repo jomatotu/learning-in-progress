@@ -79,7 +79,8 @@ Backend:
 - FastAPI
 
 AI Layer:
-- Gemini
+- DeepSeek
+- Hermes
 
 ## Dokumentation
 
@@ -105,6 +106,20 @@ Dokumentation der Werkzeuge, Hilfsmittel und Abläufe, die Entwicklung und Lerne
 | Cursor | Entwicklung | im Einsatz |
 | IntelliJ IDEA | Entwicklung | im Einsatz |
 | VSCode | Entwicklung | im Einsatz |
+
+## Team
+
+- Abdelrahman Ahmed
+- Ammar Ansari
+- Artifical Intelligence ;-)
+- Chirag Singal
+- Halit Boyar
+- Jai Vasanthan
+- Jens Frahne
+- Kai Krah
+- Nils Schmidt
+- Simon Hügel
+- Tobias Tullius
 
 ## Mitwirken
 
