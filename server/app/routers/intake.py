@@ -14,7 +14,7 @@ from fastapi import APIRouter, HTTPException
 from openai import OpenAIError
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
-from app import hermes
+from app import hermes, learner
 from app.routers.profile import Goal, Preferences, Student
 from app.scale import category_ids, load_scale
 from app.settings import get_settings
@@ -43,6 +43,7 @@ class IntakeRequest(BaseModel):
     goal: Goal
     topic: str = Field(max_length=120)
     preferences: Preferences
+    student_id: learner.StudentId | None = None
 
 
 class Card(BaseModel):
@@ -98,6 +99,7 @@ class SummaryRequest(BaseModel):
     token: str
     bands: dict[str, Literal["low", "medium", "high"]] = {}
     card_answers: list[CardAnswer] = Field(default=[], max_length=10)
+    student_id: learner.StudentId | None = None
 
     @field_validator("bands")
     @classmethod
@@ -129,6 +131,12 @@ def session_from_token(token: str) -> str:
     if not TOKEN_PATTERN.fullmatch(token) or not hmac.compare_digest(token, sign(session_hex)):
         raise HTTPException(status_code=403, detail="Das hat nicht geklappt. Starte die Fragen bitte nochmal.")
     return session_id(session_hex)
+
+
+# Earlier sessions' notes as an extra prompt section, or nothing for a new student.
+def notes(student_id: str | None) -> str:
+    block = learner.notes_block(student_id)
+    return f"\n{block}\n" if block else ""
 
 
 def intake_model() -> dict[str, str | None]:
@@ -166,8 +174,9 @@ async def run_intake[T: BaseModel](message: str, schema: type[T], session_id: st
 @router.post("/intake/cards")
 async def create_cards(request: IntakeRequest) -> CardsReply:
     session_hex = uuid.uuid4().hex
-    data = request.model_dump()
+    data = request.model_dump(exclude={"student_id"})
     message = CARDS_PROMPT.replace("{{DATA}}", json.dumps(data, ensure_ascii=False, indent=2))
+    message = message.replace("{{NOTES}}", notes(request.student_id))
     tree = await run_intake(message, CardTree, session_id(session_hex), CARDS_TIMEOUT_SECONDS)
     return CardsReply(token=sign(session_hex), cards=tree.cards if tree else [])
 
@@ -183,5 +192,8 @@ async def create_summary(request: SummaryRequest) -> SummaryReply:
     )
     answers = "\n".join(f"- {a.id}: {ANSWER_LABELS[a.answer]}" for a in request.card_answers)
     message = SUMMARY_PROMPT.replace("{{BANDS}}", bands or "- (none)").replace("{{ANSWERS}}", answers or "- (none)")
+    message = message.replace("{{NOTES}}", notes(request.student_id))
     summary = await run_intake(message, SummaryModel, session_id, SUMMARY_TIMEOUT_SECONDS)
+    if summary and request.student_id:
+        learner.remember(request.student_id, "about_you", summary.about_you)
     return SummaryReply(about_you=summary.about_you if summary else None)

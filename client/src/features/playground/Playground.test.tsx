@@ -1,3 +1,4 @@
+import { studentId } from '@/api/studentId'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -70,6 +71,7 @@ describe('Playground', () => {
         profile: mockStudent.profile,
         answers,
         material: mockStudent.material,
+        student_id: studentId(),
       }),
     )
     const [url, target] = openMock.mock.calls[0]
