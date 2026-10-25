@@ -1,6 +1,6 @@
 # 10. Qualitätsanforderungen
 
-Die folgenden Anforderungen setzt der Client bereits um ([A-10](client-abgleich.md)). Priorität, Szenarien und die Produktziele aus [Abschnitt 1.2](01-einfuehrung-und-ziele.md#12-qualitätsziele) bleiben offen.
+Die folgenden Anforderungen setzt der Client bereits um ([A-10](client-abgleich.md)). Konkrete Qualitätsszenarien fehlen noch und müssen ergänzt werden. Priorität und die Produktziele aus [Abschnitt 1.2](01-einfuehrung-und-ziele.md#12-qualitätsziele) bleiben offen.
 
 | ID | Qualitätsanforderung | Erklärung |
 | --- | --- | --- |
