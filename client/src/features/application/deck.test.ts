@@ -6,6 +6,7 @@ const deck: DeckEntry[] = ['a', 'b'].map((category) => ({
   category,
   title: category,
   low: card,
+  medium: { text: 'm' },
   high: card,
 }))
 const start: DeckState = { index: 0, asked: 'low', bands: {} }

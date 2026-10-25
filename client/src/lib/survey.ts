@@ -19,6 +19,7 @@ export type DeckEntry = {
   category: string
   title: string
   low: { text: string; reason: string }
+  medium: { text: string }
   high: { text: string; reason: string }
 }
 

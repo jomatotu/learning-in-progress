@@ -41,13 +41,9 @@ function ReviewStep({
   const survey = useSurvey()
   const answered = Object.keys(profile.answers).length
   const questions = survey.questions.length
-  // The deck only has texts for low and high; a medium band is described by its title.
   const mirrored = survey.deck.flatMap((entry) => {
     const band = profile.bands[entry.category]
-    if (!band) return []
-    const text =
-      band === 'medium' ? `${entry.title}: mal so, mal so.` : entry[band].text
-    return [{ category: entry.category, text }]
+    return band ? [{ category: entry.category, text: entry[band].text }] : []
   })
   const material =
     profile.texts.length + profile.links.length + profile.files.length

@@ -61,6 +61,7 @@ const survey: Survey = {
         text: 'Das Thema ist neu für dich.',
         reason: 'Deshalb fangen wir vorn an.',
       },
+      medium: { text: 'Du kennst schon einiges.' },
       high: {
         text: 'Du kennst dich aus.',
         reason: 'Deshalb überspringen wir Grundlagen.',
@@ -73,6 +74,7 @@ const survey: Survey = {
         text: 'Eine Sache pro Bildschirm.',
         reason: 'Deshalb zeigen wir eine Idee.',
       },
+      medium: { text: 'Du kommst mit einer Menge klar.' },
       high: {
         text: 'Du jonglierst Ideen.',
         reason: 'Deshalb dürfen es mehrere sein.',
@@ -244,6 +246,59 @@ describe('ApplicationForm', () => {
     )
     const sent = profileCall?.[1]?.body
     expect(JSON.parse(typeof sent === 'string' ? sent : '{}').bands).toEqual({})
+  })
+
+  it('shows the medium text on the review for a medium band', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    await reachDeck(user)
+
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
+
+    expect(
+      screen.getByText('Du kommst mit einer Menge klar.'),
+    ).toBeInTheDocument()
+  })
+
+  it('goes back from the review to the deck when no survey was answered', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    await reachDeck(user)
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+
+    await user.click(screen.getByRole('button', { name: 'Zurück' }))
+
+    expect(screen.getByText('Das Thema ist neu für dich.')).toBeInTheDocument()
+    expect(screen.getByText('Karte 1 von ~2')).toBeInTheDocument()
+  })
+
+  it('goes back from the review to the last survey part when survey answers exist', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    await reachDeck(user)
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(
+      screen.getByRole('button', { name: 'Genauer? 30 kurze Fragen' }),
+    )
+    for (const radio of screen.getAllByRole('radio', {
+      name: /stimmt total/i,
+    })) {
+      await user.click(radio)
+    }
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
+    await user.click(screen.getByRole('button', { name: /überspringen/i }))
+
+    await user.click(screen.getByRole('button', { name: 'Zurück' }))
+
+    expect(
+      screen.getByRole('heading', { name: 'Dinge im Kopf behalten' }),
+    ).toBeInTheDocument()
   })
 
   it('stays on the review with a message when the server can’t build the profile', async () => {

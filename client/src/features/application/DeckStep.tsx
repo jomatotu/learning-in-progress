@@ -27,12 +27,14 @@ function DeckStep({
   onBands,
   onDone,
   onSurvey,
+  onBack,
 }: {
   deck: DeckEntry[]
   bands: Record<string, Band>
   onBands: (bands: Record<string, Band>) => void
   onDone: () => void
   onSurvey: () => void
+  onBack: () => void
 }) {
   const [state, setState] = useState<DeckState>({
     index: 0,
@@ -41,14 +43,29 @@ function DeckStep({
   })
   const [extra, setExtra] = useState(0)
   const [shown, setShown] = useState(0)
+  // What each earlier card looked like, so "Zurück" can take an answer back.
+  const [history, setHistory] = useState<
+    { state: DeckState; extra: number; shown: number }[]
+  >([])
 
   const answer = (choice: DeckAnswer) => {
     onBands(answerBands(state, choice, deck))
     const next = nextDeckState(state, choice, deck)
     if (next === 'done') return onDone()
+    setHistory((h) => [...h, { state, extra, shown }])
     if (next.asked === 'high') setExtra((n) => n + 1)
     setShown((n) => n + 1)
     setState(next)
+  }
+
+  const back = () => {
+    const previous = history[history.length - 1]
+    if (!previous) return onBack()
+    onBands(previous.state.bands)
+    setHistory(history.slice(0, -1))
+    setState(previous.state)
+    setExtra(previous.extra)
+    setShown(previous.shown)
   }
 
   // The key handler always calls the latest answer().
@@ -93,17 +110,19 @@ function DeckStep({
         <span>noch ~{minutes} Min</span>
       </div>
 
-      <div aria-live="polite" className="rounded-[18px] bg-ink p-6 text-white">
-        <span className="mb-2 block text-[0.7rem] font-bold tracking-[0.04em] text-[#bcb0f2]">
-          Das heißt für dich
-        </span>
-        <p className="text-[1.2rem] leading-snug font-semibold [overflow-wrap:anywhere]">
-          {card.text}
+      <div aria-live="polite">
+        <div className="rounded-[18px] bg-ink p-6 text-white">
+          <span className="mb-2 block text-[0.7rem] font-bold tracking-[0.04em] text-[#bcb0f2]">
+            Das heißt für dich
+          </span>
+          <p className="text-[1.2rem] leading-snug font-semibold [overflow-wrap:anywhere]">
+            {card.text}
+          </p>
+        </div>
+        <p className="mx-0.5 mt-3 mb-6 text-sm [overflow-wrap:anywhere] text-graphite">
+          {card.reason}
         </p>
       </div>
-      <p className="mx-0.5 mt-3 mb-6 text-sm [overflow-wrap:anywhere] text-graphite">
-        {card.reason}
-      </p>
 
       <div className="grid grid-cols-2 gap-2">
         <button
@@ -130,6 +149,9 @@ function DeckStep({
           onClick={() => answer('weiss_nicht')}
         >
           Weiß nicht
+        </button>
+        <button type="button" className="text-button" onClick={back}>
+          Zurück
         </button>
         {isLast && (
           <button type="button" className="text-button" onClick={onSurvey}>

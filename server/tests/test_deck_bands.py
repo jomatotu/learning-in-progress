@@ -65,9 +65,16 @@ def test_survey_has_a_german_deck_without_ai_instructions():
     assert [d["category"] for d in deck] == [c["id"] for c in survey["categories"]]
     assert len(deck) == 8
     for entry in deck:
-        assert set(entry) == {"category", "title", "low", "high"}
+        assert set(entry) == {"category", "title", "low", "medium", "high"}
         for side in ("low", "high"):
             assert set(entry[side]) == {"text", "reason"}
             assert entry[side]["reason"].startswith("Deshalb ")
+    assert all(e["medium"]["text"] for e in deck)
+    assert set(deck[0]["medium"]) == {"text"}
+    assert deck[0]["medium"]["text"] == "Du kennst schon einiges, darauf bauen wir auf."
+    for e in deck:
+        for side in ("low", "high"):
+            assert "deshalb" not in e[side]["text"].lower()
+    assert "rechnest" not in deck[0]["low"]["reason"]
     assert deck[0]["low"]["text"].startswith("Das Thema ist für dich")
     assert "ai_instructions" not in str(deck)

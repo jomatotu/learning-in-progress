@@ -32,10 +32,15 @@ class Card(BaseModel):
     reason: str
 
 
+class MediumCard(BaseModel):
+    text: str
+
+
 class DeckEntry(BaseModel):
     category: str
     title: str
     low: Card
+    medium: MediumCard
     high: Card
 
 
@@ -66,6 +71,7 @@ async def get_survey() -> Survey:
                 category=c["id"],
                 title=c["title"],
                 low=Card(text=c["bands"]["low"]["student_text"], reason=c["bands"]["low"]["student_reason"]),
+                medium=MediumCard(text=c["bands"]["medium"]["student_text"]),
                 high=Card(text=c["bands"]["high"]["student_text"], reason=c["bands"]["high"]["student_reason"]),
             )
             for c in scale["categories"]

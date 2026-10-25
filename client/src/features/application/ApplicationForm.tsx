@@ -142,6 +142,13 @@ function Form() {
 
   const goTo = (id: StepId) => moveTo(screens.findIndex((s) => s.step === id))
 
+  // Back from the review goes to where the student came from: the last survey part if they answered
+  // survey questions, else the deck.
+  const goBack = () =>
+    screen.step === 'review' && Object.keys(profile.answers).length === 0
+      ? goTo('deck')
+      : moveTo(index - 1)
+
   const next = () => {
     const found = validate(screen, profile, survey)
     setErrors(found)
@@ -219,6 +226,7 @@ function Form() {
               onBands={(bands) => update({ bands })}
               onDone={() => goTo('review')}
               onSurvey={() => goTo('survey')}
+              onBack={() => moveTo(index - 1)}
             />
           )}
           {screen.step === 'survey' && category && (
@@ -240,11 +248,11 @@ function Form() {
           )}
 
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-            {index > 0 ? (
+            {index > 0 && !isDeck ? (
               <button
                 type="button"
                 className="text-button inline-flex items-center gap-2 pl-0"
-                onClick={() => moveTo(index - 1)}
+                onClick={goBack}
               >
                 <ArrowLeft size={18} aria-hidden />
                 Zurück

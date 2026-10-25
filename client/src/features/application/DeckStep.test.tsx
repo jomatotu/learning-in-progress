@@ -8,12 +8,14 @@ const deck: DeckEntry[] = [
     category: 'a',
     title: 'Eins',
     low: { text: 'Low A', reason: 'Deshalb low A' },
+    medium: { text: 'Medium A' },
     high: { text: 'High A', reason: 'Deshalb high A' },
   },
   {
     category: 'b',
     title: 'Zwei',
     low: { text: 'Low B', reason: 'Deshalb low B' },
+    medium: { text: 'Medium B' },
     high: { text: 'High B', reason: 'Deshalb high B' },
   },
 ]
@@ -22,6 +24,7 @@ function setup() {
   const onBands = vi.fn<(bands: Record<string, string>) => void>()
   const onDone = vi.fn<() => void>()
   const onSurvey = vi.fn<() => void>()
+  const onBack = vi.fn<() => void>()
   const user = userEvent.setup()
   render(
     <>
@@ -32,10 +35,11 @@ function setup() {
         onBands={onBands}
         onDone={onDone}
         onSurvey={onSurvey}
+        onBack={onBack}
       />
     </>,
   )
-  return { user, onBands, onDone, onSurvey }
+  return { user, onBands, onDone, onSurvey, onBack }
 }
 
 describe('DeckStep', () => {
@@ -105,5 +109,34 @@ describe('DeckStep', () => {
     await user.keyboard('{Enter}')
     expect(onBands).toHaveBeenCalledTimes(1)
     expect(screen.getByText('Low B')).toBeInTheDocument()
+  })
+
+  it('Zurück on the first card leaves the deck', async () => {
+    const { user, onBack } = setup()
+    await user.click(screen.getByRole('button', { name: 'Zurück' }))
+    expect(onBack).toHaveBeenCalledOnce()
+  })
+
+  it('Zurück undoes the last answer, including the band and the estimate', async () => {
+    const { user, onBands, onBack } = setup()
+    await user.click(screen.getByRole('button', { name: /stimmt/i }))
+    expect(screen.getByText('Low B')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Zurück' }))
+    expect(screen.getByText('Low A')).toBeInTheDocument()
+    expect(onBands).toHaveBeenLastCalledWith({})
+    expect(onBack).not.toHaveBeenCalled()
+
+    await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
+    expect(screen.getByText('Karte 2 von ~3')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Zurück' }))
+    expect(screen.getByText('Karte 1 von ~2')).toBeInTheDocument()
+    expect(screen.getByText('Low A')).toBeInTheDocument()
+  })
+
+  it('reads the reason together with the card text in one live region', () => {
+    setup()
+    const live = screen.getByText('Low A').closest('[aria-live]')
+    expect(live).toHaveTextContent('Deshalb low A')
   })
 })

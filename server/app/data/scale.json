@@ -71,14 +71,14 @@
       ],
       "bands": {
         "low": {
-          "student_text": "Das Thema ist für dich größtenteils neu, also fangen wir ganz von vorn an.",
+          "student_text": "Das Thema ist für dich größtenteils neu.",
           "ai_instructions": [
             "Treat the student as a beginner in this topic.",
             "Start with a short overview of how the topic fits together.",
             "Teach with worked examples before asking them to solve anything alone.",
             "Define every technical term the first time it appears."
           ],
-          "student_reason": "Deshalb erklären wir dir erst das Wichtigste und zeigen Beispiele, bevor du selbst rechnest."
+          "student_reason": "Deshalb erklären wir dir erst das Wichtigste und zeigen Beispiele, bevor du selbst loslegst."
         },
         "medium": {
           "student_text": "Du kennst schon einiges, darauf bauen wir auf.",
@@ -88,7 +88,7 @@
           ]
         },
         "high": {
-          "student_text": "Du kennst dich mit dem Thema gut aus, also überspringen wir die Grundlagen.",
+          "student_text": "Du kennst dich mit dem Thema gut aus.",
           "ai_instructions": [
             "Skip introductions to basics and avoid repeating what they know.",
             "Lead with problems and challenges; give step-by-step guidance only when asked.",
@@ -211,7 +211,7 @@
       ],
       "bands": {
         "low": {
-          "student_text": "Dein Fokus kommt in kurzen Schüben, deshalb halten wir die Lerneinheiten kurz und aktiv.",
+          "student_text": "Dein Fokus kommt in kurzen Schüben.",
           "ai_instructions": [
             "Keep sessions to 5-10 minutes with a clear end point.",
             "Ask for a small interaction (a tap, a quick question) every 2-3 minutes so drifting is noticed early.",
@@ -283,7 +283,7 @@
       ],
       "bands": {
         "low": {
-          "student_text": "Lesen kostet dich extra Kraft, deshalb lesen wir vor und halten die Texte leicht.",
+          "student_text": "Lesen kostet dich extra Kraft.",
           "ai_instructions": [
             "Offer read-aloud for all text and turn it on by default.",
             "Use plain language, short sentences, and short paragraphs.",
@@ -354,7 +354,7 @@
       ],
       "bands": {
         "low": {
-          "student_text": "Anfangen ist der schwierige Teil, deshalb geben wir dir einen Plan und einen winzigen ersten Schritt.",
+          "student_text": "Anfangen ist der schwierige Teil.",
           "ai_instructions": [
             "Give a ready-made plan instead of asking the student to plan.",
             "Begin every session with one tiny first step that takes under two minutes.",
@@ -422,7 +422,7 @@
       ],
       "bands": {
         "low": {
-          "student_text": "Du magst es klar und praktisch, deshalb bleiben wir konkret.",
+          "student_text": "Du magst es klar und praktisch.",
           "ai_instructions": [
             "Keep content concrete and practical, and explain why it is useful.",
             "Use short, guided tasks with one clear answer.",
@@ -437,7 +437,7 @@
           ]
         },
         "high": {
-          "student_text": "Du magst echte Herausforderungen, deshalb lassen wir dir Raum zum Denken.",
+          "student_text": "Du magst echte Herausforderungen.",
           "ai_instructions": [
             "Add open questions, 'why' prompts, and challenge problems.",
             "Offer optional deep dives and let the student explore different solutions."
@@ -497,7 +497,7 @@
           ]
         },
         "high": {
-          "student_text": "Du bist selbstbewusst, deshalb können wir direkt auf deinem Niveau starten.",
+          "student_text": "Du bist selbstbewusst.",
           "ai_instructions": [
             "Start at or slightly above the student's level and keep the challenge up."
           ],
@@ -546,7 +546,7 @@
       ],
       "bands": {
         "low": {
-          "student_text": "Fehler treffen dich hart, deshalb sehen wir sie als Teil des Lernens, nie als Scheitern.",
+          "student_text": "Fehler treffen dich hart.",
           "ai_instructions": [
             "Frame mistakes as 'not yet' and show the fix right away.",
             "Avoid scores, red marks, streak losses, and visible timers.",
@@ -562,7 +562,7 @@
           ]
         },
         "high": {
-          "student_text": "Rückschläge werfen dich nicht um, deshalb können wir ganz direkt mit dir sein.",
+          "student_text": "Rückschläge werfen dich nicht um.",
           "ai_instructions": [
             "Direct feedback is fine.",
             "Scores, streaks, and timed challenges can be used if the student enjoys them."
