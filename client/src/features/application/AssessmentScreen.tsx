@@ -109,7 +109,11 @@ function AssessmentScreen({
 
       <div className="mt-8 flex flex-col gap-4">
         {assess.isPending && (
-          <HermesProgress status={assess.status} reasoning={assess.reasoning} />
+          <HermesProgress
+            shape
+            status={assess.status}
+            reasoning={assess.reasoning}
+          />
         )}
 
         {question && !assess.isPending && (

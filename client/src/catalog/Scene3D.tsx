@@ -1,6 +1,7 @@
 // A rotatable 3D model from simple shapes. The WebGL canvas loads on demand, so three.js stays out of the
 // main bundle; the part buttons below it work without WebGL and from the keyboard.
 import { lazy, Suspense, useState } from 'react'
+import { prefersStill } from '@/lib/motion'
 import { Card, Original, SafeBlock } from './blocks'
 
 const SceneCanvas = lazy(() => import('./SceneCanvas'))
@@ -12,15 +13,6 @@ export interface ScenePart {
   size?: number
   color?: string
   text?: string
-}
-
-// No auto-rotation for students who asked for less motion, or in the still Graustufen look.
-function prefersStill() {
-  return (
-    (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ??
-      false) ||
-    document.documentElement.dataset.look === 'graustufen'
-  )
 }
 
 export function Scene3D({
