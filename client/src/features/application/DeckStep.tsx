@@ -126,8 +126,9 @@ function DeckStep({
     ? (hermesCards?.find((c) => c.id === hermesId) ?? null)
     : null
   const shown = history.length
-  const extra = [...history.map((h) => h.state), state].filter(
-    (s) => s.asked === 'high',
+  // Morph cards keep the last base state, so only base snapshots count as extra high cards.
+  const extra = [...history, { state, hermesId }].filter(
+    (s) => !s.hermesId && s.state.asked === 'high',
   ).length
   // A Hermes path is at most 3 cards; count them once the cards are here.
   const total = Math.max(

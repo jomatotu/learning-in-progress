@@ -206,6 +206,16 @@ describe('DeckStep', () => {
     ])
   })
 
+  it('keeps the estimate steady on Morph cards after a last high card', async () => {
+    const { user } = setup(hermes)
+    await user.keyboard('{Enter}{Backspace}{Enter}')
+    expect(screen.getByText('Hermes eins')).toBeInTheDocument()
+    expect(screen.getByText('Karte 4 von etwa 5')).toBeInTheDocument()
+    await user.keyboard('{Enter}')
+    expect(screen.getByText('Hermes zwei')).toBeInTheDocument()
+    expect(screen.getByText('Karte 5 von etwa 5')).toBeInTheDocument()
+  })
+
   it('hides the 30-question offer while a Hermes card is shown', async () => {
     const { user } = setup(hermes)
     await user.keyboard('{Enter}')
