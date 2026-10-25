@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { ApplicationForm } from './ApplicationForm'
-import { ReadingComfort } from './ReadingComfort'
+import { LookToggle } from '../look/LookToggle'
 
 // The /application page: main's top bar and app shell around the application form.
 export function ApplicationPage() {
@@ -16,7 +16,7 @@ export function ApplicationPage() {
           </span>
           <span>learning in progress</span>
         </Link>
-        <ReadingComfort />
+        <LookToggle />
       </header>
       <div className="mx-auto max-w-[1120px] px-4 py-10 md:px-6 md:py-14">
         <ApplicationForm />

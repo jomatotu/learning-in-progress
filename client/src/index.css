@@ -135,3 +135,99 @@
     @apply font-sans;
   }
 }
+
+/* Look toggle (LookToggle.tsx) */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.look-toggle {
+  border: 1px solid #d3d0c7;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  color: #3a3745;
+  background: transparent;
+  cursor: pointer;
+}
+
+.look-toggle:hover {
+  border-color: #686572;
+}
+
+.look-toggle[aria-pressed='true'] {
+  background: #292632;
+  border-color: #292632;
+  color: #fff;
+}
+
+/*
+ * Graustufen: matte e-ink look. Filter on <html> (not body) so fixed/sticky bars
+ * keep their viewport anchoring; it also greys the sandboxed solution iframe.
+ */
+:root[data-look='graustufen'] {
+  filter: grayscale(1);
+  background: #efeeea;
+  --lip-bg: #efeeea;
+  --lip-ink: #1d1d1b;
+  --lip-accent: #1d1d1b;
+}
+
+:root[data-look='graustufen'] *,
+:root[data-look='graustufen'] *::before,
+:root[data-look='graustufen'] *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+:root[data-look='graustufen'] body,
+:root[data-look='graustufen'] .app-shell,
+:root[data-look='graustufen'] .application-page {
+  background: #efeeea;
+  color: #1d1d1b;
+}
+
+:root[data-look='graustufen'] .topbar,
+:root[data-look='graustufen'] .sticky-action {
+  background: #f6f5f1;
+  border-color: #cfcdc7;
+}
+
+:root[data-look='graustufen'] .application-page {
+  --paper: #efeeea;
+  --sheet: #f6f5f1;
+  --ink: #1d1d1b;
+  --graphite: #5c5b57;
+  --rule: #cfcdc7;
+  --pine: #1d1d1b;
+  --pine-soft: #f6f5f1;
+  --pine-deep: #1d1d1b;
+  --marigold: #6b6a66;
+  --clay: #6b6a66;
+}
+
+:root[data-look='graustufen'] [data-slot='card'],
+:root[data-look='graustufen'] [data-slot='input'],
+:root[data-look='graustufen'] [data-slot='textarea'] {
+  background: #f6f5f1;
+  border-color: #cfcdc7;
+}
+
+:root[data-look='graustufen'] .hero-art::before,
+:root[data-look='graustufen'] .orbit,
+:root[data-look='graustufen'] .magic-orbit,
+:root[data-look='graustufen'] .magic-particle,
+:root[data-look='graustufen'] .brand-mark {
+  display: none;
+}
+
+:root[data-look='graustufen'] :focus-visible {
+  outline: 3px solid #1d1d1b !important;
+  outline-offset: 2px;
+}

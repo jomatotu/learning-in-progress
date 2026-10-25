@@ -1,3 +1,5 @@
+import { LookToggle } from '../look/LookToggle'
+
 type TopbarProps = {
   step: number
   onHome: () => void
@@ -24,9 +26,12 @@ export function Topbar({ step, onHome }: TopbarProps) {
           </span>
         </div>
       )}
-      <button className="help" aria-label="Hilfe">
-        ?
-      </button>
+      <div className="topbar-actions">
+        <LookToggle />
+        <button className="help" aria-label="Hilfe">
+          ?
+        </button>
+      </div>
     </header>
   )
 }
