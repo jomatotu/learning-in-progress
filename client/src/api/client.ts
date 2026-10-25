@@ -109,6 +109,8 @@ export type StreamProgress = {
   onStatus: (text: string) => void
   // The next chunk of Hermes's reasoning, to append to what came before.
   onReasoning?: (text: string) => void
+  // The page written so far, as a renderable document.
+  onPreview?: (html: string) => void
 }
 
 // Streams an endpoint that sends "status" and "reasoning" events while it works, then "done" with the result or "error" with a message.
@@ -120,6 +122,7 @@ export async function streamResult<T>(
     timeoutMs,
     onStatus,
     onReasoning,
+    onPreview,
   }: { body: unknown; timeoutMs?: number } & StreamProgress,
 ): Promise<T> {
   let result: { data: T } | undefined
@@ -129,6 +132,7 @@ export async function streamResult<T>(
     onEvent: (event, data) => {
       if (event === 'status') onStatus((data as { text: string }).text)
       if (event === 'reasoning') onReasoning?.((data as { text: string }).text)
+      if (event === 'preview') onPreview?.((data as { html: string }).html)
       if (event === 'done') result = { data: data as T }
       if (event === 'error') {
         throw new ApiError((data as { message: string }).message)

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import type { Answer, Profile, ThemeName } from '@/api/assess'
 import { streamResult, type StreamProgress } from '@/api/client'
@@ -23,11 +24,22 @@ export function generatePage(
 
 export function useGeneratePage() {
   const progress = useStreamProgress()
+  // The half-written page, so the student watches it being built.
+  const [preview, setPreview] = useState('')
   const mutation = useMutation({
     mutationFn: (input: GenerateInput) => {
       progress.reset()
-      return generatePage(input, progress.callbacks)
+      setPreview('')
+      return generatePage(input, {
+        ...progress.callbacks,
+        onPreview: setPreview,
+      })
     },
   })
-  return { ...mutation, status: progress.status, reasoning: progress.reasoning }
+  return {
+    ...mutation,
+    status: progress.status,
+    reasoning: progress.reasoning,
+    preview,
+  }
 }
