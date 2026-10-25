@@ -16,7 +16,7 @@ from app.routers import (
 )
 from app.settings import get_settings
 
-app = FastAPI(title="Learning in Progress API")
+app = FastAPI(title="Morph API")
 
 # Last added is outermost: Host is checked first, then body size, then Origin.
 app.add_middleware(OriginCheckMiddleware)

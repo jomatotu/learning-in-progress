@@ -1,6 +1,6 @@
-# learning-in-progress
+# Morph
 
-**Learning in Progress** passt Lernmaterial an die Bedürfnisse und Lernziele
+**Morph** passt Lernmaterial an die Bedürfnisse und Lernziele
 einer Person an, ohne den fachlichen Inhalt zu verändern.
 
 ## Demo
@@ -8,7 +8,7 @@ einer Person an, ohne den fachlichen Inhalt zu verändern.
 Die Anwendung ist unter
 [binnendifferenzierung.online](https://binnendifferenzierung.online/) verfügbar.
 
-[![Startseite von Learning in Progress](doc/startseite.png)](https://binnendifferenzierung.online/)
+[![Startseite von Morph](doc/startseite.png)](https://binnendifferenzierung.online/)
 
 ## Grundidee
 
