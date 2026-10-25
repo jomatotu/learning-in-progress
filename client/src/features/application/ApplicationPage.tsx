@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from 'react-router'
 import { demoProfile } from '@/features/demo/personas'
+import { FocusToggle } from '@/components/FocusToggle'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { defineMessages, useMessages } from '@/lib/i18n'
@@ -30,6 +31,7 @@ export function ApplicationPage() {
         </Link>
         <div className="topbar-actions">
           <LanguageToggle />
+          <FocusToggle />
           <ThemeToggle />
           <LookToggle />
         </div>

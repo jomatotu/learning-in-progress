@@ -24,6 +24,48 @@
   border-color: var(--dk-accent);
 }
 
+/* The focus-mode button while the mode is on (FocusProvider sets the class on <html>). */
+.focus-toggle[aria-pressed='true'] {
+  color: #6955c6;
+  border-color: #6955c6;
+}
+
+.dark .focus-toggle[aria-pressed='true'] {
+  color: var(--dk-accent);
+  border-color: var(--dk-accent);
+}
+
+/* Focus mode: a full-page dim with a hole over the block under the mouse (FocusOverlay).
+   The dim lives on the overlay's box-shadow, so the page underneath stays fully interactive. */
+.focus-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.focus-spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 9999px rgba(41, 38, 50, 0.85),
+    0 0 0 2px #6955c6;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    transform 0.12s ease-out,
+    width 0.12s ease-out,
+    height 0.12s ease-out;
+}
+
+.dark .focus-spotlight {
+  box-shadow:
+    0 0 0 9999px rgba(0, 0, 0, 0.85),
+    0 0 0 2px var(--dk-accent);
+}
+
 /* Dark mode for every page. Active while <html> has the class "dark" (ThemeProvider sets it).
    It only overrides colours; layout, type, and spacing stay exactly as in the light theme.
    Same character as light: a deep plum-ink page instead of cream, slightly lighter cards, a brighter purple

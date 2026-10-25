@@ -1,3 +1,4 @@
+import { FocusToggle } from '@/components/FocusToggle'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { defineMessages, useMessages } from '@/lib/i18n'
@@ -45,6 +46,7 @@ export function Topbar({ step, onHome }: TopbarProps) {
       )}
       <div className="topbar-actions">
         <LanguageToggle />
+        <FocusToggle />
         <ThemeToggle />
         <LookToggle />
         <button className="help" aria-label={t.help}>
