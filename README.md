@@ -50,9 +50,22 @@ Weitere Informationen zur Entwicklung der Grundidee stehen in
 Der ausführliche fachliche Ablauf steht in der
 [Lösungsstrategie](doc/architecture/04-loesungsstrategie.md).
 
-## Lokaler Einstieg
+## Quickstart
 
-Client und Server werden getrennt eingerichtet und gestartet:
+```sh
+# Terminal 1 – Server
+cd server
+uv sync
+cp .env.example .env   # Hermes-Zugangsdaten vom Team eintragen
+uv run --env-file .env fastapi dev
+
+# Terminal 2 – Client
+cd client
+npm install
+npm run dev
+```
+
+Details und zusätzliche Optionen:
 
 - [Client einrichten und starten](client/README.md)
 - [Server einrichten und starten](server/README.md)
@@ -67,6 +80,15 @@ Dokumentation werden gemeinsam in diesem Repository versioniert.
 | `client/` | Web-Frontend. Setup und Scripts: [client/README.md](client/README.md) |
 | `server/` | API. Setup und Start: [server/README.md](server/README.md) |
 | `doc/` | Prozess und Architektur |
+
+## CI
+
+Ein CI-Workflow ist in Arbeit. Bis dahin die Prüfungen lokal ausführen:
+
+```sh
+cd client && npm run check   # Type-check, Lint, Format, Tests
+cd server && uv run pytest   # Tests
+```
 
 ## Techstack
 
@@ -103,6 +125,7 @@ Dokumentation der Werkzeuge, Hilfsmittel und Abläufe, die Entwicklung und Lerne
 | --- | --- | --- |
 | Claude Code | Entwicklung | im Einsatz |
 | OpenCode | Entwicklung | im Einsatz |
+| Hermes | Entwicklung | im Einsatz |
 | Cursor | Entwicklung | im Einsatz |
 | IntelliJ IDEA | Entwicklung | im Einsatz |
 | VSCode | Entwicklung | im Einsatz |

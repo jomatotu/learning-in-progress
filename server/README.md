@@ -10,7 +10,9 @@ In dev, the client's Vite server proxies `/api` to this server on port 8000, so 
 uv sync
 ```
 
-Copy `.env.example` to `.env` and add your Gemini API key.
+Copy `.env.example` to `.env` and fill in the Hermes credentials:
+`HERMES_BASE_URL` and `HERMES_API_KEY`. The Hermes key comes from the team —
+never commit it.
 
 ## Run
 
