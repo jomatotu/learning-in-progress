@@ -21,5 +21,5 @@ def summary(name: str) -> str:
     title = spec.splitlines()[0].split("—", 1)[1].strip()
     intro = spec.split("\n\n")[1]
     first_sentence = re.match(r".+?[.!?](?=\s|$)", intro).group()
-    fits = re.search(r"### Who it fits\n\n(.+?)(?=\n\n|\Z)", spec, re.S).group(1).strip()
+    fits = re.search(r"### Who it fits\n\n(.+?)(?=\n\n|\Z)", spec, re.DOTALL).group(1).strip()
     return f"- {name} ({title}): {first_sentence} Fits: {fits}"

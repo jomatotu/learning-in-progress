@@ -84,6 +84,16 @@ def test_assess_sends_student_data_and_instructions_to_hermes(monkeypatch):
     assert calls[0]["session_id"].startswith("lip-assess-")
 
 
+def test_assess_sends_only_the_start_of_the_material(monkeypatch):
+    calls = fake_stream_json(monkeypatch, QUESTION)
+    material = "a" * assess.MATERIAL_PREVIEW_CHARS + "TAIL"
+
+    client.post("/api/assess", json={"profile": PROFILE, "answers": [], "material": material})
+
+    assert f"<material>\n{'a' * assess.MATERIAL_PREVIEW_CHARS}\n</material>" in calls[0]["message"]
+    assert "TAIL" not in calls[0]["message"]
+
+
 def test_assess_asks_hermes_to_finish_after_max_questions(monkeypatch):
     calls = fake_stream_json(monkeypatch, FINISHED)
     answers = [{"question": f"Q{i}", "answer": "A"} for i in range(assess.MAX_QUESTIONS)]

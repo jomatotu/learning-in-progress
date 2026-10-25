@@ -1,0 +1,66 @@
+## Step 2: Design — Memory palace
+
+Build a "Memory palace" page: the key ideas of the material are placed at spots along a walk through one familiar place, each spot holding a vivid object that stands for one idea, and coming back to a spot asks the student to recall its idea first. Follow this design exactly. Use Step 1 only to tune the parts listed under "Adapt to this student". Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- The method of loci, placing things to remember at spots along a known route, is one of the strongest memory techniques (Twomey & Kroneisen 2021, meta-analysis).
+- A few weeks of training in this method changed how ordinary people's brains store memories and made them remember far more (Dresler et al. 2017, Neuron).
+- Pairing a fact with a vivid picture makes it easier to recall than the words alone (Paivio, dual coding).
+- Recalling something before seeing it again makes it stick better than rereading (Roediger and Karpicke 2006, retrieval practice).
+
+Use these short source names in the "Why it looks like this" section.
+
+### Who it fits
+
+Students who need to memorise many facts, terms, or steps in order, for example for a test. Students who think in pictures or places, and students with dyslexia who remember images better than text. It works for any material with 5 to 12 key ideas.
+
+### Pick the place
+
+- Choose one place the student knows: a house, their school, or a place from their interests (e.g. a football stadium for a football fan, a kitchen for someone who likes cooking).
+- Split the place into 3 to 4 areas (e.g. "Hall", "Kitchen", "Garden") and put 2 to 4 spots in each, in walking order.
+- For each spot, pick an everyday object in that area that links to its idea in a vivid, easy way (e.g. a teacup for diffusion: colour spreads from strong to weak).
+
+### Screens, in this order
+
+1. **Start screen**: the topic title, one sentence on the place ("We'll walk through a house. Each spot holds one idea."), "9 spots, about 12 minutes", and a large "Start the walk" button.
+2. **Walk screen**, used for every spot. Top to bottom:
+   - **Map**: one inline SVG of the place. The map is the main part of this design, so it fills the content width up to about 40rem, unlike the smaller limit for diagrams in Step 3. Areas are simple shapes with soft fills. A dotted path joins the spots in order. Each spot is a circle with a small drawn icon of its object. The current spot has a ring around it. Visited spots are filled, spots not visited yet have a dashed outline, and spots whose question was answered have a small tick.
+   - **Spot panel**, for the current spot:
+     - The area and the object name as heading, with "Spot 3 of 9".
+     - The hook: one short, vivid sentence that ties the object to the idea ("The teacup: colour spreads from strong to weak.").
+     - The idea itself in plain words: 2 to 4 short sentences, key terms in bold. This is the real fact; the object only helps remember it.
+     - One question with 3 options about this idea. Feedback shows right or wrong with a symbol and a word, and one sentence why.
+   - **Spot list**: an ordered list of every spot in HTML: number, area, and object name ("3. Kitchen · Teacup"). Each item is a button that opens that spot, the same as clicking it on the map.
+   - "Back" and "Next spot" at the bottom, following the path. "Next spot" on the last spot goes to the recall walk.
+3. **Recall walk**: goes through the spots in order, one per screen, with the map. Each shows only the area and the object and asks "What does the teacup stand for?" with 3 options. After the answer, show right or wrong, then the idea in one sentence, then "Next".
+4. **Done screen**: a short warm message, how many spots were remembered on the walk, the full walk as a list (object → idea, one line each), and "Walk again".
+
+### Recall on return
+
+- When the student jumps with the map or the spot list to a spot they visited before (not with Back or Next), show a "Remember this spot?" box in place of the spot panel: the object name and its question with 3 options. After an answer, show right or wrong and the reason, then a "Show the spot" button that shows the spot panel.
+- Count recalls right on the first try per spot and show them as small stars in the spot list.
+
+### Always
+
+- Every key idea of the material has exactly one spot. If there are more than 12 ideas, merge closely related ones into one spot, keeping every fact.
+- The order of the spots follows the order of the material.
+- No text inside the map; names live in the spot list and the panel. Give each spot on the map an aria-label with its number, object, and state ("Spot 3: Teacup, visited"), and give the map role="group" with an aria-label describing the place.
+- Spots on the map are focusable (tabindex="0", role="button") and open with Enter and Space.
+- Nothing opens or advances on its own.
+
+### Adapt to this student
+
+- Place: use the place that matches the student's interests or daily life; if nothing is given, use a simple house with a garden.
+- Read aloud: if the profile mentions dyslexia, reading difficulty, or that listening helps, add a listen button to each hook, idea, and question, using speechSynthesis and highlighting the word being spoken. Hide the buttons if speechSynthesis is missing.
+- Focus: if the profile mentions ADHD or overwhelm, dim spots on the map that are more than one step away from the current one.
+- Number of spots: aim for fewer spots (5 to 7) if memory or attention is hard for them.
+- Tone: match the student's age. Friendly, never childish for older students.
+
+### Don't
+
+- Don't let the object replace the fact. The plain idea is always shown in the spot panel.
+- Don't pick objects whose link to the idea needs a long explanation; if a link isn't obvious, choose another object.
+- Don't use more than one place, or move between places.
+- Don't add timers, scores with penalties, streaks, or a 3D view.
+- Don't hide the spot list on any screen size.

@@ -47,20 +47,6 @@ function GoalStep({ profile, update, errors }: StepProps) {
               className="min-h-14"
             />
           </Field>
-
-          <Field
-            id="deadline"
-            label="Gibt es einen Termin, auf den du hinarbeitest?"
-            optional
-          >
-            <Input
-              id="deadline"
-              type="date"
-              value={profile.deadline}
-              onChange={(e) => update({ deadline: e.target.value })}
-              className="max-w-56"
-            />
-          </Field>
         </div>
 
         <div className="flex flex-col gap-3">

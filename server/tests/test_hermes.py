@@ -2,7 +2,6 @@ import asyncio
 from types import SimpleNamespace
 
 import pytest
-
 from pydantic import BaseModel
 
 from app import hermes
@@ -192,3 +191,8 @@ def test_ask_hermes_without_model_keeps_the_default(monkeypatch):
 
     assert calls[0]["model"] == "hermes-agent"
     assert "extra_body" not in calls[0]
+def test_every_browser_tool_gets_the_browser_status():
+    assert hermes.tool_status("browser_navigate") == hermes.BROWSER_STATUS
+    assert hermes.tool_status("browser_click") == hermes.BROWSER_STATUS
+    assert hermes.tool_status("terminal") == "Führe Code aus…"
+    assert hermes.tool_status("something_new") == "Arbeitet…"

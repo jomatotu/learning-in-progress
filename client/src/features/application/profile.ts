@@ -9,10 +9,8 @@ export type Profile = {
   interests: string
   goalType: string
   goal: string
-  deadline: string
   topic: string
-  texts: string[]
-  links: string[]
+  text: string
   files: File[]
   answers: Answers
   bands: Record<string, Band>
@@ -30,10 +28,8 @@ export const emptyProfile: Profile = {
   interests: '',
   goalType: '',
   goal: '',
-  deadline: '',
   topic: '',
-  texts: [],
-  links: [],
+  text: '',
   files: [],
   answers: {},
   bands: {},

@@ -57,8 +57,7 @@ function ReviewStep({
         ]
       : [],
   )
-  const material =
-    profile.texts.length + profile.links.length + profile.files.length
+  const material = (profile.text.trim() ? 1 : 0) + profile.files.length
   const stage = [profile.stage, profile.stageDetail].filter(Boolean).join(' · ')
 
   return (
@@ -89,16 +88,6 @@ function ReviewStep({
             </>
           ) : (
             <Empty>Noch kein Ziel</Empty>
-          )}
-          {profile.deadline && (
-            <p className="text-graphite">
-              Bis{' '}
-              {new Date(profile.deadline).toLocaleDateString('de-DE', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-            </p>
           )}
         </Section>
 

@@ -7,7 +7,7 @@ client = TestClient(app)
 
 BASE = {
     "student": {"name": "Peter", "stage": "Schule"},
-    "goal": {"type": "", "in_their_words": "", "deadline": None},
+    "goal": {"type": "", "in_their_words": ""},
     "material": {"topic": "Brüche"},
 }
 

@@ -1,5 +1,7 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { loadRun } from '@/features/learn/learnStore'
 import type { Survey } from '@/lib/survey'
 import { ApplicationForm } from './ApplicationForm'
 
@@ -83,21 +85,53 @@ const survey: Survey = {
   ],
 }
 
+function renderForm() {
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+  render(
+    <QueryClientProvider client={client}>
+      <ApplicationForm />
+    </QueryClientProvider>,
+  )
+}
+
+function sse(event: string, data: unknown) {
+  return new Response(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)
+}
+
+const question = {
+  done: false,
+  question: 'Reading or listening?',
+  options: ['Reading', 'Listening'],
+  themes: [],
+}
+const finished = {
+  done: true,
+  question: '',
+  options: [],
+  themes: [{ theme: 'read-aloud', reason: 'You like listening.' }],
+}
+
 function urlOf(input: RequestInfo | URL) {
   return input instanceof Request ? input.url : input.toString()
 }
 
-// Answers GET /api/survey with the survey above and POST /api/profile with `profileResponse`.
-// Intake requests get `intake`; the default is a failed request, so the deck ends after the base cards.
+// Answers GET /api/survey with the survey above, POST /api/profile with `profileResponse`, and POST /api/assess
+// with one question, then the picked themes. Intake requests get `intake`; the default is a failed request, so the
+// deck ends after the base cards.
 function mockServer(
   profileResponse: Response = Response.json({}),
   intake: (url: string) => Promise<Response> = async () =>
     new Response(null, { status: 500 }),
 ) {
+  let assessCalls = 0
   const fetchMock = vi.fn<typeof fetch>(async (input) => {
     const url = urlOf(input)
     if (url === '/api/survey') return Response.json(survey)
     if (url.startsWith('/api/intake/')) return intake(url)
+    if (url === '/api/assess')
+      return assessCalls++ === 0 ? sse('done', question) : sse('done', finished)
     return profileResponse
   })
   vi.stubGlobal('fetch', fetchMock)
@@ -133,7 +167,7 @@ describe('ApplicationForm', () => {
   it('asks for a name and a stage before leaving the about step', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
 
     await user.click(await screen.findByRole('button', { name: /weiter/i }))
 
@@ -148,7 +182,7 @@ describe('ApplicationForm', () => {
   it('counts the steps without repeating the about step', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     expect(await screen.findByText('Schritt 1 von 5')).toBeInTheDocument()
 
     await user.type(
@@ -164,7 +198,7 @@ describe('ApplicationForm', () => {
   it('shows the survey questions after "Genauer?" on the last deck card and asks for every answer in a part', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
 
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
@@ -188,14 +222,29 @@ describe('ApplicationForm', () => {
     ).toBeInTheDocument()
   })
 
-  it('sends deck bands and raw answers on "Meine Lösung bauen" and opens the Magic page', async () => {
-    const fetchMock = mockServer(
-      Response.json({
-        learning_instructions: { prior_knowledge: ['Skip the basics.'] },
-      }),
-    )
+  it('sends deck bands and raw answers on "Meine Lösung bauen", asks the questions, and opens the pages', async () => {
+    const studentProfile = {
+      scale_version: 'test',
+      student: {
+        name: 'Lina',
+        stage: 'School',
+        stage_detail: '',
+        interests: '',
+      },
+      goal: { type: '', in_their_words: '' },
+      material: {
+        topic: 'Fractions',
+        text: 'Halves and quarters.',
+        files: [],
+      },
+      learning_instructions: { prior_knowledge: ['Skip the basics.'] },
+      preferences: { likes_learning_with: [], notes: '' },
+    }
+    const fetchMock = mockServer(Response.json(studentProfile))
+    const openMock = vi.fn<typeof window.open>()
+    vi.stubGlobal('open', openMock)
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
 
     // Deck: "Stimmt" on the first card, then the 30 questions from the last card.
@@ -223,15 +272,56 @@ describe('ApplicationForm', () => {
       screen.getByRole('button', { name: /meine lösung bauen/i }),
     )
 
-    const profileCall = fetchMock.mock.calls.find(
-      ([input]) => urlOf(input) === '/api/profile',
-    )
-    const sent = profileCall?.[1]?.body
-    const body = JSON.parse(typeof sent === 'string' ? sent : '{}')
+    // The client sends the raw answers only; scoring is the server's job.
+    const bodyOf = (path: string) => {
+      const call = fetchMock.mock.calls.find(([input]) => urlOf(input) === path)
+      const sent = call?.[1]?.body
+      return JSON.parse(typeof sent === 'string' ? sent : '{}')
+    }
+    const body = bodyOf('/api/profile')
     expect(body.answers).toEqual({ pk1: 5, pk2: 5, pk3: 5 })
     expect(body.bands).toEqual({ prior_knowledge: 'low' })
     expect(body.preferences.hard).toBe('Lange Texte')
     expect(body.material.topic).toBe('Fractions')
+
+    expect(
+      await screen.findByRole('heading', { name: /thanks, lina/i }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/"Skip the basics\."/)).toBeInTheDocument()
+
+    // Hermes gets the profile without the pasted text.
+    const hermesProfile = {
+      ...studentProfile,
+      material: { topic: 'Fractions', files: [] },
+    }
+    expect(bodyOf('/api/assess')).toEqual({
+      profile: hermesProfile,
+      answers: [],
+      material: 'Fractions\n\nHalves and quarters.',
+    })
+
+    await user.click(await screen.findByRole('button', { name: 'Listening' }))
+    expect(await screen.findByText(/You like listening/)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /generate/i }))
+
+    const [url, target] = openMock.mock.calls[0]
+    expect(target).toBe('_blank')
+    expect(loadRun(String(url).replace('/learn/', ''))).toEqual({
+      profile: hermesProfile,
+      answers: [{ question: 'Reading or listening?', answer: 'Listening' }],
+      material: 'Fractions\n\nHalves and quarters.',
+      themes: finished.themes,
+    })
+  })
+
+  it('opens the Magic page instead when the student picks it', async () => {
+    mockServer(Response.json({ learning_instructions: {} }))
+    const user = userEvent.setup()
+    renderForm()
+    await reachDeck(user)
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: /magic-seite/i }))
 
     expect(
       await screen.findByRole('heading', { name: /magische lösung/i }),
@@ -241,7 +331,7 @@ describe('ApplicationForm', () => {
   it('shows deck text only for categories without survey answers', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Stimmt' }))
     await user.click(screen.getByRole('button', { name: 'Stimmt' }))
@@ -265,7 +355,7 @@ describe('ApplicationForm', () => {
   it('returns to the review after editing "Über dich" and keeps the deck bands', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Stimmt' }))
     await user.click(screen.getByRole('button', { name: 'Stimmt' }))
@@ -283,7 +373,7 @@ describe('ApplicationForm', () => {
   it('restarts the deck from "Ändern" on "Wie du lernst"', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
@@ -297,7 +387,7 @@ describe('ApplicationForm', () => {
   it('reaches the review and builds when every deck card is skipped', async () => {
     const fetchMock = mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
 
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
@@ -317,7 +407,7 @@ describe('ApplicationForm', () => {
   it('shows the medium text on the review for a medium band', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
 
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
@@ -332,7 +422,7 @@ describe('ApplicationForm', () => {
   it('goes back from the review to the deck when no survey was answered', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
@@ -346,7 +436,7 @@ describe('ApplicationForm', () => {
   it('goes back from the review to the last survey part when survey answers exist', async () => {
     mockServer()
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(
@@ -370,7 +460,7 @@ describe('ApplicationForm', () => {
   it('stays on the review with a message when the server can’t build the profile', async () => {
     mockServer(new Response(null, { status: 500 }))
     const user = userEvent.setup()
-    render(<ApplicationForm />)
+    renderForm()
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
@@ -391,7 +481,7 @@ describe('ApplicationForm', () => {
       'fetch',
       vi.fn<typeof fetch>(async () => new Response(null, { status: 500 })),
     )
-    render(<ApplicationForm />)
+    renderForm()
 
     expect(
       await screen.findByText(/konnten das formular nicht laden/i),
@@ -418,7 +508,7 @@ describe('ApplicationForm', () => {
         Response.json({ token: 't', cards }),
       )
       const user = userEvent.setup()
-      render(<ApplicationForm />)
+      renderForm()
       await reachDeck(user)
       await user.click(screen.getByRole('button', { name: 'Zurück' }))
       await user.click(screen.getByRole('button', { name: /weiter/i }))
@@ -439,7 +529,7 @@ describe('ApplicationForm', () => {
           : Response.json({ about_you: 'Du magst Fußball.' }),
       )
       const user = userEvent.setup()
-      render(<ApplicationForm />)
+      renderForm()
       await reachDeck(user)
       await user.click(await screen.findByRole('button', { name: /stimmt/i }))
       await user.click(screen.getByRole('button', { name: /stimmt/i }))
@@ -476,7 +566,7 @@ describe('ApplicationForm', () => {
     it('still ends the deck and reaches the review when the card request never resolves', async () => {
       mockServer(Response.json({}), () => new Promise<Response>(() => {}))
       const user = userEvent.setup()
-      render(<ApplicationForm />)
+      renderForm()
       await reachDeck(user)
       await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
       await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
@@ -493,7 +583,7 @@ describe('ApplicationForm', () => {
           : Response.json({ about_you: null }),
       )
       const user = userEvent.setup()
-      render(<ApplicationForm />)
+      renderForm()
       await reachDeck(user)
       await user.click(await screen.findByRole('button', { name: /stimmt/i }))
       await user.click(screen.getByRole('button', { name: /stimmt/i }))
@@ -512,7 +602,7 @@ describe('ApplicationForm', () => {
           : Response.json({ about_you: 'Du magst Fußball.' }),
       )
       const user = userEvent.setup()
-      render(<ApplicationForm />)
+      renderForm()
       await reachDeck(user)
       await user.click(
         await screen.findByRole('button', { name: 'Weiß nicht' }),
@@ -531,7 +621,7 @@ describe('ApplicationForm', () => {
           : Response.json({ about_you: `Text ${++summaries}` }),
       )
       const user = userEvent.setup()
-      render(<ApplicationForm />)
+      renderForm()
       await reachDeck(user)
       await user.click(await screen.findByRole('button', { name: /stimmt/i }))
       await user.click(screen.getByRole('button', { name: /stimmt/i }))

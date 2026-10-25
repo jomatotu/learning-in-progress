@@ -18,13 +18,11 @@ class Student(BaseModel):
 class Goal(BaseModel):
     type: str = ""
     in_their_words: str = Field(default="", max_length=500)
-    deadline: str | None = None
 
 
 class Material(BaseModel):
     topic: str
-    texts: list[str] = []
-    links: list[str] = []
+    text: str = ""
     files: list[str] = Field(default=[], description="File names only; uploads aren't supported yet.")
 
 

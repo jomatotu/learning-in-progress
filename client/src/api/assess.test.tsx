@@ -11,6 +11,7 @@ const input: AssessInput = {
     interests: [],
   },
   answers: [],
+  material: 'Fractions',
 }
 
 function wrapper({ children }: { children: ReactNode }) {

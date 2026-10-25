@@ -27,7 +27,8 @@ Students who lose motivation, find the subject dry or abstract, have ADHD, or sa
 2. **Concept screens, 4 to 7 of them.** Show one key idea per screen, in this order:
    - a heading;
    - the fact itself, stated plainly in 2 to 4 short sentences, with key terms in bold;
-   - one sentence that links the fact back to the interest's world.
+   - one sentence that links the fact back to the interest's world;
+   - a short match list (a ul, not a table) of 2 to 3 pairs, each a thing from the interest's world and the real term it stands for ("Waiter → carrier protein").
    Each screen has a progress label ("Part 2 of 6").
 3. **Check, after every 2 concept screens.** One multiple choice question with 3 options. The question is set in the interest's world, but answering it right requires the real fact. Feedback appears right away and names the correct fact.
 4. **Recap screen.** A two-column list. The left column is the real term or fact, the right column is its match in the interest's world. Include every key idea.
@@ -62,7 +63,7 @@ Students who lose motivation, find the subject dry or abstract, have ADHD, or sa
 ### Don't
 
 - Don't let the analogy replace the fact or change it. If an analogy would mislead, leave it out.
-- Don't force the frame on every sentence. One linking sentence per screen is enough.
+- Don't force the frame on every sentence. One linking sentence and the match list per screen are enough.
 - Don't use more than 2 clickable analogies per screen or mix several hobbies.
 - Don't copy logos, characters or long text from brands, games or clubs. Use generic descriptions ("a blocky building game", "the striker") or invented names.
 - Don't use jokes that mock the student, the hobby, or wrong answers.

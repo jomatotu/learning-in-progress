@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router'
@@ -57,9 +58,11 @@ describe('LookToggle', () => {
 describe('ApplicationPage', () => {
   it('has the Graustufen toggle and no reading-comfort controls', () => {
     render(
-      <MemoryRouter>
-        <ApplicationPage />
-      </MemoryRouter>,
+      <QueryClientProvider client={new QueryClient()}>
+        <MemoryRouter>
+          <ApplicationPage />
+        </MemoryRouter>
+      </QueryClientProvider>,
     )
     expect(screen.getByRole('button', { name: 'Graustufen' })).toBeVisible()
     for (const old of ['Larger text', 'More spacing', 'Calmer colours']) {

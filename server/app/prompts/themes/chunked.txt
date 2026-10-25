@@ -1,6 +1,6 @@
 ## Step 2: Design — Chunked steps
 
-Build a "Chunked steps" page: the material split into small steps, one idea per screen, with short checks along the way. Follow this design exactly. Use your research from Step 1 only to tune the parts listed under "Adapt to this student". Button labels and screen text in quotes are examples; write them in the material's language.
+Build a "Chunked steps" page: the material split into small steps, one idea per screen, with short checks along the way. Follow this design exactly. Use Step 1 only to tune the parts listed under "Adapt to this student". Button labels and screen text in quotes are examples; write them in the material's language.
 
 ### Why it works
 

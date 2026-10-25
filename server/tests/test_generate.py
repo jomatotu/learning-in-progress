@@ -4,14 +4,15 @@ import httpx
 from fastapi.testclient import TestClient
 from openai import APIConnectionError
 
-from app import hermes
+from app import hermes, themes
 from app.main import app
-from app import themes
 from app.routers import generate
 
 client = TestClient(app)
 
 PAGE = "<!DOCTYPE html><html><body><h1>Osmose</h1></body></html>"
+WITH_CSP = "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"
+FIXED = "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1><button>Next</button></body></html>"
 REQUEST = {
     "profile": {"name": "Peter", "challenges": ["ADHD"], "interests": ["Minecraft"]},
     "answers": [{"question": "Reading or doing?", "answer": "Doing"}],
@@ -19,15 +20,17 @@ REQUEST = {
 }
 
 
-def fake_stream(monkeypatch, pieces, error=None):
+# Fakes both Hermes sessions of a generation: the first writes the page, the second tests it.
+def fake_stream(monkeypatch, pieces, error=None, verify=(), verify_error=None):
     calls = []
 
     async def stream_hermes(message, session_id=None):
+        writing = session_id.startswith("lip-generate-")
         calls.append({"message": message, "session_id": session_id})
-        for piece in pieces:
+        for piece in pieces if writing else verify:
             yield piece
-        if error:
-            raise error
+        if error if writing else verify_error:
+            raise error if writing else verify_error
 
     monkeypatch.setattr(generate.hermes, "stream_hermes", stream_hermes)
     return calls
@@ -51,11 +54,11 @@ def test_generate_streams_progress_then_page_with_csp(monkeypatch):
     )
 
     assert events() == [
-        ("status", {"text": "Hermes plant deine Seite…"}),
+        ("status", {"text": generate.PLAN_STATUS}),
         ("reasoning", {"text": "x" * 250}),
         ("status", {"text": "Suche im Web…"}),
         ("status", {"text": "Die Seite wird geschrieben… 0 KB"}),
-        ("done", {"html": "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"}),
+        ("done", {"html": WITH_CSP}),
     ]
 
 
@@ -157,3 +160,58 @@ def test_page_csp_forbids_base_and_forms():
     csp_tag = page[page.index('<meta http-equiv="Content-Security-Policy"') :].split(">", 1)[0]
     assert "base-uri 'none'" in csp_tag
     assert "form-action 'none'" in csp_tag
+def test_generate_sends_the_tested_page_when_hermes_used_a_browser(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(
+        monkeypatch,
+        [("text", PAGE)],
+        verify=[("tool", hermes.BROWSER_STATUS), ("text", f"Fixed: added the Next button.\n{FIXED}")],
+    )
+
+    result = events()
+
+    assert ("status", {"text": hermes.BROWSER_STATUS}) in result
+    # One CSP only, although the tested page came back with ours already in it.
+    assert result[-1] == ("done", {"html": FIXED})
+
+
+def test_generate_gives_the_tester_the_theme_and_page_in_its_own_session(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    calls = fake_stream(monkeypatch, [("text", PAGE)])
+
+    client.post("/api/generate", json={**REQUEST, "theme": "memory-palace"})
+
+    prompt, session_id = calls[1]["message"], calls[1]["session_id"]
+    assert session_id.startswith("lip-verify-")
+    assert themes.THEMES["memory-palace"] in prompt
+    assert f"<page>\n{WITH_CSP}\n</page>" in prompt
+    assert f"{session_id}.html" in prompt
+    assert "{{" not in prompt
+
+
+def test_generate_keeps_the_written_page_when_testing_used_no_browser(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(monkeypatch, [("text", PAGE)], verify=[("text", FIXED)])
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+
+
+def test_generate_keeps_the_written_page_when_testing_returns_no_page(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(monkeypatch, [("text", PAGE)], verify=[("tool", hermes.BROWSER_STATUS), ("text", "Checked: all fine.")])
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+
+
+def test_generate_keeps_the_written_page_when_testing_fails(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(monkeypatch, [("text", PAGE)], verify_error=hermes.HermesError("Hermes turn error"))
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+
+
+def test_generate_skips_testing_while_verify_pages_is_off(monkeypatch):
+    calls = fake_stream(monkeypatch, [("text", PAGE)])
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+    assert len(calls) == 1

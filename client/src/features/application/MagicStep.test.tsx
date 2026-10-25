@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MagicStep } from './MagicStep'
-import type { StudentProfileJson } from './studentProfile'
+import type { StudentProfile } from '@/api/profile'
 
 afterEach(() => vi.unstubAllGlobals())
 
@@ -14,7 +14,7 @@ describe('MagicStep', () => {
       ),
     )
     render(
-      <MagicStep topic="Bruchrechnen" profileJson={{} as StudentProfileJson} />,
+      <MagicStep topic="Bruchrechnen" profileJson={{} as StudentProfile} />,
     )
 
     await userEvent.setup().click(screen.getByRole('button'))

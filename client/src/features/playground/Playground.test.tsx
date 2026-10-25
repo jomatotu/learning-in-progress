@@ -66,7 +66,11 @@ describe('Playground', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Generieren' }))
 
     expect(fetchMock.mock.calls[1][1]?.body).toBe(
-      JSON.stringify({ profile: mockStudent.profile, answers }),
+      JSON.stringify({
+        profile: mockStudent.profile,
+        answers,
+        material: mockStudent.material,
+      }),
     )
     const [url, target] = openMock.mock.calls[0]
     expect(target).toBe('_blank')
