@@ -7,14 +7,14 @@
 | Persistenz | Entschieden. Ablage nur im Browser der lernenden Person. Siehe [8.3](#83-persistenz-und-datenschutz). |
 | Datenschutz | Sensible Profildaten, Freitext und erzeugtes HTML dürfen als gerätelokale Arbeitskopie im Browser liegen. Siehe [8.3](#83-persistenz-und-datenschutz). |
 | Sicherheit | Authentifizierung, Autorisierung und Schutz der KI-Schnittstelle sind offen. |
-| Fehlerbehandlung | Lange KI-Läufe, Abbruch, Timeout und erneuter Versuch: [QS-1 bis QS-3](10-qualitaetsanforderungen.md#102-qualitätsszenarien). |
+| Fehlerbehandlung | Wahrnehmbarkeit langer Läufe, Robustheit bei Abbruch und Wiederherstellbarkeit: [Kapitel 10](10-qualitaetsanforderungen.md). |
 | Internationalisierung | Dokumentation ist deutsch. Die Oberfläche gibt es auf Deutsch und Englisch, siehe [8.2](#82-internationalisierung). |
 
 ## 8.1 Generative UI
 
 Entscheidung [AE-7](09-architekturentscheidungen.md): Beide Formen bleiben. Führend ist die HTML-Lernseite. Die Solution Page bleibt über „Magische Seite“ erreichbar. Vergleich von Erzeugung, Auslieferung, Route und Sicherheitsgrenze: [5.4](05-bausteinsicht.md#54-generative-ui). Abläufe: [6.3](06-laufzeitsicht.md#63-auslieferung).
 
-Die HTML-Lernseite ist vom Rest der Anwendung getrennt. Das `iframe` erlaubt Skripte, aber nicht denselben Origin. Die vom Server eingesetzte Content Security Policy verbietet Netzzugriff und Formularziele. Die Solution Page hat diese Grenze nicht: Die erzeugte React-Komponente läuft als Teil der Anwendung. Ob diese Grenze ausreicht und welche Inhalte zulässig sind, bleibt die offene Prüfung in [ARCH-CLIENT-06](client-abgleich.md). Risiko [R-2](11-risiken-und-technische-schulden.md) ist damit eingegrenzt, aber nicht geschlossen.
+Die HTML-Lernseite ist vom Rest der Anwendung getrennt. Das `iframe` erlaubt Skripte, aber nicht denselben Origin. Die vom Server eingesetzte Content Security Policy verbietet Netzzugriff und Formularziele. Die Solution Page hat diese Grenze nicht: Die erzeugte React-Komponente läuft als Teil der Anwendung. Ob diese Grenze ausreicht und welche Inhalte zulässig sind, bleibt die offene Prüfung in [ARCH-CLIENT-06](client-abgleich.md). Risiko [R-1](11-risiken-und-technische-schulden.md) ist damit eingegrenzt, aber nicht geschlossen.
 
 ## 8.2 Internationalisierung
 
@@ -34,7 +34,7 @@ Entscheidung [AE-8](09-architekturentscheidungen.md): Lernendendaten bleiben auf
 
 Der Formularentwurf liegt in `sessionStorage`. Ein Neuladen des Tabs behält die Eingaben. Dateiobjekte schreibt der Client nicht. Uploads sind in der Oberfläche deaktiviert; in einem Lernlauf stehen höchstens Dateinamen. Ein Lernlauf liegt in `localStorage`: die Generierung öffnet `/learn/{id}` in einem neuen Tab, und dieser Tab teilt weder den React-Zustand noch den `sessionStorage` des Formulars. Fertige HTML-Seiten liegen unter demselben Präfix, damit ein Neuladen keinen neuen Hermes-Lauf startet. Die Ausführung dieses HTML ist in [8.1](#81-generative-ui) beschrieben.
 
-`localStorage` überlebt das Schließen des Browsers. Eine Aufbewahrungsfrist und eine Löschaktion in der Anwendung gibt es nicht. Der Formularentwurf endet mit der Sitzung des Tabs. Lernlauf und HTML enden, wenn die Website-Daten dieser Origin gelöscht werden. Das ist die festgelegte Löschmöglichkeit. Auf einem eigenen Gerät genügt sie. Auf einem gemeinsam genutzten Gerät bleiben Profil, Freitext und HTML lesbar, bis jemand diese Daten löscht. Skripte derselben Origin können sie ebenfalls lesen. Diese Lücke ist [R-3](11-risiken-und-technische-schulden.md).
+`localStorage` überlebt das Schließen des Browsers. Eine Aufbewahrungsfrist und eine Löschaktion in der Anwendung gibt es nicht. Der Formularentwurf endet mit der Sitzung des Tabs. Lernlauf und HTML enden, wenn die Website-Daten dieser Origin gelöscht werden. Das ist die festgelegte Löschmöglichkeit. Auf einem eigenen Gerät genügt sie. Auf einem gemeinsam genutzten Gerät bleiben Profil, Freitext und HTML lesbar, bis jemand diese Daten löscht. Skripte derselben Origin können sie ebenfalls lesen. Diese Lücke ist [R-2](11-risiken-und-technische-schulden.md).
 
 `language` und `theme` liegen ebenfalls im `localStorage`. Das sind Einstellungen der Oberfläche und enthalten keinen Lerninhalt. Die Sprache ist in [8.2](#82-internationalisierung) beschrieben.
 
