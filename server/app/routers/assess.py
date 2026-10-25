@@ -9,7 +9,7 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAIError
 from pydantic import BaseModel, Field, model_validator
 
-from app import hermes, themes
+from app import hermes, learner, themes
 from app.sse import TextBatch, sse
 
 router = APIRouter(tags=["assess"])
@@ -64,6 +64,7 @@ class AssessRequest(BaseModel):
     profile: dict[str, Any] = Field(description="Student profile, e.g. a persona file or intake form data.")
     answers: list[Answer] = []
     material: str = Field(default="", description="The learning material, or the topic to learn.")
+    student_id: learner.StudentId | None = None
 
 
 class ThemePick(BaseModel):
@@ -100,9 +101,12 @@ def finished(picks: list[ThemePick]) -> NextQuestion:
 # (Hermes thinking, in chunks) while it works, then "done" or "error".
 async def assess_events(request: AssessRequest) -> AsyncIterator[str]:
     last_turn = len(request.answers) >= MAX_QUESTIONS
-    student = request.model_dump_json(exclude={"material"})
+    student = request.model_dump_json(exclude={"material", "student_id"})
     material = request.material[:MATERIAL_PREVIEW_CHARS]
-    message = f"Student data:\n{student}\n\nStart of the learning material:\n<material>\n{material}\n</material>"
+    message = f"Student data:\n{student}\n\n"
+    if notes := learner.notes_block(request.student_id):
+        message += f"{notes}\n\n"
+    message += f"Start of the learning material:\n<material>\n{material}\n</material>"
     if last_turn:
         message += f"\n\n{LAST_TURN}"
 
@@ -139,7 +143,20 @@ async def assess_events(request: AssessRequest) -> AsyncIterator[str]:
     if not last_turn and not result.done and result.question.strip() and result.options:
         yield sse("done", result.model_copy(update={"themes": []}).model_dump())
     else:
-        yield sse("done", finished(result.themes).model_dump())
+        done = finished(result.themes)
+        remember_assessment(request, done)
+        yield sse("done", done.model_dump())
+
+
+# Keeps the answers and picked themes once per finished assessment, so the next session starts from them.
+def remember_assessment(request: AssessRequest, done: NextQuestion) -> None:
+    if not request.student_id:
+        return
+    if request.answers:
+        answers = "; ".join(f"{a.question} -> {a.answer}" for a in request.answers)
+        learner.remember(request.student_id, "assess_answers", answers)
+    picked = ", ".join(pick.theme for pick in done.themes)
+    learner.remember(request.student_id, "picked_themes", picked)
 
 
 # Streams the next question to ask the student, or done with the picked themes once the assessment is complete.

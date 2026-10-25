@@ -7,6 +7,7 @@ What the student saw and confirmed, by topic:
 
 Their answers to your cards (c1, c2, ... are the ids of your cards in this conversation):
 {{ANSWERS}}
+{{NOTES}}
 
 Rules:
 - Write 4 to 6 short sentences in German, addressed to the student with "du".
