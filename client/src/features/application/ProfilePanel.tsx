@@ -115,7 +115,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
       >
         {content}
       </aside>
-      <details className="group border-t border-dashed border-rule px-5 py-3 md:px-8 lg:hidden">
+      <details className="border-t border-dashed border-rule px-5 py-3 md:px-8 lg:hidden">
         <summary className="cursor-pointer font-medium">Dein Profil</summary>
         <div className="pt-4">{content}</div>
       </details>

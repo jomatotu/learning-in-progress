@@ -177,7 +177,10 @@ function MaterialInput({
       )}
 
       {items.length > 0 && (
-        <ul className="flex flex-col gap-2" aria-label="Hinzugefügtes Material">
+        <ul
+          className="flex max-h-36 flex-col gap-2 overflow-y-auto"
+          aria-label="Hinzugefügtes Material"
+        >
           {items.map(({ key, icon: Icon, label, remove }) => (
             <li
               key={key}

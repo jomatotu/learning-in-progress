@@ -87,7 +87,7 @@
 /* Text fields in the style of main's .topic-input. Unlayered, so this wins over the shared components' utilities. */
 .application-page [data-slot='input'],
 .application-page [data-slot='textarea'] {
-  min-height: 48px;
+  min-height: 3rem;
   border: 1px solid #d9d5cc;
   border-radius: 12px;
   background: #fbfaf7;
@@ -117,7 +117,7 @@
 
 /* One screen per step: a slimmer top bar and tighter buttons, so a step fits 1366x768 without page scroll. */
 .application-page .topbar {
-  height: 3rem;
+  min-height: 3rem;
 }
 
 .application-page .primary.large {
