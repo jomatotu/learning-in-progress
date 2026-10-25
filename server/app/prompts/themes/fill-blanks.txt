@@ -17,15 +17,15 @@ Students preparing for a test, students who need to memorise terms, and students
 
 ### Screens, in this order
 
-1. Start screen: the topic title, one sentence on what they will do ("First read, then fill in the missing words"), the number of rounds, and a Start button.
+1. Start screen: the topic title, one sentence on what they will do ("Erst lesen, dann die fehlenden Wörter einsetzen"), the number of rounds, and a Start button.
 2. For each round (4 to 6 rounds in total, one idea per round; if the material has more ideas, group related ones so every key fact is still covered):
-   a. Read screen: 2 to 4 short sentences about one idea, with the key terms in bold. A "I'm ready" button.
-   b. Blanks screen: the same sentences, with the bold key terms replaced by blanks. The read text is no longer visible. A "Check" button, and a "Peek at the text" button that shows the read screen again without penalty.
+   a. Read screen: 2 to 4 short sentences about one idea, with the key terms in bold. A "Ich bin bereit" button.
+   b. Blanks screen: the same sentences, with the bold key terms replaced by blanks. The read text is no longer visible. A "Prüfen" button, and a "Text nochmal ansehen" button that shows the read screen again without penalty.
    c. Feedback appears on the same blanks screen after Check (see below). Then a Next button.
 3. Final review screen: one mixed round of 5 to 8 blanks taken from earlier rounds, in new sentences or a different order, so it isn't just a copy. Use the same input mode as the rounds.
-4. Done screen: how many blanks they got right on the first try, a short encouraging message, the list of all key terms with a one-line meaning each, and a "Try again" button that restarts from round 1.
+4. Done screen: how many blanks they got right on the first try, a short encouraging message, the list of all key terms with a one-line meaning each, and a "Nochmal versuchen" button that restarts from round 1.
 
-Always show progress at the top, such as "Round 2 of 5".
+Always show progress at the top, such as "Runde 2 von 5".
 
 ### Choosing the blanks
 

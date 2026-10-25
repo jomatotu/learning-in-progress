@@ -21,7 +21,7 @@ export function HermesProgress({ status, reasoning }: HermesProgressProps) {
   return (
     <div className="flex flex-col gap-2">
       <p className="flex gap-2 text-muted-foreground">
-        <span aria-live="polite">{status || 'Startet…'}</span>
+        <span aria-live="polite">{status || 'Wird gestartet …'}</span>
         {/* Outside the live region, so screen readers don't announce every second. */}
         <span className="tabular-nums">{formatElapsed(now - startedAt)}</span>
       </p>

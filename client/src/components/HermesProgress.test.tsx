@@ -20,6 +20,12 @@ describe('HermesProgress', () => {
     expect(screen.getByText('1:23')).toBeInTheDocument()
   })
 
+  it('says it is starting before the first status arrives', () => {
+    render(<HermesProgress status="" reasoning="" />)
+
+    expect(screen.getByText('Wird gestartet …')).toBeInTheDocument()
+  })
+
   it('shows the reasoning in a box', () => {
     render(<HermesProgress status="" reasoning="First the research." />)
 

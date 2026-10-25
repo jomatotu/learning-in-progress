@@ -31,7 +31,7 @@ Students who lose motivation, find the subject dry or abstract, have ADHD, or sa
    Each screen has a progress label ("Part 2 of 6").
 3. **Check, after every 2 concept screens.** One multiple choice question with 3 options. The question is set in the interest's world, but answering it right requires the real fact. Feedback appears right away and names the correct fact.
 4. **Recap screen.** A two-column list. The left column is the real term or fact, the right column is its match in the interest's world. Include every key idea.
-5. **Done screen.** One sentence that ties the opening scene to what was learned, a short encouraging line, and a "Start again" button.
+5. **Done screen.** One sentence that ties the opening scene to what was learned, a short encouraging line, and a "Nochmal von vorn" button.
 
 ### Clickable concepts and analogies
 
@@ -50,7 +50,7 @@ Students who lose motivation, find the subject dry or abstract, have ADHD, or sa
 - Use one consistent cast of characters and places from the interest across the whole lesson, at most 3 named characters.
 - Make every check answerable only by knowing the real fact, not by knowing the hobby.
 - Make the recap screen show every real term next to its match.
-- "Back" and "Next" always in the same place at the bottom. Nothing advances or times out on its own.
+- "Zurück" and "Weiter" always in the same place at the bottom. Nothing advances or times out on its own.
 
 ### Adapt to this student
 

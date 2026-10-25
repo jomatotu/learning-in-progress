@@ -20,14 +20,14 @@ Students with dyslexia or slow, effortful reading. Students who understand bette
 2. Title of the material and one sentence saying what the student will learn.
 3. Controls bar, which stays visible at the top while the page scrolls (position: sticky).
 4. Reading area: the material rewritten as 4 to 8 short sections. Each section has a heading and 1 to 3 short paragraphs. Use at most about 20 words per sentence. Keep every key idea.
-5. A progress line in the controls bar showing the section of the current sentence, for example "Section 2 of 6".
-6. "Check yourself" button. It appears below the last section and opens the questions screen.
-7. Questions screen: 3 to 4 multiple-choice questions about the key ideas, shown one at a time. Each question has 3 options and a "Read it to me" button for the question and its options. After an answer, show whether it's right and a one-sentence reason. Include a button that jumps back to the section containing the answer.
-8. Done screen: a short, kind message, the number of key ideas covered, and a "Read again" button.
+5. A progress line in the controls bar showing the section of the current sentence, for example "Abschnitt 2 von 6".
+6. "Teste dich" button. It appears below the last section and opens the questions screen.
+7. Questions screen: 3 to 4 multiple-choice questions about the key ideas, shown one at a time. Each question has 3 options and a "Vorlesen" button for the question and its options. After an answer, show whether it's right and a one-sentence reason. Include a button that jumps back to the section containing the answer.
+8. Done screen: a short, kind message, the number of key ideas covered, and a "Nochmal vorlesen" button.
 
 ### Controls bar (exactly these, in this order)
 
-- Play/Pause: one large button. It shows "Play" or "Pause" with an icon and a text label. Space bar toggles it, except when focus is on another button, a select, or a slider.
+- Play/Pause: one large button. It shows "Abspielen" oder "Pause" with an icon and a text label. Space bar toggles it, except when focus is on another button, a select, or a slider.
 - Back and Forward: jump to the previous or next sentence.
 - Speed: a slider from 0.5 to 1.5 in steps of 0.1, default 0.9. Show the value as "0.9×". A change applies from the next sentence.
 - Voice: a select listing voices whose language matches the material's language. If none match, list all voices. Pick a default voice that has localService true when one exists.
@@ -55,7 +55,7 @@ Clicking or tapping any word starts reading from that word's sentence. Words mus
 - cancel() fires the end or error event of the current utterance. Give each utterance a run id and ignore events from cancelled runs, so pausing or jumping never starts the next sentence by itself.
 - Call speechSynthesis.cancel() when the page loads, when the student jumps to another sentence, when they open the questions, and on pagehide.
 - Set utterance.lang to the material's language.
-- If speechSynthesis or SpeechSynthesisUtterance doesn't exist, or the voice list is still empty after 3 seconds, hide the speech controls. Instead, show a calm message such as "Read aloud isn't available in this browser. You can still read and use line focus." The highlighting, line focus and questions must still work without speech: the student then moves sentence by sentence with Back and Forward.
+- If speechSynthesis or SpeechSynthesisUtterance doesn't exist, or the voice list is still empty after 3 seconds, hide the speech controls. Instead, show a calm message such as "Vorlesen gibt es in diesem Browser nicht. Du kannst trotzdem lesen und den Zeilenfokus nutzen." The highlighting, line focus and questions must still work without speech: the student then moves sentence by sentence with Back and Forward.
 
 ### Adapt to this student
 

@@ -27,17 +27,17 @@ Students with ADHD, students who feel overwhelmed by long texts, and students wi
    - The 1 to 3 key terms of the step in bold. The first time a term appears, explain it in the same sentence.
    - At most one visual: an inline SVG diagram, a short labelled list, or an example box. Use a visual only when it helps the idea, not as decoration.
    - Optional: one example linked to the student's interests, in a clearly marked box ("Example:").
-   - Buttons: "Back" and "Next". No other buttons except the helpers from the "Adapt" section.
+   - Buttons: "Zurück" and "Weiter". No other buttons except the helpers from the "Adapt" section.
 3. Check screens, after every 3 step screens
    - A "Quick check" heading and one question about the steps just covered. Multiple choice with 3 options, or true/false.
-   - After the student picks an answer: show right or wrong with an icon and a word (not only color), plus one sentence explaining why. Then show "Next".
+   - After the student picks an answer: show right or wrong with an icon and a word (not only color), plus one sentence explaining why. Then show "Weiter".
    - A wrong answer lets the student try again or continue. Never block progress.
 4. Recap screen
    - A checklist of the key ideas, one short line per step, each with a tick.
 5. Done screen
    - A short, warm message naming what they learned.
    - Number of check questions right on the first try, framed positively.
-   - A "Start again" button that resets everything.
+   - A "Nochmal von vorn" button that resets everything.
 
 Numbers:
 - 6 to 12 step screens. Use more steps rather than longer steps. If the material needs more than 12, merge the least important ideas but keep every key fact.
@@ -47,8 +47,8 @@ Numbers:
 ### Always
 
 - One screen visible at a time. Nothing scrolls on a laptop screen unless the student made the text larger.
-- A progress bar at the top on every screen after the start screen, with the text "Step X of Y". It counts step screens only; on a check screen it stays at the step just finished.
-- "Back" and "Next" always in the same place at the bottom. "Back" is hidden on the first screen.
+- A progress bar at the top on every screen after the start screen, with the text "Schritt X von Y". It counts step screens only; on a check screen it stays at the step just finished.
+- "Zurück" and "Weiter" always in the same place at the bottom. "Zurück" is hidden on the first screen.
 - Keyboard: Right arrow or Enter goes next, Left arrow goes back.
 - Nothing advances, plays, or times out on its own.
 - The step list on the start screen matches the step screens exactly.
@@ -70,4 +70,4 @@ Numbers:
 - Don't show the full material text anywhere on the page.
 - Don't write questions about facts that were not in the steps.
 - Don't use emoji as the only signal for right or wrong.
-- Don't reveal the next step until the student presses "Next".
+- Don't reveal the next step until the student presses "Weiter".

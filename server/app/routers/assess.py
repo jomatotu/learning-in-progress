@@ -111,7 +111,7 @@ async def assess_events(request: AssessRequest) -> AsyncIterator[str]:
                 if kind == "reasoning" and (text := reasoning.add(value)):
                     yield sse("reasoning", {"text": text})
                 if kind == "tokens" and value % TOKENS_PER_UPDATE == 0:
-                    yield sse("status", {"text": f"{STATUS} ~{value} tokens"})
+                    yield sse("status", {"text": f"{STATUS} ~{value} Wörter gedacht"})
                 if kind == "result":
                     result = value
         if text := reasoning.flush():

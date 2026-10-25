@@ -43,14 +43,17 @@ describe('useAssess', () => {
       options: ['Morning', 'Evening'],
       themes: [],
     }
-    const fetchMock = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(
-        sse(
-          ['status', { text: 'Thinking about your answers… ~20 tokens' }],
-          ['done', question],
-        ),
-      )
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+      sse(
+        [
+          'status',
+          {
+            text: 'Hermes denkt über deine Antworten nach… ~20 Wörter gedacht',
+          },
+        ],
+        ['done', question],
+      ),
+    )
     vi.stubGlobal('fetch', fetchMock)
     const { result } = renderHook(() => useAssess(), { wrapper })
 
@@ -58,7 +61,7 @@ describe('useAssess', () => {
 
     await waitFor(() => expect(result.current.data).toEqual(question))
     expect(result.current.status).toBe(
-      'Thinking about your answers… ~20 tokens',
+      'Hermes denkt über deine Antworten nach… ~20 Wörter gedacht',
     )
     expect(fetchMock.mock.calls[0][0]).toBe('/api/assess')
     expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(input))

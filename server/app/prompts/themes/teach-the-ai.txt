@@ -25,16 +25,16 @@ Students who lose focus when reading passively (e.g. ADHD), students who need mo
 
 ### Flow, in this order
 
-1. Intro screen: the character introduces itself in 2 sentences and says it wants to learn the topic from the student. One "Let's start" button.
+1. Intro screen: the character introduces itself in 2 sentences and says it wants to learn the topic from the student. One "Los geht's" button.
 2. Teaching turns, 6 to 8 in total, covering every key idea of the material in order. Each turn is one screen with a chat-style layout: the character's message on the left, the student's reply on the right.
    - In each turn the character either asks a question about the idea ("What does X do?") or explains the idea back in its own words.
    - Exactly 3 or 4 of the turns contain a planted mistake: a believable misconception about a key fact, never a silly one. Spread them out; never put two mistakes in a row.
    - The student replies by choosing one of 3 answer buttons, written as things a teacher would say (e.g. "Not quite, X actually does Y", "Yes, that's right!", "Close, but you mixed up X and Z"). In turns without a mistake, one option confirms the character and the other two are wrong corrections.
 3. After the student chooses:
-   - Right choice: the character reacts with thanks, restates the correct idea in one sentence, and the "Next" button appears.
-   - Wrong choice: the character stays friendly and confused ("Hmm, I'm not sure. My notes say..."). It gives one short hint that points to the key fact and lets the student choose again. After 2 wrong tries, the character gently shows the right answer and explains it in one sentence, then "Next" appears. Never use a score or a penalty.
-4. Halfway point (after turn 3 or 4): one "Explain it in your own words" turn. The character asks the student to explain the main idea simply. The student types in a text box (optional, with a "Skip" button). Check the answer against 2 to 4 keywords and their simple forms. If found, the character repeats back what it learned. If not found, the character asks one follow-up and shows a model answer. Never mark the typed answer as wrong. This turn counts as a turn in the progress indicator.
-5. Wrap-up screen: the character summarises "what I learned from you" as 4 to 6 short bullet points covering every key idea, all correct. It names the mistakes the student fixed, including ones it showed after 2 tries. It ends with a clear done moment, e.g. "You taught me the whole topic!", and a "Start again" button.
+   - Right choice: the character reacts with thanks, restates the correct idea in one sentence, and the "Weiter" button appears.
+   - Wrong choice: the character stays friendly and confused ("Hmm, I'm not sure. My notes say..."). It gives one short hint that points to the key fact and lets the student choose again. After 2 wrong tries, the character gently shows the right answer and explains it in one sentence, then "Weiter" appears. Never use a score or a penalty.
+4. Halfway point (after turn 3 or 4): one "Erklär es in deinen eigenen Worten" turn. The character asks the student to explain the main idea simply. The student types in a text box (optional, with a "Überspringen" button). Check the answer against 2 to 4 keywords and their simple forms. If found, the character repeats back what it learned. If not found, the character asks one follow-up and shows a model answer. Never mark the typed answer as wrong. This turn counts as a turn in the progress indicator.
+5. Wrap-up screen: the character summarises "was ich von dir gelernt habe" as 4 to 6 short bullet points covering every key idea, all correct. It names the mistakes the student fixed, including ones it showed after 2 tries. It ends with a clear done moment, e.g. "Du hast mir das ganze Thema beigebracht!", and a "Nochmal von vorn" button.
 
 ### Always
 

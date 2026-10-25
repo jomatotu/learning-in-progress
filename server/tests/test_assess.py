@@ -56,8 +56,8 @@ def test_assess_streams_progress_then_question(monkeypatch):
 
     assert events() == [
         ("status", {"text": assess.STATUS}),
-        ("status", {"text": f"{assess.STATUS} ~20 tokens"}),
-        ("status", {"text": f"{assess.STATUS} ~40 tokens"}),
+        ("status", {"text": f"{assess.STATUS} ~20 Wörter gedacht"}),
+        ("status", {"text": f"{assess.STATUS} ~40 Wörter gedacht"}),
         ("done", QUESTION),
     ]
 
