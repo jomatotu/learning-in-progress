@@ -7,7 +7,9 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 from app.settings import get_settings
 
 MAX_BODY_BYTES = 262_144
-HERMES_RUNS_PER_MINUTE = 6
+# Hermes' own cap (gateway.api_server.max_concurrent_runs, default 10) is the
+# real throttle. This per-client limit only stops abuse and password guessing.
+HERMES_RUNS_PER_MINUTE = 30
 
 SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
 BODY_METHODS = {"POST", "PUT", "PATCH"}

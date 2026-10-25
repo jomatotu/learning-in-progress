@@ -88,9 +88,10 @@ def test_ungated_routes_stay_open():
 def test_wrong_passwords_count_against_the_limit():
     use_code("abc")
     app.dependency_overrides.pop(guards.limit_hermes_runs, None)
+    limit = guards.HERMES_RUNS_PER_MINUTE
     with TestClient(app) as client:
-        codes = [post(client, auth=("x", "bad")).status_code for _ in range(7)]
-    assert codes == [401] * 6 + [429]
+        codes = [post(client, auth=("x", "bad")).status_code for _ in range(limit + 1)]
+    assert codes == [401] * limit + [429]
 
 
 CHALLENGE = 'Basic realm="Learning in Progress", charset="UTF-8"'

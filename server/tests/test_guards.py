@@ -69,9 +69,9 @@ def test_full_german_material_passes_limit(monkeypatch):
     assert response.status_code == 200
 
 
-def test_seventh_call_in_a_minute_is_429(monkeypatch, real_limiter):
+def test_call_after_the_minute_quota_is_429(monkeypatch, real_limiter):
     fake_stream(monkeypatch, [("text", PAGE)])
-    for _ in range(6):
+    for _ in range(guards.HERMES_RUNS_PER_MINUTE):
         assert client.post("/api/generate", json=REQUEST).status_code == 200
     response = client.post("/api/generate", json=REQUEST)
     assert response.status_code == 429
