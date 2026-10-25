@@ -14,8 +14,9 @@ PROFILE = {"profile": {}}
 
 
 def use_code(code: str | None):
+    # access_required pinned, so a local server/.env with ACCESS_REQUIRED=false can't change these tests.
     app.dependency_overrides[get_settings] = lambda: Settings(
-        access_code=None if code is None else SecretStr(code)
+        access_code=None if code is None else SecretStr(code), access_required=True
     )
 
 
@@ -166,4 +167,4 @@ def test_access_check_can_be_switched_off_by_setting():
 
 
 def test_access_check_is_on_by_default():
-    assert Settings().access_required is True
+    assert Settings(_env_file=None).access_required is True

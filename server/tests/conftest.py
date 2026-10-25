@@ -4,6 +4,7 @@ import os
 os.environ["ALLOWED_HOSTS"] = "testserver,localhost,127.0.0.1"
 # A developer's server/.env must not change test results.
 os.environ["APP_ORIGINS"] = "http://localhost:5175"
+os.environ["ACCESS_REQUIRED"] = "true"
 
 import pytest
 
