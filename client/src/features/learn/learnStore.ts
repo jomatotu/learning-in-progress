@@ -1,4 +1,5 @@
 import type { Answer, Profile, ThemeName, ThemePick } from '@/api/assess'
+import type { BuiltPage, PageFormat } from '@/api/generate'
 
 // Everything the learn tab needs to generate the pages for one finished assessment.
 export type LearnRun = {
@@ -22,15 +23,34 @@ export function loadRun(id: string): LearnRun | undefined {
   return text ? JSON.parse(text) : undefined
 }
 
-// Keeps finished pages, so reloading the tab doesn't start new Hermes runs.
-export function savePage(id: string, theme: ThemeName, html: string) {
+function pageKey(id: string, theme: ThemeName, format: PageFormat): string {
+  return `${PREFIX}${id}-${theme}${format === 'html' ? '-html' : ''}`
+}
+
+// Keeps finished lessons and pages, so reloading the tab doesn't start new Hermes runs.
+export function savePage(id: string, theme: ThemeName, page: BuiltPage) {
   try {
-    localStorage.setItem(`${PREFIX}${id}-${theme}`, html)
+    const format = 'html' in page ? 'html' : 'spec'
+    localStorage.setItem(pageKey(id, theme, format), JSON.stringify(page))
   } catch {
     // Storage full: the page still shows, it just isn't kept for a reload.
   }
 }
 
-export function loadPage(id: string, theme: ThemeName): string | null {
-  return localStorage.getItem(`${PREFIX}${id}-${theme}`)
+// The saved lesson or page in this format; null for none, and for raw HTML saved before pages were JSON.
+export function loadPage(
+  id: string,
+  theme: ThemeName,
+  format: PageFormat,
+): BuiltPage | null {
+  try {
+    const page: unknown = JSON.parse(
+      localStorage.getItem(pageKey(id, theme, format)) ?? 'null',
+    )
+    return page && typeof page === 'object' && format in page
+      ? (page as BuiltPage)
+      : null
+  } catch {
+    return null
+  }
 }
