@@ -17,7 +17,8 @@
                 "Flashcard",
                 "Quiz",
                 "ReadAloud",
-                "Steps"
+                "Steps",
+                "Lab"
               ]
             },
             "props": {
@@ -223,6 +224,139 @@
         "required": [
           "title",
           "steps",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Lab",
+      "description": "An interactive experiment: the student moves 1 to 3 sliders (the factors) and a live chart shows how the output changes. Use it for science topics where factors change a rate or amount (e.g. photosynthesis: light, CO2, temperature). Only model relationships the material states or clearly implies.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "sliders": {
+            "minItems": 1,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "Short unique id, e.g. \"licht\"."
+                },
+                "label": {
+                  "type": "string",
+                  "description": "e.g. \"Lichtstärke\"."
+                },
+                "unit": {
+                  "type": "string",
+                  "description": "e.g. \"%\" or \"ppm\"."
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "step": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Start value."
+                },
+                "effect": {
+                  "type": "string",
+                  "enum": [
+                    "saturating",
+                    "linear",
+                    "optimum"
+                  ],
+                  "description": "How this factor drives the output. saturating: rises, then levels off (e.g. light, CO2). linear: rises steadily. optimum: best at k, worse on both sides (e.g. temperature)."
+                },
+                "k": {
+                  "description": "saturating: the value where the effect has done about half its rise. optimum: the best value.",
+                  "type": "number"
+                },
+                "width": {
+                  "description": "optimum only: how far from k the effect drops to about a third.",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "key",
+                "label",
+                "unit",
+                "min",
+                "max",
+                "step",
+                "value",
+                "effect"
+              ],
+              "additionalProperties": false
+            },
+            "description": "The factors. The first slider is the chart's x-axis; the output is max times the effects of all sliders multiplied."
+          },
+          "output": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "e.g. \"Fotosyntheserate\"."
+              },
+              "unit": {
+                "type": "string"
+              },
+              "max": {
+                "type": "number",
+                "description": "The output when every effect is at its best."
+              }
+            },
+            "required": [
+              "label",
+              "unit",
+              "max"
+            ],
+            "additionalProperties": false
+          },
+          "notes": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "upTo": {
+                  "type": "number",
+                  "description": "Shown while the first slider is at or below this value."
+                },
+                "text": {
+                  "type": "string",
+                  "description": "One short sentence, e.g. \"Bei wenig Licht fehlt der Pflanze Energie.\""
+                }
+              },
+              "required": [
+                "upTo",
+                "text"
+              ],
+              "additionalProperties": false
+            },
+            "description": "Sorted by upTo; the last one covers the rest of the range."
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "title",
+          "sliders",
+          "output",
+          "notes",
           "source"
         ],
         "additionalProperties": false
