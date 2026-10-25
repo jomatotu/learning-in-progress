@@ -63,7 +63,12 @@ def reach_route(monkeypatch):
     async def boom(*args, **kwargs):
         raise hermes.HermesError("down")
 
+    async def boom_stream(*args, **kwargs):
+        raise hermes.HermesError("down")
+        yield  # makes this an async generator like stream_hermes_json
+
     monkeypatch.setattr(hermes, "ask_hermes", boom)
+    monkeypatch.setattr(hermes, "stream_hermes_json", boom_stream)
 
 
 def test_password_with_whitespace_is_accepted(monkeypatch):

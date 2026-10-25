@@ -1,0 +1,442 @@
+{
+  "spec": {
+    "type": "object",
+    "properties": {
+      "root": {
+        "type": "string"
+      },
+      "elements": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "Lesson",
+                "Chunk",
+                "Flashcard",
+                "Quiz",
+                "ReadAloud",
+                "Steps",
+                "Lab",
+                "Scene3D"
+              ]
+            },
+            "props": {
+              "type": "object",
+              "additionalProperties": {}
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "slots": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "visible": {},
+            "repeat": {}
+          },
+          "required": [
+            "type",
+            "props",
+            "children"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "root",
+      "elements"
+    ],
+    "additionalProperties": false
+  },
+  "components": [
+    {
+      "name": "Lesson",
+      "description": "The root of every page. Its children are the blocks in reading order. Use it exactly once.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Chunk",
+      "description": "One short, self-contained piece of the material: a clear heading and at most 3 short sentences. Use many Chunks instead of one long text.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "heading": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "heading",
+          "text",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Flashcard",
+      "description": "A term or question on the front, the answer on the back. For retrieval practice of facts and vocabulary.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "front": {
+            "type": "string"
+          },
+          "back": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "front",
+          "back",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Quiz",
+      "description": "A multiple choice question with immediate feedback. Checks understanding right after a few Chunks.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "options": {
+            "minItems": 2,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "answer": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "description": "Index of the correct option, starting at 0."
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "question",
+          "options",
+          "answer",
+          "explanation",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "ReadAloud",
+      "description": "Text the student can listen to with one tap (browser speech). For students who struggle with reading.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "text",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Steps",
+      "description": "An ordered process or sequence, one short step at a time. For anything that happens in order.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "steps": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "title",
+          "steps",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Lab",
+      "description": "An interactive experiment: the student moves 1 to 3 sliders (the factors) and a live chart shows how the output changes. Use it for science topics where factors change a rate or amount (e.g. photosynthesis: light, CO2, temperature). Only model relationships the material states or clearly implies.",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "sliders": {
+            "minItems": 1,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "Short unique id, e.g. \"licht\"."
+                },
+                "label": {
+                  "type": "string",
+                  "description": "e.g. \"Lichtstärke\"."
+                },
+                "unit": {
+                  "type": "string",
+                  "description": "e.g. \"%\" or \"ppm\"."
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "step": {
+                  "type": "number"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Start value."
+                },
+                "effect": {
+                  "type": "string",
+                  "enum": [
+                    "saturating",
+                    "linear",
+                    "optimum"
+                  ],
+                  "description": "How this factor drives the output. saturating: rises, then levels off (e.g. light, CO2). linear: rises steadily. optimum: best at k, worse on both sides (e.g. temperature)."
+                },
+                "k": {
+                  "description": "saturating: the value where the effect has done about half its rise. optimum: the best value.",
+                  "type": "number"
+                },
+                "width": {
+                  "description": "optimum only: how far from k the effect drops to about a third.",
+                  "type": "number"
+                }
+              },
+              "required": [
+                "key",
+                "label",
+                "unit",
+                "min",
+                "max",
+                "step",
+                "value",
+                "effect"
+              ],
+              "additionalProperties": false
+            },
+            "description": "The factors. The first slider is the chart's x-axis; the output is max times the effects of all sliders multiplied."
+          },
+          "output": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "e.g. \"Fotosyntheserate\"."
+              },
+              "unit": {
+                "type": "string"
+              },
+              "max": {
+                "type": "number",
+                "description": "The output when every effect is at its best."
+              }
+            },
+            "required": [
+              "label",
+              "unit",
+              "max"
+            ],
+            "additionalProperties": false
+          },
+          "notes": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "upTo": {
+                  "type": "number",
+                  "description": "Shown while the first slider is at or below this value."
+                },
+                "text": {
+                  "type": "string",
+                  "description": "One short sentence, e.g. \"Bei wenig Licht fehlt der Pflanze Energie.\""
+                }
+              },
+              "required": [
+                "upTo",
+                "text"
+              ],
+              "additionalProperties": false
+            },
+            "description": "Sorted by upTo; the last one covers the rest of the range."
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "title",
+          "sliders",
+          "output",
+          "notes",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Scene3D",
+      "description": "A rotatable 3D model built from simple shapes with labelled parts; tapping a part shows its sentence from the material. Use it for things with a spatial structure (e.g. a leaf, a chloroplast, a cell, an atom).",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "parts": {
+            "minItems": 2,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Short name of the part, e.g. \"Thylakoid\"."
+                },
+                "shape": {
+                  "type": "string",
+                  "enum": [
+                    "sphere",
+                    "box",
+                    "cylinder",
+                    "torus"
+                  ]
+                },
+                "position": {
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "description": "[x, y, z], each between -3 and 3. The model is centred on [0, 0, 0]."
+                },
+                "size": {
+                  "type": "number",
+                  "description": "Between 0.2 and 2."
+                },
+                "color": {
+                  "type": "string",
+                  "description": "Hex color, e.g. \"#4caf50\"."
+                },
+                "text": {
+                  "type": "string",
+                  "description": "The sentence from the material about this part, word for word."
+                }
+              },
+              "required": [
+                "label",
+                "shape",
+                "position",
+                "size",
+                "color",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "title",
+          "parts",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

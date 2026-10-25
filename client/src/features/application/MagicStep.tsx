@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import type { Spec } from '@json-render/core'
 import { Loader2, Sparkles } from 'lucide-react'
 import type { StudentProfile } from '@/api/profile'
 import { errorMessage } from '@/api/errorMessage'
 import { generateSolution } from './solution'
+import { LessonView } from '@/catalog/LessonView'
 import { defineMessages, useMessages } from '@/lib/i18n'
 
 const messages = defineMessages({
@@ -43,7 +45,7 @@ const messages = defineMessages({
 })
 
 // The Magic Page: shown after "Build my tool". "Lösung öffnen" has Hermes build the
-// Solution Page, then redirects to it.
+// student's lesson as a json-render spec, then renders it here with our catalog.
 // Styling comes from the deprecated onboarding flow (onboarding.css). The tailwind
 // classes pull the section out of the application card's width container, so the
 // screen is full-bleed like it was on the old home page.
@@ -58,6 +60,7 @@ export function MagicStep({
   const { buzzwords } = t
   const [status, setStatus] = useState<'idle' | 'generating' | 'error'>('idle')
   const [error, setError] = useState('')
+  const [spec, setSpec] = useState<Spec | null>(null)
   const [step, setStep] = useState(0)
   const buzzword = buzzwords[step % buzzwords.length]
   const interval = useRef<number>(undefined)
@@ -68,8 +71,9 @@ export function MagicStep({
       setStep((current) => current + 1)
     }, 2500)
     generateSolution(profileJson).then(
-      ({ url }) => {
-        window.location.href = url
+      (reply) => {
+        window.clearInterval(interval.current)
+        setSpec(reply.spec)
       },
       (e: unknown) => {
         window.clearInterval(interval.current)
@@ -80,6 +84,14 @@ export function MagicStep({
   }
 
   useEffect(() => () => window.clearInterval(interval.current), [])
+
+  if (spec) {
+    return (
+      <div className="mx-auto w-full max-w-3xl py-8">
+        <LessonView spec={spec} />
+      </div>
+    )
+  }
 
   return (
     <section className="magic-screen relative left-1/2 w-screen -translate-x-1/2">
