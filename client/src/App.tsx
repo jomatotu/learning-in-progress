@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { ApplicationPage } from '@/features/application/ApplicationPage'
+import { DemoPage } from '@/features/demo/DemoPage'
 import { Learn } from '@/features/learn/Learn'
 import { Onboarding } from '@/features/onboarding/Onboarding'
 import { Playground } from '@/features/playground/Playground'
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Onboarding />} />
           <Route path="/application" element={<ApplicationPage />} />
+          <Route path="/demo" element={<DemoPage />} />
           <Route path="/playground" element={<Playground />} />
           <Route path="/learn/:id" element={<Learn />} />
           <Route path="/solution/:uuid" element={<SolutionRoute />} />

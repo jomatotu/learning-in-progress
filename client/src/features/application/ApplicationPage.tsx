@@ -1,4 +1,5 @@
-import { Link } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
+import { demoProfile } from '@/features/demo/personas'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { defineMessages, useMessages } from '@/lib/i18n'
@@ -13,6 +14,7 @@ const messages = defineMessages({
 // The /application page: main's top bar and app shell around the application form.
 export function ApplicationPage() {
   const t = useMessages(messages)
+  const [params] = useSearchParams()
 
   return (
     <main className="app-shell application-page flex min-h-dvh flex-col">
@@ -33,7 +35,7 @@ export function ApplicationPage() {
         </div>
       </header>
       <div className="flex flex-1 flex-col">
-        <ApplicationForm />
+        <ApplicationForm seed={demoProfile(params.get('demo'))} />
       </div>
     </main>
   )

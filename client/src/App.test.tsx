@@ -69,6 +69,41 @@ describe('App', () => {
     vi.unstubAllGlobals()
   })
 
+  it('opens a demo persona filled in at the review step from /?demo=peter', async () => {
+    sessionStorage.clear()
+    vi.stubGlobal(
+      'fetch',
+      vi.fn<typeof fetch>(async () =>
+        Response.json({
+          version: 'test',
+          response_scale: { min: 1, max: 5, labels: [] },
+          categories: [],
+          questions: [],
+          deck: [],
+        }),
+      ),
+    )
+    renderAt('/?demo=peter')
+
+    expect(
+      await screen.findByRole('heading', { name: /klingt das nach dir/i }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Peter')).toBeInTheDocument()
+    expect(screen.getByText('Photosynthese')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
+    ).toBeInTheDocument()
+    vi.unstubAllGlobals()
+  })
+
+  it('lists the three demo personas with their links at /demo', () => {
+    renderAt('/demo')
+
+    expect(
+      screen.getAllByRole('link').map((link) => link.getAttribute('href')),
+    ).toEqual(['/?demo=peter', '/?demo=lena', '/?demo=amir'])
+  })
+
   it('switches the whole site to English and remembers it', async () => {
     const user = userEvent.setup()
     renderAt('/')

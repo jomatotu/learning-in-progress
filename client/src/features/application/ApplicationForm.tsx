@@ -137,13 +137,16 @@ function validate(
 }
 
 // The intake flow: about you, your goal, your notes, the yes/no deck (with the optional 30-question survey), and a final check.
-function Form() {
+// A seed (the jury demo) replaces the saved profile and opens the review step.
+function Form({ seed }: { seed?: Profile | null }) {
   const survey = useSurvey()
   const t = useMessages(messages)
   const options = useMessages(optionMessages)
   const screens = buildScreens(survey)
-  const [index, setIndex] = useState(0)
-  const [profile, setProfile] = useState<Profile>(loadProfile)
+  const [index, setIndex] = useState(() =>
+    seed ? screens.findIndex((s) => s.step === 'review') : 0,
+  )
+  const [profile, setProfile] = useState<Profile>(() => seed ?? loadProfile())
   const [errors, setErrors] = useState<StepProps['errors']>({})
   // Set when the student edits about/goal/notes from the review: "Weiter" then goes straight back.
   const [returnToReview, setReturnToReview] = useState(false)
@@ -469,7 +472,7 @@ function Form() {
 
 // Loads the survey questions from the server, in the chosen language, before showing the form.
 // A language switch keeps the current survey on screen while the new texts load, so the step stays.
-function ApplicationForm() {
+function ApplicationForm({ seed }: { seed?: Profile | null }) {
   const { lang } = useLanguage()
   const t = useMessages(messages)
   const survey = useSurveyQuestions(lang)
@@ -477,7 +480,7 @@ function ApplicationForm() {
   if (survey.data) {
     return (
       <SurveyContext value={survey.data}>
-        <Form />
+        <Form seed={seed} />
       </SurveyContext>
     )
   }
