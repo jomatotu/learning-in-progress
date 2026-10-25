@@ -32,9 +32,30 @@ Weitere Informationen zur Entwicklung der Grundidee findest du unter [doc/proces
 
 Der fachliche Ablauf steht in der [Lösungsstrategie](doc/architecture/04-loesungsstrategie.md): Lernziel, Charakter / KI-Zwilling, Lernpfadkarte, generative UI, Prüfung.
 
-## Techstack
+## Schnellstart
 
-**Achtung:** Der Techstack wird gerade noch einmal umgebaut. Die Liste beschreibt nur den aktuellen Stand im Repository und ist keine finale Entscheidung.
+Voraussetzungen: [uv](https://docs.astral.sh/uv/) und Node 24 (siehe `client/.nvmrc`).
+
+Server (Terminal 1):
+
+```sh
+cd server
+cp .env.example .env   # HERMES_BASE_URL, HERMES_API_KEY und ACCESS_CODE eintragen
+uv sync
+uv run --env-file .env fastapi dev --no-proxy-headers
+```
+
+Client (Terminal 2):
+
+```sh
+cd client
+npm ci
+npm run dev
+```
+
+Der Vite-Dev-Server leitet `/api` an den Server auf Port 8000 weiter. Hermes zwischen Laptop und Team-VM umschalten: nur `HERMES_BASE_URL` und `HERMES_API_KEY` in `server/.env` ändern.
+
+## Techstack
 
 Frontend:
 - TypeScript
@@ -45,7 +66,7 @@ Backend:
 - FastAPI
 
 AI Layer:
-- Gemini
+- Hermes Agent: agentischer Harness von Nous Research, angebunden über sein OpenAI-kompatibles Gateway. Hermes recherchiert mit Web-Tools und schreibt den Code, der das Material der Lernenden umformt.
 
 ## Werkzeuge
 

@@ -73,12 +73,17 @@ class PageErrorBoundary extends Component<
 }
 
 // A module without a default-export function falls back to the not-found card.
+function isComponent(value: unknown): value is ComponentType {
+  return typeof value === 'function'
+}
+
 async function toComponent(load: Loader): Promise<{ default: ComponentType }> {
-  const component = ((await load()) as { default?: unknown }).default
-  return {
-    default:
-      typeof component === 'function' ? (component as ComponentType) : NotFound,
-  }
+  const loaded = await load()
+  const component =
+    typeof loaded === 'object' && loaded !== null && 'default' in loaded
+      ? loaded.default
+      : undefined
+  return { default: isComponent(component) ? component : NotFound }
 }
 
 // Runs inside the sandboxed frame (opaque origin, no /api access).
