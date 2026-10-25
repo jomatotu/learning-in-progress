@@ -1,0 +1,84 @@
+## Step 2: Design — Simulation missions
+
+Build a simulation missions page: one live simulation of what the material describes, where the student completes short missions by changing the controls and watching the result, with fact cards and a check at the end. Follow this design exactly. Adapt only the parts listed under "Adapt to this student". Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- Interactive computer simulations with an underlying model improved achievement compared with similar teaching without simulations, and adding scaffolding and feedback improved them further (D'Angelo et al. 2014, SRI meta-analysis of 59 studies).
+- Discovery works when it is guided: unguided exploring did worse than direct teaching, while discovery with feedback, scaffolding and explanations did better (Alfieri et al. 2011, meta-analysis of 164 studies). The missions are that guidance.
+- Support that explains or takes over the demanding steps of an investigation (scaffolds) improved students' inquiry and learning (Lazonder & Harmsen 2016, meta-analysis of 72 studies). The auto experiment takes over running and recording each setting.
+
+Use these short source names in the "Why it looks like this" section.
+
+### Who it fits
+
+Students with ADHD or who lose focus when reading passively, and students who learn better by doing than by reading. It needs material where changing one thing changes another, so there is something to try.
+
+### Layout, top to bottom
+
+1. Switches: "Live simulation", "Focus mode", and "Analogy" (only if this page has one). Each is a toggle button with a text label and aria-pressed.
+2. Mission card: "Mission 1 of 3", the mission in one sentence, and one marker per mission showing done, current, or not yet. When all missions are done, it says so and points to the check.
+3. Simulation: one canvas with an aria-label, and a small label under it: "Live simulation" or "Diagram view · simulation paused".
+4. Controls: grouped, each group with a visible label. Choices are buttons with aria-pressed; actions are buttons with an icon and text. Every control is at least 44 by 44 CSS pixels (WCAG 2.5.5).
+5. Readouts: the main value highlighted, plus 1 to 2 supporting values, as text in an aria-live region.
+6. Auto experiment: a "Run experiment" button for the current mission's main variable (see below).
+7. Analogy panel (only when Analogy is on, see below).
+8. Fact card: one fact at a time, "Back" and "Next fact", and a counter "2 / 5".
+9. Check: shown after all missions are done (see below).
+10. Lab log: "Your runs", the last 6 runs as a label, a value and a bar. Hidden until the first run.
+
+Use one column at every screen width.
+
+### Missions
+
+- 3 to 4 missions, each about one key idea the simulation can show, e.g. "Raise X and watch what happens to Y."
+- Each mission has a check that reads the simulation's state, so it completes when the student has actually done it, not by pressing a button.
+- Each mission lists which controls it needs and which part of the simulation it is about.
+- When a mission completes: a short message ("Mission 1 done") and a "Next mission" button. Never move on by itself.
+
+### Simulation
+
+- One simulation for the whole page. The material's facts decide how it behaves; it must never show something the material contradicts.
+- Keep its settings and state in one object, with a step function, a draw function, and a function that returns the main readout value.
+- Run it with requestAnimationFrame, capping each time step so a slow frame doesn't jump.
+- Resize with the container (ResizeObserver) and scale for sharp drawing (devicePixelRatio, at most 2).
+- Every control change updates the readouts.
+- Each control change adds a run to the lab log: the old setting and its main readout value.
+- With "Live simulation" off, the simulation pauses and shows its current state as a still diagram. Missions and the auto experiment say they need the live simulation; fact cards and the check still work.
+
+### Auto experiment
+
+- One press runs every setting of the current mission's main variable in turn, a few seconds each, and records the main readout for each setting.
+- Show the results as one labelled row per setting: the setting, a bar, and the value.
+- While it runs, the button says "Stop experiment" and stops it with one press.
+- If the current mission has no variable with several settings, say so in one sentence instead of showing the button.
+
+### Check
+
+- 2 questions about the key ideas, one at a time, 3 to 4 options each.
+- A right answer shows a short confirmation. A wrong answer shows a one-sentence explanation and a "Try again" button.
+
+### Adapt to this student
+
+- Focus mode: start with it on if the student mentions ADHD, distraction or feeling overwhelmed. Focus mode:
+  - shows the mission as "One thing now" in larger text;
+  - shows only the controls the current mission needs;
+  - dims the simulation except the part the mission is about;
+  - shows only the main readout;
+  - hides the lab log and the auto experiment;
+  - shows the check only after the missions are done.
+- Fine motor difficulty: if the student says clicking or precise pointing is hard, make each control one large tile that steps to its next setting with each press and shows the current setting.
+- Analogy: if the student names an interest, add the "Analogy" switch. When it's on:
+  - the simulation keeps the same behaviour but relabels its parts in the interest's world;
+  - the panel shows a title, a 2 to 3 sentence story, pairs in the form "interest term = real term", and "Where the analogy breaks:" in one sentence;
+  - in focus mode, show only the first pair.
+- Number of missions: 3 if attention is hard for them, 4 if they want depth.
+
+### Don't
+
+- Don't add points, XP, levels, streaks, scores, timers, confetti, or sound.
+- Don't add a second simulation, or controls the missions don't use.
+- Don't use sliders or anything that needs dragging; every control works with single presses (WCAG 2.5.7).
+- Don't let a mission complete by itself or skip ahead.
+- Don't put facts only in the simulation: every key idea must also be in a fact card.
+- Don't let the analogy change how the simulation behaves.
