@@ -65,7 +65,10 @@ describe('useAssess', () => {
       'Hermes denkt über deine Antworten nach… ~20 Wörter gedacht',
     )
     expect(fetchMock.mock.calls[0][0]).toBe('/api/assess')
-    expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(input))
+    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toEqual({
+      ...input,
+      student_id: expect.stringMatching(/^[0-9a-f-]{36}$/),
+    })
   })
 
   it('returns the picked themes when done', async () => {

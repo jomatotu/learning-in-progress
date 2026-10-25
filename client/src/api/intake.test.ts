@@ -19,7 +19,10 @@ describe('intake api', () => {
     const [url, init] = fetchMock.mock.calls[0]
     expect(url).toBe('/api/intake/cards')
     expect(init?.method).toBe('POST')
-    expect(init?.body).toBe(JSON.stringify(body))
+    expect(JSON.parse(String(init?.body))).toEqual({
+      ...body,
+      student_id: expect.stringMatching(/^[0-9a-f-]{36}$/),
+    })
   })
 
   it('posts token, bands and card answers to /api/intake/summary', async () => {
@@ -33,6 +36,9 @@ describe('intake api', () => {
       about_you: 'Du magst Fußball.',
     })
     expect(fetchMock.mock.calls[0][0]).toBe('/api/intake/summary')
-    expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(body))
+    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toEqual({
+      ...body,
+      student_id: expect.any(String),
+    })
   })
 })

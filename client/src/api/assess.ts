@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { streamResult, type StreamProgress } from '@/api/client'
 import { useStreamProgress } from '@/api/progress'
+import { studentId } from '@/api/studentId'
 
 // Any student profile JSON: the application form's profile, or a test persona in the playground.
 export type Profile = Record<string, unknown>
@@ -52,7 +53,10 @@ export function assess(
   input: AssessInput,
   progress: StreamProgress,
 ): Promise<NextQuestion> {
-  return streamResult('/assess', { body: input, ...progress })
+  return streamResult('/assess', {
+    body: { ...input, student_id: studentId() },
+    ...progress,
+  })
 }
 
 export function useAssess() {

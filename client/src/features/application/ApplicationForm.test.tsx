@@ -298,6 +298,7 @@ describe('ApplicationForm', () => {
       profile: hermesProfile,
       answers: [],
       material: 'Fractions\n\nHalves and quarters.',
+      student_id: expect.any(String),
     })
 
     await user.click(await screen.findByRole('button', { name: 'Listening' }))
@@ -547,6 +548,7 @@ describe('ApplicationForm', () => {
       const summaryCall = intakeCalls(fetchMock)[1]
       expect(bodyOf(summaryCall)).toEqual({
         token: 't',
+        student_id: expect.any(String),
         bands: { prior_knowledge: 'low', working_memory: 'low' },
         card_answers: [
           { id: 'c1', answer: 'stimmt' },

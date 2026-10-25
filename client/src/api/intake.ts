@@ -1,4 +1,5 @@
 import { request } from '@/api/client'
+import { studentId } from '@/api/studentId'
 
 export type HermesCard = {
   id: string
@@ -28,7 +29,7 @@ export function requestCards(
 ): Promise<{ token: string; cards: HermesCard[] }> {
   return request('/intake/cards', {
     method: 'POST',
-    body,
+    body: { ...body, student_id: studentId() },
     timeoutMs: 70_000,
   })
 }
@@ -38,7 +39,7 @@ export function requestSummary(
 ): Promise<{ about_you: string | null }> {
   return request('/intake/summary', {
     method: 'POST',
-    body,
+    body: { ...body, student_id: studentId() },
     timeoutMs: 40_000,
   })
 }
