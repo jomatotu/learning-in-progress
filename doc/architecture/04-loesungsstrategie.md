@@ -7,6 +7,6 @@ Ausgeführt ist der Ablauf in [6.2 Lernpfad erzeugen](06-laufzeitsicht.md#62-ler
 | Ziel / Aufgabe | Lösungsansatz |
 | --- | --- |
 | Lernziel und Rohdaten aufnehmen | Web-Frontend (React, TypeScript) |
-| Charakter, Lernpfadkarte und Oberfläche erzeugen | Backend (FastAPI) orchestriert die KI-Schicht (Gemini; Techstack wird umgebaut) |
+| Charakter, Lernpfadkarte und Oberfläche erzeugen | Backend (FastAPI) orchestriert die KI-Schicht (Hermes, DeepSeek) |
 | Lernpfadkarte als Oberfläche ausliefern | Generative UI im Browser |
 | Großen Lösungsraum eingrenzen | Personas, siehe [Prozess](../process.md#fokussierung) |

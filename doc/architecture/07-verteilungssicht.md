@@ -8,6 +8,6 @@ Vorgesehen, ohne Deployment-Entscheidung:
 | --- | --- |
 | Browser der lernenden Person | Frontend, generierte Oberfläche |
 | Backend-Dienst | FastAPI, Hermes-Agent (Ablaufumgebung der Orchestrierung) |
-| Externer KI-Dienst | Gemini (TBD) |
+| Externer KI-Dienst | DeepSeek |
 
 Betrieb, Umgebungen und Infrastruktur sind offen.
