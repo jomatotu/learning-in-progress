@@ -14,14 +14,14 @@ function App() {
     <ThemeProvider>
       <FocusProvider>
         <LanguageProvider>
-        <Routes>
-          <Route path="/" element={<Onboarding />} />
-          <Route path="/application" element={<ApplicationPage />} />
-          <Route path="/demo" element={<DemoPage />} />
-          <Route path="/playground" element={<Playground />} />
-          <Route path="/learn/:id" element={<Learn />} />
-          <Route path="/solution/:uuid" element={<SolutionRoute />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Onboarding />} />
+            <Route path="/application" element={<ApplicationPage />} />
+            <Route path="/demo" element={<DemoPage />} />
+            <Route path="/playground" element={<Playground />} />
+            <Route path="/learn/:id" element={<Learn />} />
+            <Route path="/solution/:uuid" element={<SolutionRoute />} />
+          </Routes>
         </LanguageProvider>
       </FocusProvider>
     </ThemeProvider>

@@ -41,7 +41,7 @@ function isButtonRow(el: Element): boolean {
 function columnElement(el: Element): Element | null {
   let node: Element | null = el
   for (let depth = 0; node && depth < 8; depth++) {
-    const parent = node.parentElement
+    const parent: Element | null = node.parentElement
     if (!parent) return null
     const display = getComputedStyle(parent).display
     if (display.includes('grid') || display.includes('flex')) return node
