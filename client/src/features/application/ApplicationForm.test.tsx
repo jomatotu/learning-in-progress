@@ -291,7 +291,7 @@ describe('ApplicationForm', () => {
     ).not.toBeInTheDocument()
 
     await user.click(
-      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
+      screen.getByRole('button', { name: /\(DevMode\) Mein Werzeug bauen\./i }),
     )
 
     // The client sends the raw answers only; scoring is the server's job.
@@ -345,7 +345,7 @@ describe('ApplicationForm', () => {
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
-    await user.click(screen.getByRole('button', { name: /magische seite/i }))
+    await user.click(screen.getByRole('button', { name: /^Mein Werkzeug bauen$/ }))
 
     expect(
       await screen.findByRole('heading', { name: /magische lösung/i }),
@@ -419,7 +419,7 @@ describe('ApplicationForm', () => {
 
     expect(screen.getByText('Übersprungen')).toBeInTheDocument()
     await user.click(
-      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
+      screen.getByRole('button', { name: /\(DevMode\) Mein Werzeug bauen\./i }),
     )
     const profileCall = fetchMock.mock.calls.find(
       ([input]) => urlOf(input) === '/api/profile',
@@ -489,7 +489,7 @@ describe('ApplicationForm', () => {
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(
-      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
+      screen.getByRole('button', { name: /\(DevMode\) Mein Werzeug bauen\./i }),
     )
 
     expect(
@@ -583,7 +583,7 @@ describe('ApplicationForm', () => {
       })
 
       await user.click(
-        screen.getByRole('button', { name: /mein werkzeug bauen/i }),
+        screen.getByRole('button', { name: /\(DevMode\) Mein Werzeug bauen\./i }),
       )
       const profileCall = fetchMock.mock.calls.find(
         ([input]) => urlOf(input) === '/api/profile',

@@ -56,9 +56,9 @@ const messages = defineMessages({
     },
     primary: {
       continue: 'Continue',
-      build: 'Build my tool',
+      build: '(DevMode) Build my tool.',
       building: 'Building…',
-      magic: 'Magic page',
+      magic: 'Build my tool',
     },
     step: (n: number, total: number) => `Step ${n} of ${total}`,
     minutesLeft: (n: number) =>
@@ -85,9 +85,9 @@ const messages = defineMessages({
     },
     primary: {
       continue: 'Weiter',
-      build: 'Mein Werkzeug bauen',
+      build: '(DevMode) Mein Werzeug bauen.',
       building: 'Wird gebaut…',
-      magic: 'Magische Seite',
+      magic: 'Mein Werkzeug bauen',
     },
     step: (n: number, total: number) => `Schritt ${n} von ${total}`,
     minutesLeft: (n: number) =>
@@ -441,7 +441,7 @@ function Form({ seed }: { seed?: Profile | null }) {
                 </button>
               )}
               {!hasOwnButtons && (
-                <button type="submit" className="primary large">
+                <button type="submit" className="secondary-button">
                   {createProfile.isPending && ending === 'assess'
                     ? t.primary.building
                     : screen.step === 'review'
@@ -453,7 +453,7 @@ function Form({ seed }: { seed?: Profile | null }) {
               {screen.step === 'review' && (
                 <button
                   type="button"
-                  className="secondary-button"
+                  className="primary large"
                   onClick={() => buildProfile('magic')}
                 >
                   {createProfile.isPending && ending === 'magic'

@@ -91,7 +91,7 @@ describe('App', () => {
     expect(screen.getByText('Peter')).toBeInTheDocument()
     expect(screen.getByText('Photosynthese')).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
+      screen.getByRole('button', { name: /\(DevMode\) Mein Werzeug bauen\./i }),
     ).toBeInTheDocument()
     vi.unstubAllGlobals()
   })
