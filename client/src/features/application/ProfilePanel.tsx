@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useSurvey } from '@/lib/survey'
+import { deckBands, useSurvey } from '@/lib/survey'
 import type { Profile } from './profile'
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
@@ -33,8 +33,9 @@ function ProfilePanel({ profile }: { profile: Profile }) {
     profile.texts.length + profile.links.length + profile.files.length
   const stage = [profile.stage, profile.stageDetail].filter(Boolean).join(' · ')
   const answered = Object.keys(profile.answers).length
-  const mirrored = Object.keys(profile.bands).length
-  const totalQuestions = useSurvey().questions.length
+  const survey = useSurvey()
+  const mirrored = deckBands(survey, profile.bands, profile.answers).length
+  const totalQuestions = survey.questions.length
 
   const content = (
     <>
@@ -75,7 +76,11 @@ function ProfilePanel({ profile }: { profile: Profile }) {
         <Row label="Wie du lernst">
           {answered > 0 || mirrored > 0 ? (
             <>
-              {mirrored > 0 && <p>{mirrored} von 8 Karten bestätigt</p>}
+              {mirrored > 0 && (
+                <p>
+                  {mirrored} von {survey.deck.length} Karten bestätigt
+                </p>
+              )}
               {answered > 0 && (
                 <p>
                   {answered} von {totalQuestions} Fragen beantwortet
@@ -92,6 +97,9 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               {profile.likes.map((like) => (
                 <Tag key={like}>{like}</Tag>
               ))}
+              {profile.hard && (
+                <p className="line-clamp-2">Schwer: {profile.hard}</p>
+              )}
               {profile.notes && <p className="line-clamp-2">{profile.notes}</p>}
             </>
           ) : (
@@ -101,7 +109,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
 
         <p className="mt-4 border-l-[3px] border-pine pl-3 text-sm text-graphite">
           Du siehst hier alles und kannst alles ändern. Wir nutzen es nur, um
-          dein Tool zu bauen.
+          deine Lösung zu bauen.
         </p>
       </div>
     </>

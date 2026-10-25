@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useSurvey } from '@/lib/survey'
+import { deckBands, useSurvey } from '@/lib/survey'
 import { StepHeading } from './StepHeading'
 import type { StepId } from './profile'
 import type { StepProps } from './ApplicationForm'
@@ -46,10 +46,17 @@ function ReviewStep({
   const survey = useSurvey()
   const answered = Object.keys(profile.answers).length
   const questions = survey.questions.length
-  const mirrored = survey.deck.flatMap((entry) => {
-    const band = profile.bands[entry.category]
-    return band ? [{ category: entry.category, text: entry[band].text }] : []
-  })
+  const active = deckBands(survey, profile.bands, profile.answers)
+  const mirrored = survey.deck.flatMap((entry) =>
+    active.includes(entry.category)
+      ? [
+          {
+            category: entry.category,
+            text: entry[profile.bands[entry.category]].text,
+          },
+        ]
+      : [],
+  )
   const material =
     profile.texts.length + profile.links.length + profile.files.length
   const stage = [profile.stage, profile.stageDetail].filter(Boolean).join(' · ')
@@ -58,7 +65,7 @@ function ReviewStep({
     <div>
       <StepHeading
         label="Dein Profil prüfen"
-        hint="Damit bauen wir dein Tool. Ändere alles, was nicht stimmt."
+        hint="Damit bauen wir deine Lösung. Ändere alles, was nicht stimmt."
       >
         Klingt das <em>nach dir?</em>
       </StepHeading>

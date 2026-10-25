@@ -180,7 +180,7 @@ describe('ApplicationForm', () => {
     ).toBeInTheDocument()
   })
 
-  it('sends deck bands and raw answers on "Meine Lösung bauen" and shows the JSON the server returns', async () => {
+  it('sends deck bands and raw answers on "Meine Lösung bauen" and opens the Magic page', async () => {
     const fetchMock = mockServer(
       Response.json({
         learning_instructions: { prior_knowledge: ['Skip the basics.'] },
@@ -207,7 +207,9 @@ describe('ApplicationForm', () => {
       screen.getByRole('heading', { name: /klingt das nach dir/i }),
     ).toBeInTheDocument()
     expect(screen.getByText('3 von 5 Fragen beantwortet')).toBeInTheDocument()
-    expect(screen.getByText('Das Thema ist neu für dich.')).toBeInTheDocument()
+    expect(
+      screen.queryByText('Das Thema ist neu für dich.'),
+    ).not.toBeInTheDocument()
 
     await user.click(
       screen.getByRole('button', { name: /meine lösung bauen/i }),
@@ -226,6 +228,62 @@ describe('ApplicationForm', () => {
     expect(
       await screen.findByRole('heading', { name: /magische lösung/i }),
     ).toBeInTheDocument()
+  })
+
+  it('shows deck text only for categories without survey answers', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    await reachDeck(user)
+    await user.click(screen.getByRole('button', { name: 'Stimmt' }))
+    await user.click(screen.getByRole('button', { name: 'Stimmt' }))
+    await user.click(
+      screen.getByRole('button', { name: 'Genauer? 30 kurze Fragen' }),
+    )
+    for (const radio of screen.getAllByRole('radio', {
+      name: /stimmt total/i,
+    })) {
+      await user.click(radio)
+    }
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
+    await user.click(screen.getByRole('button', { name: /überspringen/i }))
+
+    expect(
+      screen.queryByText('Das Thema ist neu für dich.'),
+    ).not.toBeInTheDocument()
+    expect(screen.getByText('Eine Sache pro Bildschirm.')).toBeInTheDocument()
+  })
+
+  it('returns to the review after editing "Über dich" and keeps the deck bands', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    await reachDeck(user)
+    await user.click(screen.getByRole('button', { name: 'Stimmt' }))
+    await user.click(screen.getByRole('button', { name: 'Stimmt' }))
+
+    await user.click(screen.getAllByRole('button', { name: 'Ändern' })[0])
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
+
+    expect(
+      screen.getByRole('heading', { name: /klingt das nach dir/i }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Das Thema ist neu für dich.')).toBeInTheDocument()
+    expect(screen.getByText('Eine Sache pro Bildschirm.')).toBeInTheDocument()
+  })
+
+  it('restarts the deck from "Ändern" on "Wie du lernst"', async () => {
+    mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    await reachDeck(user)
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+
+    const edits = screen.getAllByRole('button', { name: 'Ändern' })
+    await user.click(edits[3])
+
+    expect(screen.getByText(/Karte 1 von/)).toBeInTheDocument()
   })
 
   it('reaches the review and builds when every deck card is skipped', async () => {
@@ -274,7 +332,7 @@ describe('ApplicationForm', () => {
     await user.click(screen.getByRole('button', { name: 'Zurück' }))
 
     expect(screen.getByText('Das Thema ist neu für dich.')).toBeInTheDocument()
-    expect(screen.getByText('Karte 1 von ~2')).toBeInTheDocument()
+    expect(screen.getByText('Karte 1 von etwa 2')).toBeInTheDocument()
   })
 
   it('goes back from the review to the last survey part when survey answers exist', async () => {

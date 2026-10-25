@@ -481,7 +481,7 @@
       ],
       "bands": {
         "low": {
-          "student_text": "Wir fangen mit Dingen an, die du schaffen kannst, und bauen darauf auf.",
+          "student_text": "Du zweifelst schnell, ob du das schaffst.",
           "ai_instructions": [
             "Start below the student's level so the first tasks are clear wins.",
             "Raise difficulty slowly and only after success.",

@@ -10,8 +10,6 @@ import {
   type DeckState,
 } from './deck'
 
-const SECONDS_PER_CARD = 3
-
 // Fields and buttons handle keys themselves; a shortcut there would answer twice or eat typing.
 function keepsKey(key: string, target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false
@@ -41,31 +39,23 @@ function DeckStep({
     asked: 'low',
     bands,
   })
-  const [extra, setExtra] = useState(0)
-  const [shown, setShown] = useState(0)
   // What each earlier card looked like, so "Zurück" can take an answer back.
-  const [history, setHistory] = useState<
-    { state: DeckState; extra: number; shown: number }[]
-  >([])
+  const [history, setHistory] = useState<DeckState[]>([])
 
   const answer = (choice: DeckAnswer) => {
     onBands(answerBands(state, choice, deck))
     const next = nextDeckState(state, choice, deck)
     if (next === 'done') return onDone()
-    setHistory((h) => [...h, { state, extra, shown }])
-    if (next.asked === 'high') setExtra((n) => n + 1)
-    setShown((n) => n + 1)
+    setHistory((h) => [...h, state])
     setState(next)
   }
 
   const back = () => {
     const previous = history[history.length - 1]
     if (!previous) return onBack()
-    onBands(previous.state.bands)
+    onBands(previous.bands)
     setHistory(history.slice(0, -1))
-    setState(previous.state)
-    setExtra(previous.extra)
-    setShown(previous.shown)
+    setState(previous)
   }
 
   // The key handler always calls the latest answer().
@@ -87,11 +77,9 @@ function DeckStep({
 
   const entry = deck[state.index]
   const card = entry[state.asked]
+  const shown = history.length
+  const extra = [...history, state].filter((s) => s.asked === 'high').length
   const total = deck.length + extra
-  const minutes = Math.max(
-    1,
-    Math.ceil(((total - shown) * SECONDS_PER_CARD) / 60),
-  )
   const isLast = state.index === deck.length - 1
 
   return (
@@ -105,9 +93,8 @@ function DeckStep({
 
       <div className="mb-3 flex flex-wrap justify-between gap-x-4 text-sm text-graphite">
         <span>
-          Karte {shown + 1} von ~{total}
+          Karte {shown + 1} von etwa {total}
         </span>
-        <span>noch ~{minutes} Min</span>
       </div>
 
       <div aria-live="polite">

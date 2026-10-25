@@ -65,15 +65,6 @@ function validate(
   return {}
 }
 
-const primaryLabel: Record<StepId, string> = {
-  about: 'Weiter',
-  goal: 'Weiter',
-  notes: 'Weiter',
-  deck: 'Weiter',
-  survey: 'Weiter',
-  review: 'Meine Lösung bauen',
-}
-
 // The intake flow: about you, your goal, your notes, the yes/no deck (with the optional 30-question survey), and a final check.
 function Form() {
   const survey = useSurvey()
@@ -81,6 +72,8 @@ function Form() {
   const [index, setIndex] = useState(0)
   const [profile, setProfile] = useState<Profile>(loadProfile)
   const [errors, setErrors] = useState<StepProps['errors']>({})
+  // Set when the student edits about/goal/notes from the review: "Weiter" then goes straight back.
+  const [returnToReview, setReturnToReview] = useState(false)
   const [finished, setFinished] = useState(false)
   const [result, setResult] = useState<ProfileResult>({ status: 'idle' })
   const panel = useRef<HTMLDivElement>(null)
@@ -89,8 +82,7 @@ function Form() {
   // The optional survey counts as part of the "Wie du lernst" step.
   const stepId = screen.step === 'survey' ? 'deck' : screen.step
   const step = steps.find((s) => s.id === stepId)!
-  const counted = steps
-  const stepNumber = counted.findIndex((s) => s.id === stepId) + 1
+  const stepNumber = steps.findIndex((s) => s.id === stepId) + 1
   const minutesLeft = Math.ceil(
     screens
       .slice(index)
@@ -137,10 +129,18 @@ function Form() {
   const moveTo = (target: number) => {
     setErrors({})
     setResult({ status: 'idle' })
+    setReturnToReview(false)
     setIndex(target)
   }
 
   const goTo = (id: StepId) => moveTo(screens.findIndex((s) => s.step === id))
+
+  const edit = (id: StepId) => {
+    goTo(id)
+    setReturnToReview(['about', 'goal', 'notes'].includes(id))
+  }
+
+  const forward = () => (returnToReview ? goTo('review') : moveTo(index + 1))
 
   // Back from the review goes to where the student came from: the last survey part if they answered
   // survey questions, else the deck.
@@ -153,7 +153,7 @@ function Form() {
     const found = validate(screen, profile, survey)
     setErrors(found)
     if (Object.keys(found).length) return
-    if (screen.step !== 'review') moveTo(index + 1)
+    if (screen.step !== 'review') forward()
     else if (result.status !== 'loading') buildProfile()
   }
 
@@ -174,7 +174,7 @@ function Form() {
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-5 py-2 text-sm md:px-8">
         <span>
           <span className="font-medium">
-            Schritt {stepNumber} von {counted.length}
+            Schritt {stepNumber} von {steps.length}
           </span>{' '}
           · {step.title}
           <span className="text-graphite">
@@ -186,7 +186,7 @@ function Form() {
           </span>
         </span>
         <div className="flex gap-1.5" aria-hidden>
-          {counted.map((s, i) => (
+          {steps.map((s, i) => (
             <i
               key={s.id}
               className={cn(
@@ -234,7 +234,7 @@ function Form() {
           )}
           {screen.step === 'notes' && <NotesStep {...stepProps} />}
           {screen.step === 'review' && (
-            <ReviewStep {...stepProps} goTo={goTo} />
+            <ReviewStep {...stepProps} goTo={edit} />
           )}
 
           {result.status === 'error' && (
@@ -262,11 +262,7 @@ function Form() {
             )}
             <div className="flex items-center gap-3">
               {canSkip && (
-                <button
-                  type="button"
-                  className="text-button"
-                  onClick={() => moveTo(index + 1)}
-                >
+                <button type="button" className="text-button" onClick={forward}>
                   Überspringen
                 </button>
               )}
@@ -274,7 +270,9 @@ function Form() {
                 <button type="submit" className="primary large">
                   {result.status === 'loading'
                     ? 'Wird gebaut…'
-                    : primaryLabel[screen.step]}
+                    : screen.step === 'review'
+                      ? 'Meine Lösung bauen'
+                      : 'Weiter'}
                   <ArrowRight size={18} aria-hidden />
                 </button>
               )}

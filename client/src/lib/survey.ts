@@ -36,6 +36,17 @@ export function questionsIn(survey: Survey, categoryId: string | undefined) {
   return survey.questions.filter((q) => q.category === categoryId)
 }
 
+// The server lets survey answers win: a category with any answer has no deck band.
+export function deckBands(
+  survey: Survey,
+  bands: Record<string, string>,
+  answers: Record<string, number>,
+) {
+  return Object.keys(bands).filter(
+    (category) => !questionsIn(survey, category).some((q) => q.id in answers),
+  )
+}
+
 export const SurveyContext = createContext<Survey | null>(null)
 
 export function useSurvey(): Survey {

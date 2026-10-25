@@ -37,3 +37,10 @@ def test_profile_rejects_unknown_items_and_out_of_range_answers():
 
     assert unknown.status_code == 422
     assert out_of_range.status_code == 422
+
+
+def test_profile_rejects_overlong_free_text():
+    for field in ("hard", "notes"):
+        preferences = {**REQUEST["preferences"], field: "x" * 801}
+        response = client.post("/api/profile", json={**REQUEST, "answers": {}, "preferences": preferences})
+        assert response.status_code == 422, field

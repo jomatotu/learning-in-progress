@@ -48,8 +48,7 @@ describe('DeckStep', () => {
     expect(screen.getByText('Das heißt für dich')).toBeInTheDocument()
     expect(screen.getByText('Low A')).toBeInTheDocument()
     expect(screen.getByText('Deshalb low A')).toBeInTheDocument()
-    expect(screen.getByText('Karte 1 von ~2')).toBeInTheDocument()
-    expect(screen.getByText(/noch ~1 Min/)).toBeInTheDocument()
+    expect(screen.getByText('Karte 1 von etwa 2')).toBeInTheDocument()
   })
 
   it('Stimmt sets the low band and shows the next category', async () => {
@@ -63,7 +62,7 @@ describe('DeckStep', () => {
     const { user, onBands } = setup()
     await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
     expect(screen.getByText('High A')).toBeInTheDocument()
-    expect(screen.getByText('Karte 2 von ~3')).toBeInTheDocument()
+    expect(screen.getByText('Karte 2 von etwa 3')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
     expect(onBands).toHaveBeenLastCalledWith({ a: 'medium' })
   })
@@ -128,9 +127,9 @@ describe('DeckStep', () => {
     expect(onBack).not.toHaveBeenCalled()
 
     await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
-    expect(screen.getByText('Karte 2 von ~3')).toBeInTheDocument()
+    expect(screen.getByText('Karte 2 von etwa 3')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Zurück' }))
-    expect(screen.getByText('Karte 1 von ~2')).toBeInTheDocument()
+    expect(screen.getByText('Karte 1 von etwa 2')).toBeInTheDocument()
     expect(screen.getByText('Low A')).toBeInTheDocument()
   })
 

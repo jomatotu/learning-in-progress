@@ -30,8 +30,8 @@ class Material(BaseModel):
 
 class Preferences(BaseModel):
     likes_learning_with: list[str] = []
-    notes: str = ""
-    hard: str = Field(default="", description="What makes learning hard for them right now, in their words.")
+    notes: str = Field(default="", max_length=800)
+    hard: str = Field(default="", max_length=800, description="What makes learning hard for them right now, in their words.")
 
 
 class ProfileRequest(BaseModel):
