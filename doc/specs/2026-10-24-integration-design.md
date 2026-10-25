@@ -130,14 +130,23 @@ Installed by `hermes/setup.sh` into the profile (laptop and VPS), attribution in
 Research (MDN, OWASP, A2UI docs, CHI EA '26 accessibility study): catalogs are safer, more consistent and more
 accessible than model-written pages.
 
-- **json-render catalog is the default** (Lesson, Chunk, Flashcard, Quiz, ReadAloud, Steps; each with `source`).
-  Keep the spec shape close to A2UI's flat ID model; revisit A2UI when v1.0 is final.
-- **New `Simulation` block** for interactive HTML (the "Hermes chooses HTML" case): sandboxed iframe inside the block,
-  required `source`, a text alternative, keyboard check. No full-page HTML lessons.
-- **CSP set by the server**, inserted as the first element after the doctype; model-written `<meta>`/`<base>` are
-  stripped; `default-src 'none'`, inline scripts only, `connect-src 'none'`, `form-action 'none'`, `base-uri 'none'`;
-  **no `cdn.jsdelivr.net`** (self-host pinned libraries if a simulation needs one). No profile data inside lesson HTML.
-- `sandbox="allow-scripts"` without `allow-same-origin` (MDN) stays.
+**Lesson rule (decided by Chirag, 2026-10-25): json-render by default, a Simulation block in the sandbox for
+interactive parts.**
+
+- **Lessons are json-render specs** built only from our catalog (Lesson, Chunk, Flashcard, Quiz, ReadAloud, Steps,
+  Simulation; every block has `source`). They render instantly in the app's design (default look or the Graustufen
+  toggle), block by block as the spec streams. Keep the spec shape close to A2UI's flat ID model; revisit A2UI when
+  v1.0 is final.
+- **`Simulation` block** (new): props `title`, `source`, `alt` (text alternative), `pageId`. It renders
+  `<iframe sandbox="allow-scripts" src="/sandbox.html?page=<pageId>">` — the sandbox from the security layer. Hermes
+  writes the simulation as a component `client/src/features/application/generated/<pageId>.tsx` (Nils's mechanism,
+  narrowed from "whole page" to "one simulation"); until the file exists the block shows `Simulation wird gebaut …`;
+  if it fails, the block shows its `alt` text and the lesson stays usable. Keyboard check and text alternative are
+  required.
+- **No full-page model-written lessons.** Our separate HTML-lesson path (`htmlLesson`, `withLessonCsp`, second iframe)
+  is not ported. Ammar's `/learn` themes produce specs instead of HTML; Nils's `/api/solution` prompt is narrowed to
+  "write this simulation" (both need their authors' OK; until then their routes keep working unchanged).
+- Ammar's existing HTML lessons keep `generate.CSP` (with `base-uri 'none'`) until they are converted.
 
 ## Data
 
