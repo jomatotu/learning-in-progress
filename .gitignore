@@ -43,3 +43,5 @@ client/src/features/application/generated/
 
 # Per-student learner notes
 server/data/learners/
+.vercel
+.env.local

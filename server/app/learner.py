@@ -4,15 +4,16 @@ import os
 import re
 import tempfile
 from datetime import date
-from pathlib import Path
 from typing import Annotated
 
 from pydantic import Field
 
+from app.settings import get_settings
+
 logger = logging.getLogger("uvicorn.error")
 
 # Per-student notes live here, not in Hermes memory: Hermes has one memory for all students.
-LEARNERS = Path(__file__).parent.parent / "data" / "learners"
+LEARNERS = get_settings().learners_dir
 MAX_ENTRIES = 30
 MAX_TEXT_CHARS = 500
 

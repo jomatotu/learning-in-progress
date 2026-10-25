@@ -27,3 +27,10 @@ def test_comma_lists_are_split_and_stripped(monkeypatch):
 
 def test_access_code_is_secret():
     assert "hunter2" not in repr(Settings(_env_file=None, access_code="hunter2"))
+
+
+def test_learners_dir_defaults_to_server_data_and_reads_env(monkeypatch):
+    monkeypatch.delenv("LEARNERS_DIR", raising=False)
+    assert Settings(_env_file=None).learners_dir.parts[-3:] == ("server", "data", "learners")
+    monkeypatch.setenv("LEARNERS_DIR", "/tmp/learners")
+    assert str(Settings(_env_file=None).learners_dir) == "/tmp/learners"

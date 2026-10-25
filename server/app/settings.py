@@ -1,4 +1,5 @@
 from functools import lru_cache
+from pathlib import Path
 from typing import Annotated
 
 from pydantic import SecretStr, field_validator
@@ -25,6 +26,8 @@ class Settings(BaseSettings):
         "http://localhost:4173",
     ]
     allowed_hosts: Annotated[list[str], NoDecode] = ["localhost", "127.0.0.1"]
+    # Per-student notes. Set to a writable path (e.g. /tmp/learners) where the app dir is read-only.
+    learners_dir: Path = Path(__file__).parent.parent / "data" / "learners"
 
     @field_validator("app_origins", "allowed_hosts", mode="before")
     @classmethod
