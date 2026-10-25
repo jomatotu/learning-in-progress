@@ -52,8 +52,13 @@ async def create_solution(request: SolutionRequest) -> SolutionReply:
     target = GENERATED_DIR / file_name
     started = time.monotonic()
 
-    GENERATED_DIR.mkdir(parents=True, exist_ok=True)
-    if target.exists():  # practically impossible with a fresh uuid
+    try:
+        GENERATED_DIR.mkdir(parents=True, exist_ok=True)
+        exists = target.exists()  # practically impossible with a fresh uuid
+    except OSError:  # e.g. a read-only deployment: there is no client checkout to write into
+        logger.warning("Cannot write to %s", GENERATED_DIR)
+        exists = True
+    if exists:
         raise HTTPException(status_code=500, detail="Die Seite konnte nicht angelegt werden. Versuch es nochmal.")
 
     try:
