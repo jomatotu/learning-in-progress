@@ -34,3 +34,4 @@ venv/
 
 # Hermes-written Solution Pages
 client/src/features/application/generated/
+.worktrees/
