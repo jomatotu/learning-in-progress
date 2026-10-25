@@ -25,9 +25,9 @@ export function DemoPage() {
   const navigate = useNavigate()
 
   return (
-    <main className="app-shell">
+    <main className="app-shell flex min-h-dvh flex-col">
       <Topbar step={0} onHome={() => navigate('/')} />
-      <section className="mx-auto w-full max-w-5xl p-5 md:px-8 md:py-10">
+      <section className="journey">
         <span className="kicker">{t.kicker}</span>
         <h1 className="mt-1.5 text-[1.9rem] md:text-[2.4rem]">
           {t.title} <em>{t.titleEm}</em>

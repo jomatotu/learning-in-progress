@@ -38,7 +38,7 @@ export function Home({ onStart }: HomeProps) {
   const t = useMessages(messages)
 
   return (
-    <section className="screen home">
+    <section className="home">
       <div className="home-copy">
         <span className="kicker">
           <Sparkles size={16} /> {t.kicker}

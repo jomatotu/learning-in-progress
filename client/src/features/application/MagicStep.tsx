@@ -94,7 +94,7 @@ export function MagicStep({
   }
 
   return (
-    <section className="magic-screen relative left-1/2 w-screen -translate-x-1/2">
+    <section className="magic-screen flex-1 rounded-[20px]">
       <div className="magic-orbit orbit-a" />
       <div className="magic-orbit orbit-b" />
       <div className="magic-particle particle-a">

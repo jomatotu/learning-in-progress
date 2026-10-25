@@ -329,7 +329,7 @@ function Form({ seed }: { seed?: Profile | null }) {
 
   return (
     <div ref={panel} className="flex flex-1 flex-col">
-      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-2.5 text-sm md:px-8">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-2.5 text-sm">
         <span>
           <span className="font-medium">
             {t.step(stepNumber, steps.length)}
@@ -366,7 +366,7 @@ function Form({ seed }: { seed?: Profile | null }) {
             next()
           }}
           className={cn(
-            'flex min-w-0 flex-col p-5 md:px-8 md:py-1 [&_h2]:outline-none [@media(min-height:900px)]:md:py-8',
+            'flex min-w-0 flex-col py-5 md:py-1 [&_h2]:outline-none [@media(min-height:900px)]:md:py-8',
             ['survey', 'summary', 'review'].includes(screen.step) &&
               'mx-auto w-full max-w-5xl',
             isDeck && 'mx-auto w-full max-w-3xl',
@@ -486,7 +486,7 @@ function ApplicationForm({ seed }: { seed?: Profile | null }) {
   }
 
   return (
-    <div className="p-8 md:p-14">
+    <div className="py-8">
       {survey.isError ? (
         <div role="alert">
           <p>{t.loadFailed}</p>

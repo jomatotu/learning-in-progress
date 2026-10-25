@@ -87,7 +87,7 @@ function AssessmentScreen({
   }
 
   return (
-    <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
+    <div className="rounded-[20px] border border-rule bg-sheet p-5 shadow-card sm:p-8 md:p-14">
       <span className="kicker">{t.kicker}</span>
       <h2
         tabIndex={-1}
@@ -172,7 +172,10 @@ function AssessmentScreen({
         <ResearchCard profile={studentProfile} onDone={setResearch} />
       </div>
 
-      <ProfileJson profile={studentProfile} />
+      {/* For the team: /application?debug shows the profile JSON the server built. */}
+      {new URLSearchParams(window.location.search).has('debug') && (
+        <ProfileJson profile={studentProfile} />
+      )}
 
       <button className="text-button mt-6 pl-0" onClick={onBack}>
         {t.back}

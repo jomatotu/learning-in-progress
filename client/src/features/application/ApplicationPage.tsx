@@ -34,7 +34,7 @@ export function ApplicationPage() {
           <LookToggle />
         </div>
       </header>
-      <div className="flex flex-1 flex-col">
+      <div className="journey">
         <ApplicationForm seed={demoProfile(params.get('demo'))} />
       </div>
     </main>
