@@ -44,30 +44,32 @@ function validate(
 ): StepProps['errors'] {
   if (screen.step === 'about') {
     return {
-      ...(!profile.name.trim() && { name: 'Tell us what to call you.' }),
-      ...(!profile.stage && { stage: 'Pick the one that fits best.' }),
+      ...(!profile.name.trim() && {
+        name: 'Sag uns, wie wir dich nennen sollen.',
+      }),
+      ...(!profile.stage && { stage: 'Wähl aus, was am besten passt.' }),
     }
   }
   if (screen.step === 'goal' && !profile.topic.trim()) {
-    return { topic: 'Tell us the topic, even in a few words.' }
+    return { topic: 'Sag uns das Thema, auch in ein paar Wörtern.' }
   }
   if (screen.step === 'survey') {
     const missing = questionsIn(survey, screen.categoryId).some(
       (question) => profile.answers[question.id] === undefined,
     )
     if (missing) {
-      return { answers: 'Answer each one, or skip this part for now.' }
+      return { answers: 'Beantworte jede Aussage oder überspring diesen Teil.' }
     }
   }
   return {}
 }
 
 const primaryLabel: Record<StepId, string> = {
-  about: 'Continue',
-  goal: 'Continue',
-  survey: 'Continue',
-  notes: 'Continue',
-  review: 'Build my tool',
+  about: 'Weiter',
+  goal: 'Weiter',
+  survey: 'Weiter',
+  notes: 'Weiter',
+  review: 'Meine Lösung bauen',
 }
 
 // The intake flow: about you, your goal, the learning survey, your notes, and a final check.
@@ -113,7 +115,7 @@ function Form() {
     )
   }
 
-  // "Build my tool": the server scores the survey and returns the student's profile JSON.
+  // "Meine Lösung bauen": the server scores the survey and returns the student's profile JSON.
   const buildProfile = () => {
     setResult({ status: 'loading' })
     createProfile(profile).then(
@@ -157,15 +159,15 @@ function Form() {
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-6 py-4 text-sm md:px-8">
         <span>
           <span className="font-medium">
-            Step {stepNumber} of {counted.length}
+            Schritt {stepNumber} von {counted.length}
           </span>{' '}
           · {step.title}
           <span className="text-graphite">
             {' '}
             ·{' '}
             {minutesLeft > 0
-              ? `about ${minutesLeft} ${minutesLeft === 1 ? 'minute' : 'minutes'} left`
-              : 'almost done'}
+              ? `noch etwa ${minutesLeft} ${minutesLeft === 1 ? 'Minute' : 'Minuten'}`
+              : 'fast fertig'}
           </span>
         </span>
         <div className="flex gap-1.5" aria-hidden>
@@ -183,7 +185,7 @@ function Form() {
             />
           ))}
         </div>
-        <span className="text-graphite">Saved</span>
+        <span className="text-graphite">Gespeichert</span>
       </div>
 
       <div className={cn('grid', showPanel && 'md:grid-cols-[1.45fr_1fr]')}>
@@ -215,8 +217,8 @@ function Form() {
               role="alert"
               className="mt-8 border-l-[3px] border-clay pl-3 text-sm"
             >
-              We couldn’t build your profile. Check your connection and try
-              again.
+              Wir konnten dein Profil nicht bauen. Prüf deine Verbindung und
+              versuch es nochmal.
             </p>
           )}
 
@@ -228,7 +230,7 @@ function Form() {
                 onClick={() => moveTo(index - 1)}
               >
                 <ArrowLeft size={18} aria-hidden />
-                Back
+                Zurück
               </button>
             ) : (
               <span />
@@ -240,12 +242,12 @@ function Form() {
                   className="text-button"
                   onClick={() => moveTo(index + 1)}
                 >
-                  {screen.step === 'survey' ? 'Skip this part' : 'Skip for now'}
+                  Überspringen
                 </button>
               )}
               <button type="submit" className="primary large">
                 {result.status === 'loading'
-                  ? 'Building…'
+                  ? 'Wird gebaut…'
                   : primaryLabel[screen.step]}
                 <ArrowRight size={18} aria-hidden />
               </button>
@@ -289,12 +291,15 @@ function ApplicationForm() {
   return (
     <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
       {load.status === 'loading' ? (
-        <p className="text-graphite">Getting things ready…</p>
+        <p className="text-graphite">Alles wird vorbereitet…</p>
       ) : (
         <div role="alert">
-          <p>We couldn’t load the form. Check your connection and try again.</p>
+          <p>
+            Wir konnten das Formular nicht laden. Prüf deine Verbindung und
+            versuch es nochmal.
+          </p>
           <button className="primary mt-6" onClick={loadSurvey}>
-            Try again
+            Nochmal versuchen
           </button>
         </div>
       )}

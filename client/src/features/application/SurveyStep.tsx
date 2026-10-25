@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { StepHeading } from './StepHeading'
 import type { StepProps } from './ApplicationForm'
 
-// One statement with five answer options, from "Not like me at all" to "Very much like me".
+// One statement with five answer options, from "Stimmt gar nicht" to "Stimmt total".
 function RatingItem({
   id,
   text,
@@ -75,14 +75,15 @@ function SurveyStep({
   return (
     <div>
       <StepHeading
-        label={`How you learn · part ${part} of ${survey.categories.length}`}
+        label={`Wie du lernst · Teil ${part} von ${survey.categories.length}`}
         hint={category.hint}
       >
         {category.title}
       </StepHeading>
 
       <p className="-mt-4 mb-6 text-sm text-graphite">
-        How much is each one like you? There are no right or wrong answers.
+        Wie sehr trifft jede Aussage auf dich zu? Es gibt keine richtigen oder
+        falschen Antworten.
       </p>
 
       <div className="flex flex-col gap-5">

@@ -16,17 +16,20 @@ function NotesStep({ profile, update }: StepProps) {
   return (
     <div>
       <StepHeading
-        label="Your notes"
-        hint="Anything you already know about how you learn. There are no wrong answers."
+        label="Deine Notizen"
+        hint="Alles, was du schon darüber weißt, wie du lernst. Es gibt keine falschen Antworten."
       >
-        What works <em>for you?</em>
+        Was klappt <em>bei dir?</em>
       </StepHeading>
 
       <div className="flex flex-col gap-7">
-        <Field label="I like learning with…" hint="Pick as many as you like.">
+        <Field
+          label="Ich lerne gern mit…"
+          hint="Such so viele aus, wie du magst."
+        >
           <fieldset
             className="flex flex-wrap gap-2.5"
-            aria-label="I like learning with"
+            aria-label="Ich lerne gern mit"
           >
             {likeSuggestions.map((like) => (
               <Chip
@@ -40,12 +43,12 @@ function NotesStep({ profile, update }: StepProps) {
           </fieldset>
         </Field>
 
-        <Field id="notes" label="Your own notes" optional>
+        <Field id="notes" label="Deine eigenen Notizen" optional>
           <Textarea
             id="notes"
             value={profile.notes}
             onChange={(e) => update({ notes: e.target.value })}
-            placeholder="I focus best in the evening. Long PDFs make me give up, but I can watch a 10 minute video without a problem."
+            placeholder="z. B. Abends kann ich mich am besten konzentrieren. Lange PDFs lassen mich aufgeben, aber ein 10-Minuten-Video schaffe ich locker."
             className="min-h-36"
           />
         </Field>

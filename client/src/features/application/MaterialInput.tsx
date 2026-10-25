@@ -8,9 +8,9 @@ import type { Profile } from './profile'
 type Mode = 'text' | 'link' | 'file'
 
 const modes = [
-  { id: 'text', label: 'Paste text', icon: Type },
-  { id: 'link', label: 'Add a link', icon: Link2 },
-  { id: 'file', label: 'Upload files', icon: Upload },
+  { id: 'text', label: 'Text einfügen', icon: Type },
+  { id: 'link', label: 'Link hinzufügen', icon: Link2 },
+  { id: 'file', label: 'Dateien hochladen', icon: Upload },
 ] as const
 
 // One place to add learning material: pasted text, links, or files. Added items are listed below.
@@ -40,7 +40,9 @@ function MaterialInput({
       setDraft('')
       setLinkError('')
     } catch {
-      setLinkError('That doesn’t look like a link. Check it and try again.')
+      setLinkError(
+        'Das sieht nicht nach einem Link aus. Prüf ihn und versuch es nochmal.',
+      )
     }
   }
 
@@ -72,7 +74,7 @@ function MaterialInput({
   return (
     <div className="flex flex-col gap-4">
       <fieldset
-        aria-label="How to add material"
+        aria-label="So fügst du Material hinzu"
         className="flex flex-wrap gap-2"
       >
         {modes.map(({ id, label, icon: Icon }) => (
@@ -101,13 +103,13 @@ function MaterialInput({
       {mode === 'text' && (
         <div className="flex flex-col items-start gap-3">
           <Textarea
-            aria-label="Paste your text"
+            aria-label="Deinen Text einfügen"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="Paste a chapter, your lecture notes, or an exercise sheet"
+            placeholder="Füg ein Kapitel, deine Mitschrift oder ein Aufgabenblatt ein"
           />
           <button type="button" className="secondary-button" onClick={addText}>
-            Add text
+            Text hinzufügen
           </button>
         </div>
       )}
@@ -116,7 +118,7 @@ function MaterialInput({
         <div className="flex flex-col gap-2">
           <div className="flex gap-3">
             <Input
-              aria-label="Link to your material"
+              aria-label="Link zu deinem Material"
               value={draft}
               onChange={(e) => {
                 setDraft(e.target.value)
@@ -125,7 +127,7 @@ function MaterialInput({
               onKeyDown={(e) =>
                 e.key === 'Enter' && (e.preventDefault(), addLink())
               }
-              placeholder="youtube.com/watch?v=… or a course page"
+              placeholder="youtube.com/watch?v=… oder eine Kursseite"
               aria-invalid={!!linkError}
             />
             <button
@@ -133,7 +135,7 @@ function MaterialInput({
               className="secondary-button"
               onClick={addLink}
             >
-              Add
+              Hinzufügen
             </button>
           </div>
           {linkError && (
@@ -156,9 +158,11 @@ function MaterialInput({
           }}
         >
           <Upload className="size-6 text-pine" strokeWidth={1.5} aria-hidden />
-          <span className="font-normal">Drop files here or choose them</span>
+          <span className="font-normal">
+            Dateien hierher ziehen oder auswählen
+          </span>
           <span className="text-sm text-graphite">
-            PDF, Word, slides, images, or audio
+            PDF, Word, Folien, Bilder oder Audio
           </span>
           <input
             type="file"
@@ -173,7 +177,7 @@ function MaterialInput({
       )}
 
       {items.length > 0 && (
-        <ul className="flex flex-col gap-2" aria-label="Added material">
+        <ul className="flex flex-col gap-2" aria-label="Hinzugefügtes Material">
           {items.map(({ key, icon: Icon, label, remove }) => (
             <li
               key={key}
@@ -188,7 +192,7 @@ function MaterialInput({
               <button
                 type="button"
                 onClick={remove}
-                aria-label={`Remove ${label}`}
+                aria-label={`${label} entfernen`}
                 className="rounded-md p-1 hover:bg-sheet"
               >
                 <X className="size-4" aria-hidden />

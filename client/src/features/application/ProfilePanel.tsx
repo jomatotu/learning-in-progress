@@ -37,53 +37,53 @@ function ProfilePanel({ profile }: { profile: Profile }) {
 
   return (
     <aside
-      aria-label="Your learning profile"
+      aria-label="Dein Lernprofil"
       className="bg-[repeating-linear-gradient(var(--sheet)_0_31px,var(--pine-soft)_31px_32px)] p-8 md:p-10"
     >
       <div className="md:sticky md:top-8">
-        <span className="label">Your learning profile</span>
+        <span className="label">Dein Lernprofil</span>
         <p className="mt-2 mb-6 text-[1.3rem] font-semibold">
-          What we know so far
+          Das wissen wir bisher
         </p>
 
-        <Row label="You">
+        <Row label="Du">
           {profile.name || stage ? (
             <p>{[profile.name, stage].filter(Boolean).join(' · ')}</p>
           ) : (
-            <Pending>Step 1</Pending>
+            <Pending>Schritt 1</Pending>
           )}
         </Row>
-        <Row label="Goal">
+        <Row label="Ziel">
           {profile.goalType || profile.goal ? (
             <p>{profile.goalType || profile.goal}</p>
           ) : (
-            <Pending>Step 2</Pending>
+            <Pending>Schritt 2</Pending>
           )}
         </Row>
-        <Row label="Learning">
+        <Row label="Thema">
           {profile.topic ? (
             <>
               <p>{profile.topic}</p>
               {material > 0 && (
                 <p className="text-graphite">
-                  {material} {material === 1 ? 'item' : 'items'} of material
+                  {material} {material === 1 ? 'Eintrag' : 'Einträge'} Material
                 </p>
               )}
             </>
           ) : (
-            <Pending>Step 2</Pending>
+            <Pending>Schritt 2</Pending>
           )}
         </Row>
-        <Row label="How you learn">
+        <Row label="Wie du lernst">
           {answered > 0 ? (
             <p>
-              {answered} of {totalQuestions} questions answered
+              {answered} von {totalQuestions} Fragen beantwortet
             </p>
           ) : (
-            <Pending>Step 3</Pending>
+            <Pending>Schritt 3</Pending>
           )}
         </Row>
-        <Row label="Works for you">
+        <Row label="Das klappt bei dir">
           {profile.likes.length > 0 || profile.notes ? (
             <>
               {profile.likes.map((like) => (
@@ -92,13 +92,13 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               {profile.notes && <p className="line-clamp-2">{profile.notes}</p>}
             </>
           ) : (
-            <Pending>Step 4</Pending>
+            <Pending>Schritt 4</Pending>
           )}
         </Row>
 
         <p className="mt-8 border-l-[3px] border-pine pl-3 text-sm text-graphite">
-          You can see and change everything here. We only use it to build your
-          tool.
+          Du siehst hier alles und kannst alles ändern. Wir nutzen es nur, um
+          dein Tool zu bauen.
         </p>
       </div>
     </aside>

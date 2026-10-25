@@ -11,17 +11,17 @@ function GoalStep({ profile, update, errors }: StepProps) {
   return (
     <div>
       <StepHeading
-        label="Your goal"
-        hint="What you want to reach, and the material you’re working with."
+        label="Dein Ziel"
+        hint="Was du erreichen willst und mit welchem Material du arbeitest."
       >
-        What are you <em>working towards?</em>
+        Worauf <em>arbeitest du hin?</em>
       </StepHeading>
 
       <div className="flex flex-col gap-7">
-        <Field label="What’s the goal?">
+        <Field label="Was ist dein Ziel?">
           <fieldset
             className="flex flex-wrap gap-2.5"
-            aria-label="What’s the goal?"
+            aria-label="Was ist dein Ziel?"
           >
             {goalTypes.map((type) => (
               <Chip
@@ -37,19 +37,19 @@ function GoalStep({ profile, update, errors }: StepProps) {
           </fieldset>
         </Field>
 
-        <Field id="goal" label="Say it in your own words" optional>
+        <Field id="goal" label="Sag es in deinen eigenen Worten" optional>
           <Textarea
             id="goal"
             value={profile.goal}
             onChange={(e) => update({ goal: e.target.value })}
-            placeholder="Pass my biology exam and actually understand cell biology, not just memorise it"
+            placeholder="z. B. Meine Bio-Prüfung bestehen und die Zellbiologie wirklich verstehen, nicht nur auswendig lernen"
             className="min-h-20"
           />
         </Field>
 
         <Field
           id="deadline"
-          label="Is there a date you’re working towards?"
+          label="Gibt es einen Termin, auf den du hinarbeitest?"
           optional
         >
           <Input
@@ -63,19 +63,19 @@ function GoalStep({ profile, update, errors }: StepProps) {
 
         <hr className="border-t border-dashed border-rule" />
 
-        <Field id="topic" label="What are you learning?" error={errors.topic}>
+        <Field id="topic" label="Was lernst du gerade?" error={errors.topic}>
           <Input
             id="topic"
             value={profile.topic}
             onChange={(e) => update({ topic: e.target.value })}
-            placeholder="Cell biology: membranes and transport"
+            placeholder="z. B. Zellbiologie: Membranen und Transport"
             aria-invalid={!!errors.topic}
           />
         </Field>
 
         <Field
-          label="Add your material"
-          hint="Anything you’re learning from. You can add as much as you like, or skip this for now."
+          label="Füg dein Material hinzu"
+          hint="Alles, womit du lernst. Du kannst so viel hinzufügen, wie du magst, oder das erstmal überspringen."
           optional
         >
           <MaterialInput profile={profile} update={update} />

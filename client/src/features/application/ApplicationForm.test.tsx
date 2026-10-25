@@ -10,16 +10,16 @@ const survey: Survey = {
     min: 1,
     max: 5,
     labels: [
-      'Not like me at all',
-      'Not much like me',
-      'Somewhat like me',
-      'Quite like me',
-      'Very much like me',
+      'Stimmt gar nicht',
+      'Stimmt eher nicht',
+      'Stimmt ein bisschen',
+      'Stimmt ziemlich',
+      'Stimmt total',
     ],
   },
   categories: [
-    { id: 'prior_knowledge', title: 'What you already know', hint: '' },
-    { id: 'working_memory', title: 'Keeping things in mind', hint: '' },
+    { id: 'prior_knowledge', title: 'Was du schon weißt', hint: '' },
+    { id: 'working_memory', title: 'Dinge im Kopf behalten', hint: '' },
   ],
   questions: [
     {
@@ -70,14 +70,14 @@ function mockServer(profileResponse: Response = Response.json({})) {
 
 async function fillAboutAndGoal(user: ReturnType<typeof userEvent.setup>) {
   await user.type(
-    await screen.findByLabelText('What should we call you?'),
+    await screen.findByLabelText('Wie sollen wir dich nennen?'),
     'Lina',
   )
-  await user.click(screen.getByRole('button', { name: 'School' }))
-  await user.click(screen.getByRole('button', { name: /continue/i }))
+  await user.click(screen.getByRole('button', { name: 'Schule' }))
+  await user.click(screen.getByRole('button', { name: /weiter/i }))
 
-  await user.type(screen.getByLabelText('What are you learning?'), 'Fractions')
-  await user.click(screen.getByRole('button', { name: /continue/i }))
+  await user.type(screen.getByLabelText('Was lernst du gerade?'), 'Fractions')
+  await user.click(screen.getByRole('button', { name: /weiter/i }))
 }
 
 describe('ApplicationForm', () => {
@@ -89,23 +89,30 @@ describe('ApplicationForm', () => {
     const user = userEvent.setup()
     render(<ApplicationForm />)
 
-    await user.click(await screen.findByRole('button', { name: /continue/i }))
+    await user.click(await screen.findByRole('button', { name: /weiter/i }))
 
-    expect(screen.getByText('Tell us what to call you.')).toBeInTheDocument()
-    expect(screen.getByText('Pick the one that fits best.')).toBeInTheDocument()
+    expect(
+      screen.getByText('Sag uns, wie wir dich nennen sollen.'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('Wähl aus, was am besten passt.'),
+    ).toBeInTheDocument()
   })
 
   it('counts the steps without repeating the about step', async () => {
     mockServer()
     const user = userEvent.setup()
     render(<ApplicationForm />)
-    expect(await screen.findByText('Step 1 of 5')).toBeInTheDocument()
+    expect(await screen.findByText('Schritt 1 von 5')).toBeInTheDocument()
 
-    await user.type(screen.getByLabelText('What should we call you?'), 'Lina')
-    await user.click(screen.getByRole('button', { name: 'School' }))
-    await user.click(screen.getByRole('button', { name: /continue/i }))
+    await user.type(
+      screen.getByLabelText('Wie sollen wir dich nennen?'),
+      'Lina',
+    )
+    await user.click(screen.getByRole('button', { name: 'Schule' }))
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
 
-    expect(screen.getByText('Step 2 of 5')).toBeInTheDocument()
+    expect(screen.getByText('Schritt 2 von 5')).toBeInTheDocument()
   })
 
   it('shows the questions from the server and asks for every answer in a part', async () => {
@@ -116,22 +123,22 @@ describe('ApplicationForm', () => {
 
     expect(screen.getByText('I know a lot.')).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: /continue/i }))
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
     expect(
-      screen.getByText('Answer each one, or skip this part for now.'),
+      screen.getByText('Beantworte jede Aussage oder überspring diesen Teil.'),
     ).toBeInTheDocument()
 
     for (const group of screen.getAllByRole('group')) {
       const radios = group.querySelectorAll('input[type="radio"]')
       if (radios.length) await user.click(radios[0])
     }
-    await user.click(screen.getByRole('button', { name: /continue/i }))
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
     expect(
-      screen.getByRole('heading', { name: 'Keeping things in mind' }),
+      screen.getByRole('heading', { name: 'Dinge im Kopf behalten' }),
     ).toBeInTheDocument()
   })
 
-  it('sends raw answers on "Build my tool" and shows the JSON the server returns', async () => {
+  it('sends raw answers on "Meine Lösung bauen" and shows the JSON the server returns', async () => {
     const fetchMock = mockServer(
       Response.json({
         learning_instructions: { prior_knowledge: ['Skip the basics.'] },
@@ -141,23 +148,25 @@ describe('ApplicationForm', () => {
     render(<ApplicationForm />)
     await fillAboutAndGoal(user)
 
-    // Answer "Very much like me" on the first part, skip the second.
+    // Answer "Stimmt total" on the first part, skip the second.
     for (const radio of screen.getAllByRole('radio', {
-      name: /very much like me/i,
+      name: /stimmt total/i,
     })) {
       await user.click(radio)
     }
-    await user.click(screen.getByRole('button', { name: /continue/i }))
-    await user.click(screen.getByRole('button', { name: /skip this part/i }))
-    await user.click(screen.getByRole('button', { name: 'Short videos' }))
-    await user.click(screen.getByRole('button', { name: /continue/i }))
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
+    await user.click(screen.getByRole('button', { name: /überspringen/i }))
+    await user.click(screen.getByRole('button', { name: 'Kurze Videos' }))
+    await user.click(screen.getByRole('button', { name: /weiter/i }))
 
     expect(
-      screen.getByRole('heading', { name: /does this sound like you/i }),
+      screen.getByRole('heading', { name: /klingt das nach dir/i }),
     ).toBeInTheDocument()
-    expect(screen.getByText('3 of 5 questions answered')).toBeInTheDocument()
+    expect(screen.getByText('3 von 5 Fragen beantwortet')).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: /build my tool/i }))
+    await user.click(
+      screen.getByRole('button', { name: /meine lösung bauen/i }),
+    )
 
     // The client sends the raw answers only; scoring is the server's job.
     const profileCall = fetchMock.mock.calls.find(
@@ -182,16 +191,18 @@ describe('ApplicationForm', () => {
     render(<ApplicationForm />)
     await fillAboutAndGoal(user)
     for (let i = 0; i < survey.categories.length; i++) {
-      await user.click(screen.getByRole('button', { name: /skip this part/i }))
+      await user.click(screen.getByRole('button', { name: /überspringen/i }))
     }
-    await user.click(screen.getByRole('button', { name: /skip for now/i }))
-    await user.click(screen.getByRole('button', { name: /build my tool/i }))
+    await user.click(screen.getByRole('button', { name: /überspringen/i }))
+    await user.click(
+      screen.getByRole('button', { name: /meine lösung bauen/i }),
+    )
 
     expect(
-      await screen.findByText(/couldn’t build your profile/i),
+      await screen.findByText(/konnten dein profil nicht bauen/i),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('heading', { name: /does this sound like you/i }),
+      screen.getByRole('heading', { name: /klingt das nach dir/i }),
     ).toBeInTheDocument()
   })
 
@@ -203,10 +214,10 @@ describe('ApplicationForm', () => {
     render(<ApplicationForm />)
 
     expect(
-      await screen.findByText(/couldn’t load the form/i),
+      await screen.findByText(/konnten das formular nicht laden/i),
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('button', { name: /try again/i }),
+      screen.getByRole('button', { name: /nochmal versuchen/i }),
     ).toBeInTheDocument()
   })
 })

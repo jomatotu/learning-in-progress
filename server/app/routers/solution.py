@@ -55,7 +55,7 @@ async def create_solution(request: SolutionRequest) -> SolutionReply:
 
     GENERATED_DIR.mkdir(parents=True, exist_ok=True)
     if target.exists():  # practically impossible with a fresh uuid
-        raise HTTPException(status_code=500, detail="Could not allocate a page id")
+        raise HTTPException(status_code=500, detail="Die Seite konnte nicht angelegt werden. Versuch es nochmal.")
 
     try:
         async with asyncio.timeout(SOLUTION_TIMEOUT_SECONDS):
@@ -65,21 +65,21 @@ async def create_solution(request: SolutionRequest) -> SolutionReply:
             )
     except TimeoutError:
         logger.warning("Solution generation timed out after %.0fs", time.monotonic() - started)
-        raise HTTPException(status_code=504, detail="Hermes took too long. Try again.")
+        raise HTTPException(status_code=504, detail="Das hat zu lange gedauert. Versuch es nochmal.")
     except openai.AuthenticationError:
         # Not retryable: the HERMES_API_KEY in server/.env was rejected by the Hermes gateway.
         logger.error("Hermes rejected the API key — check HERMES_API_KEY in server/.env")
         raise HTTPException(
             status_code=502,
-            detail="Hermes rejected our API key. The server's HERMES_API_KEY needs to be updated.",
+            detail="Hermes hat den API-Schlüssel abgelehnt. HERMES_API_KEY muss erneuert werden.",
         )
     except (hermes.HermesError, OpenAIError):
         logger.exception("Solution generation failed after %.0fs", time.monotonic() - started)
-        raise HTTPException(status_code=502, detail="Hermes stopped responding. Try again.")
+        raise HTTPException(status_code=502, detail="Hermes antwortet gerade nicht. Versuch es nochmal.")
 
     if not target.exists():
         logger.warning("Hermes did not create %s", target)
-        raise HTTPException(status_code=502, detail="Hermes did not create the page. Try again.")
+        raise HTTPException(status_code=502, detail="Deine Seite konnte nicht gebaut werden. Versuch es nochmal.")
 
     logger.info("Solution page %s.tsx written in %.0fs", page_id, time.monotonic() - started)
     return SolutionReply(url=f"/solution/{page_id}")

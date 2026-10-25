@@ -37,53 +37,53 @@ export const emptyProfile: Profile = {
 
 export const stages = [
   {
-    value: 'School',
-    detailLabel: 'Which grade are you in?',
-    detailPlaceholder: 'Grade 10',
+    value: 'Schule',
+    detailLabel: 'In welcher Klasse bist du?',
+    detailPlaceholder: 'z. B. Klasse 10',
   },
   {
-    value: 'Vocational training',
-    detailLabel: 'What are you training as?',
-    detailPlaceholder: 'Electronics technician',
+    value: 'Ausbildung',
+    detailLabel: 'Was lernst du in deiner Ausbildung?',
+    detailPlaceholder: 'z. B. Elektroniker/in',
   },
   {
-    value: 'University',
-    detailLabel: 'What do you study?',
-    detailPlaceholder: 'Biology, 2nd semester',
+    value: 'Studium',
+    detailLabel: 'Was studierst du?',
+    detailPlaceholder: 'z. B. Biologie, 2. Semester',
   },
   {
-    value: 'Something else',
-    detailLabel: 'Tell us a bit more',
-    detailPlaceholder: 'Evening class in Spanish',
+    value: 'Etwas anderes',
+    detailLabel: 'Erzähl uns ein bisschen mehr',
+    detailPlaceholder: 'z. B. Spanisch-Abendkurs',
   },
 ]
 
 export const goalTypes = [
-  'Pass an exam',
-  'Understand a topic',
-  'Finish homework',
-  'Keep up in class',
+  'Eine Prüfung bestehen',
+  'Ein Thema verstehen',
+  'Hausaufgaben schaffen',
+  'Im Unterricht mithalten',
 ]
 
 export const likeSuggestions = [
-  'Short videos',
-  'Examples first',
-  'Text read aloud',
-  'Quizzes to check myself',
-  'Small steps with breaks',
-  'Pictures and diagrams',
-  'Talking it through',
-  'Less text on the screen',
+  'Kurze Videos',
+  'Erst Beispiele',
+  'Vorgelesener Text',
+  'Quizfragen zum Testen',
+  'Kleine Schritte mit Pausen',
+  'Bilder und Diagramme',
+  'Darüber reden',
+  'Weniger Text auf dem Bildschirm',
 ]
 
 export type StepId = 'about' | 'goal' | 'survey' | 'notes' | 'review'
 
 export const steps: { id: StepId; title: string }[] = [
-  { id: 'about', title: 'About you' },
-  { id: 'goal', title: 'Your goal' },
-  { id: 'survey', title: 'How you learn' },
-  { id: 'notes', title: 'Your notes' },
-  { id: 'review', title: 'Check your profile' },
+  { id: 'about', title: 'Über dich' },
+  { id: 'goal', title: 'Dein Ziel' },
+  { id: 'survey', title: 'Wie du lernst' },
+  { id: 'notes', title: 'Deine Notizen' },
+  { id: 'review', title: 'Dein Profil prüfen' },
 ]
 
 // One screen per step, except the survey, which gets one screen per category.

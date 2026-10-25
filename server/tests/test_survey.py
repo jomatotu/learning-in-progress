@@ -14,7 +14,7 @@ def test_survey_lists_all_30_questions_in_category_order():
     # Questions come grouped by category, in the same order as the categories.
     seen = list(dict.fromkeys(q["category"] for q in survey["questions"]))
     assert seen == category_ids
-    assert survey["response_scale"]["labels"][0] == "Not like me at all"
+    assert survey["response_scale"]["labels"][0] == "Stimmt gar nicht"
 
 
 def test_survey_has_20_high_and_10_low_priority_questions():
@@ -34,3 +34,16 @@ def test_survey_questions_are_generic():
     questions = client.get("/api/survey").json()["questions"]
 
     assert not any("{" in q["text"] for q in questions)
+
+
+def test_survey_is_german():
+    survey = client.get("/api/survey").json()
+
+    assert survey["response_scale"]["labels"] == [
+        "Stimmt gar nicht",
+        "Stimmt eher nicht",
+        "Stimmt ein bisschen",
+        "Stimmt ziemlich",
+        "Stimmt total",
+    ]
+    assert survey["categories"][0]["title"] == "Was du schon weißt"

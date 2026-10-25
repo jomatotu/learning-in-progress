@@ -41,7 +41,7 @@ describe('App', () => {
     await user.click(screen.getByRole('button', { name: /los geht's/i }))
 
     expect(
-      await screen.findByRole('heading', { name: /learning with/i }),
+      await screen.findByRole('heading', { name: /lernen wir/i }),
     ).toBeInTheDocument()
     vi.unstubAllGlobals()
   })
@@ -61,7 +61,7 @@ describe('App', () => {
     renderAt('/application')
 
     expect(
-      await screen.findByRole('heading', { name: /learning with/i }),
+      await screen.findByRole('heading', { name: /lernen wir/i }),
     ).toBeInTheDocument()
     vi.unstubAllGlobals()
   })

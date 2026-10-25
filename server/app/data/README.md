@@ -3,7 +3,7 @@
 `scale.json` is the survey students fill in during the application form. The server owns it: the questions, the scoring rules, and the instructions for each result.
 
 - **Audience:** students aged 13 to 17. An 18+ version can be added later as a second file.
-- **Size:** 30 statements in 8 categories, about 5 minutes. Answers go from 1 "Not like me at all" to 5 "Very much like me".
+- **Size:** 30 statements in 8 categories, about 5 minutes. The survey is in German (students address with "du"); answers go from 1 "Stimmt gar nicht" to 5 "Stimmt total". The `ai_instructions` stay English because they go to the model.
 - **Priority:** every statement is `high` (20) or `low` (10). Scoring doesn't use it yet; it's there for a later decision.
 - **Items:** our own teen-friendly wording, modelled on the published scales listed in each category's `based_on`. They are not the validated originals, so results build a learning profile and are never a diagnosis. All statements are generic; none of them include the student's own input.
 

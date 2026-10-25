@@ -22,7 +22,7 @@ function Section({
           onClick={onEdit}
           className="text-sm text-ink underline decoration-rule decoration-[1.5px] underline-offset-4 hover:decoration-ink"
         >
-          Edit
+          Ändern
         </button>
       </div>
       <div className="mt-2">{children}</div>
@@ -47,22 +47,22 @@ function ReviewStep({
   return (
     <div>
       <StepHeading
-        label="Check your profile"
-        hint="This is what we’ll use to build your tool. Change anything that isn’t right."
+        label="Dein Profil prüfen"
+        hint="Damit bauen wir dein Tool. Ändere alles, was nicht stimmt."
       >
-        Does this <em>sound like you?</em>
+        Klingt das <em>nach dir?</em>
       </StepHeading>
 
       <div className="rounded-2xl border border-rule bg-paper p-6">
-        <Section title="About you" onEdit={() => goTo('about')}>
+        <Section title="Über dich" onEdit={() => goTo('about')}>
           <p className="font-normal">{profile.name}</p>
           {stage && <p className="text-graphite">{stage}</p>}
           {profile.interests && (
-            <p className="text-graphite">Into {profile.interests}</p>
+            <p className="text-graphite">Interessen: {profile.interests}</p>
           )}
         </Section>
 
-        <Section title="Your goal" onEdit={() => goTo('goal')}>
+        <Section title="Dein Ziel" onEdit={() => goTo('goal')}>
           {profile.goalType || profile.goal ? (
             <>
               {profile.goalType && (
@@ -71,12 +71,12 @@ function ReviewStep({
               {profile.goal && <p>{profile.goal}</p>}
             </>
           ) : (
-            <Empty>No goal yet</Empty>
+            <Empty>Noch kein Ziel</Empty>
           )}
           {profile.deadline && (
             <p className="text-graphite">
-              By{' '}
-              {new Date(profile.deadline).toLocaleDateString('en-GB', {
+              Bis{' '}
+              {new Date(profile.deadline).toLocaleDateString('de-DE', {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric',
@@ -85,28 +85,28 @@ function ReviewStep({
           )}
         </Section>
 
-        <Section title="What you’re learning" onEdit={() => goTo('goal')}>
+        <Section title="Was du lernst" onEdit={() => goTo('goal')}>
           <p className="font-normal">{profile.topic}</p>
           <p className="text-graphite">
             {material === 0
-              ? 'No material added yet'
-              : `${material} ${material === 1 ? 'item' : 'items'} added`}
+              ? 'Noch kein Material hinzugefügt'
+              : `${material} ${material === 1 ? 'Eintrag' : 'Einträge'} hinzugefügt`}
           </p>
         </Section>
 
-        <Section title="How you learn" onEdit={() => goTo('survey')}>
+        <Section title="Wie du lernst" onEdit={() => goTo('survey')}>
           <p>
             {answered === 0
-              ? 'Skipped'
-              : `${answered} of ${questions} questions answered`}
+              ? 'Übersprungen'
+              : `${answered} von ${questions} Fragen beantwortet`}
           </p>
         </Section>
 
-        <Section title="Your notes" onEdit={() => goTo('notes')}>
+        <Section title="Deine Notizen" onEdit={() => goTo('notes')}>
           {profile.likes.length > 0 && (
             <ul
               className="mb-2 flex flex-wrap gap-1.5"
-              aria-label="You like learning with"
+              aria-label="Du lernst gern mit"
             >
               {profile.likes.map((like) => (
                 <li
@@ -121,7 +121,7 @@ function ReviewStep({
           {profile.notes ? (
             <p className="whitespace-pre-line">{profile.notes}</p>
           ) : (
-            !profile.likes.length && <Empty>No notes yet</Empty>
+            !profile.likes.length && <Empty>Noch keine Notizen</Empty>
           )}
         </Section>
       </div>

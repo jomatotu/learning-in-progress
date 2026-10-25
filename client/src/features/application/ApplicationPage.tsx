@@ -8,7 +8,7 @@ export function ApplicationPage() {
     <main className="app-shell application-page">
       <header className="topbar">
         <h1 className="sr-only">Learning in Progress</h1>
-        <Link to="/" className="brand" aria-label="Back to the home page">
+        <Link to="/" className="brand" aria-label="Zurück zur Startseite">
           <span className="brand-mark">
             <span />
             <span />
