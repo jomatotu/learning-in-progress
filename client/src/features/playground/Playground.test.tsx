@@ -92,7 +92,7 @@ describe('Playground', () => {
         .fn<typeof fetch>()
         .mockResolvedValueOnce(
           sse('error', {
-            message: 'Hermes hat nicht geantwortet. Versuch es nochmal.',
+            message: 'Tabula hat nicht geantwortet. Versuch es nochmal.',
           }),
         )
         .mockResolvedValueOnce(sse('done', question)),
@@ -101,7 +101,7 @@ describe('Playground', () => {
 
     await userEvent.click(screen.getByRole('button', startButton))
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      'Hermes hat nicht geantwortet. Versuch es nochmal.',
+      'Tabula hat nicht geantwortet. Versuch es nochmal.',
     )
     await userEvent.click(
       screen.getByRole('button', { name: 'Nochmal versuchen' }),

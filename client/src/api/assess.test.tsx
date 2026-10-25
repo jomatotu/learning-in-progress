@@ -49,7 +49,7 @@ describe('useAssess', () => {
         [
           'status',
           {
-            text: 'Hermes denkt über deine Antworten nach… ~20 Wörter gedacht',
+            text: 'Tabula denkt über deine Antworten nach… ~20 Wörter gedacht',
           },
         ],
         ['done', question],
@@ -62,7 +62,7 @@ describe('useAssess', () => {
 
     await waitFor(() => expect(result.current.data).toEqual(question))
     expect(result.current.status).toBe(
-      'Hermes denkt über deine Antworten nach… ~20 Wörter gedacht',
+      'Tabula denkt über deine Antworten nach… ~20 Wörter gedacht',
     )
     expect(fetchMock.mock.calls[0][0]).toBe('/api/assess')
     expect(JSON.parse(fetchMock.mock.calls[0][1]?.body as string)).toEqual({
@@ -97,7 +97,7 @@ describe('useAssess', () => {
         .mockResolvedValue(
           sse([
             'error',
-            { message: 'Hermes hat nicht geantwortet. Versuch es nochmal.' },
+            { message: 'Tabula hat nicht geantwortet. Versuch es nochmal.' },
           ]),
         ),
     )
@@ -107,7 +107,7 @@ describe('useAssess', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        'Hermes hat nicht geantwortet. Versuch es nochmal.',
+        'Tabula hat nicht geantwortet. Versuch es nochmal.',
       ),
     )
   })

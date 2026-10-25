@@ -26,7 +26,7 @@ RESEARCH_TIMEOUT_SECONDS = 300
 
 TOKENS_PER_UPDATE = 20
 
-STATUS = "Hermes recherchiert, was dir beim Lernen hilft…"
+STATUS = f"{hermes.TUTOR_NAME} recherchiert, was dir beim Lernen hilft…"
 
 
 # What Hermes needs to pick a research direction. The material's topic only, never its full text.
@@ -95,7 +95,7 @@ async def research_events(request: ResearchRequest) -> AsyncIterator[str]:
     except (hermes.HermesError, OpenAIError):
         # Logs no details, because the reply can repeat the student's needs data.
         logger.warning("Research failed")
-        yield sse("error", {"message": "Hermes hat nicht geantwortet. Versuch es nochmal."})
+        yield sse("error", {"message": f"{hermes.TUTOR_NAME} hat nicht geantwortet. Versuch es nochmal."})
         return
 
     # Only real web links count as sources; anything else can't have been opened.

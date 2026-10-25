@@ -43,7 +43,7 @@ describe('SandboxPage', () => {
     )
     expect(
       await screen.findByText(
-        'Diese Seite hat einen Fehler. Lass Hermes sie neu bauen.',
+        'Diese Seite hat einen Fehler. Lass Tabula sie neu bauen.',
       ),
     ).toBeInTheDocument()
     spy.mockRestore()
@@ -54,7 +54,7 @@ describe('SandboxPage', () => {
     render(<SandboxPage load={() => Promise.reject(new Error('404'))} />)
     expect(
       await screen.findByText(
-        'Diese Seite hat einen Fehler. Lass Hermes sie neu bauen.',
+        'Diese Seite hat einen Fehler. Lass Tabula sie neu bauen.',
       ),
     ).toBeInTheDocument()
     spy.mockRestore()

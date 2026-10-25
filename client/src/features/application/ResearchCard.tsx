@@ -3,6 +3,7 @@ import { ExternalLink, Search } from 'lucide-react'
 import type { StudentProfile } from '@/api/profile'
 import { useResearch, type Research } from '@/api/research'
 import { HermesProgress } from '@/components/HermesProgress'
+import { TUTOR } from '@/lib/tutor'
 
 // Hermes searches the web for what helps this student while they answer the questions next to it.
 // Starts once per profile; the findings go into the page Hermes builds later.
@@ -29,13 +30,13 @@ function ResearchCard({
     >
       <h3 id="research-heading" className="flex items-center gap-2 font-medium">
         <Search className="size-4" aria-hidden />
-        Was Hermes für dich recherchiert
+        Was {TUTOR} für dich recherchiert
       </h3>
 
       {research.isPending && (
         <>
           <p className="mt-2 text-sm text-graphite">
-            Hermes sucht im Web, was Menschen wie dir nachweislich hilft. Das
+            {TUTOR} sucht im Web, was Menschen wie dir nachweislich hilft. Das
             dauert ein paar Minuten.
           </p>
           <HermesProgress

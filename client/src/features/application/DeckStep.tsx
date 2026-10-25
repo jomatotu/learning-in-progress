@@ -11,6 +11,7 @@ import {
   type DeckAnswer,
   type DeckState,
 } from './deck'
+import { TUTOR } from '@/lib/tutor'
 
 // Fields and buttons handle keys themselves; a shortcut there would answer twice or eat typing.
 function keepsKey(key: string, target: EventTarget | null) {
@@ -138,7 +139,7 @@ function DeckStep({
   return (
     <div>
       <StepHeading
-        label={`Wie du lernst · ${hermes ? 'Hermes' : entry.title}`}
+        label={`Wie du lernst · ${hermes ? TUTOR : entry.title}`}
         hint="Eine kurze Frage pro Karte. Du kannst alles später ändern."
       >
         Stimmt das <em>für dich?</em>
@@ -153,7 +154,7 @@ function DeckStep({
       <div aria-live="polite">
         <div className="rounded-[18px] bg-ink p-6 text-white">
           <span className="mb-2 block text-[0.7rem] font-bold tracking-[0.04em] text-[#bcb0f2]">
-            {hermes ? 'Hermes fragt' : 'Das heißt für dich'}
+            {hermes ? `${TUTOR} fragt` : 'Das heißt für dich'}
           </span>
           <p className="text-[1.2rem] leading-snug font-semibold [overflow-wrap:anywhere]">
             {hermes ? hermes.text : card.text}

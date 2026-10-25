@@ -148,7 +148,7 @@ def test_generate_strips_text_and_fences_around_page(monkeypatch):
 def test_generate_reports_reply_without_page(monkeypatch):
     fake_stream(monkeypatch, [("text", "Sorry, I hit a rate limit.")])
 
-    assert events()[-1] == ("error", {"message": "Hermes hat keine Seite geliefert. Versuch es nochmal."})
+    assert events()[-1] == ("error", {"message": "Tabula hat keine Seite geliefert. Versuch es nochmal."})
 
 
 def test_generate_reports_hermes_failure(monkeypatch):
@@ -158,13 +158,13 @@ def test_generate_reports_hermes_failure(monkeypatch):
         error=APIConnectionError(request=httpx.Request("POST", "http://hermes")),
     )
 
-    assert events()[-1] == ("error", {"message": "Hermes antwortet gerade nicht. Versuch es nochmal."})
+    assert events()[-1] == ("error", {"message": "Tabula antwortet gerade nicht. Versuch es nochmal."})
 
 
 def test_generate_reports_failed_hermes_turn(monkeypatch):
     fake_stream(monkeypatch, [], error=hermes.HermesError("Hermes turn error"))
 
-    assert events()[-1] == ("error", {"message": "Hermes antwortet gerade nicht. Versuch es nochmal."})
+    assert events()[-1] == ("error", {"message": "Tabula antwortet gerade nicht. Versuch es nochmal."})
 
 
 def test_generate_rejects_empty_material():

@@ -25,7 +25,7 @@ describe('SummaryStep', () => {
       () => new Promise((r) => (resolve = r)),
     )
     expect(
-      screen.getByText('Hermes fasst zusammen, was es verstanden hat …'),
+      screen.getByText('Tabula fasst zusammen, was es verstanden hat …'),
     ).toBeInTheDocument()
 
     resolve('Du magst Fußball.')

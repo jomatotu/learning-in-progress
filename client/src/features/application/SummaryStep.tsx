@@ -4,6 +4,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Field } from './Field'
 import { StepHeading } from './StepHeading'
 import type { StepProps } from './ApplicationForm'
+import { TUTOR } from '@/lib/tutor'
 
 type Phase = 'loading' | 'ready' | 'failed'
 
@@ -56,7 +57,7 @@ function SummaryStep({
   return (
     <div>
       <StepHeading
-        label="Wie du lernst · Hermes"
+        label={`Wie du lernst · ${TUTOR}`}
         hint="Du kannst alles ändern oder weglassen."
       >
         Das habe ich <em>verstanden</em>
@@ -65,7 +66,7 @@ function SummaryStep({
       <div aria-live="polite">
         {phase === 'loading' && (
           <p className="text-graphite">
-            Hermes fasst zusammen, was es verstanden hat …
+            {TUTOR} fasst zusammen, was es verstanden hat …
           </p>
         )}
         {phase === 'failed' && (

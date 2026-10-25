@@ -13,6 +13,9 @@ from app.settings import get_settings
 # Hermes always serves its configured model under this name; the real LLM is set on the VPS.
 MODEL = "hermes-agent"
 
+# The name students see for the tutor; Hermes stays the engine behind it.
+TUTOR_NAME = "Tabula"
+
 # An agent turn can run tools for several minutes.
 TIMEOUT_SECONDS = 600
 

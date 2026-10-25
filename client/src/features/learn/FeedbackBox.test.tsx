@@ -13,13 +13,13 @@ describe('FeedbackBox', () => {
     render(<FeedbackBox theme="chunked" />)
 
     await userEvent.type(
-      screen.getByLabelText('Was soll Hermes beim nächsten Mal anders machen?'),
+      screen.getByLabelText('Was soll Tabula beim nächsten Mal anders machen?'),
       'Mehr Bilder',
     )
     await userEvent.click(screen.getByRole('button', { name: 'Senden' }))
 
     expect(
-      await screen.findByText('Danke! Hermes denkt beim nächsten Mal daran.'),
+      await screen.findByText('Danke! Tabula denkt beim nächsten Mal daran.'),
     ).toBeInTheDocument()
     const [url, init] = fetchMock.mock.calls[0]
     expect(url).toBe('/api/feedback')

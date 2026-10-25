@@ -70,7 +70,7 @@ async def create_solution(request: SolutionRequest) -> SolutionReply:
         logger.error("Hermes rejected the API key — check HERMES_API_KEY in server/.env")
         raise HTTPException(
             status_code=502,
-            detail="Hermes ist gerade nicht erreichbar. Bitte sag dem Team Bescheid.",
+            detail=f"{hermes.TUTOR_NAME} ist gerade nicht erreichbar. Bitte sag dem Team Bescheid.",
         )
     except (hermes.HermesError, OpenAIError):
         logger.exception("Solution generation failed after %.0fs", time.monotonic() - started)

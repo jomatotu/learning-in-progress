@@ -6,6 +6,7 @@ import {
   type ComponentType,
   type ReactNode,
 } from 'react'
+import { TUTOR } from '@/lib/tutor'
 
 type Loader = () => Promise<unknown>
 
@@ -34,7 +35,7 @@ function NotFound() {
     <Card
       kicker="Nicht gefunden"
       title="Diese Seite gibt es nicht (mehr)."
-      text="Lass Hermes eine neue Seite für dich bauen."
+      text={`Lass ${TUTOR} eine neue Seite für dich bauen.`}
     />
   )
 }
@@ -63,7 +64,7 @@ class PageErrorBoundary extends Component<
     return this.state.failed ? (
       <Card
         kicker="Fehler"
-        title="Diese Seite hat einen Fehler. Lass Hermes sie neu bauen."
+        title={`Diese Seite hat einen Fehler. Lass ${TUTOR} sie neu bauen.`}
         text="Deine Daten sind nicht verloren."
       />
     ) : (

@@ -76,7 +76,7 @@ describe('useGeneratePage', () => {
         .mockResolvedValue(
           sse([
             'error',
-            { message: 'Hermes antwortet gerade nicht. Versuch es nochmal.' },
+            { message: 'Tabula antwortet gerade nicht. Versuch es nochmal.' },
           ]),
         ),
     )
@@ -86,7 +86,7 @@ describe('useGeneratePage', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        'Hermes antwortet gerade nicht. Versuch es nochmal.',
+        'Tabula antwortet gerade nicht. Versuch es nochmal.',
       ),
     )
   })

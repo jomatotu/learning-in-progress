@@ -9,6 +9,7 @@ import { FeedbackBox } from './FeedbackBox'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { loadPage, loadRun, savePage, type LearnRun } from './learnStore'
+import { TUTOR } from '@/lib/tutor'
 
 // Opens in its own tab: generates a page for every picked theme at once and lets the student switch between them.
 export function Learn() {
@@ -139,7 +140,7 @@ function LivePreview({ html, status }: LivePreviewProps) {
           aria-hidden="true"
           className="size-2 animate-pulse rounded-full bg-primary motion-reduce:animate-none"
         />
-        Hermes baut gerade…
+        {TUTOR} baut gerade…
         <span className="text-muted-foreground">{status}</span>
       </output>
     </div>

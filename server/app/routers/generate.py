@@ -39,8 +39,8 @@ VERIFY_PAGES = False
 # Upper limit for testing and fixing the page; past it the student gets the untested page.
 VERIFY_TIMEOUT_SECONDS = 600
 
-PLAN_STATUS = "Hermes plant deine Seite…"
-VERIFY_STATUS = "Hermes testet deine Seite…"
+PLAN_STATUS = f"{hermes.TUTOR_NAME} plant deine Seite…"
+VERIFY_STATUS = f"{hermes.TUTOR_NAME} testet deine Seite…"
 
 # Blocks the generated page from loading or sending anything over the network, so it can't leak data.
 CSP = (
@@ -164,14 +164,14 @@ async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
         return
     except (hermes.HermesError, OpenAIError):
         logger.exception("Generation failed after %.0fs", time.monotonic() - started)
-        yield sse("error", {"message": "Hermes antwortet gerade nicht. Versuch es nochmal."})
+        yield sse("error", {"message": f"{hermes.TUTOR_NAME} antwortet gerade nicht. Versuch es nochmal."})
         return
 
     html = prepare_page(written.reply)
     if html is None:
         # Logs only the size, because the reply can repeat the student's needs data.
         logger.warning("Generation returned no page (%d characters)", len(written.reply))
-        yield sse("error", {"message": "Hermes hat keine Seite geliefert. Versuch es nochmal."})
+        yield sse("error", {"message": f"{hermes.TUTOR_NAME} hat keine Seite geliefert. Versuch es nochmal."})
         return
     logger.info("Generation done in %.0fs, %d KB", time.monotonic() - started, len(html) // 1000)
     # TODO: testing is disconnected here until VERIFY_PAGES is turned back on.

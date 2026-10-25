@@ -29,7 +29,7 @@ TOKENS_PER_UPDATE = 20
 # How much of the material Hermes sees, enough to judge which themes fit it without sending a whole book.
 MATERIAL_PREVIEW_CHARS = 3000
 
-STATUS = "Hermes denkt über deine Antworten nach…"
+STATUS = f"{hermes.TUTOR_NAME} denkt über deine Antworten nach…"
 
 THEME_SUMMARIES = "\n".join(themes.summary(name) for name in themes.THEMES)
 
@@ -136,7 +136,7 @@ async def assess_events(request: AssessRequest) -> AsyncIterator[str]:
     except (hermes.HermesError, OpenAIError):
         # Logs no details, because the reply can repeat the student's needs data.
         logger.warning("Assess failed")
-        yield sse("error", {"message": "Hermes hat nicht geantwortet. Versuch es nochmal."})
+        yield sse("error", {"message": f"{hermes.TUTOR_NAME} hat nicht geantwortet. Versuch es nochmal."})
         return
 
     # Ask the question only if it's complete and allowed; otherwise end, so the client never gets a question it can't show.

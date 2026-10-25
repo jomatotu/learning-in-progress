@@ -5,6 +5,7 @@ import { errorMessage } from '@/api/errorMessage'
 import { studentId } from '@/api/studentId'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { TUTOR } from '@/lib/tutor'
 
 // Matches the server's cap on one learner note.
 const MAX_CHARS = 500
@@ -37,7 +38,7 @@ export function FeedbackBox({ theme }: FeedbackBoxProps) {
   return (
     <form onSubmit={send} className="flex flex-col gap-2">
       <label htmlFor={`feedback-${theme}`} className="text-sm font-medium">
-        Was soll Hermes beim nächsten Mal anders machen?
+        Was soll {TUTOR} beim nächsten Mal anders machen?
       </label>
       <Textarea
         id={`feedback-${theme}`}
@@ -53,7 +54,7 @@ export function FeedbackBox({ theme }: FeedbackBoxProps) {
         Senden
       </Button>
       <p aria-live="polite" className="text-sm">
-        {state === 'sent' && 'Danke! Hermes denkt beim nächsten Mal daran.'}
+        {state === 'sent' && `Danke! ${TUTOR} denkt beim nächsten Mal daran.`}
         {error}
       </p>
     </form>
