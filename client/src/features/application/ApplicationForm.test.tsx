@@ -345,7 +345,9 @@ describe('ApplicationForm', () => {
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
-    await user.click(screen.getByRole('button', { name: /^Mein Werkzeug bauen$/ }))
+    await user.click(
+      screen.getByRole('button', { name: /^Mein Werkzeug bauen$/ }),
+    )
 
     expect(
       await screen.findByRole('heading', { name: /magische lösung/i }),
@@ -583,7 +585,9 @@ describe('ApplicationForm', () => {
       })
 
       await user.click(
-        screen.getByRole('button', { name: /\(DevMode\) Mein Werzeug bauen\./i }),
+        screen.getByRole('button', {
+          name: /\(DevMode\) Mein Werzeug bauen\./i,
+        }),
       )
       const profileCall = fetchMock.mock.calls.find(
         ([input]) => urlOf(input) === '/api/profile',
