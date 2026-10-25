@@ -12,6 +12,31 @@ import {
   type DeckState,
 } from './deck'
 import { TUTOR } from '@/lib/tutor'
+import { cn } from '@/lib/utils'
+
+type Side = 'stimmt' | 'eher_nicht'
+
+const KEYS: Record<string, Side> = {
+  Enter: 'stimmt',
+  ArrowRight: 'stimmt',
+  Backspace: 'eher_nicht',
+  ArrowLeft: 'eher_nicht',
+}
+// A swipe counts past 30% of the card width, or as a quick flick of at least 40px.
+const SWIPE_SHARE = 0.3
+const FLICK_PX = 40
+const FLICK_PX_PER_MS = 0.5
+const FLY_MS = 220
+
+const reducedMotion = () =>
+  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+
+const passed = (dx: number, width: number): Side | null =>
+  Math.abs(dx) < Math.max(width * SWIPE_SHARE, FLICK_PX)
+    ? null
+    : dx > 0
+      ? 'stimmt'
+      : 'eher_nicht'
 
 // Fields and buttons handle keys themselves; a shortcut there would answer twice or eat typing.
 function keepsKey(key: string, target: EventTarget | null) {
@@ -58,6 +83,13 @@ function DeckStep({
   const [answers, setAnswers] = useState<CardAnswer[]>([])
   // What each earlier card looked like, so "Zurück" can take an answer back.
   const [history, setHistory] = useState<Snapshot[]>([])
+  // The card under the finger: how far it is pulled, and the side it flies off to once answered.
+  const [pull, setPull] = useState({ dx: 0, width: 0, active: false })
+  const [leaving, setLeaving] = useState<Side | null>(null)
+  const drag = useRef<{ id: number; x: number; t: number } | null>(null)
+  // Set while a card flies off; every other answer waits, so one swipe stays one answer.
+  const flying = useRef<number | undefined>(undefined)
+  const root = useRef<HTMLDivElement>(null)
 
   const goTo = (next: Snapshot) => {
     setHistory((h) => [...h, { state, hermesId, answers }])
@@ -79,6 +111,7 @@ function DeckStep({
   }
 
   const answer = (choice: DeckAnswer) => {
+    if (flying.current !== undefined) return
     if (hermesId) return answerHermes(hermesId, choice)
     const nextBands = answerBands(state, choice, deck)
     onBands(nextBands)
@@ -93,6 +126,7 @@ function DeckStep({
   }
 
   const back = () => {
+    if (flying.current !== undefined) return
     const previous = history[history.length - 1]
     if (!previous) return onBack()
     onBands(previous.state.bands)
@@ -103,18 +137,79 @@ function DeckStep({
     setAnswers(previous.answers)
   }
 
-  // The key handler always calls the latest answer().
-  const latest = useRef(answer)
+  // Swipes and arrow keys let the card fly off to its side, then answer like the buttons.
+  const fling = (side: Side) => {
+    if (flying.current !== undefined) return
+    if (reducedMotion()) {
+      setPull({ dx: 0, width: 0, active: false })
+      return answer(side)
+    }
+    setLeaving(side)
+    flying.current = window.setTimeout(() => {
+      flying.current = undefined
+      setLeaving(null)
+      setPull({ dx: 0, width: 0, active: false })
+      latest.current.answer(side)
+    }, FLY_MS)
+  }
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (drag.current || flying.current !== undefined) return
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    drag.current = { id: e.pointerId, x: e.clientX, t: performance.now() }
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+    const width = e.currentTarget.getBoundingClientRect().width
+    setPull({ dx: 0, width, active: true })
+  }
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const start = drag.current
+    if (start?.id !== e.pointerId) return
+    setPull((p) => ({ ...p, dx: e.clientX - start.x }))
+  }
+
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const start = drag.current
+    if (start?.id !== e.pointerId) return
+    drag.current = null
+    const dx = e.clientX - start.x
+    const speed = Math.abs(dx) / Math.max(performance.now() - start.t, 1)
+    const flick = Math.abs(dx) >= FLICK_PX && speed >= FLICK_PX_PER_MS
+    if (passed(dx, pull.width) || flick) {
+      // Transitions back on, so the card flies off from where it was let go.
+      setPull((p) => ({ ...p, active: false }))
+      return fling(dx > 0 ? 'stimmt' : 'eher_nicht')
+    }
+    setPull({ dx: 0, width: 0, active: false })
+  }
+
+  const onPointerCancel = () => {
+    drag.current = null
+    setPull({ dx: 0, width: 0, active: false })
+  }
+
+  useEffect(() => () => window.clearTimeout(flying.current), [])
+
+  // The key handler always calls the latest answer() and fling().
+  const latest = useRef({ answer, fling })
   useEffect(() => {
-    latest.current = answer
+    latest.current = { answer, fling }
   })
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return
-      if (e.key !== 'Enter' && e.key !== 'Backspace') return
-      if (keepsKey(e.key, e.target)) return
+      const side = KEYS[e.key]
+      if (!side || keepsKey(e.key, e.target)) return
+      const arrow = e.key.startsWith('Arrow')
+      // Arrows only count inside the deck; elsewhere they still scroll or move a cursor.
+      if (
+        arrow &&
+        !(e.target instanceof Node && root.current?.contains(e.target))
+      )
+        return
       e.preventDefault()
-      latest.current(e.key === 'Enter' ? 'stimmt' : 'eher_nicht')
+      if (arrow) latest.current.fling(side)
+      else latest.current.answer(side)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -136,9 +231,17 @@ function DeckStep({
     shown + 1,
   )
   const isLast = state.index === deck.length - 1
+  const hint = leaving ?? passed(pull.dx, pull.width)
+  // Under reduced motion the card only follows the finger, without tilting.
+  const tilt = reducedMotion() ? '' : ` rotate(${pull.dx / 20}deg)`
+  const flyOff =
+    leaving === 'stimmt'
+      ? 'translateX(130%) rotate(12deg)'
+      : 'translateX(-130%) rotate(-12deg)'
 
   return (
-    <div>
+    // Focusable root: a tap or click on the card keeps focus in the deck, so the arrow keys keep working.
+    <div ref={root} tabIndex={-1} className="outline-none">
       <StepHeading
         label={`Wie du lernst · ${hermes ? TUTOR : entry.title}`}
         hint="Eine kurze Frage pro Karte. Du kannst alles später ändern."
@@ -153,7 +256,37 @@ function DeckStep({
       </div>
 
       <div aria-live="polite">
-        <div className="rounded-[18px] bg-ink p-6 text-white">
+        <div
+          key={shown}
+          data-testid="deck-card"
+          className="relative cursor-grab touch-pan-y rounded-[18px] bg-ink p-6 text-white transition-[transform,translate,opacity] duration-200 ease-out select-none active:cursor-grabbing motion-reduce:transition-none motion-safe:starting:translate-y-3 motion-safe:starting:opacity-0"
+          style={{
+            transform: leaving
+              ? flyOff
+              : pull.dx
+                ? `translateX(${pull.dx}px)${tilt}`
+                : undefined,
+            opacity: leaving ? 0 : undefined,
+            transition: pull.active ? 'none' : undefined,
+          }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerCancel}
+        >
+          {hint && (
+            <span
+              aria-hidden
+              className={cn(
+                'absolute -top-3 rounded-full px-3 py-1 text-sm font-bold shadow-sm',
+                hint === 'stimmt'
+                  ? 'left-5 bg-[#6955c6] text-white'
+                  : 'right-5 border border-ink bg-white text-ink',
+              )}
+            >
+              {hint === 'stimmt' ? 'Stimmt' : 'Eher nicht'}
+            </span>
+          )}
           <span className="mb-2 block text-[0.7rem] font-bold tracking-[0.04em] text-[#bcb0f2]">
             {hermes ? `${TUTOR} fragt` : 'Das heißt für dich'}
           </span>
@@ -202,7 +335,10 @@ function DeckStep({
         )}
       </div>
       <p className="mt-2 hidden text-xs text-graphite md:block">
-        Tastatur: Enter = Stimmt · Rücktaste = Eher nicht
+        Tastatur: → oder Enter = Stimmt · ← oder Rücktaste = Eher nicht
+      </p>
+      <p className="mt-2 hidden text-xs text-graphite pointer-coarse:block">
+        Wischen: nach rechts = Stimmt · nach links = Eher nicht
       </p>
     </div>
   )
