@@ -9,18 +9,22 @@ export type Answer = { question: string; answer: string }
 
 // Learning page formats the server can generate; matches the files in server/app/prompts/themes.
 export type ThemeName =
+  | 'calm-reading'
   | 'chunked'
   | 'fill-blanks'
   | 'hobby-framing'
+  | 'memory-palace'
   | 'read-aloud'
   | 'sim-missions'
   | 'teach-the-ai'
 
 // Names to show the student; match the titles in the theme files.
 export const themeTitles: Record<ThemeName, string> = {
+  'calm-reading': 'Calm reading',
   chunked: 'Chunked steps',
   'fill-blanks': 'Fill in the blanks',
   'hobby-framing': 'Hobby framing',
+  'memory-palace': 'Memory palace',
   'read-aloud': 'Read aloud',
   'sim-missions': 'Simulation missions',
   'teach-the-ai': 'Teach the AI',
@@ -36,7 +40,12 @@ export type NextQuestion = {
   themes: ThemePick[]
 }
 
-export type AssessInput = { profile: Profile; answers: Answer[] }
+// The material lets Hermes skip themes that don't suit it, e.g. a memory palace for material with only one idea.
+export type AssessInput = {
+  profile: Profile
+  answers: Answer[]
+  material: string
+}
 
 // Streams the assessment: reports Hermes's progress, then resolves with the next question or the picked themes.
 export function assess(

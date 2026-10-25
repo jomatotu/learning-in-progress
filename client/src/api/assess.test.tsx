@@ -11,6 +11,7 @@ const input: AssessInput = {
     interests: [],
   },
   answers: [],
+  material: 'Fractions',
 }
 
 function wrapper({ children }: { children: ReactNode }) {
@@ -88,7 +89,7 @@ describe('useAssess', () => {
       vi
         .fn<typeof fetch>()
         .mockResolvedValue(
-          sse(['error', { message: "Hermes didn't answer. Try again." }]),
+          sse(['error', { message: 'Something went wrong. Try again.' }]),
         ),
     )
     const { result } = renderHook(() => useAssess(), { wrapper })
@@ -97,7 +98,7 @@ describe('useAssess', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        "Hermes didn't answer. Try again.",
+        'Something went wrong. Try again.',
       ),
     )
   })

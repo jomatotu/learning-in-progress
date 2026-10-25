@@ -30,7 +30,7 @@ export function Playground() {
     setParseError('')
     setProfile(parsed)
     setAnswers([])
-    assess.mutate({ profile: parsed, answers: [] })
+    assess.mutate({ profile: parsed, answers: [], material })
   }
 
   function answer(option: string) {
@@ -40,7 +40,7 @@ export function Playground() {
       { question: assess.data.question, answer: option },
     ]
     setAnswers(next)
-    assess.mutate({ profile, answers: next })
+    assess.mutate({ profile, answers: next, material })
   }
 
   // Generates in a new tab, so this page keeps its answers and can open the pages again.
@@ -146,7 +146,9 @@ export function Playground() {
         {profile !== undefined && !busy && (
           <div className="flex gap-2">
             {assess.isError && (
-              <Button onClick={() => assess.mutate({ profile, answers })}>
+              <Button
+                onClick={() => assess.mutate({ profile, answers, material })}
+              >
                 Try again
               </Button>
             )}

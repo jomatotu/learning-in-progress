@@ -66,7 +66,11 @@ describe('Playground', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Generate' }))
 
     expect(fetchMock.mock.calls[1][1]?.body).toBe(
-      JSON.stringify({ profile: mockStudent.profile, answers }),
+      JSON.stringify({
+        profile: mockStudent.profile,
+        answers,
+        material: mockStudent.material,
+      }),
     )
     const [url, target] = openMock.mock.calls[0]
     expect(target).toBe('_blank')
@@ -85,7 +89,7 @@ describe('Playground', () => {
       vi
         .fn<typeof fetch>()
         .mockResolvedValueOnce(
-          sse('error', { message: "Hermes didn't answer. Try again." }),
+          sse('error', { message: 'Something went wrong. Try again.' }),
         )
         .mockResolvedValueOnce(sse('done', question)),
     )
@@ -93,7 +97,7 @@ describe('Playground', () => {
 
     await userEvent.click(screen.getByRole('button', startButton))
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      "Hermes didn't answer. Try again.",
+      'Something went wrong. Try again.',
     )
     await userEvent.click(screen.getByRole('button', { name: 'Try again' }))
 

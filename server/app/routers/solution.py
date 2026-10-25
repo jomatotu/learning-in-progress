@@ -65,21 +65,21 @@ async def create_solution(request: SolutionRequest) -> SolutionReply:
             )
     except TimeoutError:
         logger.warning("Solution generation timed out after %.0fs", time.monotonic() - started)
-        raise HTTPException(status_code=504, detail="Hermes took too long. Try again.")
+        raise HTTPException(status_code=504, detail="That took too long. Try again.")
     except openai.AuthenticationError:
         # Not retryable: the HERMES_API_KEY in server/.env was rejected by the Hermes gateway.
         logger.error("Hermes rejected the API key — check HERMES_API_KEY in server/.env")
         raise HTTPException(
             status_code=502,
-            detail="Hermes rejected our API key. The server's HERMES_API_KEY needs to be updated.",
+            detail="The AI service rejected our API key. The server's HERMES_API_KEY needs to be updated.",
         )
     except (hermes.HermesError, OpenAIError):
         logger.exception("Solution generation failed after %.0fs", time.monotonic() - started)
-        raise HTTPException(status_code=502, detail="Hermes stopped responding. Try again.")
+        raise HTTPException(status_code=502, detail="Something went wrong. Try again.")
 
     if not target.exists():
         logger.warning("Hermes did not create %s", target)
-        raise HTTPException(status_code=502, detail="Hermes did not create the page. Try again.")
+        raise HTTPException(status_code=502, detail="The page could not be built. Try again.")
 
     logger.info("Solution page %s.tsx written in %.0fs", page_id, time.monotonic() - started)
     return SolutionReply(url=f"/solution/{page_id}")

@@ -48,13 +48,14 @@ function AssessmentScreen({
   const t = useMessages(messages)
   const [answers, setAnswers] = useState<Answer[]>([])
   const profile = profileForHermes(studentProfile)
+  const material = materialText(studentProfile)
   const started = useRef(false)
 
   useEffect(() => {
     // The ref stops StrictMode's second effect run from asking Hermes twice.
     if (started.current) return
     started.current = true
-    assess.mutate({ profile, answers: [] })
+    assess.mutate({ profile, answers: [], material })
     // oxlint-disable-next-line react/exhaustive-deps
   }, [])
 
@@ -65,7 +66,7 @@ function AssessmentScreen({
     if (!question) return
     const next = [...answers, { question: question.question, answer: option }]
     setAnswers(next)
-    assess.mutate({ profile, answers: next })
+    assess.mutate({ profile, answers: next, material })
   }
 
   // Generates in a new tab, so this page keeps the answers and can open the pages again.
@@ -74,7 +75,7 @@ function AssessmentScreen({
     const id = saveRun({
       profile,
       answers,
-      material: materialText(studentProfile),
+      material,
       themes,
     })
     window.open(`/learn/${id}`, '_blank')
@@ -154,7 +155,7 @@ function AssessmentScreen({
             <button
               type="button"
               className="primary mt-4"
-              onClick={() => assess.mutate({ profile, answers })}
+              onClick={() => assess.mutate({ profile, answers, material })}
             >
               {t.tryAgain}
             </button>
