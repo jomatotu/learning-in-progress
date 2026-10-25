@@ -1,3 +1,4 @@
+import type { IntakeBody } from '@/api/intake'
 import type { Profile } from './profile'
 
 // What POST /api/profile returns: the student's profile JSON, with the chosen instructions per category.
@@ -30,7 +31,14 @@ export function toProfileRequest(profile: Profile) {
       notes: profile.notes,
       hard: profile.hard,
     },
+    about_you: profile.about_you,
   }
+}
+
+// The five things Hermes reads to write its cards.
+export function toIntakeBody(profile: Profile): IntakeBody {
+  const { student, goal, material, preferences } = toProfileRequest(profile)
+  return { student, goal, topic: material.topic, preferences }
 }
 
 export async function createProfile(

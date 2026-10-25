@@ -1,5 +1,6 @@
 import type { DeckEntry } from '@/lib/survey'
-import { nextDeckState, type DeckState } from './deck'
+import type { HermesCard } from '@/api/intake'
+import { nextDeckState, nextHermesCard, type DeckState } from './deck'
 
 const card = { text: 't', reason: 'Deshalb r' }
 const deck: DeckEntry[] = ['a', 'b'].map((category) => ({
@@ -59,5 +60,28 @@ describe('nextDeckState', () => {
     const frozen = Object.freeze({ ...start, bands: Object.freeze({}) })
     expect(() => nextDeckState(frozen, 'stimmt', deck)).not.toThrow()
     expect(start.bands).toEqual({})
+  })
+})
+
+describe('nextHermesCard', () => {
+  const cards: HermesCard[] = [
+    { id: 'c1', text: 'a', yes: 'c2', no: null },
+    { id: 'c2', text: 'b', yes: null, no: null },
+  ]
+
+  it('follows yes on stimmt', () => {
+    expect(nextHermesCard(cards, 'c1', 'stimmt')).toBe('c2')
+  })
+
+  it('follows no on eher_nicht; a null branch ends', () => {
+    expect(nextHermesCard(cards, 'c1', 'eher_nicht')).toBe('done')
+  })
+
+  it('ends on weiss_nicht even when a branch exists', () => {
+    expect(nextHermesCard(cards, 'c1', 'weiss_nicht')).toBe('done')
+  })
+
+  it('ends on an unknown id', () => {
+    expect(nextHermesCard(cards, 'c9', 'stimmt')).toBe('done')
   })
 })

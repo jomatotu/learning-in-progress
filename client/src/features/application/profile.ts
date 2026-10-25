@@ -19,6 +19,8 @@ export type Profile = {
   likes: string[]
   notes: string
   hard: string
+  // What Hermes understood about the student, as the student confirmed or edited it.
+  about_you: string
 }
 
 export const emptyProfile: Profile = {
@@ -38,6 +40,7 @@ export const emptyProfile: Profile = {
   likes: [],
   notes: '',
   hard: '',
+  about_you: '',
 }
 
 export const stages = [
@@ -81,7 +84,8 @@ export const likeSuggestions = [
   'Weniger Text auf dem Bildschirm',
 ]
 
-export type StepId = 'about' | 'goal' | 'notes' | 'deck' | 'survey' | 'review'
+export type StepId =
+  'about' | 'goal' | 'notes' | 'deck' | 'survey' | 'summary' | 'review'
 
 export const steps: { id: StepId; title: string }[] = [
   { id: 'about', title: 'Über dich' },
@@ -107,6 +111,7 @@ export function buildScreens(survey: Survey): Screen[] {
       categoryId: c.id,
       minutes: surveyMinutes / survey.categories.length,
     })),
+    { step: 'summary', minutes: 0.5 },
     { step: 'review', minutes: 1 },
   ]
 }

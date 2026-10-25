@@ -1,21 +1,33 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import {
+  deckBands,
   fetchSurvey,
   questionsIn,
   SurveyContext,
   useSurvey,
   type Survey,
 } from '@/lib/survey'
+import {
+  requestCards,
+  requestSummary,
+  type CardAnswer,
+  type HermesCard,
+} from '@/api/intake'
 import { cn } from '@/lib/utils'
 import { AboutStep } from './AboutStep'
-import { createProfile, type StudentProfileJson } from './studentProfile'
+import {
+  createProfile,
+  toIntakeBody,
+  type StudentProfileJson,
+} from './studentProfile'
 import { DeckStep } from './DeckStep'
 import { GoalStep } from './GoalStep'
 import { MagicStep } from './MagicStep'
 import { NotesStep } from './NotesStep'
 import { ProfilePanel } from './ProfilePanel'
 import { ReviewStep } from './ReviewStep'
+import { SummaryStep } from './SummaryStep'
 import { SurveyStep } from './SurveyStep'
 import {
   buildScreens,
@@ -77,10 +89,19 @@ function Form() {
   const [finished, setFinished] = useState(false)
   const [result, setResult] = useState<ProfileResult>({ status: 'idle' })
   const panel = useRef<HTMLDivElement>(null)
+  // Hermes's cards, requested once when the student leaves the notes. Late, empty or failed: the deck ends as before.
+  const [hermes, setHermes] = useState<{
+    token: string
+    cards: HermesCard[]
+  } | null>(null)
+  const [cardAnswers, setCardAnswers] = useState<CardAnswer[]>([])
+  const cardsAsked = useRef(false)
+  const summaryAsked = useRef<Promise<string | null> | null>(null)
 
   const screen = screens[index]
   // The optional survey counts as part of the "Wie du lernst" step.
-  const stepId = screen.step === 'survey' ? 'deck' : screen.step
+  const stepId =
+    screen.step === 'survey' || screen.step === 'summary' ? 'deck' : screen.step
   const step = steps.find((s) => s.id === stepId)!
   const stepNumber = steps.findIndex((s) => s.id === stepId) + 1
   const minutesLeft = Math.ceil(
@@ -133,21 +154,65 @@ function Form() {
     setIndex(target)
   }
 
-  const goTo = (id: StepId) => moveTo(screens.findIndex((s) => s.step === id))
+  // Without cards there is no summary: the summary step is skipped in both directions.
+  const goTo = (id: StepId) => {
+    const target = id === 'summary' && !hermes ? 'review' : id
+    moveTo(screens.findIndex((s) => s.step === target))
+  }
+
+  const startCards = () => {
+    if (cardsAsked.current) return
+    cardsAsked.current = true
+    requestCards(toIntakeBody(profile)).then(
+      ({ token, cards }) => {
+        if (token && Array.isArray(cards) && cards.length > 0) {
+          setHermes({ token, cards })
+        }
+      },
+      () => {},
+    )
+  }
+
+  // One summary request for the whole session, even if the student comes back to this step.
+  const loadSummary = () => {
+    summaryAsked.current ??= requestSummary({
+      token: hermes?.token ?? '',
+      bands: Object.fromEntries(
+        deckBands(survey, profile.bands, profile.answers).map((id) => [
+          id,
+          profile.bands[id],
+        ]),
+      ),
+      card_answers: cardAnswers,
+    }).then(
+      (reply) => reply.about_you,
+      () => null,
+    )
+    return summaryAsked.current
+  }
 
   const edit = (id: StepId) => {
     goTo(id)
     setReturnToReview(['about', 'goal', 'notes'].includes(id))
   }
 
-  const forward = () => (returnToReview ? goTo('review') : moveTo(index + 1))
+  const forward = () => {
+    if (screen.step === 'notes') startCards()
+    if (returnToReview) return goTo('review')
+    const skipsSummary = screens[index + 1]?.step === 'summary' && !hermes
+    moveTo(index + (skipsSummary ? 2 : 1))
+  }
 
   // Back from the review goes to where the student came from: the last survey part if they answered
   // survey questions, else the deck.
-  const goBack = () =>
-    screen.step === 'review' && Object.keys(profile.answers).length === 0
-      ? goTo('deck')
-      : moveTo(index - 1)
+  const goBack = () => {
+    if (screen.step === 'review' && hermes) return goTo('summary')
+    const noSurvey = Object.keys(profile.answers).length === 0
+    if (screen.step === 'review' || screen.step === 'summary') {
+      return noSurvey ? goTo('deck') : moveTo(index - (hermes ? 1 : 2))
+    }
+    moveTo(index - 1)
+  }
 
   const next = () => {
     const found = validate(screen, profile, survey)
@@ -161,6 +226,7 @@ function Form() {
   const showPanel = ['about', 'goal', 'notes'].includes(screen.step)
   const canSkip = screen.step === 'survey' || screen.step === 'notes'
   const isDeck = screen.step === 'deck'
+  const hasOwnButtons = isDeck || screen.step === 'summary'
 
   if (finished && result.status === 'ready') {
     return <MagicStep topic={profile.topic} profileJson={result.data} />
@@ -224,15 +290,25 @@ function Form() {
               deck={survey.deck}
               bands={profile.bands}
               onBands={(bands) => update({ bands })}
-              onDone={() => goTo('review')}
+              onDone={() => goTo('summary')}
               onSurvey={() => goTo('survey')}
               onBack={() => moveTo(index - 1)}
+              hermesCards={hermes?.cards ?? null}
+              onCardAnswers={setCardAnswers}
             />
           )}
           {screen.step === 'survey' && category && (
             <SurveyStep {...stepProps} category={category} part={part} />
           )}
           {screen.step === 'notes' && <NotesStep {...stepProps} />}
+          {screen.step === 'summary' && (
+            <SummaryStep
+              profile={profile}
+              update={update}
+              load={loadSummary}
+              onNext={() => goTo('review')}
+            />
+          )}
           {screen.step === 'review' && (
             <ReviewStep {...stepProps} goTo={edit} />
           )}
@@ -266,7 +342,7 @@ function Form() {
                   Überspringen
                 </button>
               )}
-              {!isDeck && (
+              {!hasOwnButtons && (
                 <button type="submit" className="primary large">
                   {result.status === 'loading'
                     ? 'Wird gebaut…'

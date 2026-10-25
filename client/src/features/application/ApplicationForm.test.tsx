@@ -88,10 +88,18 @@ function urlOf(input: RequestInfo | URL) {
 }
 
 // Answers GET /api/survey with the survey above and POST /api/profile with `profileResponse`.
-function mockServer(profileResponse: Response = Response.json({})) {
-  const fetchMock = vi.fn<typeof fetch>(async (input) =>
-    urlOf(input) === '/api/survey' ? Response.json(survey) : profileResponse,
-  )
+// Intake requests get `intake`; the default is a failed request, so the deck ends after the base cards.
+function mockServer(
+  profileResponse: Response = Response.json({}),
+  intake: (url: string) => Promise<Response> = async () =>
+    new Response(null, { status: 500 }),
+) {
+  const fetchMock = vi.fn<typeof fetch>(async (input) => {
+    const url = urlOf(input)
+    if (url === '/api/survey') return Response.json(survey)
+    if (url.startsWith('/api/intake/')) return intake(url)
+    return profileResponse
+  })
   vi.stubGlobal('fetch', fetchMock)
   return fetchMock
 }
@@ -391,5 +399,110 @@ describe('ApplicationForm', () => {
     expect(
       screen.getByRole('button', { name: /nochmal versuchen/i }),
     ).toBeInTheDocument()
+  })
+
+  describe('Hermes cards', () => {
+    const cards = [
+      { id: 'c1', text: 'Hermes eins', yes: 'c2', no: null },
+      { id: 'c2', text: 'Hermes zwei', yes: null, no: null },
+    ]
+    const intakeCalls = (fetchMock: ReturnType<typeof mockServer>) =>
+      fetchMock.mock.calls.filter(([input]) =>
+        urlOf(input).startsWith('/api/intake/'),
+      )
+    const bodyOf = (call: Parameters<typeof fetch>) =>
+      JSON.parse(typeof call[1]?.body === 'string' ? call[1].body : '{}')
+
+    it('requests the cards once when leaving the notes, not again on Zurück and forward', async () => {
+      const fetchMock = mockServer(Response.json({}), async () =>
+        Response.json({ token: 't', cards }),
+      )
+      const user = userEvent.setup()
+      render(<ApplicationForm />)
+      await reachDeck(user)
+      await user.click(screen.getByRole('button', { name: 'Zurück' }))
+      await user.click(screen.getByRole('button', { name: /weiter/i }))
+
+      const calls = intakeCalls(fetchMock)
+      expect(calls).toHaveLength(1)
+      expect(urlOf(calls[0][0])).toBe('/api/intake/cards')
+      const body = bodyOf(calls[0])
+      expect(body.student.name).toBe('Lina')
+      expect(body.topic).toBe('Fractions')
+      expect(body.preferences.hard).toBe('Lange Texte')
+    })
+
+    it('runs through Hermes cards and the summary into the review and the profile', async () => {
+      const fetchMock = mockServer(Response.json({}), async (url) =>
+        url.endsWith('/cards')
+          ? Response.json({ token: 't', cards })
+          : Response.json({ about_you: 'Du magst Fußball.' }),
+      )
+      const user = userEvent.setup()
+      render(<ApplicationForm />)
+      await reachDeck(user)
+      await user.click(await screen.findByRole('button', { name: /stimmt/i }))
+      await user.click(screen.getByRole('button', { name: /stimmt/i }))
+      // Hermes cards arrived while the student answered.
+      expect(await screen.findByText('Hermes eins')).toBeInTheDocument()
+      await user.click(screen.getByRole('button', { name: /stimmt/i }))
+      await user.click(screen.getByRole('button', { name: /stimmt/i }))
+
+      const area = await screen.findByLabelText('Das habe ich verstanden')
+      expect(area).toHaveValue('Du magst Fußball.')
+      await user.type(area, ' Und Musik.')
+      await user.click(screen.getByRole('button', { name: /stimmt so/i }))
+
+      expect(screen.getByText('Du magst Fußball. Und Musik.')).toBeVisible()
+      const summaryCall = intakeCalls(fetchMock)[1]
+      expect(bodyOf(summaryCall)).toEqual({
+        token: 't',
+        bands: { prior_knowledge: 'low', working_memory: 'low' },
+        card_answers: [
+          { id: 'c1', answer: 'stimmt' },
+          { id: 'c2', answer: 'stimmt' },
+        ],
+      })
+
+      await user.click(
+        screen.getByRole('button', { name: /meine lösung bauen/i }),
+      )
+      const profileCall = fetchMock.mock.calls.find(
+        ([input]) => urlOf(input) === '/api/profile',
+      )!
+      expect(bodyOf(profileCall).about_you).toBe('Du magst Fußball. Und Musik.')
+    })
+
+    it('still ends the deck and reaches the review when the card request never resolves', async () => {
+      mockServer(Response.json({}), () => new Promise<Response>(() => {}))
+      const user = userEvent.setup()
+      render(<ApplicationForm />)
+      await reachDeck(user)
+      await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+      await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+      expect(
+        screen.getByRole('heading', { name: /klingt das nach dir/i }),
+      ).toBeInTheDocument()
+      expect(screen.queryByText('Das habe ich verstanden')).toBeNull()
+    })
+
+    it('Zurück from the review goes to the summary when Hermes cards exist', async () => {
+      mockServer(Response.json({}), async (url) =>
+        url.endsWith('/cards')
+          ? Response.json({ token: 't', cards: [cards[1]] })
+          : Response.json({ about_you: null }),
+      )
+      const user = userEvent.setup()
+      render(<ApplicationForm />)
+      await reachDeck(user)
+      await user.click(await screen.findByRole('button', { name: /stimmt/i }))
+      await user.click(screen.getByRole('button', { name: /stimmt/i }))
+      await user.click(await screen.findByRole('button', { name: /stimmt/i }))
+      await user.click(await screen.findByRole('button', { name: /weiter/i }))
+      await user.click(screen.getByRole('button', { name: 'Zurück' }))
+      expect(
+        screen.getByText('Hat diesmal nicht geklappt – kein Problem.'),
+      ).toBeInTheDocument()
+    })
   })
 })

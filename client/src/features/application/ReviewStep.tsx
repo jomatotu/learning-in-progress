@@ -136,6 +136,18 @@ function ReviewStep({
           </button>
         </Section>
 
+        {profile.about_you && (
+          <Section
+            wide
+            title="Das habe ich verstanden"
+            onEdit={() => goTo('summary')}
+          >
+            <p className="[overflow-wrap:anywhere] whitespace-pre-line">
+              {profile.about_you}
+            </p>
+          </Section>
+        )}
+
         <Section title="Deine Notizen" onEdit={() => goTo('notes')}>
           {profile.hard && (
             <p className="mb-2 whitespace-pre-line">

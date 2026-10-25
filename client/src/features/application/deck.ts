@@ -1,3 +1,4 @@
+import type { HermesCard } from '@/api/intake'
 import type { DeckEntry } from '@/lib/survey'
 
 export type Band = 'low' | 'medium' | 'high'
@@ -39,4 +40,16 @@ export function nextDeckState(
   }
   const index = state.index + 1
   return index >= deck.length ? 'done' : { index, asked: 'low', bands }
+}
+
+// The id of the Hermes card to show after an answer, or 'done' when the tree ends there (oxlint rejects the literal in a string union).
+export function nextHermesCard(
+  cards: HermesCard[],
+  currentId: string,
+  answer: DeckAnswer,
+): string {
+  if (answer === 'weiss_nicht') return 'done'
+  const card = cards.find((c) => c.id === currentId)
+  const target = answer === 'stimmt' ? card?.yes : card?.no
+  return target && cards.some((c) => c.id === target) ? target : 'done'
 }

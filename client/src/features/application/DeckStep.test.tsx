@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { DeckEntry } from '@/lib/survey'
+import type { HermesCard } from '@/api/intake'
 import { DeckStep } from './DeckStep'
 
 const deck: DeckEntry[] = [
@@ -20,11 +21,17 @@ const deck: DeckEntry[] = [
   },
 ]
 
-function setup() {
+const hermes: HermesCard[] = [
+  { id: 'c1', text: 'Hermes eins', yes: 'c2', no: null },
+  { id: 'c2', text: 'Hermes zwei', yes: null, no: null },
+]
+
+function setup(hermesCards: HermesCard[] | null = null) {
   const onBands = vi.fn<(bands: Record<string, string>) => void>()
   const onDone = vi.fn<() => void>()
   const onSurvey = vi.fn<() => void>()
   const onBack = vi.fn<() => void>()
+  const onCardAnswers = vi.fn<(a: unknown[]) => void>()
   const user = userEvent.setup()
   render(
     <>
@@ -36,10 +43,12 @@ function setup() {
         onDone={onDone}
         onSurvey={onSurvey}
         onBack={onBack}
+        hermesCards={hermesCards}
+        onCardAnswers={onCardAnswers}
       />
     </>,
   )
-  return { user, onBands, onDone, onSurvey, onBack }
+  return { user, onBands, onDone, onSurvey, onBack, onCardAnswers }
 }
 
 describe('DeckStep', () => {
@@ -137,5 +146,63 @@ describe('DeckStep', () => {
     setup()
     const live = screen.getByText('Low A').closest('[aria-live]')
     expect(live).toHaveTextContent('Deshalb low A')
+  })
+
+  it('continues into the Hermes cards after the base cards', async () => {
+    const { user, onDone, onCardAnswers } = setup(hermes)
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    expect(onDone).not.toHaveBeenCalled()
+    expect(screen.getByText('Hermes fragt')).toBeInTheDocument()
+    expect(screen.getByText('Hermes eins')).toBeInTheDocument()
+    expect(screen.queryByText('Das heißt für dich')).toBeNull()
+
+    await user.click(screen.getByRole('button', { name: /stimmt/i }))
+    expect(screen.getByText('Hermes zwei')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
+    expect(onDone).toHaveBeenCalledOnce()
+    expect(onCardAnswers).toHaveBeenLastCalledWith([
+      { id: 'c1', answer: 'stimmt' },
+      { id: 'c2', answer: 'eher_nicht' },
+    ])
+  })
+
+  it('does not record Weiß nicht on a Hermes card and ends the tree', async () => {
+    const { user, onDone, onCardAnswers } = setup(hermes)
+    await user.keyboard('{Enter}{Enter}')
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    expect(onDone).toHaveBeenCalledOnce()
+    expect(onCardAnswers).toHaveBeenLastCalledWith([])
+  })
+
+  it('ends after the base cards when there are no Hermes cards', async () => {
+    const { user, onDone } = setup(null)
+    await user.keyboard('{Enter}{Enter}')
+    expect(onDone).toHaveBeenCalledOnce()
+  })
+
+  it('Zurück from the first Hermes card restores the last base card and its band', async () => {
+    const { user, onBands, onDone } = setup(hermes)
+    await user.keyboard('{Enter}{Enter}')
+    expect(screen.getByText('Hermes eins')).toBeInTheDocument()
+    expect(onBands).toHaveBeenLastCalledWith({ a: 'low', b: 'low' })
+
+    await user.click(screen.getByRole('button', { name: 'Zurück' }))
+    expect(screen.getByText('Low B')).toBeInTheDocument()
+    expect(onBands).toHaveBeenLastCalledWith({ a: 'low' })
+    expect(onDone).not.toHaveBeenCalled()
+  })
+
+  it('Zurück between Hermes cards keeps the last base answer and drops the Hermes answer', async () => {
+    const { user, onBands, onCardAnswers } = setup(hermes)
+    await user.keyboard('{Enter}{Enter}{Enter}')
+    expect(screen.getByText('Hermes zwei')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Zurück' }))
+    expect(screen.getByText('Hermes eins')).toBeInTheDocument()
+    expect(onBands).toHaveBeenLastCalledWith({ a: 'low', b: 'low' })
+    await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
+    expect(onCardAnswers).toHaveBeenLastCalledWith([
+      { id: 'c1', answer: 'eher_nicht' },
+    ])
   })
 })
