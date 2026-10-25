@@ -7,7 +7,7 @@
 | Monorepo | Ein Repository für das gesamte System. |
 | Frontend: TypeScript, React | Festgelegt im [Techstack](../../README.md#techstack). |
 | Backend: Python, FastAPI | Festgelegt im Techstack. |
-| KI-Schicht: Gemini | Vorgemerkt, Details offen (TBD). |
+| KI-Schicht: Hermes, DeepSeek | Festgelegt im Techstack. |
 | Generative UI im Browser | Die Lösung wird zur Laufzeit als Oberfläche erzeugt. |
 | Browser-Erweiterung | Beispiel für eine mögliche Lösungsform, keine getroffene Entscheidung. |
 
