@@ -47,9 +47,9 @@ describe('LookToggle', () => {
       throw new Error('blocked')
     })
     render(<LookToggle />)
-    await userEvent
-      .setup()
-      .click(screen.getByRole('button', { name: 'Graustufen' }))
+    const button = screen.getByRole('button', { name: 'Graustufen' })
+    await userEvent.setup().click(button)
+    expect(button).toHaveAttribute('aria-pressed', 'true')
     expect(html).toHaveAttribute('data-look', 'graustufen')
   })
 })

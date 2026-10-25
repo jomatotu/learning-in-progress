@@ -170,9 +170,6 @@
 :root[data-look='graustufen'] {
   filter: grayscale(1);
   background: #efeeea;
-  --lip-bg: #efeeea;
-  --lip-ink: #1d1d1b;
-  --lip-accent: #1d1d1b;
 }
 
 :root[data-look='graustufen'] *,
@@ -193,8 +190,7 @@
   color: #1d1d1b;
 }
 
-:root[data-look='graustufen'] .topbar,
-:root[data-look='graustufen'] .sticky-action {
+:root[data-look='graustufen'] .topbar {
   background: #f6f5f1;
   border-color: #cfcdc7;
 }
@@ -222,8 +218,7 @@
 :root[data-look='graustufen'] .hero-art::before,
 :root[data-look='graustufen'] .orbit,
 :root[data-look='graustufen'] .magic-orbit,
-:root[data-look='graustufen'] .magic-particle,
-:root[data-look='graustufen'] .brand-mark {
+:root[data-look='graustufen'] .magic-particle {
   display: none;
 }
 

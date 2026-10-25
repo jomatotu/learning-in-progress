@@ -4,6 +4,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter } from 'react-router'
 import './index.css'
 import App from './App.tsx'
+import { applyStoredLook } from './features/look/look'
+
+applyStoredLook()
 
 const queryClient = new QueryClient()
 

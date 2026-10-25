@@ -1,30 +1,13 @@
 import { useEffect, useState } from 'react'
-
-const storageKey = 'lip-look'
-const lookValue = 'graustufen'
-
-function loadChoice(): boolean {
-  try {
-    return localStorage.getItem(storageKey) === lookValue
-  } catch {
-    return false
-  }
-}
+import { readStoredLook, setLookAttribute, storeLook } from './look'
 
 // Switches the whole app to the matte grey look (rules in index.css). Stays on after unmount on purpose.
 function LookToggle() {
-  const [on, setOn] = useState(loadChoice)
+  const [on, setOn] = useState(readStoredLook)
 
   useEffect(() => {
-    const root = document.documentElement
-    if (on) root.setAttribute('data-look', lookValue)
-    else root.removeAttribute('data-look')
-    try {
-      if (on) localStorage.setItem(storageKey, lookValue)
-      else localStorage.removeItem(storageKey)
-    } catch {
-      // Storage can be blocked; the look still applies for this page.
-    }
+    setLookAttribute(on)
+    storeLook(on)
   }, [on])
 
   return (
