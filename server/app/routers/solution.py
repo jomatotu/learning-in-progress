@@ -21,8 +21,7 @@ logger = logging.getLogger("uvicorn.error")
 PROMPT = (Path(__file__).parent.parent / "prompts" / "generate_solution_page.txt").read_text(encoding="utf-8")
 
 # The React app that receives the generated files, seen from the repo root on this server.
-# Only used to verify the file after the run; the prompt itself uses a repo-relative path
-# so Hermes stays correct on any machine.
+# The prompt gets the absolute path: the Hermes gateway runs in its own cwd, which may be another checkout.
 REPO_ROOT = Path(__file__).parents[3]
 GENERATED_DIR = REPO_ROOT / "client" / "src" / "features" / "application" / "generated"
 
@@ -38,9 +37,9 @@ class SolutionReply(BaseModel):
     url: str
 
 
-def fill_prompt(request: SolutionRequest, file_name: str) -> str:
+def fill_prompt(request: SolutionRequest, target: Path) -> str:
     return (
-        PROMPT.replace("{{FILE_NAME}}", file_name)
+        PROMPT.replace("{{TARGET_PATH}}", str(target))
         .replace("{{PROFILE}}", json.dumps(request.profile, ensure_ascii=False, indent=2))
     )
 
@@ -60,7 +59,7 @@ async def create_solution(request: SolutionRequest) -> SolutionReply:
     try:
         async with asyncio.timeout(SOLUTION_TIMEOUT_SECONDS):
             await hermes.ask_hermes(
-                fill_prompt(request, file_name),
+                fill_prompt(request, target),
                 session_id=f"lip-solution-{page_id}",
             )
     except TimeoutError:
