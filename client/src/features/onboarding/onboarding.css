@@ -111,17 +111,24 @@
   transition: width 0.4s ease;
 }
 
-.screen {
-  min-height: calc(100vh - 78px);
+/* The one centered column the student journey sits in (home, form, results, Magic page). In px, not rem:
+   /application raises the root font size, and the box should not jump in width between pages. */
+.journey {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1152px;
+  margin-inline: auto;
+  padding: clamp(0.5rem, 2vh, 2rem) clamp(16px, 4vw, 40px);
 }
 
 .home {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  max-width: 1240px;
-  margin: auto;
-  padding: 60px 50px 80px;
+  margin-block: auto;
+  padding: 40px 0 60px;
   gap: 70px;
 }
 
@@ -845,7 +852,6 @@
 
 .magic-screen {
   position: relative;
-  min-height: calc(100vh - 78px);
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -1003,7 +1009,7 @@
 @media (max-width: 850px) {
   .home {
     grid-template-columns: 1fr;
-    padding: 50px 25px;
+    padding: 32px 0;
   }
 
   .hero-art {

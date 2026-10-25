@@ -13,9 +13,11 @@ export function Onboarding() {
   }
 
   return (
-    <main className="app-shell">
+    <main className="app-shell flex min-h-dvh flex-col">
       <Topbar step={0} onHome={() => navigate('/')} />
-      <Home onStart={() => navigate('/application')} />
+      <div className="journey">
+        <Home onStart={() => navigate('/application')} />
+      </div>
     </main>
   )
 }
