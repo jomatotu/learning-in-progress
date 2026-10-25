@@ -39,7 +39,8 @@ Hard technical rules, because it runs in a locked-down sandboxed iframe:
 Accessibility rules:
 - Calm, uncluttered layout. One main thing on screen at a time. No flashing; any animation is short and can be turned off.
 - Readable text: sans-serif system font stack, at least 18px, line height 1.5 or more, left-aligned, lines no longer than about 70 characters, no italics or all caps for body text.
-- High contrast on a soft off-white background. Don't rely on color alone to show right or wrong.
+- High contrast on a soft off-white background, or a soft dark gray (not pure black) in dark mode. Don't rely on color alone to show right or wrong.
+- Light and dark mode: put every color in a CSS variable on :root, with dark values under :root[data-theme="dark"], and use only those variables, including inline styles and SVG fills. Add one small, clearly labeled toggle button in the top corner (aria-pressed, keyboard reachable) that switches data-theme on <html>. Start in the mode from matchMedia('(prefers-color-scheme: dark)') and keep the choice in a JavaScript variable.
 - Large click targets, full keyboard support, visible focus, semantic HTML, and ARIA labels. Announce feedback with aria-live.
 - Plain, friendly, encouraging language with short sentences. Mistakes get a neutral correction and the reason, never a penalty.
 - The student controls the pace: next and back buttons, nothing auto-advances.

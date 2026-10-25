@@ -30,6 +30,13 @@ TOOL_STATUS = {
     "memory": "Checking its memory…",
 }
 
+# Status for every browser tool (browser_navigate, browser_click, …), so callers can tell Hermes opened a page.
+BROWSER_STATUS = "Testing the page in a browser…"
+
+
+def tool_status(tool: str) -> str:
+    return BROWSER_STATUS if tool.startswith("browser") else TOOL_STATUS.get(tool, "Working…")
+
 
 class HermesError(Exception):
     pass
@@ -93,7 +100,7 @@ async def stream_hermes(
         if not choices:
             tool = getattr(chunk, "tool", None)
             if tool and getattr(chunk, "status", None) == "running":
-                yield "tool", TOOL_STATUS.get(tool, "Working…")
+                yield "tool", tool_status(tool)
             continue
         choice = choices[0]
         # Reasoning isn't part of the OpenAI schema; Hermes sends it as an extra field on some models.

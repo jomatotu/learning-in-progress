@@ -28,7 +28,7 @@ export function HermesProgress({ status, reasoning }: HermesProgressProps) {
       {reasoning && (
         <pre
           ref={box}
-          aria-label="Hermes reasoning"
+          aria-label="Reasoning"
           className="max-h-48 overflow-y-auto rounded-lg border bg-muted/40 p-3 text-xs whitespace-pre-wrap text-muted-foreground"
         >
           {reasoning}

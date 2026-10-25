@@ -174,3 +174,10 @@ def test_stream_hermes_json_raises_after_second_invalid_reply(monkeypatch):
     with pytest.raises(hermes.HermesError, match="valid JSON"):
         asyncio.run(collect(hermes.stream_hermes_json("Pick one", Pick, "lip-test-1")))
 
+
+
+def test_every_browser_tool_gets_the_browser_status():
+    assert hermes.tool_status("browser_navigate") == hermes.BROWSER_STATUS
+    assert hermes.tool_status("browser_click") == hermes.BROWSER_STATUS
+    assert hermes.tool_status("terminal") == "Running code…"
+    assert hermes.tool_status("something_new") == "Working…"

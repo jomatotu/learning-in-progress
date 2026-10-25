@@ -12,6 +12,8 @@ from app.routers import generate
 client = TestClient(app)
 
 PAGE = "<!DOCTYPE html><html><body><h1>Osmose</h1></body></html>"
+WITH_CSP = "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"
+FIXED = "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1><button>Next</button></body></html>"
 REQUEST = {
     "profile": {"name": "Peter", "challenges": ["ADHD"], "interests": ["Minecraft"]},
     "answers": [{"question": "Reading or doing?", "answer": "Doing"}],
@@ -19,15 +21,17 @@ REQUEST = {
 }
 
 
-def fake_stream(monkeypatch, pieces, error=None):
+# Fakes both Hermes sessions of a generation: the first writes the page, the second tests it.
+def fake_stream(monkeypatch, pieces, error=None, verify=(), verify_error=None):
     calls = []
 
     async def stream_hermes(message, session_id=None):
+        writing = session_id.startswith("lip-generate-")
         calls.append({"message": message, "session_id": session_id})
-        for piece in pieces:
+        for piece in pieces if writing else verify:
             yield piece
-        if error:
-            raise error
+        if error if writing else verify_error:
+            raise error if writing else verify_error
 
     monkeypatch.setattr(generate.hermes, "stream_hermes", stream_hermes)
     return calls
@@ -51,11 +55,11 @@ def test_generate_streams_progress_then_page_with_csp(monkeypatch):
     )
 
     assert events() == [
-        ("status", {"text": "Hermes is planning your page…"}),
+        ("status", {"text": generate.PLAN_STATUS}),
         ("reasoning", {"text": "x" * 250}),
         ("status", {"text": "Searching the web…"}),
         ("status", {"text": "Writing the page… 0 KB"}),
-        ("done", {"html": "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"}),
+        ("done", {"html": WITH_CSP}),
     ]
 
 
@@ -126,7 +130,7 @@ def test_generate_strips_text_and_fences_around_page(monkeypatch):
 def test_generate_reports_reply_without_page(monkeypatch):
     fake_stream(monkeypatch, [("text", "Sorry, I hit a rate limit.")])
 
-    assert events()[-1] == ("error", {"message": "Hermes did not return a page. Try again."})
+    assert events()[-1] == ("error", {"message": "The page could not be built. Try again."})
 
 
 def test_generate_reports_hermes_failure(monkeypatch):
@@ -136,16 +140,73 @@ def test_generate_reports_hermes_failure(monkeypatch):
         error=APIConnectionError(request=httpx.Request("POST", "http://hermes")),
     )
 
-    assert events()[-1] == ("error", {"message": "Hermes stopped responding. Try again."})
+    assert events()[-1] == ("error", {"message": "Something went wrong. Try again."})
 
 
 def test_generate_reports_failed_hermes_turn(monkeypatch):
     fake_stream(monkeypatch, [], error=hermes.HermesError("Hermes turn error"))
 
-    assert events()[-1] == ("error", {"message": "Hermes stopped responding. Try again."})
+    assert events()[-1] == ("error", {"message": "Something went wrong. Try again."})
 
 
 def test_generate_rejects_empty_material():
     response = client.post("/api/generate", json={**REQUEST, "material": ""})
 
     assert response.status_code == 422
+
+
+def test_generate_sends_the_tested_page_when_hermes_used_a_browser(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(
+        monkeypatch,
+        [("text", PAGE)],
+        verify=[("tool", hermes.BROWSER_STATUS), ("text", f"Fixed: added the Next button.\n{FIXED}")],
+    )
+
+    result = events()
+
+    assert ("status", {"text": hermes.BROWSER_STATUS}) in result
+    # One CSP only, although the tested page came back with ours already in it.
+    assert result[-1] == ("done", {"html": FIXED})
+
+
+def test_generate_gives_the_tester_the_theme_and_page_in_its_own_session(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    calls = fake_stream(monkeypatch, [("text", PAGE)])
+
+    client.post("/api/generate", json={**REQUEST, "theme": "memory-palace"})
+
+    prompt, session_id = calls[1]["message"], calls[1]["session_id"]
+    assert session_id.startswith("lip-verify-")
+    assert themes.THEMES["memory-palace"] in prompt
+    assert f"<page>\n{WITH_CSP}\n</page>" in prompt
+    assert f"{session_id}.html" in prompt
+    assert "{{" not in prompt
+
+
+def test_generate_keeps_the_written_page_when_testing_used_no_browser(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(monkeypatch, [("text", PAGE)], verify=[("text", FIXED)])
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+
+
+def test_generate_keeps_the_written_page_when_testing_returns_no_page(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(monkeypatch, [("text", PAGE)], verify=[("tool", hermes.BROWSER_STATUS), ("text", "Checked: all fine.")])
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+
+
+def test_generate_keeps_the_written_page_when_testing_fails(monkeypatch):
+    monkeypatch.setattr(generate, "VERIFY_PAGES", True)
+    fake_stream(monkeypatch, [("text", PAGE)], verify_error=hermes.HermesError("Hermes turn error"))
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+
+
+def test_generate_skips_testing_while_verify_pages_is_off(monkeypatch):
+    calls = fake_stream(monkeypatch, [("text", PAGE)])
+
+    assert events()[-1] == ("done", {"html": WITH_CSP})
+    assert len(calls) == 1

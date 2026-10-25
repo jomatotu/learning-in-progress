@@ -1,0 +1,71 @@
+## Step 2: Design — Calm reading
+
+Build a "Calm reading" page: the material as a set of short story cards shown one at a time in a quiet, uncluttered layout, with a reading ruler that hides the lines around the one being read, and simple comfort controls. Follow this design exactly. Use Step 1 only to tune the parts listed under "Adapt to this student". Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- Removing everything that is not needed helps students learn, because extra details pull attention away from the main idea (Mayer, coherence principle).
+- Wider spacing between letters and lines helped children with dyslexia read faster and more accurately (Zorzi et al. 2012, PNAS).
+- Short parts that the student moves through at their own pace lower mental load (Mayer, segmenting principle).
+- A reading ruler hides the surrounding lines so the eye stays on one line. Many readers say it helps them keep their place; the research on rulers is small, so the student can turn it off.
+
+Use these short source names in the "Why it looks like this" section.
+
+### Who it fits
+
+Students with ADHD who get distracted by busy pages, students who feel overwhelmed by long text, and students with dyslexia or visual stress who lose their place while reading. It works for any material that is mostly text.
+
+### Screens, in this order
+
+1. **Start screen**: the topic title, one sentence on what the student will read, "8 cards, about 8 minutes", and a large "Start reading" button.
+2. **Card screens**, one card visible at a time:
+   - "Card 3 of 8" and a progress bar.
+   - The card: a short heading and 2 to 4 short sentences, each under 20 words, with 1 to 2 key terms in bold.
+   - A "Read it to me" button that reads the card aloud and highlights each word as it is spoken.
+   - "Back" and "Next card" at the bottom, always in the same place.
+3. **Check screen**, after every 3 to 4 cards: one question with 3 options. Feedback shows right or wrong with a symbol and a word, and one sentence why. A wrong answer offers "Try again"; nothing blocks progress.
+4. **Done screen**: a short, calm message, the card headings as a ticked list, and "Read again".
+
+Numbers: 6 to 10 cards, 2 to 3 checks.
+
+### Reading ruler
+
+- A "Ruler" toggle in the header, on by default.
+- When on, a horizontal band the height of about 2 lines stays clear over the card text, and everything above and below it on the card is dimmed to about 30% opacity.
+- Build it as two panels in the card's background color at about 70% opacity, one above and one below the clear band, absolutely positioned over the card text box only, with pointer-events: none so text stays clickable. Don't wrap or measure each line.
+- The ruler follows the pointer over the card text. With the keyboard, the card text has one tab stop, and Up and Down arrows move the ruler one line height while it has focus.
+- When the card is read aloud, the ruler moves to the word being spoken, using that word span's position.
+- The ruler never covers buttons and turns off with the toggle.
+
+### Comfort controls (in the header, exactly these)
+
+- "Ruler" on/off.
+- Text size: "A" and "A+" (18px and 22px).
+- "Wide spacing" on/off: line height 1.9, letter spacing 0.04em, word spacing 0.08em.
+- Voice speed: "Slow", "Normal", "Quick" (rates 0.8, 0.95, 1.15), shown only when speechSynthesis exists.
+
+Use aria-pressed on each toggle button.
+
+### Always
+
+- A calm palette: a soft green-grey or warm off-white background, one muted accent color, no bright colors, body text still at high contrast (dark text, at least 7:1), no images except at most one small inline SVG per card when it really helps the idea.
+- Wide margins and plenty of space. Nothing else on the screen except the header controls, the card, and the bottom buttons.
+- Keyboard: Right arrow or Enter goes to the next card, Left arrow goes back, except while a control has focus.
+- Nothing plays, advances, or times out on its own.
+- Read aloud uses one speechSynthesis utterance per sentence and the word boundary event, with a timer fallback for voices that send no boundary events. If speechSynthesis is missing, hide the read-aloud buttons and the voice speed control.
+
+### Adapt to this student
+
+- Start with "Wide spacing" on and text size "A+" if the profile mentions dyslexia or visual stress.
+- Use 2 sentences per card and more cards if the profile shows ADHD, overwhelm, or low focus. Otherwise up to 4 sentences.
+- Start the voice speed at "Slow" if reading is very hard for them, and at "Quick" if they say listening works well.
+- Examples: base one card's example on the student's interests, marked as "Example:".
+- Tone: match the student's age. Friendly, never childish for older students.
+
+### Don't
+
+- Don't show more than one card at a time, or the full material text anywhere.
+- Don't add sidebars, menus, badges, scores, timers, animations, or decorative pictures.
+- Don't drop key facts to make the cards shorter. Add cards instead.
+- Don't use italics, all caps, or justified text.
+- Don't start speech or move the ruler on its own.

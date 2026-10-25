@@ -220,6 +220,7 @@ describe('ApplicationForm', () => {
     expect(bodyOf('/api/assess')).toEqual({
       profile: hermesProfile,
       answers: [],
+      material: 'Fractions\n\nHalves and quarters.',
     })
 
     await user.click(await screen.findByRole('button', { name: 'Listening' }))
