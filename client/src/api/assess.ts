@@ -9,7 +9,12 @@ export type Answer = { question: string; answer: string }
 
 // Learning page formats the server can generate; matches the files in server/app/prompts/themes.
 export type ThemeName =
-  'chunked' | 'fill-blanks' | 'hobby-framing' | 'read-aloud' | 'teach-the-ai'
+  | 'chunked'
+  | 'fill-blanks'
+  | 'hobby-framing'
+  | 'read-aloud'
+  | 'sim-missions'
+  | 'teach-the-ai'
 
 // Names to show the student; match the titles in the theme files.
 export const themeTitles: Record<ThemeName, string> = {
@@ -17,6 +22,7 @@ export const themeTitles: Record<ThemeName, string> = {
   'fill-blanks': 'Fill in the blanks',
   'hobby-framing': 'Hobby framing',
   'read-aloud': 'Read aloud',
+  'sim-missions': 'Simulation missions',
   'teach-the-ai': 'Teach the AI',
 }
 
