@@ -8,7 +8,8 @@ import { Scene3D } from './Scene3D'
 export const { registry } = defineRegistry(catalog, {
   components: {
     Lesson: ({ props, children }) => (
-      <article className="grid gap-6">
+      // Each block fades in as it lands; @starting-style only runs when an element first renders.
+      <article className="grid gap-6 *:transition-opacity *:duration-500 *:motion-safe:starting:opacity-0">
         <h2 className="text-3xl font-semibold tracking-tight text-ink">
           {props.title}
         </h2>

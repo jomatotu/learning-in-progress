@@ -1,21 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Spec } from '@json-render/core'
-import { Loader2, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import type { StudentProfile } from '@/api/profile'
 import { errorMessage } from '@/api/errorMessage'
 import { generateSolution } from './solution'
 import { LessonView } from '@/catalog/LessonView'
+import { HermesProgress } from '@/components/HermesProgress'
+import type { MorphStep } from '@/components/MorphLoader'
 import { defineMessages, useMessages } from '@/lib/i18n'
 
 const messages = defineMessages({
   de: {
-    // Rotating status lines shown while Hermes builds the Solution Page.
-    buzzwords: [
-      'Dein Profil wird gelesen…',
-      'Deine Lösung wird gebaut…',
-      'Das Material wird angepasst…',
-      'Alles wird geprüft…',
-    ],
     kicker: 'Für dich gebaut',
     title: 'Hier entsteht',
     titleEm: 'deine magische Lösung.',
@@ -27,12 +22,6 @@ const messages = defineMessages({
       'Das hat nicht geklappt. Prüf deine Verbindung und versuch es nochmal.',
   },
   en: {
-    buzzwords: [
-      'Reading your profile…',
-      'Building your solution…',
-      'Adapting the material…',
-      'Checking everything…',
-    ],
     kicker: 'Built for you',
     title: 'This is where',
     titleEm: 'your magic solution takes shape.',
@@ -43,6 +32,8 @@ const messages = defineMessages({
     failed: 'That didn’t work. Check your connection and try again.',
   },
 })
+
+const READING_MS = 20_000
 
 // The Magic Page: shown after "Build my tool". "Lösung öffnen" has Hermes build the
 // student's lesson as a json-render spec, then renders it here with our catalog.
@@ -57,33 +48,31 @@ export function MagicStep({
   profileJson: StudentProfile
 }) {
   const t = useMessages(messages)
-  const { buzzwords } = t
   const [status, setStatus] = useState<'idle' | 'generating' | 'error'>('idle')
   const [error, setError] = useState('')
   const [spec, setSpec] = useState<Spec | null>(null)
-  const [step, setStep] = useState(0)
-  const buzzword = buzzwords[step % buzzwords.length]
-  const interval = useRef<number>(undefined)
+  // Reading first, then shaping; this call streams no progress, so time decides.
+  const [step, setStep] = useState<MorphStep>(0)
+  const timer = useRef<number>(undefined)
 
   const start = () => {
     setStatus('generating')
-    interval.current = window.setInterval(() => {
-      setStep((current) => current + 1)
-    }, 2500)
+    setStep(0)
+    timer.current = window.setTimeout(() => setStep(1), READING_MS)
     generateSolution(profileJson).then(
       (reply) => {
-        window.clearInterval(interval.current)
+        window.clearTimeout(timer.current)
         setSpec(reply.spec)
       },
       (e: unknown) => {
-        window.clearInterval(interval.current)
+        window.clearTimeout(timer.current)
         setError(errorMessage(e, t.failed))
         setStatus('error')
       },
     )
   }
 
-  useEffect(() => () => window.clearInterval(interval.current), [])
+  useEffect(() => () => window.clearTimeout(timer.current), [])
 
   if (spec) {
     return (
@@ -114,41 +103,14 @@ export function MagicStep({
         </h1>
         <p>{status === 'generating' ? t.waiting : t.ready(topic)}</p>
 
-        {status === 'generating' && (
-          <div
-            className="mb-8 flex items-center justify-center gap-2"
-            aria-hidden
-          >
-            <span className="flex gap-2">
-              {buzzwords.map((b) => (
-                <i
-                  key={b}
-                  className={`h-1.5 w-8 rounded-full transition-colors ${
-                    b === buzzword ? 'bg-[#6955c6]' : 'bg-[#6955c6]/25'
-                  }`}
-                />
-              ))}
-            </span>
-          </div>
+        {status === 'generating' ? (
+          // No progress stream here, so the raw view shows the elapsed time only.
+          <HermesProgress status="" reasoning="" step={step} shape />
+        ) : (
+          <button className="magic-button" onClick={start}>
+            <Sparkles size={18} /> {t.open}
+          </button>
         )}
-
-        <button
-          className="magic-button disabled:cursor-wait disabled:opacity-70"
-          disabled={status === 'generating'}
-          onClick={start}
-          aria-live="polite"
-        >
-          {status === 'generating' ? (
-            <>
-              <Loader2 className="animate-spin" size={18} aria-hidden />
-              {buzzword}
-            </>
-          ) : (
-            <>
-              <Sparkles size={18} /> {t.open}
-            </>
-          )}
-        </button>
         {status === 'error' && (
           <p role="alert" className="magic-back text-[13px]">
             {error}

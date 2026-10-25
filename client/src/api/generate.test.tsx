@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { act, renderHook, waitFor } from '@testing-library/react'
-import { useGeneratePage, type GenerateInput } from './generate'
+import { useGeneratePage, withPatch, type GenerateInput } from './generate'
 
 const input: GenerateInput = {
   profile: {
@@ -68,6 +68,36 @@ describe('useGeneratePage', () => {
     })
   })
 
+  it('builds the lesson from patches as they arrive and ends with the whole spec', async () => {
+    const lesson = { type: 'Lesson', props: { title: 'Osmose' }, children: [] }
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(
+          sse(
+            ['patch', { patch: { op: 'add', path: '/root', value: 'lesson' } }],
+            [
+              'patch',
+              { patch: { op: 'add', path: '/elements/lesson', value: lesson } },
+            ],
+            ['done', { spec: { root: 'lesson', elements: { lesson } } }],
+          ),
+        ),
+    )
+    const { result } = renderHook(() => useGeneratePage(), { wrapper })
+
+    act(() => result.current.mutate(input))
+
+    await waitFor(() =>
+      expect(result.current.spec).toEqual({
+        root: 'lesson',
+        elements: { lesson },
+      }),
+    )
+    expect(result.current.html).toBeUndefined()
+  })
+
   it('fails with the message from an error event', async () => {
     vi.stubGlobal(
       'fetch',
@@ -107,5 +137,21 @@ describe('useGeneratePage', () => {
         'Der Server hat vor dem Ende aufgehört.',
       ),
     )
+  })
+})
+
+describe('withPatch', () => {
+  it('returns a new spec and leaves the old one untouched', () => {
+    const before = { root: 'lesson', elements: {} }
+    const chunk = { type: 'Chunk', props: {}, children: [] }
+
+    const after = withPatch(before, {
+      op: 'add',
+      path: '/elements/c1',
+      value: chunk,
+    })
+
+    expect(after.elements).toEqual({ c1: chunk })
+    expect(before.elements).toEqual({})
   })
 })
