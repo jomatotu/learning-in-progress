@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router'
 import { SolutionRoute } from './SolutionRoute'
+// Vite's ?raw import has a default export the linter can't see.
+// oxlint-disable-next-line import/default
 import source from './SolutionRoute.tsx?raw'
 
 describe('SolutionRoute', () => {

@@ -98,6 +98,8 @@ export function SandboxPage({ load }: { load: Loader | undefined }) {
         <Suspense
           fallback={<p className="p-8 text-graphite">Seite wird geladen …</p>}
         >
+          {/* Page is memoized per loader above, so it keeps its state across renders. */}
+          {/* oxlint-disable-next-line react/static-components */}
           <Page />
         </Suspense>
       </PageErrorBoundary>
