@@ -12,6 +12,52 @@ function stubFetch() {
 
 afterEach(() => {
   vi.unstubAllGlobals()
+  localStorage.clear()
+})
+
+function sentAuth(fetchMock: ReturnType<typeof stubFetch>, call = 0) {
+  const headers = fetchMock.mock.calls[call][1]?.headers as Record<
+    string,
+    string
+  >
+  return headers.Authorization
+}
+
+describe('access code', () => {
+  it('sends the stored access code as the Basic password', async () => {
+    localStorage.setItem('lip-access-code', 'abc')
+    const fetchMock = stubFetch()
+    fetchMock.mockResolvedValue(json({ ok: true }))
+
+    await request('/thing')
+
+    expect(sentAuth(fetchMock)).toBe(`Basic ${btoa('x:abc')}`)
+  })
+
+  it('asks for the code once on 401, keeps it, and retries', async () => {
+    vi.stubGlobal(
+      'prompt',
+      vi.fn(() => ' abc '),
+    )
+    const fetchMock = stubFetch()
+    fetchMock
+      .mockResolvedValueOnce(json({ detail: 'access_required' }, 401))
+      .mockResolvedValueOnce(json({ ok: true }))
+
+    expect(await request('/thing')).toEqual({ ok: true })
+    expect(localStorage.getItem('lip-access-code')).toBe('abc')
+    expect(sentAuth(fetchMock, 1)).toBe(`Basic ${btoa('x:abc')}`)
+  })
+
+  it('sends the code on streaming requests too', async () => {
+    localStorage.setItem('lip-access-code', 'abc')
+    const fetchMock = stubFetch()
+    fetchMock.mockResolvedValue(new Response('', { status: 200 }))
+
+    await streamRequest('/stream', { body: {}, onEvent: () => {} })
+
+    expect(sentAuth(fetchMock)).toBe(`Basic ${btoa('x:abc')}`)
+  })
 })
 
 describe('request', () => {

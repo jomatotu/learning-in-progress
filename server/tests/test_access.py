@@ -31,13 +31,14 @@ def post(client: TestClient, **kwargs):
     return client.post("/api/solution", json=PROFILE, **kwargs)
 
 
-def test_gated_route_without_credentials_is_401_with_challenge():
+# No WWW-Authenticate challenge: the app asks for the code itself, so the browser never pops its own prompt.
+def test_gated_route_without_credentials_is_401_without_browser_prompt():
     use_code("abc")
     with TestClient(app) as client:
         response = post(client)
     assert response.status_code == 401
     assert response.json() == {"detail": "access_required"}
-    assert response.headers["WWW-Authenticate"].startswith("Basic")
+    assert "WWW-Authenticate" not in response.headers
 
 
 @pytest.mark.parametrize("code", [None, ""])
@@ -54,7 +55,7 @@ def test_wrong_password_is_401():
     with TestClient(app) as client:
         response = post(client, auth=("x", "nope"))
     assert response.status_code == 401
-    assert response.headers["WWW-Authenticate"].startswith("Basic")
+    assert "WWW-Authenticate" not in response.headers
 
 
 def reach_route(monkeypatch):
@@ -94,9 +95,6 @@ def test_wrong_passwords_count_against_the_limit():
     assert codes == [401] * limit + [429]
 
 
-CHALLENGE = 'Basic realm="Learning in Progress", charset="UTF-8"'
-
-
 @pytest.mark.parametrize(
     "header",
     [
@@ -107,13 +105,13 @@ CHALLENGE = 'Basic realm="Learning in Progress", charset="UTF-8"'
         "Basic",
     ],
 )
-def test_malformed_authorization_is_401_with_full_challenge(header):
+def test_malformed_authorization_is_401(header):
     use_code("abc")
     with TestClient(app) as client:
         response = post(client, headers={"Authorization": header})
     assert response.status_code == 401
     assert response.json() == {"detail": "access_required"}
-    assert response.headers["WWW-Authenticate"] == CHALLENGE
+    assert "WWW-Authenticate" not in response.headers
 
 
 def basic(user: str, password: str) -> dict[str, str]:

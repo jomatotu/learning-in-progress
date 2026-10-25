@@ -14,6 +14,53 @@ export type RequestOptions = {
   timeoutMs?: number
 }
 
+const ACCESS_KEY = 'lip-access-code'
+
+// The shared access code, kept in this browser so the student types it once. Hermes-written pages run in an
+// opaque-origin sandbox and can't read it.
+function storedCode(): string {
+  try {
+    return localStorage.getItem(ACCESS_KEY) ?? ''
+  } catch {
+    return ''
+  }
+}
+
+function accessHeader(): Record<string, string> {
+  const code = storedCode()
+  if (!code) return {}
+  const bytes = new TextEncoder().encode(`x:${code}`)
+  return {
+    Authorization: `Basic ${btoa(Array.from(bytes, (b) => String.fromCharCode(b)).join(''))}`,
+  }
+}
+
+// Asks for the code after a 401 and keeps it; false when the student cancels.
+function askForCode(): boolean {
+  const code = window.prompt('Zugangscode für Learning in Progress')?.trim()
+  if (!code) return false
+  try {
+    localStorage.setItem(ACCESS_KEY, code)
+  } catch {
+    // Storage blocked: the code still works for this retry.
+  }
+  return true
+}
+
+// fetch with the access code; one retry after asking for it when the server says it's missing or wrong.
+async function fetchWithAccess(
+  url: string,
+  {
+    headers,
+    ...init
+  }: Omit<RequestInit, 'headers'> & { headers: Record<string, string> },
+): Promise<Response> {
+  const send = () =>
+    fetch(url, { ...init, headers: { ...headers, ...accessHeader() } })
+  const response = await send()
+  return response.status === 401 && askForCode() ? send() : response
+}
+
 // Sends a JSON request to /api and returns the parsed response.
 export async function request<T>(
   path: string,
@@ -21,7 +68,7 @@ export async function request<T>(
 ): Promise<T> {
   let response: Response
   try {
-    response = await fetch(`/api${path}`, {
+    response = await fetchWithAccess(`/api${path}`, {
       method,
       headers: body === undefined ? {} : { 'Content-Type': 'application/json' },
       body: body === undefined ? undefined : JSON.stringify(body),
@@ -59,7 +106,7 @@ export async function streamRequest(
 ): Promise<void> {
   let response: Response
   try {
-    response = await fetch(`/api${path}`, {
+    response = await fetchWithAccess(`/api${path}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
