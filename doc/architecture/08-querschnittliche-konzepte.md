@@ -30,7 +30,7 @@ Die Sprache erzeugter Inhalte ist nicht entschieden. Hermes-Fragen, Theme-Begrü
 
 ## 8.3 Persistenz und Datenschutz
 
-Entscheidung [AE-8](09-architekturentscheidungen.md): Lernendendaten bleiben auf dem Gerät. Das Produkt hat keine Anmeldung und keinen Datenbestand beim Betreiber. Name, Lernphase, Interessen, Ziel, Freitext-Material, Fragebogen- und Assessment-Antworten, Notizen und erzeugtes HTML dürfen im Browser-Speicher liegen. Diese Ablage ist die Arbeitskopie, mit der ein Tab neu geladen und ein Lernlauf in einem weiteren Tab geöffnet werden kann.
+Lernendendaten bleiben auf dem Gerät. Das Produkt hat keine Anmeldung und keinen Datenbestand beim Betreiber. Name, Lernphase, Interessen, Ziel, Freitext-Material, Fragebogen- und Assessment-Antworten, Notizen und erzeugtes HTML dürfen im Browser-Speicher liegen. Diese Ablage ist die Arbeitskopie, mit der ein Tab neu geladen und ein Lernlauf in einem weiteren Tab geöffnet werden kann.
 
 Der Formularentwurf liegt in `sessionStorage`. Ein Neuladen des Tabs behält die Eingaben. Dateiobjekte schreibt der Client nicht. Uploads sind in der Oberfläche deaktiviert; in einem Lernlauf stehen höchstens Dateinamen. Ein Lernlauf liegt in `localStorage`: die Generierung öffnet `/learn/{id}` in einem neuen Tab, und dieser Tab teilt weder den React-Zustand noch den `sessionStorage` des Formulars. Fertige HTML-Seiten liegen unter demselben Präfix, damit ein Neuladen keinen neuen Hermes-Lauf startet. Die Ausführung dieses HTML ist in [8.1](#81-generative-ui) beschrieben.
 
