@@ -18,17 +18,17 @@ TIMEOUT_SECONDS = 600
 
 # Plain one-line status per Hermes tool, so the student never sees raw tool names or commands.
 TOOL_STATUS = {
-    "web_search": "Searching the web…",
-    "web_extract": "Reading a web page…",
-    "terminal": "Running code…",
-    "execute_code": "Running code…",
-    "read_file": "Reading files…",
-    "search_files": "Reading files…",
-    "write_file": "Writing files…",
-    "patch": "Writing files…",
-    "skill_view": "Checking its notes…",
-    "skills_list": "Checking its notes…",
-    "memory": "Checking its memory…",
+    "web_search": "Suche im Web…",
+    "web_extract": "Lese eine Webseite…",
+    "terminal": "Führe Code aus…",
+    "execute_code": "Führe Code aus…",
+    "read_file": "Lese Dateien…",
+    "search_files": "Lese Dateien…",
+    "write_file": "Schreibe Dateien…",
+    "patch": "Schreibe Dateien…",
+    "skill_view": "Schaue in seine Notizen…",
+    "skills_list": "Schaue in seine Notizen…",
+    "memory": "Schaue in sein Gedächtnis…",
 }
 
 
@@ -97,7 +97,7 @@ async def stream_hermes(
         if not choices:
             tool = getattr(chunk, "tool", None)
             if tool and getattr(chunk, "status", None) == "running":
-                yield "tool", TOOL_STATUS.get(tool, "Working…")
+                yield "tool", TOOL_STATUS.get(tool, "Arbeitet…")
             continue
         choice = choices[0]
         # Reasoning isn't part of the OpenAI schema; Hermes sends it as an extra field on some models.

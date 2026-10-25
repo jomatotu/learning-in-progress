@@ -23,7 +23,7 @@ describe('HermesProgress', () => {
   it('shows the reasoning in a box', () => {
     render(<HermesProgress status="" reasoning="First the research." />)
 
-    expect(screen.getByLabelText('Hermes reasoning')).toHaveTextContent(
+    expect(screen.getByLabelText('Hermes denkt')).toHaveTextContent(
       'First the research.',
     )
   })

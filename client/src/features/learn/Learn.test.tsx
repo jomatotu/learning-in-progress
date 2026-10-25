@@ -83,6 +83,6 @@ describe('Learn', () => {
   it('says so when the run is missing', () => {
     renderAt('/learn/nope')
 
-    expect(screen.getByRole('alert')).toHaveTextContent('not found')
+    expect(screen.getByRole('alert')).toHaveTextContent('nicht gefunden')
   })
 })

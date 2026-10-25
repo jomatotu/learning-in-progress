@@ -74,9 +74,9 @@ def prepare_page(reply: str) -> str | None:
 def progress_text(reply: str) -> str:
     start = DOCTYPE.search(reply)
     if start:
-        return f"Writing the page… {(len(reply) - start.start()) // 1000} KB"
+        return f"Die Seite wird geschrieben… {(len(reply) - start.start()) // 1000} KB"
     lines = [line.strip() for line in reply.splitlines() if line.strip()]
-    return lines[-1][:200] if lines else "Thinking…"
+    return lines[-1][:200] if lines else "Denkt nach…"
 
 
 # Runs one generation and yields server-sent events: "status" (the current step) and "reasoning" (Hermes thinking,
@@ -84,7 +84,7 @@ def progress_text(reply: str) -> str:
 async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
     started = time.monotonic()
     reply = ""
-    status = "Hermes is planning your page…"
+    status = "Hermes plant deine Seite…"
     yield sse("status", {"text": status})
     reasoning = TextBatch()
     try:
@@ -107,18 +107,18 @@ async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
             yield sse("reasoning", {"text": text})
     except TimeoutError:
         logger.warning("Generation timed out after %.0fs", time.monotonic() - started)
-        yield sse("error", {"message": "Hermes took too long. Try again."})
+        yield sse("error", {"message": "Das hat zu lange gedauert. Versuch es gleich nochmal."})
         return
     except (hermes.HermesError, OpenAIError):
         logger.exception("Generation failed after %.0fs", time.monotonic() - started)
-        yield sse("error", {"message": "Hermes stopped responding. Try again."})
+        yield sse("error", {"message": "Hermes antwortet gerade nicht. Versuch es nochmal."})
         return
 
     html = prepare_page(reply)
     if html is None:
         # Logs only the size, because the reply can repeat the student's needs data.
         logger.warning("Generation returned no page (%d characters)", len(reply))
-        yield sse("error", {"message": "Hermes did not return a page. Try again."})
+        yield sse("error", {"message": "Hermes hat keine Seite geliefert. Versuch es nochmal."})
         return
     logger.info("Generation done in %.0fs, %d KB", time.monotonic() - started, len(html) // 1000)
     yield sse("done", {"html": html})

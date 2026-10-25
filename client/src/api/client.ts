@@ -36,7 +36,7 @@ export async function request<T>(
     const message =
       typeof data.detail === 'string'
         ? data.detail
-        : `Request failed with status ${response.status}.`
+        : `Die Anfrage ist fehlgeschlagen (Status ${response.status}).`
     throw new ApiError(message, response.status)
   }
 
@@ -74,7 +74,7 @@ export async function streamRequest(
     const message =
       typeof data.detail === 'string'
         ? data.detail
-        : `Request failed with status ${response.status}.`
+        : `Die Anfrage ist fehlgeschlagen (Status ${response.status}).`
     throw new ApiError(message, response.status)
   }
 
@@ -135,13 +135,13 @@ export async function streamResult<T>(
       }
     },
   })
-  if (!result) throw new ApiError('The server stopped before it was done.')
+  if (!result) throw new ApiError('Der Server hat vor dem Ende aufgehört.')
   return result.data
 }
 
 function toApiError(error: unknown): ApiError {
   if (error instanceof DOMException && error.name === 'TimeoutError') {
-    return new ApiError('The request timed out.')
+    return new ApiError('Das hat zu lange gedauert. Versuch es gleich nochmal.')
   }
-  return new ApiError('Could not reach the server.')
+  return new ApiError('Der Server ist gerade nicht erreichbar.')
 }

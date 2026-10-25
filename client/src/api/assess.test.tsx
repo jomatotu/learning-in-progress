@@ -88,7 +88,10 @@ describe('useAssess', () => {
       vi
         .fn<typeof fetch>()
         .mockResolvedValue(
-          sse(['error', { message: "Hermes didn't answer. Try again." }]),
+          sse([
+            'error',
+            { message: 'Hermes hat nicht geantwortet. Versuch es nochmal.' },
+          ]),
         ),
     )
     const { result } = renderHook(() => useAssess(), { wrapper })
@@ -97,7 +100,7 @@ describe('useAssess', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        "Hermes didn't answer. Try again.",
+        'Hermes hat nicht geantwortet. Versuch es nochmal.',
       ),
     )
   })

@@ -19,7 +19,8 @@ export function Learn() {
     return (
       <main className="p-6">
         <p role="alert">
-          This learning page was not found. Start again from the playground.
+          Diese Lernseite wurde nicht gefunden. Fang noch einmal im Playground
+          an.
         </p>
       </main>
     )
@@ -29,7 +30,7 @@ export function Learn() {
     <div className="fixed inset-0 flex flex-col bg-background">
       <div
         role="tablist"
-        aria-label="Themes"
+        aria-label="Themen"
         className="flex flex-wrap gap-2 border-b p-2"
       >
         {run.themes.map((pick) => (
@@ -100,7 +101,7 @@ function ThemePanel({ id, run, theme, hidden }: ThemePanelProps) {
                 {errorMessage(generate.error)}
               </p>
               <Button className="self-start" onClick={start}>
-                Try again
+                Nochmal versuchen
               </Button>
             </>
           ) : (

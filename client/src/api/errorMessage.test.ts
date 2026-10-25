@@ -17,9 +17,9 @@ describe('errorMessage', () => {
   })
 
   it('keeps other messages as they are', () => {
-    expect(errorMessage(new ApiError('Could not reach the server.'))).toBe(
-      'Could not reach the server.',
-    )
+    expect(
+      errorMessage(new ApiError('Der Server ist gerade nicht erreichbar.')),
+    ).toBe('Der Server ist gerade nicht erreichbar.')
   })
 
   it('uses the fallback for non-Error values', () => {

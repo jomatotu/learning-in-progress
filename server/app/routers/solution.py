@@ -65,13 +65,13 @@ async def create_solution(request: SolutionRequest) -> SolutionReply:
             )
     except TimeoutError:
         logger.warning("Solution generation timed out after %.0fs", time.monotonic() - started)
-        raise HTTPException(status_code=504, detail="Das hat zu lange gedauert. Versuch es nochmal.")
+        raise HTTPException(status_code=504, detail="Das hat zu lange gedauert. Versuch es gleich nochmal.")
     except openai.AuthenticationError:
         # Not retryable: the HERMES_API_KEY in server/.env was rejected by the Hermes gateway.
         logger.error("Hermes rejected the API key — check HERMES_API_KEY in server/.env")
         raise HTTPException(
             status_code=502,
-            detail="Hermes hat den API-Schlüssel abgelehnt. HERMES_API_KEY muss erneuert werden.",
+            detail="Hermes ist gerade nicht erreichbar. Bitte sag dem Team Bescheid.",
         )
     except (hermes.HermesError, OpenAIError):
         logger.exception("Solution generation failed after %.0fs", time.monotonic() - started)

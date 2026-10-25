@@ -47,24 +47,24 @@ def events():
 def test_generate_streams_progress_then_page_with_csp(monkeypatch):
     fake_stream(
         monkeypatch,
-        [("reasoning", "x" * 250), ("tool", "Searching the web…"), ("text", PAGE)],
+        [("reasoning", "x" * 250), ("tool", "Suche im Web…"), ("text", PAGE)],
     )
 
     assert events() == [
-        ("status", {"text": "Hermes is planning your page…"}),
+        ("status", {"text": "Hermes plant deine Seite…"}),
         ("reasoning", {"text": "x" * 250}),
-        ("status", {"text": "Searching the web…"}),
-        ("status", {"text": "Writing the page… 0 KB"}),
+        ("status", {"text": "Suche im Web…"}),
+        ("status", {"text": "Die Seite wird geschrieben… 0 KB"}),
         ("done", {"html": "<!DOCTYPE html>" + generate.CSP + "<html><body><h1>Osmose</h1></body></html>"}),
     ]
 
 
 def test_generate_sends_status_only_when_it_changes(monkeypatch):
-    fake_stream(monkeypatch, [("tool", "Searching the web…"), ("reasoning", "a"), ("tool", "Searching the web…"), ("text", PAGE)])
+    fake_stream(monkeypatch, [("tool", "Suche im Web…"), ("reasoning", "a"), ("tool", "Suche im Web…"), ("text", PAGE)])
 
     statuses = [data["text"] for event, data in events() if event == "status"]
 
-    assert statuses.count("Searching the web…") == 1
+    assert statuses.count("Suche im Web…") == 1
 
 
 def test_generate_puts_profile_answers_and_material_into_prompt(monkeypatch):
@@ -126,7 +126,7 @@ def test_generate_strips_text_and_fences_around_page(monkeypatch):
 def test_generate_reports_reply_without_page(monkeypatch):
     fake_stream(monkeypatch, [("text", "Sorry, I hit a rate limit.")])
 
-    assert events()[-1] == ("error", {"message": "Hermes did not return a page. Try again."})
+    assert events()[-1] == ("error", {"message": "Hermes hat keine Seite geliefert. Versuch es nochmal."})
 
 
 def test_generate_reports_hermes_failure(monkeypatch):
@@ -136,13 +136,13 @@ def test_generate_reports_hermes_failure(monkeypatch):
         error=APIConnectionError(request=httpx.Request("POST", "http://hermes")),
     )
 
-    assert events()[-1] == ("error", {"message": "Hermes stopped responding. Try again."})
+    assert events()[-1] == ("error", {"message": "Hermes antwortet gerade nicht. Versuch es nochmal."})
 
 
 def test_generate_reports_failed_hermes_turn(monkeypatch):
     fake_stream(monkeypatch, [], error=hermes.HermesError("Hermes turn error"))
 
-    assert events()[-1] == ("error", {"message": "Hermes stopped responding. Try again."})
+    assert events()[-1] == ("error", {"message": "Hermes antwortet gerade nicht. Versuch es nochmal."})
 
 
 def test_generate_rejects_empty_material():

@@ -46,7 +46,7 @@ describe('request', () => {
     )
 
     await expect(request('/thing', { timeoutMs: 10 })).rejects.toEqual(
-      new ApiError('The request timed out.'),
+      new ApiError('Das hat zu lange gedauert. Versuch es gleich nochmal.'),
     )
   })
 
@@ -54,7 +54,7 @@ describe('request', () => {
     stubFetch().mockRejectedValue(new TypeError('Failed to fetch'))
 
     await expect(request('/thing')).rejects.toEqual(
-      new ApiError('Could not reach the server.'),
+      new ApiError('Der Server ist gerade nicht erreichbar.'),
     )
   })
 })
@@ -96,6 +96,6 @@ describe('streamRequest', () => {
 
     await expect(
       streamRequest('/thing', { body: {}, onEvent: vi.fn<() => void>() }),
-    ).rejects.toEqual(new ApiError('Could not reach the server.'))
+    ).rejects.toEqual(new ApiError('Der Server ist gerade nicht erreichbar.'))
   })
 })

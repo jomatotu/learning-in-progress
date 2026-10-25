@@ -120,7 +120,7 @@ def test_stream_hermes_yields_reasoning_and_text(monkeypatch):
 
     pieces = asyncio.run(collect(hermes.stream_hermes("Build", session_id="lip-test-1")))
 
-    assert pieces == [("reasoning", "Hmm"), ("tool", "Searching the web…"), ("text", "<!doctype")]
+    assert pieces == [("reasoning", "Hmm"), ("tool", "Suche im Web…"), ("text", "<!doctype")]
     assert calls[0]["stream"] is True
     assert calls[0]["extra_headers"] == {"X-Hermes-Session-Id": "lip-test-1"}
 

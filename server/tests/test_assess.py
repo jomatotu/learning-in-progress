@@ -144,7 +144,7 @@ def test_next_question_rejects_bad_theme_picks(reply):
 def test_assess_reports_hermes_failure(monkeypatch):
     fake_stream_json(monkeypatch, QUESTION, error=hermes.HermesError("Hermes did not return valid JSON"))
 
-    assert events()[-1] == ("error", {"message": "Hermes didn't answer. Try again."})
+    assert events()[-1] == ("error", {"message": "Hermes hat nicht geantwortet. Versuch es nochmal."})
 
 
 def test_assess_rejects_request_without_profile():

@@ -25,7 +25,7 @@ export function Playground() {
     try {
       parsed = JSON.parse(profileText)
     } catch {
-      setParseError('The profile is not valid JSON.')
+      setParseError('Das Profil ist kein gültiges JSON.')
       return
     }
     setParseError('')
@@ -65,12 +65,10 @@ export function Playground() {
 
   return (
     <main className="flex min-h-svh flex-col items-center gap-4 p-6">
-      <h1 className="text-4xl font-semibold tracking-tight">
-        Build playground
-      </h1>
+      <h1 className="text-4xl font-semibold tracking-tight">Bau-Playground</h1>
       <form onSubmit={start} className="flex w-full max-w-3xl flex-col gap-3">
         <Textarea
-          aria-label="Student profile"
+          aria-label="Schülerprofil"
           value={profileText}
           onChange={(event) => setProfileText(event.target.value)}
           rows={8}
@@ -78,7 +76,7 @@ export function Playground() {
           disabled={profile !== undefined}
         />
         <Textarea
-          aria-label="Learning material"
+          aria-label="Lernmaterial"
           value={material}
           onChange={(event) => setMaterial(event.target.value)}
           rows={12}
@@ -86,7 +84,7 @@ export function Playground() {
           disabled={busy}
         />
         {profile === undefined && (
-          <Button type="submit">Start assessment</Button>
+          <Button type="submit">Einschätzung starten</Button>
         )}
       </form>
 
@@ -120,17 +118,19 @@ export function Playground() {
 
         {themes && (
           <div className="flex flex-col gap-2">
-            <p className="font-medium">Picked themes, best first:</p>
+            <p className="font-medium">
+              Ausgewählte Themen, die besten zuerst:
+            </p>
             <ol className="flex list-decimal flex-col gap-3 pl-6">
               {themes.map((pick) => (
                 <li key={pick.theme}>
                   <strong>{pick.theme}</strong>
-                  {pick.reason ? `: ${pick.reason}` : ' (default theme)'}
+                  {pick.reason ? `: ${pick.reason}` : ' (Standardthema)'}
                 </li>
               ))}
             </ol>
             <Button className="self-start" onClick={openPages}>
-              Generate
+              Generieren
             </Button>
           </div>
         )}
@@ -149,11 +149,11 @@ export function Playground() {
           <div className="flex gap-2">
             {assess.isError && (
               <Button onClick={() => assess.mutate({ profile, answers })}>
-                Try again
+                Nochmal versuchen
               </Button>
             )}
             <Button variant="outline" onClick={restart}>
-              Start again
+              Neu anfangen
             </Button>
           </div>
         )}

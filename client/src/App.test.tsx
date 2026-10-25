@@ -70,7 +70,7 @@ describe('App', () => {
     renderAt('/playground')
 
     expect(
-      screen.getByRole('heading', { name: 'Build playground' }),
+      screen.getByRole('heading', { name: 'Bau-Playground' }),
     ).toBeInTheDocument()
   })
 })

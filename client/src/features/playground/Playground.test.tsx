@@ -30,7 +30,7 @@ const finished = {
   themes: [{ theme: 'read-aloud', reason: 'You like listening.' }],
 }
 const answers = [{ question: 'Reading or listening?', answer: 'Listening' }]
-const startButton = { name: 'Start assessment' }
+const startButton = { name: 'Einschätzung starten' }
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -40,10 +40,10 @@ describe('Playground', () => {
   it('starts with the mock profile and material in the boxes', () => {
     renderApp()
 
-    expect(screen.getByLabelText('Student profile')).toHaveValue(
+    expect(screen.getByLabelText('Schülerprofil')).toHaveValue(
       JSON.stringify(mockStudent.profile, null, 2),
     )
-    expect(screen.getByLabelText('Learning material')).toHaveValue(
+    expect(screen.getByLabelText('Lernmaterial')).toHaveValue(
       mockStudent.material,
     )
   })
@@ -63,7 +63,7 @@ describe('Playground', () => {
       await screen.findByRole('button', { name: 'Listening' }),
     )
     expect(await screen.findByText(/You like listening/)).toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', { name: 'Generate' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Generieren' }))
 
     expect(fetchMock.mock.calls[1][1]?.body).toBe(
       JSON.stringify({ profile: mockStudent.profile, answers }),
@@ -85,7 +85,9 @@ describe('Playground', () => {
       vi
         .fn<typeof fetch>()
         .mockResolvedValueOnce(
-          sse('error', { message: "Hermes didn't answer. Try again." }),
+          sse('error', {
+            message: 'Hermes hat nicht geantwortet. Versuch es nochmal.',
+          }),
         )
         .mockResolvedValueOnce(sse('done', question)),
     )
@@ -93,9 +95,11 @@ describe('Playground', () => {
 
     await userEvent.click(screen.getByRole('button', startButton))
     expect(await screen.findByRole('alert')).toHaveTextContent(
-      "Hermes didn't answer. Try again.",
+      'Hermes hat nicht geantwortet. Versuch es nochmal.',
     )
-    await userEvent.click(screen.getByRole('button', { name: 'Try again' }))
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Nochmal versuchen' }),
+    )
 
     expect(
       await screen.findByRole('button', { name: 'Listening' }),
@@ -107,13 +111,13 @@ describe('Playground', () => {
     vi.stubGlobal('fetch', fetchMock)
     renderApp()
 
-    fireEvent.change(screen.getByLabelText('Student profile'), {
+    fireEvent.change(screen.getByLabelText('Schülerprofil'), {
       target: { value: '{ nope' },
     })
     await userEvent.click(screen.getByRole('button', startButton))
 
     expect(screen.getByRole('alert')).toHaveTextContent(
-      'The profile is not valid JSON.',
+      'Das Profil ist kein gültiges JSON.',
     )
     expect(fetchMock).not.toHaveBeenCalled()
   })

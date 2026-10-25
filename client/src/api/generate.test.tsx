@@ -70,7 +70,10 @@ describe('useGeneratePage', () => {
       vi
         .fn<typeof fetch>()
         .mockResolvedValue(
-          sse(['error', { message: 'Hermes stopped responding. Try again.' }]),
+          sse([
+            'error',
+            { message: 'Hermes antwortet gerade nicht. Versuch es nochmal.' },
+          ]),
         ),
     )
     const { result } = renderHook(() => useGeneratePage(), { wrapper })
@@ -79,7 +82,7 @@ describe('useGeneratePage', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        'Hermes stopped responding. Try again.',
+        'Hermes antwortet gerade nicht. Versuch es nochmal.',
       ),
     )
   })
@@ -97,7 +100,7 @@ describe('useGeneratePage', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        'The server stopped before it was done.',
+        'Der Server hat vor dem Ende aufgehört.',
       ),
     )
   })

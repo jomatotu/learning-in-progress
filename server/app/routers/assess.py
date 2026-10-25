@@ -26,7 +26,7 @@ ASSESS_TIMEOUT_SECONDS = 300
 # Sends a progress update every this many tokens, so the client isn't flooded with events.
 TOKENS_PER_UPDATE = 20
 
-STATUS = "Thinking about your answers…"
+STATUS = "Hermes denkt über deine Antworten nach…"
 
 THEME_SUMMARIES = "\n".join(themes.summary(name) for name in themes.THEMES)
 
@@ -118,12 +118,12 @@ async def assess_events(request: AssessRequest) -> AsyncIterator[str]:
             yield sse("reasoning", {"text": text})
     except TimeoutError:
         logger.warning("Assess timed out")
-        yield sse("error", {"message": "Hermes took too long. Try again."})
+        yield sse("error", {"message": "Das hat zu lange gedauert. Versuch es gleich nochmal."})
         return
     except (hermes.HermesError, OpenAIError):
         # Logs no details, because the reply can repeat the student's needs data.
         logger.warning("Assess failed")
-        yield sse("error", {"message": "Hermes didn't answer. Try again."})
+        yield sse("error", {"message": "Hermes hat nicht geantwortet. Versuch es nochmal."})
         return
 
     # Ask the question only if it's complete and allowed; otherwise end, so the client never gets a question it can't show.
