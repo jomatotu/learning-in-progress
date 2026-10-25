@@ -1,4 +1,5 @@
 // The WebGL part of Scene3D, loaded on demand (React.lazy) so three.js is its own chunk.
+import { useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Html, OrbitControls } from '@react-three/drei'
 import type { ScenePart } from './Scene3D'
@@ -34,47 +35,54 @@ export default function SceneCanvas({
   onSelect: (index: number) => void
   autoRotate: boolean
 }) {
+  // Labels mount into this fixed element. Without it drei's Html starts in the canvas's parent and moves
+  // once R3F connects its events in the same commit; that re-creates each label's React root mid-render,
+  // and the old root of the first label later clears the container the new one has already filled.
+  const labels = useRef<HTMLDivElement>(null!)
   return (
-    <Canvas camera={{ position: [0, 1.5, 6], fov: 50 }}>
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[4, 6, 5]} intensity={1.2} />
-      {parts.map((part, i) => {
-        const size = clamp(part.size, 0.1, 3, 1)
-        const [x, y, z] = [0, 1, 2].map((axis) =>
-          clamp(part.position?.[axis], -4, 4, 0),
-        )
-        return (
-          <mesh
-            key={i}
-            position={[x, y, z]}
-            onClick={(event) => {
-              event.stopPropagation()
-              onSelect(i)
-            }}
-          >
-            <Geometry shape={part.shape} size={size} />
-            <meshStandardMaterial
-              color={part.color ?? '#6955c6'}
-              emissive="#ffffff"
-              emissiveIntensity={selected === i ? 0.25 : 0}
-            />
-            <Html
-              center
-              position={[0, size / 2 + 0.35, 0]}
-              className="pointer-events-none"
+    <div ref={labels} className="relative h-full">
+      <Canvas camera={{ position: [0, 1.5, 6], fov: 50 }}>
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[4, 6, 5]} intensity={1.2} />
+        {parts.map((part, i) => {
+          const size = clamp(part.size, 0.1, 3, 1)
+          const [x, y, z] = [0, 1, 2].map((axis) =>
+            clamp(part.position?.[axis], -4, 4, 0),
+          )
+          return (
+            <mesh
+              key={i}
+              position={[x, y, z]}
+              onClick={(event) => {
+                event.stopPropagation()
+                onSelect(i)
+              }}
             >
-              <span className="rounded-full bg-sheet/90 px-2 py-0.5 text-sm whitespace-nowrap text-ink">
-                {part.label}
-              </span>
-            </Html>
-          </mesh>
-        )
-      })}
-      <OrbitControls
-        autoRotate={autoRotate}
-        autoRotateSpeed={0.8}
-        enablePan={false}
-      />
-    </Canvas>
+              <Geometry shape={part.shape} size={size} />
+              <meshStandardMaterial
+                color={part.color ?? '#6955c6'}
+                emissive="#ffffff"
+                emissiveIntensity={selected === i ? 0.25 : 0}
+              />
+              <Html
+                portal={labels}
+                center
+                position={[0, size / 2 + 0.35, 0]}
+                className="pointer-events-none"
+              >
+                <span className="rounded-full bg-sheet/90 px-2 py-0.5 text-sm whitespace-nowrap text-ink">
+                  {part.label}
+                </span>
+              </Html>
+            </mesh>
+          )
+        })}
+        <OrbitControls
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.8}
+          enablePan={false}
+        />
+      </Canvas>
+    </div>
   )
 }
