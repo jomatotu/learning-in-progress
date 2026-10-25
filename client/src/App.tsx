@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router'
+import { FocusProvider } from '@/components/FocusProvider'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { ApplicationPage } from '@/features/application/ApplicationPage'
@@ -10,7 +11,8 @@ import { SolutionRoute } from '@/features/application/SolutionRoute'
 function App() {
   return (
     <ThemeProvider>
-      <LanguageProvider>
+      <FocusProvider>
+        <LanguageProvider>
         <Routes>
           <Route path="/" element={<Onboarding />} />
           <Route path="/application" element={<ApplicationPage />} />
@@ -18,7 +20,8 @@ function App() {
           <Route path="/learn/:id" element={<Learn />} />
           <Route path="/solution/:uuid" element={<SolutionRoute />} />
         </Routes>
-      </LanguageProvider>
+        </LanguageProvider>
+      </FocusProvider>
     </ThemeProvider>
   )
 }

@@ -1,3 +1,4 @@
+import { FocusToggle } from '@/components/FocusToggle'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { defineMessages, useMessages } from '@/lib/i18n'
@@ -44,6 +45,7 @@ export function Topbar({ step, onHome }: TopbarProps) {
       )}
       <div className="flex items-center gap-3">
         <LanguageToggle />
+        <FocusToggle />
         <ThemeToggle />
         <button className="help" aria-label={t.help}>
           ?
