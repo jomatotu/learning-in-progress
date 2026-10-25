@@ -5,7 +5,7 @@ import { LookToggle } from '../look/LookToggle'
 // The /application page: main's top bar and app shell around the application form.
 export function ApplicationPage() {
   return (
-    <main className="app-shell application-page">
+    <main className="app-shell application-page flex min-h-dvh flex-col">
       <header className="topbar">
         <h1 className="sr-only">Learning in Progress</h1>
         <Link to="/" className="brand" aria-label="Zurück zur Startseite">
@@ -18,7 +18,7 @@ export function ApplicationPage() {
         </Link>
         <LookToggle />
       </header>
-      <div className="mx-auto max-w-[75rem] px-4 py-4 md:px-6 md:py-2">
+      <div className="flex flex-1 flex-col">
         <ApplicationForm />
       </div>
     </main>

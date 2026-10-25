@@ -72,7 +72,7 @@ function MaterialInput({
   ]
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <fieldset
         aria-label="So fügst du Material hinzu"
         className="flex flex-wrap gap-2"

@@ -6,17 +6,13 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="mb-3">
       <span className="label mb-1 block">{label}</span>
-      <div className="text-[0.92rem]">{children}</div>
+      <div className="text-[0.92rem] break-words">{children}</div>
     </div>
   )
 }
 
 function Pending({ children }: { children: ReactNode }) {
-  return (
-    <span className="border-b border-dashed border-graphite text-sm text-graphite">
-      {children}
-    </span>
-  )
+  return <span className="text-sm text-graphite">{children}</span>
 }
 
 function Tag({ children }: { children: ReactNode }) {
@@ -27,7 +23,7 @@ function Tag({ children }: { children: ReactNode }) {
   )
 }
 
-// Live summary next to each step, on ruled notebook paper. Shows the student what we know so far.
+// Live summary next to each step, as a quiet column. Shows the student what we know so far.
 function ProfilePanel({ profile }: { profile: Profile }) {
   const material =
     profile.texts.length + profile.links.length + profile.files.length
@@ -49,14 +45,14 @@ function ProfilePanel({ profile }: { profile: Profile }) {
           {profile.name || stage ? (
             <p>{[profile.name, stage].filter(Boolean).join(' · ')}</p>
           ) : (
-            <Pending>Schritt 1</Pending>
+            <Pending>noch leer</Pending>
           )}
         </Row>
         <Row label="Ziel">
           {profile.goalType || profile.goal ? (
             <p>{profile.goalType || profile.goal}</p>
           ) : (
-            <Pending>Schritt 2</Pending>
+            <Pending>noch leer</Pending>
           )}
         </Row>
         <Row label="Thema">
@@ -70,7 +66,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               )}
             </>
           ) : (
-            <Pending>Schritt 2</Pending>
+            <Pending>noch leer</Pending>
           )}
         </Row>
         <Row label="Wie du lernst">
@@ -88,7 +84,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               )}
             </>
           ) : (
-            <Pending>Schritt 4</Pending>
+            <Pending>noch leer</Pending>
           )}
         </Row>
         <Row label="Das klappt bei dir">
@@ -103,7 +99,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               {profile.notes && <p className="line-clamp-2">{profile.notes}</p>}
             </>
           ) : (
-            <Pending>Schritt 3</Pending>
+            <Pending>noch leer</Pending>
           )}
         </Row>
 
@@ -119,7 +115,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
     <>
       <aside
         aria-label="Dein Lernprofil"
-        className="hidden bg-[repeating-linear-gradient(var(--sheet)_0_31px,var(--pine-soft)_31px_32px)] p-6 lg:block"
+        className="hidden min-w-0 border-l border-rule bg-sheet/60 px-6 py-5 break-words lg:block"
       >
         {content}
       </aside>

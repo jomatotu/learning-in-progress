@@ -254,11 +254,8 @@ function Form() {
   }
 
   return (
-    <div
-      ref={panel}
-      className="overflow-hidden rounded-[20px] border border-rule bg-sheet shadow-card"
-    >
-      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-5 py-2 text-sm md:px-8">
+    <div ref={panel} className="flex flex-1 flex-col">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-2.5 text-sm md:px-8">
         <span>
           <span className="font-medium">
             Schritt {stepNumber} von {steps.length}
@@ -290,7 +287,12 @@ function Form() {
         <span className="text-graphite">Gespeichert</span>
       </div>
 
-      <div className={cn('grid', showPanel && 'lg:grid-cols-[1fr_17rem]')}>
+      <div
+        className={cn(
+          'grid flex-1',
+          showPanel && 'lg:grid-cols-[minmax(0,1fr)_17rem]',
+        )}
+      >
         <form
           noValidate
           onSubmit={(e) => {
@@ -298,10 +300,10 @@ function Form() {
             next()
           }}
           className={cn(
-            'p-5 md:px-8 md:py-3 [&_h2]:outline-none',
-            showPanel &&
-              'border-b border-dashed border-rule lg:border-r lg:border-b-0',
-            screen.step === 'survey' && 'mx-auto w-full max-w-5xl',
+            'flex min-w-0 flex-col p-5 md:px-8 md:py-1 [&_h2]:outline-none [@media(min-height:900px)]:md:py-8',
+            ['survey', 'summary', 'review'].includes(screen.step) &&
+              'mx-auto w-full max-w-5xl',
+            isDeck && 'mx-auto w-full max-w-3xl',
           )}
         >
           {screen.step === 'about' && <AboutStep {...stepProps} />}
@@ -344,7 +346,7 @@ function Form() {
             </p>
           )}
 
-          <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+          <div className="mt-2 flex flex-wrap items-center justify-between gap-4 pt-1 [@media(min-height:900px)]:mt-6">
             {index > 0 && !isDeck ? (
               <button
                 type="button"
@@ -411,7 +413,7 @@ function ApplicationForm() {
   }
 
   return (
-    <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
+    <div className="p-8 md:p-14">
       {load.status === 'loading' ? (
         <p className="text-graphite">Alles wird vorbereitet…</p>
       ) : (

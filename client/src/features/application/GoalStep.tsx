@@ -17,8 +17,8 @@ function GoalStep({ profile, update, errors }: StepProps) {
         Worauf <em>arbeitest du hin?</em>
       </StepHeading>
 
-      <div className="grid gap-x-8 gap-y-5 md:grid-cols-2">
-        <div className="flex flex-col gap-4">
+      <div className="grid gap-x-8 gap-y-3 md:grid-cols-2">
+        <div className="flex flex-col gap-3">
           <Field label="Was ist dein Ziel?">
             <fieldset
               className="flex flex-wrap gap-2.5"
@@ -44,7 +44,7 @@ function GoalStep({ profile, update, errors }: StepProps) {
               value={profile.goal}
               onChange={(e) => update({ goal: e.target.value })}
               placeholder="z. B. Meine Bio-Prüfung bestehen und die Zellbiologie wirklich verstehen, nicht nur auswendig lernen"
-              className="min-h-16"
+              className="min-h-14"
             />
           </Field>
 
@@ -63,7 +63,7 @@ function GoalStep({ profile, update, errors }: StepProps) {
           </Field>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           <Field id="topic" label="Was lernst du gerade?" error={errors.topic}>
             <Input
               id="topic"

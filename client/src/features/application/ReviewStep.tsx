@@ -18,7 +18,7 @@ function Section({
   return (
     <section
       data-wide={wide}
-      className="border-t border-dashed border-rule py-2.5 first:border-t-0 first:pt-0 data-[wide=true]:md:col-span-2 md:[&:nth-child(2)]:border-t-0 md:[&:nth-child(2)]:pt-0 lg:[&:nth-child(3)]:border-t-0 lg:[&:nth-child(3)]:pt-0"
+      className="border-t border-dashed border-rule py-1.5 first:border-t-0 first:pt-0 data-[wide=true]:md:col-span-2 md:[&:nth-child(2)]:border-t-0 md:[&:nth-child(2)]:pt-0 lg:[&:nth-child(3)]:border-t-0 lg:[&:nth-child(3)]:pt-0"
     >
       <div className="flex items-baseline justify-between gap-4">
         <h3 className="label font-sans">{title}</h3>
@@ -70,7 +70,7 @@ function ReviewStep({
         Klingt das <em>nach dir?</em>
       </StepHeading>
 
-      <div className="grid rounded-2xl border border-rule bg-paper p-5 md:grid-flow-dense md:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
+      <div className="grid border-t border-rule pt-2 md:grid-flow-dense md:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
         <Section title="Über dich" onEdit={() => goTo('about')}>
           <p className="font-normal">{profile.name}</p>
           {stage && <p className="text-graphite">{stage}</p>}

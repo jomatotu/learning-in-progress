@@ -14,7 +14,7 @@ function Chip({
       type="button"
       aria-pressed={selected}
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-[0.88rem] font-normal transition-colors',
+        'inline-flex items-center gap-1.5 rounded-full border py-1.5 pr-4 pl-3 text-[0.88rem] font-normal transition-colors',
         selected
           ? 'border-pine bg-pine-soft text-pine-deep'
           : 'border-rule bg-paper hover:border-graphite',
@@ -22,7 +22,11 @@ function Chip({
       )}
       {...props}
     >
-      {selected && <Check className="size-4" strokeWidth={2.25} aria-hidden />}
+      <Check
+        className={cn('size-4', !selected && 'invisible')}
+        strokeWidth={2.25}
+        aria-hidden
+      />
       {children}
     </button>
   )
