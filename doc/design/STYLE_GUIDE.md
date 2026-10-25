@@ -1,5 +1,7 @@
 # Style guide: Learning in Progress
 
+> **Decisions on `integration/app` (2026-10-25):** the light look below is the default. Dark mode and the language switch are not part of the app: the UI is German only (`du`). Instead of reading-comfort controls, browser zoom handles size and every step reflows; a **Graustufen** toggle (`data-look="graustufen"` on `<html>`) switches the whole app to a matte grey e-ink look. The "Dark mode" section is kept for reference only.
+
 Everything needed to rebuild the Learning in Progress look in any project: colours, type, spacing, components, and the rules behind them. Every value here comes from the live code:
 
 - Main site (`/`): [client/src/features/onboarding/onboarding.css](../../client/src/features/onboarding/onboarding.css)
