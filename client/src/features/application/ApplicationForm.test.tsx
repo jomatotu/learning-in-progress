@@ -309,7 +309,8 @@ describe('ApplicationForm', () => {
     expect(
       await screen.findByRole('heading', { name: /danke, lina/i }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/"Skip the basics\."/)).toBeInTheDocument()
+    // The profile JSON is for the team: only with ?debug (see AssessmentScreen.test.tsx).
+    expect(screen.queryByText(/"Skip the basics\."/)).not.toBeInTheDocument()
 
     // Hermes gets the profile without the pasted text.
     const hermesProfile = {
