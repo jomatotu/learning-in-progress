@@ -7,14 +7,19 @@ import type { StepProps } from './ApplicationForm'
 function Section({
   title,
   onEdit,
+  wide,
   children,
 }: {
   title: string
+  wide?: boolean
   onEdit: () => void
   children: ReactNode
 }) {
   return (
-    <section className="border-t border-dashed border-rule py-5 first:border-t-0 first:pt-0">
+    <section
+      data-wide={wide}
+      className="border-t border-dashed border-rule py-2.5 first:border-t-0 first:pt-0 data-[wide=true]:md:col-span-2 md:[&:nth-child(2)]:border-t-0 md:[&:nth-child(2)]:pt-0 lg:[&:nth-child(3)]:border-t-0 lg:[&:nth-child(3)]:pt-0"
+    >
       <div className="flex items-baseline justify-between gap-4">
         <h3 className="label font-sans">{title}</h3>
         <button
@@ -58,7 +63,7 @@ function ReviewStep({
         Klingt das <em>nach dir?</em>
       </StepHeading>
 
-      <div className="rounded-2xl border border-rule bg-paper p-6">
+      <div className="grid rounded-2xl border border-rule bg-paper p-5 md:grid-flow-dense md:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
         <Section title="Über dich" onEdit={() => goTo('about')}>
           <p className="font-normal">{profile.name}</p>
           {stage && <p className="text-graphite">{stage}</p>}
@@ -99,9 +104,9 @@ function ReviewStep({
           </p>
         </Section>
 
-        <Section title="Wie du lernst" onEdit={() => goTo('deck')}>
+        <Section wide title="Wie du lernst" onEdit={() => goTo('deck')}>
           {mirrored.length > 0 && (
-            <ul className="mb-2 flex flex-col gap-1.5">
+            <ul className="mb-2 flex flex-col gap-1.5 md:block md:columns-2 md:[&>li]:mb-1.5">
               {mirrored.map(({ category, text }) => (
                 <li key={category} className="[overflow-wrap:anywhere]">
                   {text}

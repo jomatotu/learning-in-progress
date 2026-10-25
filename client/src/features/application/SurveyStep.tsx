@@ -18,9 +18,11 @@ function RatingItem({
   const { min, labels } = useSurvey().response_scale
 
   return (
-    <fieldset className="border-t border-dashed border-rule pt-5 first:border-t-0 first:pt-0">
-      <legend className="mb-3 font-normal">{text}</legend>
-      <div className="grid grid-cols-5 gap-2">
+    <fieldset className="border-t border-dashed border-rule pt-2.5 first:border-t-0 first:pt-0 md:flow-root">
+      <legend className="mb-3 font-normal md:float-left md:mb-0 md:w-[36%] md:pr-4">
+        {text}
+      </legend>
+      <div className="grid grid-cols-5 gap-2 md:ml-[36%]">
         {labels.map((label, i) => {
           const option = min + i
           const checked = value === option
@@ -28,7 +30,7 @@ function RatingItem({
             <label
               key={label}
               className={cn(
-                'flex cursor-pointer flex-col items-center gap-1 rounded-xl border px-1 py-2.5 text-center transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-pine',
+                'flex cursor-pointer flex-col items-center gap-1 rounded-xl border px-1 py-1.5 text-center transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-pine',
                 checked
                   ? 'border-pine bg-pine-soft text-pine-deep'
                   : 'border-rule bg-paper hover:border-graphite',
@@ -81,12 +83,12 @@ function SurveyStep({
         {category.title}
       </StepHeading>
 
-      <p className="-mt-4 mb-6 text-sm text-graphite">
+      <p className="-mt-1 mb-3 text-sm text-graphite">
         Wie sehr trifft jede Aussage auf dich zu? Es gibt keine richtigen oder
         falschen Antworten.
       </p>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
         {questionsIn(survey, category.id).map((item) => (
           <RatingItem
             key={item.id}

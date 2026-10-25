@@ -96,7 +96,7 @@
 }
 
 .application-page [data-slot='textarea'] {
-  min-height: 105px;
+  min-height: 4.5rem;
 }
 
 .application-page [data-slot='input']:focus-visible,
@@ -113,4 +113,17 @@
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* One screen per step: a slimmer top bar and tighter buttons, so a step fits 1366x768 without page scroll. */
+.application-page .topbar {
+  height: 3rem;
+}
+
+.application-page .primary.large {
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+}
+.application-page .text-button {
+  padding: 0.5rem 0.75rem;
 }

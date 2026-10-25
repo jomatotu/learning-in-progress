@@ -150,7 +150,7 @@ function MaterialInput({
         // Drag and drop is a mouse shortcut; the file input inside is the keyboard path.
         // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <label
-          className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border border-dashed border-graphite bg-paper px-6 py-8 text-center hover:bg-sheet"
+          className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border border-dashed border-graphite bg-paper px-6 py-4 text-center hover:bg-sheet"
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
             e.preventDefault()

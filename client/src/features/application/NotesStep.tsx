@@ -22,8 +22,9 @@ function NotesStep({ profile, update }: StepProps) {
         Was klappt <em>bei dir?</em>
       </StepHeading>
 
-      <div className="flex flex-col gap-7">
+      <div className="grid gap-x-8 gap-y-5 md:grid-cols-2">
         <Field
+          className="md:col-span-2"
           label="Ich lerne gern mit…"
           hint="Such so viele aus, wie du magst."
         >
@@ -58,7 +59,7 @@ function NotesStep({ profile, update }: StepProps) {
             value={profile.notes}
             onChange={(e) => update({ notes: e.target.value })}
             placeholder="z. B. Abends kann ich mich am besten konzentrieren. Lange PDFs lassen mich aufgeben, aber ein 10-Minuten-Video schaffe ich locker."
-            className="min-h-36"
+            className="min-h-28"
           />
         </Field>
       </div>

@@ -17,7 +17,7 @@ function AboutStep({ profile, update, errors }: StepProps) {
         Mit wem <em>lernen wir?</em>
       </StepHeading>
 
-      <div className="flex flex-col gap-7">
+      <div className="grid gap-x-8 gap-y-5 md:grid-cols-2">
         <Field
           id="name"
           label="Wie sollen wir dich nennen?"

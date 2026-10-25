@@ -11,15 +11,12 @@ function StepHeading({
   children: ReactNode
 }) {
   return (
-    <div className="mb-8">
+    <div className="mb-3 md:mb-4">
       <span className="kicker">{label}</span>
-      <h2
-        tabIndex={-1}
-        className="mt-3 max-w-[20ch] text-[1.9rem] md:text-[2.2rem]"
-      >
+      <h2 tabIndex={-1} className="mt-2 text-[1.6rem] md:text-[1.9rem]">
         {children}
       </h2>
-      {hint && <p className="mt-3 max-w-prose text-graphite">{hint}</p>}
+      {hint && <p className="mt-2 max-w-prose text-graphite">{hint}</p>}
     </div>
   )
 }

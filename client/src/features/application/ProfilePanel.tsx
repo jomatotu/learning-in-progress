@@ -4,7 +4,7 @@ import type { Profile } from './profile'
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="mb-5">
+    <div className="mb-3">
       <span className="label mb-1 block">{label}</span>
       <div className="text-[0.92rem]">{children}</div>
     </div>
@@ -36,14 +36,11 @@ function ProfilePanel({ profile }: { profile: Profile }) {
   const mirrored = Object.keys(profile.bands).length
   const totalQuestions = useSurvey().questions.length
 
-  return (
-    <aside
-      aria-label="Dein Lernprofil"
-      className="bg-[repeating-linear-gradient(var(--sheet)_0_31px,var(--pine-soft)_31px_32px)] p-8 md:p-10"
-    >
-      <div className="md:sticky md:top-8">
+  const content = (
+    <>
+      <div className="lg:sticky lg:top-8">
         <span className="label">Dein Lernprofil</span>
-        <p className="mt-2 mb-6 text-[1.3rem] font-semibold">
+        <p className="mt-1 mb-4 text-[1.15rem] font-semibold">
           Das wissen wir bisher
         </p>
 
@@ -102,12 +99,27 @@ function ProfilePanel({ profile }: { profile: Profile }) {
           )}
         </Row>
 
-        <p className="mt-8 border-l-[3px] border-pine pl-3 text-sm text-graphite">
+        <p className="mt-4 border-l-[3px] border-pine pl-3 text-sm text-graphite">
           Du siehst hier alles und kannst alles ändern. Wir nutzen es nur, um
           dein Tool zu bauen.
         </p>
       </div>
-    </aside>
+    </>
+  )
+
+  return (
+    <>
+      <aside
+        aria-label="Dein Lernprofil"
+        className="hidden bg-[repeating-linear-gradient(var(--sheet)_0_31px,var(--pine-soft)_31px_32px)] p-6 lg:block"
+      >
+        {content}
+      </aside>
+      <details className="group border-t border-dashed border-rule px-5 py-3 md:px-8 lg:hidden">
+        <summary className="cursor-pointer font-medium">Dein Profil</summary>
+        <div className="pt-4">{content}</div>
+      </details>
+    </>
   )
 }
 

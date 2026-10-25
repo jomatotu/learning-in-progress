@@ -18,7 +18,7 @@ export function ApplicationPage() {
         </Link>
         <LookToggle />
       </header>
-      <div className="mx-auto max-w-[1120px] px-4 py-10 md:px-6 md:py-14">
+      <div className="mx-auto max-w-[75rem] px-4 py-4 md:px-6 md:py-2">
         <ApplicationForm />
       </div>
     </main>

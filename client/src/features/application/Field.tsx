@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { cn } from '@/lib/utils'
 
 // Label, optional hint, and inline error around one form control.
 function Field({
@@ -7,6 +8,7 @@ function Field({
   hint,
   error,
   optional,
+  className,
   children,
 }: {
   id?: string
@@ -14,10 +16,11 @@ function Field({
   hint?: string
   error?: string
   optional?: boolean
+  className?: string
   children: ReactNode
 }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={cn('flex flex-col gap-2', className)}>
       <label htmlFor={id} className="text-base font-normal">
         {label}
         {optional && (

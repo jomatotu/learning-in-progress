@@ -171,7 +171,7 @@ function Form() {
       ref={panel}
       className="overflow-hidden rounded-[20px] border border-rule bg-sheet shadow-card"
     >
-      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-6 py-4 text-sm md:px-8">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-5 py-2 text-sm md:px-8">
         <span>
           <span className="font-medium">
             Schritt {stepNumber} von {counted.length}
@@ -203,7 +203,7 @@ function Form() {
         <span className="text-graphite">Gespeichert</span>
       </div>
 
-      <div className={cn('grid', showPanel && 'md:grid-cols-[1.45fr_1fr]')}>
+      <div className={cn('grid', showPanel && 'lg:grid-cols-[1fr_17rem]')}>
         <form
           noValidate
           onSubmit={(e) => {
@@ -211,10 +211,10 @@ function Form() {
             next()
           }}
           className={cn(
-            'p-6 md:p-10 [&_h2]:outline-none',
+            'p-5 md:px-8 md:py-3 [&_h2]:outline-none',
             showPanel &&
-              'border-b border-dashed border-rule md:border-r md:border-b-0',
-            screen.step === 'survey' && 'mx-auto w-full max-w-3xl',
+              'border-b border-dashed border-rule lg:border-r lg:border-b-0',
+            screen.step === 'survey' && 'mx-auto w-full max-w-5xl',
           )}
         >
           {screen.step === 'about' && <AboutStep {...stepProps} />}
@@ -240,14 +240,14 @@ function Form() {
           {result.status === 'error' && (
             <p
               role="alert"
-              className="mt-8 border-l-[3px] border-clay pl-3 text-sm"
+              className="mt-4 border-l-[3px] border-clay pl-3 text-sm"
             >
               Wir konnten dein Profil nicht bauen. Prüf deine Verbindung und
               versuch es nochmal.
             </p>
           )}
 
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
             {index > 0 && !isDeck ? (
               <button
                 type="button"
