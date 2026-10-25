@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 
 from app import guards
 from app.main import app
-from tests.test_generate import PAGE, REQUEST, fake_stream
+from tests.test_generate import PATCHES, REQUEST, fake_stream, jsonl
 
 client = TestClient(app)
 
@@ -63,14 +63,14 @@ def test_body_over_limit_is_413():
 
 
 def test_full_german_material_passes_limit(monkeypatch):
-    fake_stream(monkeypatch, [("text", PAGE)])
+    fake_stream(monkeypatch, [("text", jsonl(*PATCHES))])
     body = {**REQUEST, "material": "ä" * 60_000}
     response = client.post("/api/generate", json=body)
     assert response.status_code == 200
 
 
 def test_call_after_the_minute_quota_is_429(monkeypatch, real_limiter):
-    fake_stream(monkeypatch, [("text", PAGE)])
+    fake_stream(monkeypatch, [("text", jsonl(*PATCHES))])
     for _ in range(guards.HERMES_RUNS_PER_MINUTE):
         assert client.post("/api/generate", json=REQUEST).status_code == 200
     response = client.post("/api/generate", json=REQUEST)

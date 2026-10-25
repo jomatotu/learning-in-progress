@@ -11,10 +11,11 @@ from typing import Any
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from openai import OpenAIError
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 
 from app import hermes, learner, themes
 from app.routers.assess import Answer
+from app.routers.solution import CATALOG, REQUIRED_PROPS, Element, LessonSpec
 from app.sse import TextBatch, sse
 
 router = APIRouter(tags=["generate"])
@@ -22,38 +23,26 @@ router = APIRouter(tags=["generate"])
 # Uvicorn's logger, so generation failures show up in the server terminal.
 logger = logging.getLogger("uvicorn.error")
 
-# Rules for the page Hermes writes; the {{...}} placeholders are filled with the student's data.
-PROMPT = (Path(__file__).parent.parent / "prompts" / "generate_page.txt").read_text(encoding="utf-8")
-
-# Rules for the second session, which tests the written page in a browser and fixes what's broken.
-VERIFY_PROMPT = (Path(__file__).parent.parent / "prompts" / "verify_page.txt").read_text(encoding="utf-8")
-
-# Upper limit for a whole generation, even if Hermes keeps sending keepalives.
-GENERATE_TIMEOUT_SECONDS = 900
-
-# Whether a second Hermes session tests each page in a browser and fixes it. Off because it adds about 3 to 10 minutes.
-# TODO: set to True to test pages again, and raise the client's /generate timeout in client/src/api/generate.ts
-# to cover both sessions (writing up to 15 min plus testing up to 10 min).
-VERIFY_PAGES = False
-
-# Upper limit for testing and fixing the page; past it the student gets the untested page.
-VERIFY_TIMEOUT_SECONDS = 600
-
-PLAN_STATUS = f"{hermes.TUTOR_NAME} plant deine Seite…"
-VERIFY_STATUS = f"{hermes.TUTOR_NAME} testet deine Seite…"
-
-# Blocks the generated page from loading or sending anything over the network, so it can't leak data.
-CSP = (
-    '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; '
-    "script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; "
-    "font-src data:; media-src data: blob:; base-uri 'none'; form-action 'none'\">"
+# Rules for the lesson Hermes streams, with the catalog filled in; {{THEME}} is filled per request.
+PROMPT = (
+    (Path(__file__).parent.parent / "prompts" / "generate_page.txt")
+    .read_text(encoding="utf-8")
+    .replace("{{CATALOG}}", json.dumps(CATALOG["components"], ensure_ascii=False))
 )
 
-DOCTYPE = re.compile(r"<!doctype html[^>]*>", re.IGNORECASE)
+# Below Vercel's 300 s function limit, so the student gets our German error instead of a cut stream.
+GENERATE_TIMEOUT_SECONDS = 270
 
-# How much new page text Hermes writes between two live previews, so the student sees the page grow without the
-# preview reloading on every token.
-PREVIEW_STEP = 1500
+PLAN_STATUS = f"{hermes.TUTOR_NAME} plant deine Seite…"
+FAILED = "Deine Seite konnte nicht gebaut werden. Versuch es nochmal."
+
+# Hermes sees its own reply in the session, so this is enough to ask again.
+RETRY_MESSAGE = (
+    "That reply had no valid line. Reply again with only the JSON Patch lines from your instructions, "
+    "one JSON object per line, starting with the root."
+)
+
+ELEMENT_PATH = re.compile(r"/elements/([A-Za-z0-9_-]{1,64})")
 
 
 class GenerateRequest(BaseModel):
@@ -66,98 +55,148 @@ class GenerateRequest(BaseModel):
     student_id: learner.StudentId | None = None
 
 
-# Fills the prompt with the chosen theme's design and the student's data.
-# The theme goes in first, so text inside the student's data can never be taken for a placeholder.
-def fill_prompt(request: GenerateRequest) -> str:
-    answers = [answer.model_dump() for answer in request.answers]
-    return (
-        PROMPT.replace("{{THEME}}", themes.THEMES[request.theme])
-        .replace("{{PROFILE}}", json.dumps(request.profile, ensure_ascii=False, indent=2))
-        .replace("{{ANSWERS}}", json.dumps(answers, ensure_ascii=False, indent=2))
-        .replace("{{MATERIAL}}", request.material)
-    ) + (f"\n\n{notes}" if (notes := learner.notes_block(request.student_id)) else "")
-
-
-# Fills the test prompt with the theme's design and the written page. The page goes in last, so text inside it
-# can never be taken for a placeholder.
-def fill_verify_prompt(theme: str, html: str, file_name: str) -> str:
-    return (
-        VERIFY_PROMPT.replace("{{THEME}}", themes.THEMES[theme])
-        .replace("{{FILE}}", file_name)
-        .replace("{{PAGE}}", html)
+# The student's data goes into the user message, fenced, so nothing in it reads as our rules.
+# "<" is escaped (still valid JSON) so the student's text can't close the fence.
+def data_message(request: GenerateRequest) -> str:
+    data = {
+        "profile": request.profile,
+        "answers": [answer.model_dump() for answer in request.answers],
+        "material": request.material,
+    }
+    fenced = json.dumps(data, ensure_ascii=False, indent=2).replace("<", "\\u003c")
+    notes = learner.notes_block(request.student_id)
+    return f"Build the lesson for this student.\n\n<student_data>\n{fenced}\n</student_data>" + (
+        f"\n\n{notes}" if notes else ""
     )
 
 
-# Pulls the HTML document out of the reply and puts our CSP first, so it applies before any generated script runs.
-def prepare_page(reply: str) -> str | None:
-    start = DOCTYPE.search(reply)
-    end = reply.lower().rfind("</html>")
-    if not start or end < start.end():
-        return None
-    # The CSP goes right after the doctype; anything before the doctype would switch the page to quirks mode.
-    return start.group() + CSP + reply[start.end() : end + len("</html>")]
+def lesson_key(spec: dict[str, Any]) -> str | None:
+    return next((key for key, element in spec["elements"].items() if element["type"] == "Lesson"), None)
 
 
-# The half-written page as a renderable document: cut at the last complete tag, closed, and with our CSP first.
-def preview_page(reply: str) -> str | None:
-    return prepare_page(reply[: reply.rfind(">") + 1] + "</body></html>")
+# Checks one line of Hermes's reply against the catalog. Returns the patches to forward and the spec after them,
+# or raises ValueError with a short reason (never the line, which can repeat the student's data).
+def accept_line(line: str, spec: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    try:
+        patch = json.loads(line)
+    except json.JSONDecodeError:
+        raise ValueError("not JSON") from None
+    if not isinstance(patch, dict) or patch.get("op") not in ("add", "replace"):
+        raise ValueError("not an add operation")
+    path, value = patch.get("path"), patch.get("value")
+    if path == "/root":
+        if not isinstance(value, str) or not ELEMENT_PATH.fullmatch(f"/elements/{value}"):
+            raise ValueError("root is not an element key")
+        return [{"op": "add", "path": path, "value": value}], {**spec, "root": value}
+    match = ELEMENT_PATH.fullmatch(path) if isinstance(path, str) else None
+    if not match:
+        raise ValueError("unsupported path")
+    key = match.group(1)
+    try:
+        element = Element.model_validate(value).model_dump()
+    except ValidationError:
+        raise ValueError(f"{key}: not an element") from None
+    if element["type"] not in REQUIRED_PROPS:
+        raise ValueError(f'{key}: unknown type "{element["type"]}"')
+    if missing := [prop for prop in REQUIRED_PROPS[element["type"]] if prop not in element["props"]]:
+        raise ValueError(f"{key}: {element['type']} is missing {', '.join(missing)}")
+    lesson = lesson_key(spec)
+    if element["type"] == "Lesson" and lesson not in (None, key):
+        raise ValueError(f"{key}: a second Lesson")
+    patches = [{"op": "add", "path": path, "value": element}]
+    spec = {**spec, "elements": {**spec["elements"], key: element}}
+    # A block left out of the outline would never render, so it goes to the end of the Lesson.
+    if lesson and element["type"] != "Lesson" and key not in spec["elements"][lesson]["children"]:
+        outline = {**spec["elements"][lesson], "children": [*spec["elements"][lesson]["children"], key]}
+        patches.append({"op": "add", "path": f"/elements/{lesson}", "value": outline})
+        spec = {**spec, "elements": {**spec["elements"], lesson: outline}}
+    return patches, spec
 
 
-# Turns the reply so far into a short status line for the student.
-# Before the page starts, show the last line Hermes wrote; once the page starts, show how much is written.
-def progress_text(reply: str) -> str:
-    start = DOCTYPE.search(reply)
-    if start:
-        return f"Die Seite wird geschrieben… {(len(reply) - start.start()) // 1000} KB"
-    lines = [line.strip() for line in reply.splitlines() if line.strip()]
-    return lines[-1][:200] if lines else "Denkt nach…"
+# The assembled spec, without outline keys that never arrived (skipped or not written), checked against the catalog.
+def finished_spec(spec: dict[str, Any]) -> LessonSpec:
+    elements = {
+        key: {**element, "children": [child for child in element["children"] if child in spec["elements"]]}
+        for key, element in spec["elements"].items()
+    }
+    finished = LessonSpec.model_validate({**spec, "elements": elements})
+    if not finished.elements[finished.root].children:
+        raise ValueError("the lesson has no blocks")
+    return finished
 
 
-# One Hermes turn's reply so far, and whether Hermes used a browser during it.
-class Turn:
+def build_status(spec: dict[str, Any]) -> str:
+    blocks = sum(element["type"] != "Lesson" for element in spec["elements"].values())
+    if not blocks:
+        return f"{hermes.TUTOR_NAME} schreibt deine Seite…"
+    return f"{blocks} {'Teil' if blocks == 1 else 'Teile'} fertig, {hermes.TUTOR_NAME} schreibt weiter…"
+
+
+# The lesson so far while Hermes streams it, with the last status sent.
+class Build:
     def __init__(self) -> None:
-        self.reply = ""
-        self.used_browser = False
+        self.spec: dict[str, Any] = {"root": "", "elements": {}}
+        self.accepted = 0
+        self.status = PLAN_STATUS
+
+    def status_events(self, status: str) -> list[str]:
+        if status == self.status:
+            return []
+        self.status = status
+        return [sse("status", {"text": status})]
+
+    # Forwards one complete line as patch events; a broken line is logged and skipped, the stream goes on.
+    def line_events(self, line: str) -> list[str]:
+        if not line.strip():
+            return []
+        try:
+            patches, self.spec = accept_line(line.strip(), self.spec)
+        except ValueError as problem:
+            logger.warning("Skipped a lesson line: %s", problem)
+            return []
+        self.accepted += len(patches)
+        return [sse("patch", {"patch": patch}) for patch in patches] + self.status_events(build_status(self.spec))
+
+    # Streams one Hermes turn: "reasoning" in chunks, "status" for tools and progress, "patch" per complete valid line.
+    async def turn(self, message: str, session_id: str, instructions: str) -> AsyncIterator[str]:
+        reasoning = TextBatch()
+        pending = ""
+        async for kind, piece in hermes.stream_hermes(message, session_id=session_id, instructions=instructions):
+            if kind == "reasoning":
+                if text := reasoning.add(piece):
+                    yield sse("reasoning", {"text": text})
+                continue
+            if kind == "tool":
+                events = self.status_events(piece)
+            else:
+                *lines, pending = (pending + piece).split("\n")
+                events = [event for line in lines for event in self.line_events(line)]
+            for event in events:
+                yield event
+        for event in self.line_events(pending):
+            yield event
+        if text := reasoning.flush():
+            yield sse("reasoning", {"text": text})
 
 
-# Streams one Hermes turn as "status" (the current step), "reasoning" (Hermes thinking, in chunks) and "preview" (the
-# page so far, every PREVIEW_STEP characters once it starts) events, collecting the reply in `turn`.
-async def stream_turn(prompt: str, session_id: str, turn: Turn, status: str) -> AsyncIterator[str]:
-    reasoning = TextBatch()
-    previewed = 0
-    async for kind, piece in hermes.stream_hermes(prompt, session_id=session_id):
-        if kind == "reasoning":
-            if text := reasoning.add(piece):
-                yield sse("reasoning", {"text": text})
-            continue
-        if kind == "tool":
-            turn.used_browser |= piece == hermes.BROWSER_STATUS
-            new_status = piece
-        else:
-            turn.reply += piece
-            new_status = progress_text(turn.reply)
-            start = DOCTYPE.search(turn.reply)
-            if start and len(turn.reply) - start.start() >= previewed + PREVIEW_STEP:
-                previewed = len(turn.reply) - start.start()
-                yield sse("preview", {"html": preview_page(turn.reply)})
-        if new_status != status:
-            status = new_status
-            yield sse("status", {"text": status})
-    if text := reasoning.flush():
-        yield sse("reasoning", {"text": text})
-
-
-# Runs one generation and yields server-sent events: "status" and "reasoning" while Hermes writes the page (and tests
-# it, when VERIFY_PAGES is on), then "done" with the page or "error".
+# Runs one generation and yields server-sent events: "status", "reasoning" and one "patch" per block while Hermes
+# writes, then "done" with the whole spec or "error".
 async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
     started = time.monotonic()
     yield sse("status", {"text": PLAN_STATUS})
-    written = Turn()
+    build = Build()
+    # A fresh session per generation, prefixed because the team shares one Hermes.
+    session_id = f"lip-generate-{uuid.uuid4()}"
+    message, instructions = data_message(request), PROMPT.replace("{{THEME}}", themes.THEMES[request.theme])
     try:
         async with asyncio.timeout(GENERATE_TIMEOUT_SECONDS):
-            # A fresh session per generation, prefixed because the team shares one Hermes.
-            async for event in stream_turn(fill_prompt(request), f"lip-generate-{uuid.uuid4()}", written, PLAN_STATUS):
-                yield event
+            # One retry, only when nothing usable arrived: a half-built lesson is already on the student's screen.
+            for _ in range(2):
+                async for event in build.turn(message, session_id, instructions):
+                    yield event
+                if build.accepted:
+                    break
+                message = RETRY_MESSAGE
     except TimeoutError:
         logger.warning("Generation timed out after %.0fs", time.monotonic() - started)
         yield sse("error", {"message": "Das hat zu lange gedauert. Versuch es gleich nochmal."})
@@ -167,48 +206,19 @@ async def generate_events(request: GenerateRequest) -> AsyncIterator[str]:
         yield sse("error", {"message": f"{hermes.TUTOR_NAME} antwortet gerade nicht. Versuch es nochmal."})
         return
 
-    html = prepare_page(written.reply)
-    if html is None:
-        # Logs only the size, because the reply can repeat the student's needs data.
-        logger.warning("Generation returned no page (%d characters)", len(written.reply))
-        yield sse("error", {"message": f"{hermes.TUTOR_NAME} hat keine Seite geliefert. Versuch es nochmal."})
-        return
-    logger.info("Generation done in %.0fs, %d KB", time.monotonic() - started, len(html) // 1000)
-    # TODO: testing is disconnected here until VERIFY_PAGES is turned back on.
-    if not VERIFY_PAGES:
-        yield sse("done", {"html": html})
-        return
-
-    # Any problem while testing keeps the written page, because an untested page beats no page.
-    started = time.monotonic()
-    yield sse("status", {"text": VERIFY_STATUS})
-    checked = Turn()
-    # The same ID names the session and the page file, so teammates' runs on the shared Hermes never collide.
-    verify_id = f"lip-verify-{uuid.uuid4()}"
     try:
-        async with asyncio.timeout(VERIFY_TIMEOUT_SECONDS):
-            async for event in stream_turn(
-                fill_verify_prompt(request.theme, html, verify_id), verify_id, checked, VERIFY_STATUS
-            ):
-                yield event
-    except TimeoutError:
-        logger.warning("Testing timed out after %.0fs; sending the untested page", time.monotonic() - started)
-    except (hermes.HermesError, OpenAIError):
-        logger.exception("Testing failed after %.0fs; sending the untested page", time.monotonic() - started)
-    else:
-        # The tested page still carries our CSP; it's removed so prepare_page adds exactly one.
-        tested = prepare_page(checked.reply.replace(CSP, ""))
-        if not checked.used_browser:
-            logger.warning("Testing never opened a browser; sending the untested page")
-        elif tested is None:
-            logger.warning("Testing returned no page (%d characters); sending the untested page", len(checked.reply))
-        else:
-            html = tested
-            logger.info("Testing done in %.0fs, %d KB", time.monotonic() - started, len(html) // 1000)
-    yield sse("done", {"html": html})
+        spec = finished_spec(build.spec)
+    except ValueError as problem:
+        # ValidationError's text can quote the student's data, so only its count goes to the log.
+        reason = f"{problem.error_count()} catalog problems" if isinstance(problem, ValidationError) else problem
+        logger.warning("Generation gave no usable lesson after %.0fs: %s", time.monotonic() - started, reason)
+        yield sse("error", {"message": FAILED})
+        return
+    logger.info("Generation done in %.0fs, %d blocks", time.monotonic() - started, len(spec.elements) - 1)
+    yield sse("done", {"spec": spec.model_dump()})
 
 
-# Asks Hermes to write a learning page in the chosen theme for the student, streaming progress while it works.
+# Asks Hermes to build a lesson in the chosen theme for the student, streaming each block as it is written.
 @router.post("/generate")
 async def generate(request: GenerateRequest) -> StreamingResponse:
     return StreamingResponse(generate_events(request), media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
