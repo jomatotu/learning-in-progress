@@ -5,7 +5,24 @@ import { errorMessage } from '@/api/errorMessage'
 import { studentId } from '@/api/studentId'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { TUTOR } from '@/lib/tutor'
+
+const messages = defineMessages({
+  en: {
+    label: (tutor: string) => `What should ${tutor} do differently next time?`,
+    send: 'Send',
+    sent: (tutor: string) => `Thanks! ${tutor} will keep it in mind next time.`,
+    failed: 'That didn’t work.',
+  },
+  de: {
+    label: (tutor: string) =>
+      `Was soll ${tutor} beim nächsten Mal anders machen?`,
+    send: 'Senden',
+    sent: (tutor: string) => `Danke! ${tutor} denkt beim nächsten Mal daran.`,
+    failed: 'Das hat nicht geklappt.',
+  },
+})
 
 // Matches the server's cap on one learner note.
 const MAX_CHARS = 500
@@ -16,6 +33,7 @@ type FeedbackBoxProps = { theme: ThemeName }
 export function FeedbackBox({ theme }: FeedbackBoxProps) {
   const [text, setText] = useState('')
   const [state, setState] = useState<'idle' | 'sending' | 'sent'>('idle')
+  const t = useMessages(messages)
   const [error, setError] = useState('')
 
   async function send(event: FormEvent) {
@@ -30,7 +48,7 @@ export function FeedbackBox({ theme }: FeedbackBoxProps) {
       setText('')
       setState('sent')
     } catch (failure) {
-      setError(errorMessage(failure, 'Das hat nicht geklappt.'))
+      setError(errorMessage(failure, t.failed))
       setState('idle')
     }
   }
@@ -38,7 +56,7 @@ export function FeedbackBox({ theme }: FeedbackBoxProps) {
   return (
     <form onSubmit={send} className="flex flex-col gap-2">
       <label htmlFor={`feedback-${theme}`} className="text-sm font-medium">
-        Was soll {TUTOR} beim nächsten Mal anders machen?
+        {t.label(TUTOR)}
       </label>
       <Textarea
         id={`feedback-${theme}`}
@@ -51,10 +69,10 @@ export function FeedbackBox({ theme }: FeedbackBoxProps) {
         className="self-start"
         disabled={!text.trim() || state === 'sending'}
       >
-        Senden
+        {t.send}
       </Button>
       <p aria-live="polite" className="text-sm">
-        {state === 'sent' && `Danke! ${TUTOR} denkt beim nächsten Mal daran.`}
+        {state === 'sent' && t.sent(TUTOR)}
         {error}
       </p>
     </form>

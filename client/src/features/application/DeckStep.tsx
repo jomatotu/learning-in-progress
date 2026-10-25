@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import type { CardAnswer, HermesCard } from '@/api/intake'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import type { DeckEntry } from '@/lib/survey'
 import { StepHeading } from './StepHeading'
 import {
@@ -14,6 +15,39 @@ import {
 import { TUTOR } from '@/lib/tutor'
 
 // Fields and buttons handle keys themselves; a shortcut there would answer twice or eat typing.
+const messages = defineMessages({
+  en: {
+    label: (title: string) => `How you learn · ${title}`,
+    hint: 'One short question per card. You can change everything later.',
+    title: 'Is this',
+    titleEm: 'true for you?',
+    card: (n: number, total: number) => `Card ${n} of about ${total}`,
+    asks: (tutor: string) => `${tutor} asks`,
+    meaning: 'What this means for you',
+    no: 'Not really',
+    yes: 'True',
+    unsure: 'Not sure',
+    back: 'Back',
+    more: 'More detail? 30 short questions',
+    keys: 'Keyboard: Enter = True · Backspace = Not really',
+  },
+  de: {
+    label: (title: string) => `Wie du lernst · ${title}`,
+    hint: 'Eine kurze Frage pro Karte. Du kannst alles später ändern.',
+    title: 'Stimmt das',
+    titleEm: 'für dich?',
+    card: (n: number, total: number) => `Karte ${n} von etwa ${total}`,
+    asks: (tutor: string) => `${tutor} fragt`,
+    meaning: 'Das heißt für dich',
+    no: 'Eher nicht',
+    yes: 'Stimmt',
+    unsure: 'Weiß nicht',
+    back: 'Zurück',
+    more: 'Genauer? 30 kurze Fragen',
+    keys: 'Tastatur: Enter = Stimmt · Rücktaste = Eher nicht',
+  },
+})
+
 function keepsKey(key: string, target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false
   if (target.closest('input, textarea, select, [contenteditable]')) return true
@@ -135,26 +169,22 @@ function DeckStep({
     shown + 1,
   )
   const isLast = state.index === deck.length - 1
+  const t = useMessages(messages)
 
   return (
     <div>
-      <StepHeading
-        label={`Wie du lernst · ${hermes ? TUTOR : entry.title}`}
-        hint="Eine kurze Frage pro Karte. Du kannst alles später ändern."
-      >
-        Stimmt das <em>für dich?</em>
+      <StepHeading label={t.label(hermes ? TUTOR : entry.title)} hint={t.hint}>
+        {t.title} <em>{t.titleEm}</em>
       </StepHeading>
 
       <div className="mb-3 flex flex-wrap justify-between gap-x-4 text-sm text-graphite">
-        <span>
-          Karte {shown + 1} von etwa {total}
-        </span>
+        <span>{t.card(shown + 1, total)}</span>
       </div>
 
       <div aria-live="polite">
         <div className="rounded-[18px] bg-ink p-6 text-white">
           <span className="mb-2 block text-[0.7rem] font-bold tracking-[0.04em] text-[#bcb0f2]">
-            {hermes ? `${TUTOR} fragt` : 'Das heißt für dich'}
+            {hermes ? t.asks(TUTOR) : t.meaning}
           </span>
           <p className="text-[1.2rem] leading-snug font-semibold [overflow-wrap:anywhere]">
             {hermes ? hermes.text : card.text}
@@ -171,14 +201,14 @@ function DeckStep({
           className="secondary-button justify-center py-3.5"
           onClick={() => answer('eher_nicht')}
         >
-          Eher nicht
+          {t.no}
         </button>
         <button
           type="button"
           className="primary large"
           onClick={() => answer('stimmt')}
         >
-          Stimmt
+          {t.yes}
           <ArrowRight size={18} aria-hidden />
         </button>
       </div>
@@ -189,20 +219,18 @@ function DeckStep({
           className="text-button pl-0"
           onClick={() => answer('weiss_nicht')}
         >
-          Weiß nicht
+          {t.unsure}
         </button>
         <button type="button" className="text-button" onClick={back}>
-          Zurück
+          {t.back}
         </button>
         {isLast && !hermes && (
           <button type="button" className="text-button" onClick={onSurvey}>
-            Genauer? 30 kurze Fragen
+            {t.more}
           </button>
         )}
       </div>
-      <p className="mt-2 hidden text-xs text-graphite md:block">
-        Tastatur: Enter = Stimmt · Rücktaste = Eher nicht
-      </p>
+      <p className="mt-2 hidden text-xs text-graphite md:block">{t.keys}</p>
     </div>
   )
 }

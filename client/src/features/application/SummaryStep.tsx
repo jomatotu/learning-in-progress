@@ -4,7 +4,36 @@ import { Textarea } from '@/components/ui/textarea'
 import { Field } from './Field'
 import { StepHeading } from './StepHeading'
 import type { StepProps } from './ApplicationForm'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { TUTOR } from '@/lib/tutor'
+
+const messages = defineMessages({
+  en: {
+    label: (tutor: string) => `How you learn · ${tutor}`,
+    hint: 'You can change or leave out anything.',
+    title: 'What I',
+    titleEm: 'understood',
+    field: 'What I understood',
+    loading: (tutor: string) => `${tutor} is summing up what it understood …`,
+    failed: 'That didn’t work this time – no problem.',
+    keep: 'That’s right',
+    skip: 'Skip',
+    next: 'Continue',
+  },
+  de: {
+    label: (tutor: string) => `Wie du lernst · ${tutor}`,
+    hint: 'Du kannst alles ändern oder weglassen.',
+    title: 'Das habe ich',
+    titleEm: 'verstanden',
+    field: 'Das habe ich verstanden',
+    loading: (tutor: string) =>
+      `${tutor} fasst zusammen, was es verstanden hat …`,
+    failed: 'Hat diesmal nicht geklappt – kein Problem.',
+    keep: 'Stimmt so',
+    skip: 'Überspringen',
+    next: 'Weiter',
+  },
+})
 
 type Phase = 'loading' | 'ready' | 'failed'
 
@@ -24,6 +53,7 @@ function SummaryStep({
   )
   const [text, setText] = useState(profile.about_you)
   const area = useRef<HTMLTextAreaElement>(null)
+  const t = useMessages(messages)
   const waited = useRef(phase === 'loading')
 
   // Runs once on mount; the form caches the request, so coming back here asks Hermes nothing new.
@@ -56,28 +86,19 @@ function SummaryStep({
 
   return (
     <div>
-      <StepHeading
-        label={`Wie du lernst · ${TUTOR}`}
-        hint="Du kannst alles ändern oder weglassen."
-      >
-        Das habe ich <em>verstanden</em>
+      <StepHeading label={t.label(TUTOR)} hint={t.hint}>
+        {t.title} <em>{t.titleEm}</em>
       </StepHeading>
 
       <div aria-live="polite">
         {phase === 'loading' && (
-          <p className="text-graphite">
-            {TUTOR} fasst zusammen, was es verstanden hat …
-          </p>
+          <p className="text-graphite">{t.loading(TUTOR)}</p>
         )}
-        {phase === 'failed' && (
-          <p className="text-graphite">
-            Hat diesmal nicht geklappt – kein Problem.
-          </p>
-        )}
+        {phase === 'failed' && <p className="text-graphite">{t.failed}</p>}
       </div>
 
       {phase === 'ready' && (
-        <Field id="about_you" label="Das habe ich verstanden">
+        <Field id="about_you" label={t.field}>
           <Textarea
             ref={area}
             id="about_you"
@@ -93,7 +114,7 @@ function SummaryStep({
         {phase === 'ready' && (
           <>
             <button type="button" className="primary large" onClick={keep}>
-              Stimmt so
+              {t.keep}
               <ArrowRight size={18} aria-hidden />
             </button>
             <button
@@ -104,7 +125,7 @@ function SummaryStep({
                 onNext()
               }}
             >
-              Überspringen
+              {t.skip}
             </button>
           </>
         )}
@@ -117,7 +138,7 @@ function SummaryStep({
               onNext()
             }}
           >
-            Weiter
+            {t.next}
             <ArrowRight size={18} aria-hidden />
           </button>
         )}

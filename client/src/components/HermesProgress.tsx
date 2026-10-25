@@ -1,4 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import { defineMessages, useMessages } from '@/lib/i18n'
+
+const messages = defineMessages({
+  en: { starting: 'Starting …', thinking: 'Hermes is thinking' },
+  de: { starting: 'Wird gestartet …', thinking: 'Hermes denkt' },
+})
 
 type HermesProgressProps = { status: string; reasoning: string }
 
@@ -8,6 +14,7 @@ export function HermesProgress({ status, reasoning }: HermesProgressProps) {
   const box = useRef<HTMLPreElement>(null)
   const [startedAt] = useState(() => Date.now())
   const [now, setNow] = useState(startedAt)
+  const t = useMessages(messages)
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000)
@@ -21,14 +28,14 @@ export function HermesProgress({ status, reasoning }: HermesProgressProps) {
   return (
     <div className="flex flex-col gap-2">
       <p className="flex gap-2 text-muted-foreground">
-        <span aria-live="polite">{status || 'Wird gestartet …'}</span>
+        <span aria-live="polite">{status || t.starting}</span>
         {/* Outside the live region, so screen readers don't announce every second. */}
         <span className="tabular-nums">{formatElapsed(now - startedAt)}</span>
       </p>
       {reasoning && (
         <pre
           ref={box}
-          aria-label="Hermes denkt"
+          aria-label={t.thinking}
           className="max-h-48 overflow-y-auto rounded-lg border bg-muted/40 p-3 text-xs whitespace-pre-wrap text-muted-foreground"
         >
           {reasoning}

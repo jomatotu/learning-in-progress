@@ -19,6 +19,11 @@ export function defineMessages<T>(messages: { en: T; de: NoInfer<T> }) {
   return messages
 }
 
+// The current language outside React (API helpers): LanguageProvider keeps it on <html lang>.
+export function currentLang(): Lang {
+  return document.documentElement.lang === 'en' ? 'en' : defaultLang
+}
+
 export function useMessages<T>(messages: { en: T; de: T }): T {
   return messages[useLanguage().lang]
 }

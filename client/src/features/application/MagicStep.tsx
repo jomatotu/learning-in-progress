@@ -42,7 +42,6 @@ const messages = defineMessages({
   },
 })
 
-
 // The Magic Page: shown after "Build my tool". "Lösung öffnen" has Hermes build the
 // Solution Page, then redirects to it.
 // Styling comes from the deprecated onboarding flow (onboarding.css). The tailwind

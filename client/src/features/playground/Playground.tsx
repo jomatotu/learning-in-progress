@@ -4,11 +4,18 @@ import { errorMessage } from '@/api/errorMessage'
 import { HermesProgress } from '@/components/HermesProgress'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { saveRun } from '@/features/learn/learnStore'
 import { mockStudent } from './mockStudent'
 
 // Test page for the whole flow: runs the assessment for the profile in the box, then opens a new tab that generates a page per picked theme.
+const messages = defineMessages({
+  en: { invalidJson: 'The profile is not valid JSON.' },
+  de: { invalidJson: 'Das Profil ist kein gültiges JSON.' },
+})
+
 export function Playground() {
+  const t = useMessages(messages)
   const [profileText, setProfileText] = useState(
     JSON.stringify(mockStudent.profile, null, 2),
   )
@@ -25,7 +32,7 @@ export function Playground() {
     try {
       parsed = JSON.parse(profileText)
     } catch {
-      setParseError('Das Profil ist kein gültiges JSON.')
+      setParseError(t.invalidJson)
       return
     }
     setParseError('')

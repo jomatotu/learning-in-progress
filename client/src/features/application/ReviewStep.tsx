@@ -213,8 +213,7 @@ function ReviewStep({
           {profile.notes ? (
             <p className="whitespace-pre-line">{profile.notes}</p>
           ) : (
-            !profile.likes.length &&
-            !profile.hard && <Empty>{t.noNotes}</Empty>
+            !profile.likes.length && !profile.hard && <Empty>{t.noNotes}</Empty>
           )}
         </Section>
       </div>

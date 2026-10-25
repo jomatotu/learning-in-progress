@@ -1,3 +1,5 @@
+import { currentLang, defineMessages } from '@/lib/i18n'
+
 export class ApiError extends Error {
   readonly status?: number
 
@@ -13,6 +15,26 @@ export type RequestOptions = {
   body?: unknown
   timeoutMs?: number
 }
+
+const messages = defineMessages({
+  en: {
+    askCode: 'Access code for Morph',
+    failed: (status: number) => `Request failed with status ${status}.`,
+    stopped: 'The server stopped before it was done.',
+    timeout: 'That took too long. Try again in a moment.',
+    unreachable: 'The server can’t be reached right now.',
+  },
+  de: {
+    askCode: 'Zugangscode für Morph',
+    failed: (status: number) =>
+      `Die Anfrage ist fehlgeschlagen (Status ${status}).`,
+    stopped: 'Der Server hat vor dem Ende aufgehört.',
+    timeout: 'Das hat zu lange gedauert. Versuch es gleich nochmal.',
+    unreachable: 'Der Server ist gerade nicht erreichbar.',
+  },
+})
+
+const t = () => messages[currentLang()]
 
 const ACCESS_KEY = 'lip-access-code'
 
@@ -37,7 +59,7 @@ function accessHeader(): Record<string, string> {
 
 // Asks for the code after a 401 and keeps it; false when the student cancels.
 function askForCode(): boolean {
-  const code = window.prompt('Zugangscode für Learning in Progress')?.trim()
+  const code = window.prompt(t().askCode)?.trim()
   if (!code) return false
   try {
     localStorage.setItem(ACCESS_KEY, code)
@@ -83,7 +105,7 @@ export async function request<T>(
     const message =
       typeof data.detail === 'string'
         ? data.detail
-        : `Die Anfrage ist fehlgeschlagen (Status ${response.status}).`
+        : t().failed(response.status)
     throw new ApiError(message, response.status)
   }
 
@@ -121,7 +143,7 @@ export async function streamRequest(
     const message =
       typeof data.detail === 'string'
         ? data.detail
-        : `Die Anfrage ist fehlgeschlagen (Status ${response.status}).`
+        : t().failed(response.status)
     throw new ApiError(message, response.status)
   }
 
@@ -186,13 +208,13 @@ export async function streamResult<T>(
       }
     },
   })
-  if (!result) throw new ApiError('Der Server hat vor dem Ende aufgehört.')
+  if (!result) throw new ApiError(t().stopped)
   return result.data
 }
 
 function toApiError(error: unknown): ApiError {
   if (error instanceof DOMException && error.name === 'TimeoutError') {
-    return new ApiError('Das hat zu lange gedauert. Versuch es gleich nochmal.')
+    return new ApiError(t().timeout)
   }
-  return new ApiError('Der Server ist gerade nicht erreichbar.')
+  return new ApiError(t().unreachable)
 }

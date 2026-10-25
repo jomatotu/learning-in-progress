@@ -229,7 +229,9 @@ describe('ApplicationForm', () => {
 
     await user.click(screen.getByRole('button', { name: /weiter/i }))
     expect(
-      screen.getByText('Beantworte jede Aussage oder überspring diesen Teil erst mal.'),
+      screen.getByText(
+        'Beantworte jede Aussage oder überspring diesen Teil erst mal.',
+      ),
     ).toBeInTheDocument()
 
     for (const group of screen.getAllByRole('group')) {
@@ -323,9 +325,7 @@ describe('ApplicationForm', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Listening' }))
     expect(await screen.findByText(/You like listening/)).toBeInTheDocument()
-    await user.click(
-      screen.getByRole('button', { name: /^erstellen$/i }),
-    )
+    await user.click(screen.getByRole('button', { name: /^erstellen$/i }))
 
     const [url, target] = openMock.mock.calls[0]
     expect(target).toBe('_blank')
