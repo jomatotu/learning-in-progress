@@ -32,9 +32,14 @@ venv/
 .env.*
 !.env.example
 
-# Hermes-written Solution Pages
-client/src/features/application/generated/
+# Agent plans / local notes
+.hermes/
 .worktrees/
+
+# Solution pages generated at runtime by server/app/routers/solution.py.
+# Note: they live inside src/ and are picked up by import.meta.glob, so a
+# production build only contains the pages present on disk at build time.
+client/src/features/application/generated/
 
 # Per-student learner notes
 server/data/learners/

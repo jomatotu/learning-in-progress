@@ -59,7 +59,7 @@ def test_no_answers_and_no_bands_leaves_out_every_category():
 
 
 def test_survey_has_a_german_deck_without_ai_instructions():
-    survey = client.get("/api/survey").json()
+    survey = client.get("/api/survey", params={"lang": "de"}).json()
     deck = survey["deck"]
 
     assert [d["category"] for d in deck] == [c["id"] for c in survey["categories"]]
@@ -78,3 +78,11 @@ def test_survey_has_a_german_deck_without_ai_instructions():
     assert "rechnest" not in deck[0]["low"]["reason"]
     assert deck[0]["low"]["text"].startswith("Das Thema ist für dich")
     assert "ai_instructions" not in str(deck)
+
+
+def test_survey_deck_comes_in_english_by_default():
+    deck = client.get("/api/survey").json()["deck"]
+
+    for entry in deck:
+        for side in ("low", "high"):
+            assert entry[side]["reason"].startswith("So ")

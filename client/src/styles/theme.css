@@ -1,0 +1,423 @@
+/* The sun / moon button in the top bar, shaped like main's round help button. */
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid #d3d0c7;
+  color: #686572;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.theme-toggle:hover {
+  color: #6955c6;
+  border-color: #6955c6;
+}
+
+.dark .theme-toggle:hover {
+  color: var(--dk-accent);
+  border-color: var(--dk-accent);
+}
+
+/* Dark mode for every page. Active while <html> has the class "dark" (ThemeProvider sets it).
+   It only overrides colours; layout, type, and spacing stay exactly as in the light theme.
+   Same character as light: a deep plum-ink page instead of cream, slightly lighter cards, a brighter purple
+   so it keeps its contrast, and soft black shadows instead of purple-grey ones. */
+
+:root.dark {
+  color-scheme: dark;
+  --dk-bg: #14121a;
+  --dk-surface: #1d1a25;
+  --dk-raised: #252131;
+  --dk-field: #18161f;
+  --dk-border: #2f2a3b;
+  --dk-border-strong: #3d3750;
+  --dk-text: #eeebf5;
+  --dk-body: #d6d2e0;
+  --dk-muted: #a6a1b3;
+  --dk-faint: #827d90;
+  --dk-accent: #9b88f2;
+  --dk-accent-fill: #7a66d6;
+  --dk-accent-soft: rgba(155, 136, 242, 0.14);
+  --dk-accent-deep: #cfc4fb;
+  --dk-coral: #ec8c72;
+  --dk-mint: #8fc0aa;
+  --dk-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+  --dk-shadow-small: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.dark body {
+  background: var(--dk-bg);
+}
+
+/* Shell and top bar */
+
+.dark .app-shell {
+  --lip-bg: var(--dk-bg);
+  --lip-ink: var(--dk-text);
+  --lip-accent: var(--dk-accent);
+  color: var(--dk-body);
+}
+
+.dark .app-shell h1,
+.dark .app-shell h2,
+.dark .app-shell h3 {
+  color: var(--dk-text);
+}
+
+.dark .topbar {
+  border-bottom-color: var(--dk-border);
+  background: rgba(20, 18, 26, 0.86);
+}
+
+.dark .brand {
+  color: var(--dk-text);
+}
+
+.dark .brand-mark span {
+  background: var(--dk-accent);
+}
+
+.dark .brand-mark span:nth-child(2) {
+  background: var(--dk-coral);
+}
+
+.dark .brand-mark span:nth-child(3) {
+  background: var(--dk-mint);
+}
+
+.dark .help,
+.dark .theme-toggle {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-muted);
+}
+
+.dark .stepper {
+  color: var(--dk-muted);
+}
+
+.dark .progress {
+  background: var(--dk-border);
+}
+
+.dark .progress i {
+  background: var(--dk-accent);
+}
+
+/* Shared pieces */
+
+.dark .kicker {
+  color: var(--dk-accent);
+}
+
+.dark .step-overline {
+  color: var(--dk-coral);
+}
+
+.dark .primary,
+.dark .magic-button {
+  background: var(--dk-text);
+  color: var(--dk-bg);
+  box-shadow: var(--dk-shadow-small);
+}
+
+.dark .primary:hover {
+  background: var(--dk-accent);
+  color: var(--dk-bg);
+}
+
+.dark .primary:disabled {
+  background: var(--dk-text);
+}
+
+.dark .text-button {
+  color: var(--dk-muted);
+}
+
+.dark .chip {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-raised);
+  color: var(--dk-body);
+}
+
+.dark .chip:hover,
+.dark .chip.selected {
+  border-color: var(--dk-accent);
+  background: var(--dk-accent-soft);
+  color: var(--dk-accent-deep);
+}
+
+.dark .answer-box textarea,
+.dark .topic-input {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-field);
+  color: var(--dk-text);
+}
+
+.dark .answer-box textarea:focus,
+.dark .topic-input:focus {
+  border-color: var(--dk-accent);
+  box-shadow: 0 0 0 3px rgba(155, 136, 242, 0.25);
+}
+
+.dark .mic {
+  color: var(--dk-accent);
+  background: var(--dk-accent-soft);
+}
+
+.dark .or {
+  color: var(--dk-faint);
+}
+
+.dark .or:before,
+.dark .or:after {
+  background: var(--dk-border);
+}
+
+.dark .dropzone {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-accent-soft);
+  color: var(--dk-accent);
+}
+
+.dark .dropzone small,
+.dark .optional,
+.dark .question-count {
+  color: var(--dk-faint);
+}
+
+/* Home */
+
+.dark .home-copy > p {
+  color: var(--dk-muted);
+}
+
+.dark .home-copy > small {
+  color: var(--dk-faint);
+}
+
+.dark .hero-art:before {
+  background: #2a2342;
+}
+
+.dark .orbit {
+  border-color: rgba(155, 136, 242, 0.24);
+}
+
+.dark .art-center {
+  background: var(--dk-accent-fill);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+.dark .art-card {
+  background: rgba(37, 33, 49, 0.92);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text);
+  box-shadow: var(--dk-shadow-small);
+}
+
+/* Cards, panels, and lists */
+
+.dark .dialog-screen {
+  background: radial-gradient(circle at 50% 45%, #241f36, transparent 38%);
+}
+
+.dark .understood-screen {
+  background: radial-gradient(circle at 50% 20%, #241f36 0, transparent 30%);
+}
+
+.dark .dialog-card,
+.dark .brief-card,
+.dark .solution-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-body);
+  box-shadow: var(--dk-shadow);
+}
+
+.dark .dialog-card > p,
+.dark .section-heading > p {
+  color: var(--dk-muted);
+}
+
+.dark .profile-panel {
+  background: var(--dk-surface);
+  border-right: 1px solid var(--dk-border);
+}
+
+.dark .profile-panel:after {
+  border-color: var(--dk-border-strong);
+}
+
+.dark .brief-row {
+  border-bottom-color: var(--dk-border);
+}
+
+.dark .number {
+  color: #6f62a8;
+}
+
+.dark .brief-row small {
+  color: var(--dk-faint);
+}
+
+.dark .callout {
+  background: #1d2b25;
+  color: #a9cbbb;
+}
+
+.dark .solution-card:hover {
+  box-shadow: var(--dk-shadow);
+}
+
+.dark .solution-card.active {
+  border-color: var(--dk-accent);
+  box-shadow: 0 12px 30px rgba(155, 136, 242, 0.18);
+}
+
+.dark .select-mark {
+  background: var(--dk-raised);
+  color: var(--dk-accent);
+}
+
+.dark .solution-card.active .select-mark {
+  background: var(--dk-accent);
+  color: var(--dk-bg);
+}
+
+.dark .solution-tag {
+  background: rgba(20, 18, 26, 0.6);
+  color: var(--dk-muted);
+}
+
+.dark .visual-main {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: var(--dk-shadow-small);
+}
+
+.dark .sticky-action {
+  border-color: var(--dk-border);
+  background: rgba(29, 26, 37, 0.94);
+  box-shadow: var(--dk-shadow);
+}
+
+/* Pastel tile pairs, darkened so they glow softly instead of shining. */
+
+.dark .plum {
+  background: #2a2342;
+  color: #b9aaf6;
+}
+
+.dark .blue {
+  background: #1d2a33;
+  color: #8fb5cc;
+}
+
+.dark .mint {
+  background: #1d2b25;
+  color: #8fc0aa;
+}
+
+.dark .peach {
+  background: #33231e;
+  color: #e5a28c;
+}
+
+.dark .lavender {
+  background: #2a2235;
+  color: #c2a5e3;
+}
+
+.dark .yellow {
+  background: #2f2a1a;
+  color: #d8c07a;
+}
+
+/* Magic step */
+
+.dark .magic-screen {
+  background: radial-gradient(
+    circle at 50% 45%,
+    #2a2342 0,
+    var(--dk-bg) 45%,
+    #110f16 100%
+  );
+}
+
+.dark .magic-content p {
+  color: var(--dk-muted);
+}
+
+.dark .magic-formats span {
+  border-color: rgba(155, 136, 242, 0.24);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--dk-accent-deep);
+}
+
+.dark .magic-back {
+  color: var(--dk-faint);
+}
+
+.dark .magic-orbit {
+  border-color: rgba(155, 136, 242, 0.2);
+}
+
+.dark .magic-particle {
+  background: var(--dk-accent-fill);
+  box-shadow: var(--dk-shadow-small);
+}
+
+.dark .particle-b {
+  background: var(--dk-coral);
+}
+
+.dark .particle-c {
+  background: var(--dk-mint);
+}
+
+/* Application page: its colour tokens (bg-paper, text-graphite, border-rule, …) switch, so every
+   component and every generated solution page that uses them follows automatically. */
+
+.dark .application-page {
+  --paper: var(--dk-field);
+  --sheet: var(--dk-surface);
+  --ink: var(--dk-text);
+  --graphite: var(--dk-muted);
+  --rule: var(--dk-border);
+  --pine: var(--dk-accent);
+  --pine-soft: var(--dk-accent-soft);
+  --pine-deep: var(--dk-accent-deep);
+  --marigold: var(--dk-coral);
+  --clay: var(--dk-coral);
+  --card-shadow: var(--dk-shadow);
+}
+
+.dark .application-page .label {
+  color: var(--dk-faint);
+}
+
+.dark .application-page .secondary-button {
+  border-color: var(--dk-border-strong);
+}
+
+.dark .application-page [data-slot='input'],
+.dark .application-page [data-slot='textarea'] {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-field);
+  color: var(--dk-text);
+}
+
+.dark .application-page [data-slot='input']:focus-visible,
+.dark .application-page [data-slot='textarea']:focus-visible {
+  border-color: var(--dk-accent);
+  box-shadow: 0 0 0 3px rgba(155, 136, 242, 0.25);
+}
+
+.dark .application-page ::placeholder {
+  color: var(--dk-faint);
+}

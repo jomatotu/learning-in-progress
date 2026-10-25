@@ -4,12 +4,40 @@ import { themeTitles, useAssess, type Answer } from '@/api/assess'
 import type { StudentProfile } from '@/api/profile'
 import type { Research } from '@/api/research'
 import { HermesProgress } from '@/components/HermesProgress'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { saveRun } from '@/features/learn/learnStore'
 import { ResearchCard } from './ResearchCard'
 import { materialText, profileForHermes } from './studentProfile'
 
-// Shown after "Meine Lösung bauen": Hermes asks a few questions and researches the web for this student at the same
-// time, picks the themes, and the build button opens the pages in a new tab.
+const messages = defineMessages({
+  en: {
+    kicker: 'Your profile is ready',
+    thanks: (name: string) => `Thanks, ${name}.`,
+    titleEm: 'A few quick questions.',
+    bestFit: 'These fit you best, best first:',
+    generate: 'Generate',
+    tryAgain: 'Try again',
+    back: 'Back to my profile',
+    seeJson: 'See your profile JSON',
+    copied: 'Copied',
+    copy: 'Copy JSON',
+  },
+  de: {
+    kicker: 'Dein Profil steht',
+    thanks: (name: string) => `Danke, ${name}.`,
+    titleEm: 'Noch ein paar kurze Fragen.',
+    bestFit: 'Das passt am besten zu dir, das Beste zuerst:',
+    generate: 'Erstellen',
+    tryAgain: 'Nochmal versuchen',
+    back: 'Zurück zu meinem Profil',
+    seeJson: 'Dein Profil als JSON ansehen',
+    copied: 'Kopiert',
+    copy: 'JSON kopieren',
+  },
+})
+
+// Shown after "Build my tool": Hermes asks a few questions and researches the web for this student at the same
+// time, picks the themes, and Generate opens the pages in a new tab.
 function AssessmentScreen({
   name,
   studentProfile,
@@ -20,6 +48,7 @@ function AssessmentScreen({
   onBack: () => void
 }) {
   const assess = useAssess()
+  const t = useMessages(messages)
   const [answers, setAnswers] = useState<Answer[]>([])
   const [research, setResearch] = useState<Research | null>(null)
   const profile = profileForHermes(studentProfile)
@@ -59,12 +88,12 @@ function AssessmentScreen({
 
   return (
     <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
-      <span className="kicker">Dein Profil ist fertig</span>
+      <span className="kicker">{t.kicker}</span>
       <h2
         tabIndex={-1}
         className="mt-3 max-w-[22ch] text-[2.2rem] outline-none md:text-[2.8rem]"
       >
-        Danke, {name}. <em>Noch ein paar kurze Fragen.</em>
+        {t.thanks(name)} <em>{t.titleEm}</em>
       </h2>
 
       {answers.length > 0 && (
@@ -105,9 +134,7 @@ function AssessmentScreen({
 
         {themes && (
           <div className="flex flex-col gap-4">
-            <p className="text-xl font-medium">
-              Das passt am besten zu dir, das Beste zuerst:
-            </p>
+            <p className="text-xl font-medium">{t.bestFit}</p>
             <ol className="flex list-decimal flex-col gap-2 pl-6">
               {themes.map((pick) => (
                 <li key={pick.theme}>
@@ -121,7 +148,7 @@ function AssessmentScreen({
               className="primary large self-start"
               onClick={generate}
             >
-              Meine Seiten bauen
+              {t.generate}
               <ArrowRight size={18} aria-hidden />
             </button>
           </div>
@@ -135,7 +162,7 @@ function AssessmentScreen({
               className="primary mt-4"
               onClick={() => assess.mutate({ profile, answers, material })}
             >
-              Nochmal versuchen
+              {t.tryAgain}
             </button>
           </div>
         )}
@@ -148,7 +175,7 @@ function AssessmentScreen({
       <ProfileJson profile={studentProfile} />
 
       <button className="text-button mt-6 pl-0" onClick={onBack}>
-        Zurück zu meinem Profil
+        {t.back}
       </button>
     </div>
   )
@@ -157,6 +184,7 @@ function AssessmentScreen({
 // The profile JSON the server built, for the team and the demo.
 function ProfileJson({ profile }: { profile: StudentProfile }) {
   const [copied, setCopied] = useState(false)
+  const t = useMessages(messages)
   const json = JSON.stringify(profile, null, 2)
 
   const copy = async () => {
@@ -171,7 +199,7 @@ function ProfileJson({ profile }: { profile: StudentProfile }) {
   return (
     <details className="mt-10 rounded-2xl border border-rule bg-paper">
       <summary className="cursor-pointer px-5 py-4 font-normal">
-        Dein Profil als JSON
+        {t.seeJson}
       </summary>
       <div className="border-t border-rule p-5">
         <div className="mb-3 flex justify-end">
@@ -181,7 +209,7 @@ function ProfileJson({ profile }: { profile: StudentProfile }) {
             ) : (
               <Copy size={16} aria-hidden />
             )}
-            {copied ? 'Kopiert' : 'JSON kopieren'}
+            {copied ? t.copied : t.copy}
           </button>
         </div>
         <pre className="max-h-96 overflow-auto rounded-xl bg-sheet p-4 font-mono text-[0.78rem] leading-relaxed">

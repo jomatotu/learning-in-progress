@@ -1,4 +1,5 @@
 import { questionsIn, useSurvey, type SurveyCategory } from '@/lib/survey'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import { StepHeading } from './StepHeading'
 import type { StepProps } from './ApplicationForm'
@@ -64,6 +65,21 @@ function RatingItem({
   )
 }
 
+const messages = defineMessages({
+  en: {
+    part: (part: number, total: number) =>
+      `How you learn · part ${part} of ${total}`,
+    intro:
+      'How much is each one like you? There are no right or wrong answers.',
+  },
+  de: {
+    part: (part: number, total: number) =>
+      `Wie du lernst · Teil ${part} von ${total}`,
+    intro:
+      'Wie sehr trifft jede Aussage auf dich zu? Es gibt keine richtigen oder falschen Antworten.',
+  },
+})
+
 // One survey screen: the statements of a single category.
 function SurveyStep({
   profile,
@@ -73,20 +89,18 @@ function SurveyStep({
   part,
 }: StepProps & { category: SurveyCategory; part: number }) {
   const survey = useSurvey()
+  const t = useMessages(messages)
 
   return (
     <div>
       <StepHeading
-        label={`Wie du lernst · Teil ${part} von ${survey.categories.length}`}
+        label={t.part(part, survey.categories.length)}
         hint={category.hint}
       >
         {category.title}
       </StepHeading>
 
-      <p className="-mt-1 mb-3 text-sm text-graphite">
-        Wie sehr trifft jede Aussage auf dich zu? Es gibt keine richtigen oder
-        falschen Antworten.
-      </p>
+      <p className="-mt-1 mb-3 text-sm text-graphite">{t.intro}</p>
 
       <div className="flex flex-col gap-3">
         {questionsIn(survey, category.id).map((item) => (

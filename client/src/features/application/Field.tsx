@@ -1,5 +1,11 @@
 import type { ReactNode } from 'react'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
+
+const messages = defineMessages({
+  en: { optional: 'optional' },
+  de: { optional: 'optional' },
+})
 
 // Label, optional hint, and inline error around one form control.
 function Field({
@@ -19,12 +25,14 @@ function Field({
   className?: string
   children: ReactNode
 }) {
+  const t = useMessages(messages)
+
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
       <label htmlFor={id} className="text-base font-normal">
         {label}
         {optional && (
-          <span className="ml-2 text-sm text-graphite">optional</span>
+          <span className="ml-2 text-sm text-graphite">{t.optional}</span>
         )}
       </label>
       {hint && <p className="-mt-1 text-sm text-graphite">{hint}</p>}

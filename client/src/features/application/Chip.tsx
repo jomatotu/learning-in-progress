@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-// Pill-shaped answer option. Selected chips are marigold, because they hold the student's own answers.
+// Pill-shaped answer option. Selected chips turn purple, like main's .chip.selected.
 function Chip({
   selected,
   className,

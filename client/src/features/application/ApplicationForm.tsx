@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react'
 import { useCreateProfile } from '@/api/profile'
 import { useSurveyQuestions } from '@/api/survey'
+import { defineMessages, useLanguage, useMessages } from '@/lib/i18n'
 import {
   deckBands,
   questionsIn,
@@ -23,6 +24,7 @@ import { toIntakeBody, toProfileRequest } from './studentProfile'
 import { GoalStep } from './GoalStep'
 import { MagicStep } from './MagicStep'
 import { NotesStep } from './NotesStep'
+import { optionMessages } from './options'
 import { ProfilePanel } from './ProfilePanel'
 import { ReviewStep } from './ReviewStep'
 import { SummaryStep } from './SummaryStep'
@@ -45,29 +47,91 @@ export type StepProps = {
   errors: Partial<Record<keyof Profile, string>>
 }
 
+const messages = defineMessages({
+  en: {
+    errors: {
+      name: 'Tell us what to call you.',
+      stage: 'Pick the one that fits best.',
+      topic: 'Tell us the topic, even in a few words.',
+      answers: 'Answer each one, or skip this part for now.',
+    },
+    primary: {
+      continue: 'Continue',
+      build: 'Build my tool',
+      building: 'Building…',
+      magic: 'Magic page',
+    },
+    step: (n: number, total: number) => `Step ${n} of ${total}`,
+    minutesLeft: (n: number) =>
+      `about ${n} ${n === 1 ? 'minute' : 'minutes'} left`,
+    almostDone: 'almost done',
+    saved: 'Saved',
+    buildFailed:
+      'We couldn’t build your profile. Check your connection and try again.',
+    back: 'Back',
+    skipRest: 'Skip the rest',
+    skipPart: 'Skip this part',
+    skipForNow: 'Skip for now',
+    loading: 'Getting things ready…',
+    loadFailed:
+      'We couldn’t load the form. Check your connection and try again.',
+    tryAgain: 'Try again',
+  },
+  de: {
+    errors: {
+      name: 'Sag uns, wie wir dich nennen sollen.',
+      stage: 'Wähl das, was am besten passt.',
+      topic: 'Nenn uns das Thema, gern in wenigen Worten.',
+      answers: 'Beantworte jede Aussage oder überspring diesen Teil erst mal.',
+    },
+    primary: {
+      continue: 'Weiter',
+      build: 'Mein Werkzeug bauen',
+      building: 'Wird gebaut…',
+      magic: 'Magische Seite',
+    },
+    step: (n: number, total: number) => `Schritt ${n} von ${total}`,
+    minutesLeft: (n: number) =>
+      `noch etwa ${n} ${n === 1 ? 'Minute' : 'Minuten'}`,
+    almostDone: 'fast geschafft',
+    saved: 'Gespeichert',
+    buildFailed:
+      'Wir konnten dein Profil nicht erstellen. Prüf deine Verbindung und versuch es nochmal.',
+    back: 'Zurück',
+    skipRest: 'Den Rest überspringen',
+    skipPart: 'Diesen Teil überspringen',
+    skipForNow: 'Erst mal überspringen',
+    loading: 'Wird vorbereitet…',
+    loadFailed:
+      'Wir konnten das Formular nicht laden. Prüf deine Verbindung und versuch es nochmal.',
+    tryAgain: 'Nochmal versuchen',
+  },
+})
+
+type Messages = (typeof messages)['en']
+
 // Returns what's missing before the student can leave this screen.
 function validate(
   screen: Screen,
   profile: Profile,
   survey: Survey,
+  t: Messages,
 ): StepProps['errors'] {
   if (screen.step === 'about') {
     return {
-      ...(!profile.name.trim() && {
-        name: 'Sag uns, wie wir dich nennen sollen.',
-      }),
-      ...(!profile.stage && { stage: 'Wähl aus, was am besten passt.' }),
+      ...(!profile.name.trim() && { name: t.errors.name }),
+      ...(!profile.stage && { stage: t.errors.stage }),
     }
   }
   if (screen.step === 'goal' && !profile.topic.trim()) {
-    return { topic: 'Sag uns das Thema, auch in ein paar Wörtern.' }
+    return { topic: t.errors.topic }
   }
   if (screen.step === 'survey') {
     const missing = questionsIn(survey, screen.categoryId).some(
       (question) => profile.answers[question.id] === undefined,
     )
     if (missing) {
-      return { answers: 'Beantworte jede Aussage oder überspring diesen Teil.' }
+      return { answers: t.errors.answers }
     }
   }
   return {}
@@ -76,6 +140,8 @@ function validate(
 // The intake flow: about you, your goal, your notes, the yes/no deck (with the optional 30-question survey), and a final check.
 function Form() {
   const survey = useSurvey()
+  const t = useMessages(messages)
+  const options = useMessages(optionMessages)
   const screens = buildScreens(survey)
   const [index, setIndex] = useState(0)
   const [profile, setProfile] = useState<Profile>(loadProfile)
@@ -136,7 +202,7 @@ function Form() {
     )
   }
 
-  // "Meine Lösung bauen" and "Magic-Seite": the server scores the survey and returns the student's profile JSON.
+  // "Build my tool" and "Magic page": the server scores the survey and returns the student's profile JSON.
   const buildProfile = (target: Ending) => {
     if (createProfile.isPending) return
     setEnding(target)
@@ -231,7 +297,7 @@ function Form() {
   }
 
   const next = () => {
-    const found = validate(screen, profile, survey)
+    const found = validate(screen, profile, survey, t)
     setErrors(found)
     if (Object.keys(found).length) return
     if (screen.step !== 'review') forward()
@@ -265,15 +331,12 @@ function Form() {
       <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-2.5 text-sm md:px-8">
         <span>
           <span className="font-medium">
-            Schritt {stepNumber} von {steps.length}
+            {t.step(stepNumber, steps.length)}
           </span>{' '}
-          · {step.title}
+          · {options.steps[step.id]}
           <span className="text-graphite">
             {' '}
-            ·{' '}
-            {minutesLeft > 0
-              ? `noch etwa ${minutesLeft} ${minutesLeft === 1 ? 'Minute' : 'Minuten'}`
-              : 'fast fertig'}
+            · {minutesLeft > 0 ? t.minutesLeft(minutesLeft) : t.almostDone}
           </span>
         </span>
         <div className="flex gap-1.5" aria-hidden>
@@ -291,7 +354,7 @@ function Form() {
             />
           ))}
         </div>
-        <span className="text-graphite">Gespeichert</span>
+        <span className="text-graphite">{t.saved}</span>
       </div>
 
       <div
@@ -348,8 +411,7 @@ function Form() {
               role="alert"
               className="mt-4 border-l-[3px] border-clay pl-3 text-sm"
             >
-              Wir konnten dein Profil nicht bauen. Prüf deine Verbindung und
-              versuch es nochmal.
+              {t.buildFailed}
             </p>
           )}
 
@@ -361,7 +423,7 @@ function Form() {
                 onClick={goBack}
               >
                 <ArrowLeft size={18} aria-hidden />
-                Zurück
+                {t.back}
               </button>
             ) : (
               <span />
@@ -374,21 +436,21 @@ function Form() {
                   className="text-button"
                   onClick={() => goTo('summary')}
                 >
-                  Rest überspringen
+                  {t.skipRest}
                 </button>
               )}
               {canSkip && (
                 <button type="button" className="text-button" onClick={forward}>
-                  Überspringen
+                  {screen.step === 'survey' ? t.skipPart : t.skipForNow}
                 </button>
               )}
               {!hasOwnButtons && (
                 <button type="submit" className="primary large">
                   {createProfile.isPending && ending === 'assess'
-                    ? 'Wird gebaut…'
+                    ? t.primary.building
                     : screen.step === 'review'
-                      ? 'Meine Lösung bauen'
-                      : 'Weiter'}
+                      ? t.primary.build
+                      : t.primary.continue}
                   <ArrowRight size={18} aria-hidden />
                 </button>
               )}
@@ -399,8 +461,8 @@ function Form() {
                   onClick={() => buildProfile('magic')}
                 >
                   {createProfile.isPending && ending === 'magic'
-                    ? 'Wird gebaut…'
-                    : 'Magic-Seite'}
+                    ? t.primary.building
+                    : t.primary.magic}
                   <Sparkles size={18} aria-hidden />
                 </button>
               )}
@@ -414,9 +476,12 @@ function Form() {
   )
 }
 
-// Loads the survey questions from the server before showing the form.
+// Loads the survey questions from the server, in the chosen language, before showing the form.
+// A language switch keeps the current survey on screen while the new texts load, so the step stays.
 function ApplicationForm() {
-  const survey = useSurveyQuestions()
+  const { lang } = useLanguage()
+  const t = useMessages(messages)
+  const survey = useSurveyQuestions(lang)
 
   if (survey.data) {
     return (
@@ -430,16 +495,13 @@ function ApplicationForm() {
     <div className="p-8 md:p-14">
       {survey.isError ? (
         <div role="alert">
-          <p>
-            Wir konnten das Formular nicht laden. Prüf deine Verbindung und
-            versuch es nochmal.
-          </p>
+          <p>{t.loadFailed}</p>
           <button className="primary mt-6" onClick={() => survey.refetch()}>
-            Nochmal versuchen
+            {t.tryAgain}
           </button>
         </div>
       ) : (
-        <p className="text-graphite">Alles wird vorbereitet…</p>
+        <p className="text-graphite">{t.loading}</p>
       )}
     </div>
   )

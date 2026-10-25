@@ -7,11 +7,18 @@
     "min": 1,
     "max": 5,
     "labels": [
-      "Stimmt gar nicht",
-      "Stimmt eher nicht",
-      "Stimmt ein bisschen",
-      "Stimmt ziemlich",
-      "Stimmt total"
+      "Not like me at all",
+      "Not much like me",
+      "Somewhat like me",
+      "Quite like me",
+      "Very much like me"
+    ],
+    "labels_de": [
+      "Trifft gar nicht zu",
+      "Trifft kaum zu",
+      "Trifft teils zu",
+      "Trifft eher zu",
+      "Trifft voll zu"
     ]
   },
   "scoring": {
@@ -39,8 +46,8 @@
     {
       "id": "prior_knowledge",
       "name": "Prior knowledge",
-      "title": "Was du schon weißt",
-      "hint": "Es geht um das Thema, das du uns genannt hast. Antworte nur für dieses Thema.",
+      "title": "What you already know",
+      "hint": "About the topic you told us about. Answer for this topic only.",
       "measures": "How much the student already knows about the topic they are learning now.",
       "why_it_matters": "The strongest known moderator of instruction (expertise reversal effect): guidance that helps beginners slows down students who already know the material.",
       "based_on": [
@@ -52,57 +59,67 @@
       "items": [
         {
           "id": "pk1",
-          "text": "Ich weiß schon ziemlich viel über das Thema, das ich gerade lerne.",
+          "text": "I already know quite a lot about the topic I'm learning.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich weiß schon ziemlich viel über das Thema, das ich gerade lerne."
         },
         {
           "id": "pk2",
-          "text": "Ich könnte einer Freundin oder einem Freund die Grundlagen dieses Themas erklären.",
+          "text": "I could explain the basics of this topic to a friend.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich könnte jemandem die Grundlagen dieses Themas erklären."
         },
         {
           "id": "pk3",
-          "text": "Das meiste an diesem Thema ist völlig neu für mich.",
+          "text": "Most of this topic is completely new to me.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Das meiste an diesem Thema ist völlig neu für mich."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Das Thema ist für dich größtenteils neu.",
+          "student_text": "This topic is mostly new to you.",
+          "student_text_de": "Das Thema ist für dich größtenteils neu.",
+          "student_reason": "So we explain the essentials first and show examples before you start on your own.",
+          "student_reason_de": "Deshalb erklären wir dir erst das Wichtigste und zeigen Beispiele, bevor du selbst loslegst.",
           "ai_instructions": [
             "Treat the student as a beginner in this topic.",
             "Start with a short overview of how the topic fits together.",
             "Teach with worked examples before asking them to solve anything alone.",
             "Define every technical term the first time it appears."
-          ],
-          "student_reason": "Deshalb erklären wir dir erst das Wichtigste und zeigen Beispiele, bevor du selbst loslegst."
+          ]
         },
         "medium": {
-          "student_text": "Du kennst schon einiges, darauf bauen wir auf.",
+          "student_text": "You know some of this already, so we build on it.",
+          "student_text_de": "Du kennst schon einiges, darauf bauen wir auf.",
           "ai_instructions": [
             "Briefly check what they know, then skip what they have.",
             "Mix worked examples with practice and reduce the guidance as they succeed."
           ]
         },
         "high": {
-          "student_text": "Du kennst dich mit dem Thema gut aus.",
+          "student_text": "You know this topic well.",
+          "student_text_de": "Du kennst dich mit dem Thema gut aus.",
+          "student_reason": "So we skip the basics and start right away with exercises.",
+          "student_reason_de": "Deshalb überspringen wir die Grundlagen und fangen gleich mit Aufgaben an.",
           "ai_instructions": [
             "Skip introductions to basics and avoid repeating what they know.",
             "Lead with problems and challenges; give step-by-step guidance only when asked.",
             "Focus on gaps, edge cases, and applying the knowledge."
-          ],
-          "student_reason": "Deshalb überspringen wir die Grundlagen und fangen gleich mit Aufgaben an."
+          ]
         }
-      }
+      },
+      "title_de": "Was du schon weißt",
+      "hint_de": "Zu dem Thema, das du angegeben hast. Antworte nur für dieses Thema."
     },
     {
       "id": "working_memory",
       "name": "Working memory",
-      "title": "Dinge im Kopf behalten",
-      "hint": "Wie viel du beim Arbeiten im Kopf behalten kannst.",
+      "title": "Keeping things in mind",
+      "hint": "How much you can hold in your head while you work.",
       "measures": "How many pieces of information the student can hold and use at the same time.",
       "why_it_matters": "Decides how much should be on screen at once and how big each step can be (cognitive load theory).",
       "based_on": [
@@ -114,63 +131,74 @@
       "items": [
         {
           "id": "wm1",
-          "text": "Wenn ich eine Anleitung mit mehreren Schritten bekomme, vergesse ich manche davon.",
+          "text": "When I get instructions with several steps, I forget some of them.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn ich Anweisungen mit mehreren Schritten bekomme, vergesse ich einige davon."
         },
         {
           "id": "wm2",
-          "text": "Wenn mich jemand unterbricht, weiß ich nicht mehr, was ich gerade gemacht habe.",
+          "text": "If someone interrupts me, I lose track of what I was doing.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Wenn mich jemand unterbricht, weiß ich nicht mehr, was ich gerade gemacht habe."
         },
         {
           "id": "wm3",
-          "text": "Ich kann mehrere Informationen gleichzeitig im Kopf behalten, während ich etwas herausfinde.",
+          "text": "I can keep several pieces of information in my head while I work something out.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich kann mehrere Informationen im Kopf behalten, während ich etwas ausarbeite."
         },
         {
           "id": "wm4",
-          "text": "Bei einer langen Erklärung habe ich den Anfang schon vergessen, wenn sie zu Ende ist.",
+          "text": "In a long explanation, I've forgotten the start by the time it ends.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Bei einer langen Erklärung habe ich den Anfang vergessen, wenn sie zu Ende ist."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Du lernst am besten, wenn immer nur eine Sache auf dem Bildschirm ist.",
+          "student_text": "You learn best with one thing on the screen at a time.",
+          "student_text_de": "Du lernst am besten, wenn immer nur eine Sache auf dem Bildschirm ist.",
+          "student_reason": "So we show one idea per screen and recap briefly.",
+          "student_reason_de": "Deshalb zeigen wir dir eine Idee pro Bildschirm und fassen kurz zusammen.",
           "ai_instructions": [
             "Show one idea per screen, in chunks of at most three short sentences.",
             "Never require the student to remember something from an earlier screen; repeat it where it is needed.",
             "Give instructions as a numbered list they can see while working.",
             "Add a one-line recap after every chunk.",
             "Place labels and explanations directly next to the picture or example they belong to."
-          ],
-          "student_reason": "Deshalb zeigen wir dir eine Idee pro Bildschirm und fassen kurz zusammen."
+          ]
         },
         "medium": {
-          "student_text": "Du kommst mit einer Menge auf einmal klar, mit einer kurzen Zusammenfassung zwischendurch.",
+          "student_text": "You handle a fair amount at once, with a recap now and then.",
+          "student_text_de": "Du kommst mit einer Menge auf einmal klar, mit einer kurzen Zusammenfassung zwischendurch.",
           "ai_instructions": [
             "Use moderate chunks of one short paragraph.",
             "Recap at the end of each section and keep multi-step instructions visible."
           ]
         },
         "high": {
-          "student_text": "Du kannst mehrere Ideen gleichzeitig jonglieren.",
+          "student_text": "You can juggle several ideas at once.",
+          "student_text_de": "Du kannst mehrere Ideen gleichzeitig jonglieren.",
+          "student_reason": "So explanations can be longer and show several ideas together.",
+          "student_reason_de": "Deshalb dürfen Erklärungen länger sein und mehrere Ideen zusammen zeigen.",
           "ai_instructions": [
             "Longer explanations and several connected ideas per screen are fine.",
             "Keep recaps brief; don't over-split the material."
-          ],
-          "student_reason": "Deshalb dürfen Erklärungen länger sein und mehrere Ideen zusammen zeigen."
+          ]
         }
-      }
+      },
+      "title_de": "Dinge im Kopf behalten",
+      "hint_de": "Wie viel du dir merken kannst, während du arbeitest."
     },
     {
       "id": "attention",
       "name": "Attention",
-      "title": "Konzentriert bleiben",
-      "hint": "Wie es dir geht, wenn du dich konzentrieren willst.",
+      "title": "Staying focused",
+      "hint": "How it goes when you try to concentrate.",
       "measures": "How steadily the student keeps attention on a task and how easily it drifts or gets pulled away.",
       "why_it_matters": "Sets session length, how often the tool checks in, and how much is shown at once.",
       "based_on": [
@@ -186,63 +214,74 @@
       "items": [
         {
           "id": "at1",
-          "text": "Meine Gedanken schweifen ab, ohne dass ich es merke, selbst wenn ich mich konzentrieren will.",
+          "text": "My thoughts drift off without me noticing, even when I want to concentrate.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Meine Gedanken schweifen ab, ohne dass ich es merke, selbst wenn ich mich konzentrieren will."
         },
         {
           "id": "at2",
-          "text": "Ich kann lange konzentriert bleiben, auch wenn eine Aufgabe nicht spannend ist.",
+          "text": "I can stay focused for a long time, even when a task isn't exciting.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich kann mich lange konzentrieren, auch wenn eine Aufgabe nicht spannend ist."
         },
         {
           "id": "at3",
-          "text": "Mein Handy, Geräusche oder andere Dinge lenken mich leicht von dem ab, was ich gerade tue.",
+          "text": "My phone, noises, or other things easily pull me away from what I'm doing.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Mein Handy, Geräusche oder andere Dinge lenken mich leicht ab."
         },
         {
           "id": "at4",
-          "text": "Ich komme am Ende einer Seite an und habe keine Ahnung, was dort stand.",
+          "text": "I reach the end of a page and realise I have no idea what it said.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich komme am Ende einer Seite an und merke, dass ich keine Ahnung habe, was dort stand."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Dein Fokus kommt in kurzen Schüben.",
+          "student_text": "Your focus comes in short bursts.",
+          "student_text_de": "Dein Fokus kommt in kurzen Schüben.",
+          "student_reason": "So we keep sessions short, with small tasks in between.",
+          "student_reason_de": "Deshalb machen wir kurze Einheiten mit kleinen Aufgaben zwischendurch.",
           "ai_instructions": [
             "Keep sessions to 5-10 minutes with a clear end point.",
             "Ask for a small interaction (a tap, a quick question) every 2-3 minutes so drifting is noticed early.",
             "Offer a focus mode that shows only the current sentence or block and dims everything else.",
             "Show visible progress after every step.",
             "Avoid long passive content such as long videos or long pages of text."
-          ],
-          "student_reason": "Deshalb machen wir kurze Einheiten mit kleinen Aufgaben zwischendurch."
+          ]
         },
         "medium": {
-          "student_text": "Du kannst eine Weile konzentriert bleiben, mit einer kurzen Rückfrage zwischendurch.",
+          "student_text": "You can focus for a while, with a check-in now and then.",
+          "student_text_de": "Du kannst eine Weile konzentriert bleiben, mit einer kurzen Rückfrage zwischendurch.",
           "ai_instructions": [
             "Use sessions of about 15-20 minutes.",
             "Check understanding at the end of each section."
           ]
         },
         "high": {
-          "student_text": "Du kannst lange konzentriert bleiben.",
+          "student_text": "You can stay focused for long stretches.",
+          "student_text_de": "Du kannst lange konzentriert bleiben.",
+          "student_reason": "So sessions can be longer, and we rarely interrupt you.",
+          "student_reason_de": "Deshalb dürfen die Einheiten länger sein, und wir unterbrechen dich selten.",
           "ai_instructions": [
             "Longer sessions and longer content are fine.",
             "Keep interruptions and check-ins to a minimum."
-          ],
-          "student_reason": "Deshalb dürfen die Einheiten länger sein, und wir unterbrechen dich selten."
+          ]
         }
-      }
+      },
+      "title_de": "Konzentriert bleiben",
+      "hint_de": "Wie es läuft, wenn du dich konzentrieren willst."
     },
     {
       "id": "reading",
       "name": "Reading and language",
-      "title": "Lesen",
-      "hint": "Wie das Lesen für dich klappt, in der Sprache deines Materials.",
+      "title": "Reading",
+      "hint": "How reading goes for you, in the language your material is in.",
       "measures": "Whether reading itself, or the language of the material, is a barrier.",
       "why_it_matters": "Decides whether text should be read aloud, simplified, or replaced by audio and visuals. Text-to-speech has a measurable benefit for students with reading difficulties.",
       "based_on": [
@@ -258,62 +297,73 @@
       "items": [
         {
           "id": "rd1",
-          "text": "Lesen dauert bei mir länger als bei den meisten in meinem Alter.",
+          "text": "Reading takes me longer than most people my age.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich brauche zum Lesen länger als die meisten in meinem Alter."
         },
         {
           "id": "rd2",
-          "text": "Beim Lesen springen, verschwimmen oder vertauschen sich Buchstaben oder Wörter.",
+          "text": "When I read, letters or words seem to jump, blur, or swap places.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Beim Lesen scheinen Buchstaben oder Wörter zu springen, zu verschwimmen oder die Plätze zu tauschen."
         },
         {
           "id": "rd3",
-          "text": "Ich muss oft einen Satz zweimal lesen, um ihn zu verstehen.",
+          "text": "I often have to read a sentence twice to understand it.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich muss einen Satz oft zweimal lesen, um ihn zu verstehen."
         },
         {
           "id": "rd4",
-          "text": "Die Sprache, in der mein Material geschrieben ist, ist nicht meine stärkste Sprache.",
+          "text": "The language my material is in is not my strongest language.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Die Sprache, in der mein Material ist, ist nicht meine stärkste Sprache."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Lesen kostet dich extra Kraft.",
+          "student_text": "Reading costs you extra energy.",
+          "student_text_de": "Lesen kostet dich extra Kraft.",
+          "student_reason": "So we read texts out to you and keep them short and simple.",
+          "student_reason_de": "Deshalb lesen wir dir Texte vor und halten sie kurz und einfach.",
           "ai_instructions": [
             "Offer read-aloud for all text and turn it on by default.",
             "Use plain language, short sentences, and short paragraphs.",
             "Use a large, clear font with extra line and letter spacing; never justify text.",
             "Explain key words in a small glossary and show them visually where possible.",
             "Prefer audio, diagrams, and examples over long text."
-          ],
-          "student_reason": "Deshalb lesen wir dir Texte vor und halten sie kurz und einfach."
+          ]
         },
         "medium": {
-          "student_text": "Lesen klappt, und bei langen Texten bieten wir dir Vorlesen an.",
+          "student_text": "Reading works, and we'll offer read-aloud when texts get long.",
+          "student_text_de": "Lesen klappt, und bei langen Texten bieten wir dir Vorlesen an.",
           "ai_instructions": [
             "Offer an optional read-aloud button.",
             "Keep paragraphs short and explain difficult words."
           ]
         },
         "high": {
-          "student_text": "Lesen fällt dir leicht.",
+          "student_text": "Reading comes easily to you.",
+          "student_text_de": "Lesen fällt dir leicht.",
+          "student_reason": "So texts can stay as they are, without extra help.",
+          "student_reason_de": "Deshalb dürfen Texte ganz normal bleiben, ohne extra Hilfen.",
           "ai_instructions": [
             "Text is a good format for this student; no special reading support is needed."
-          ],
-          "student_reason": "Deshalb dürfen Texte ganz normal bleiben, ohne extra Hilfen."
+          ]
         }
-      }
+      },
+      "title_de": "Lesen",
+      "hint_de": "Wie Lesen für dich läuft, in der Sprache deines Materials."
     },
     {
       "id": "self_regulation",
       "name": "Self-regulation",
-      "title": "Anfangen und dranbleiben",
-      "hint": "Wie du planst, anfängst und etwas zu Ende bringst.",
+      "title": "Getting started and keeping on track",
+      "hint": "How you plan, start, and finish things.",
       "measures": "How well the student starts tasks, plans, and keeps going without outside structure.",
       "why_it_matters": "Decides how much outside structure the tool provides: a ready plan, reminders, and tiny first steps, or freedom to self-direct.",
       "based_on": [
@@ -329,63 +379,74 @@
       "items": [
         {
           "id": "sr1",
-          "text": "Ich schiebe es auf, mit Aufgaben anzufangen, obwohl ich weiß, dass ich anfangen sollte.",
+          "text": "I put off starting tasks, even when I know I should begin.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich schiebe Aufgaben auf, obwohl ich weiß, dass ich anfangen sollte."
         },
         {
           "id": "sr2",
-          "text": "Wenn ich eine große Aufgabe habe, teile ich sie von allein in kleinere Schritte auf.",
+          "text": "When I have a big task, I break it into smaller steps on my own.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Wenn ich eine große Aufgabe habe, teile ich sie selbst in kleinere Schritte auf."
         },
         {
           "id": "sr3",
-          "text": "Ich schaffe meistens das, was ich mir vorgenommen habe.",
+          "text": "I usually finish what I planned to do.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich schaffe meistens, was ich mir vorgenommen habe."
         },
         {
           "id": "sr4",
-          "text": "Ich verliere das Zeitgefühl, und Abgabetermine überraschen mich.",
+          "text": "I lose track of time, and deadlines take me by surprise.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich verliere das Zeitgefühl, und Abgabetermine überraschen mich."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Anfangen ist der schwierige Teil.",
+          "student_text": "Starting is the hard part.",
+          "student_text_de": "Anfangen ist der schwierige Teil.",
+          "student_reason": "So you get a ready-made plan and a tiny first step.",
+          "student_reason_de": "Deshalb bekommst du einen fertigen Plan und einen winzigen ersten Schritt.",
           "ai_instructions": [
             "Give a ready-made plan instead of asking the student to plan.",
             "Begin every session with one tiny first step that takes under two minutes.",
             "Show one task at a time with a clear start button.",
             "Make time visible: how long a step takes and how much is left.",
             "Acknowledge every finished step right away."
-          ],
-          "student_reason": "Deshalb bekommst du einen fertigen Plan und einen winzigen ersten Schritt."
+          ]
         },
         "medium": {
-          "student_text": "Du schaffst es, dich selbst anzutreiben, und ein Plan hilft dir dabei.",
+          "student_text": "You can keep yourself going, and a plan helps.",
+          "student_text_de": "Du schaffst es, dich selbst anzutreiben, und ein Plan hilft dir dabei.",
           "ai_instructions": [
             "Suggest a plan the student can adjust.",
             "Use light reminders and show progress over the week."
           ]
         },
         "high": {
-          "student_text": "Du planst und fängst von allein gut an.",
+          "student_text": "You plan and start well on your own.",
+          "student_text_de": "Du planst und fängst von allein gut an.",
+          "student_reason": "So you make the plan yourself and choose the order.",
+          "student_reason_de": "Deshalb planst du selbst und wählst die Reihenfolge.",
           "ai_instructions": [
             "Let the student plan and choose the order.",
             "Offer tools such as checklists or timers as options, not rules."
-          ],
-          "student_reason": "Deshalb planst du selbst und wählst die Reihenfolge."
+          ]
         }
-      }
+      },
+      "title_de": "Anfangen und dranbleiben",
+      "hint_de": "Wie du planst, anfängst und Dinge zu Ende bringst."
     },
     {
       "id": "thinking_appetite",
       "name": "Appetite for thinking",
-      "title": "Wie du gern denkst",
-      "hint": "Ob du knifflige Aufgaben magst oder es lieber klar und einfach hast.",
+      "title": "How you like to think",
+      "hint": "Whether you enjoy tricky problems or prefer things clear and simple.",
       "measures": "How much the student enjoys effortful thinking and open problems.",
       "why_it_matters": "Decides depth and openness: open questions and challenges, or concrete, guided tasks.",
       "based_on": [
@@ -397,60 +458,71 @@
       "items": [
         {
           "id": "th1",
-          "text": "Ich mag Aufgaben, bei denen ich richtig nachdenken muss.",
+          "text": "I like problems that make me think hard.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich mag Aufgaben, bei denen ich richtig nachdenken muss."
         },
         {
           "id": "th2",
-          "text": "Ich lasse mir lieber die Antwort sagen, als selbst darauf zu kommen.",
+          "text": "I'd rather be told the answer than figure it out myself.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ich bekomme lieber die Antwort gesagt, als sie selbst herauszufinden."
         },
         {
           "id": "th3",
-          "text": "Ich finde es toll, einen neuen Weg zu finden, etwas zu lösen.",
+          "text": "I enjoy finding a new way to solve something.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Es macht mir Spaß, einen neuen Weg zu finden, um etwas zu lösen."
         },
         {
           "id": "th4",
-          "text": "Wenn ich lange über dasselbe nachdenken muss, wird mir schnell langweilig.",
+          "text": "Thinking about the same thing for a long time gets boring fast.",
           "reverse": true,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Lange über dieselbe Sache nachzudenken, wird mir schnell langweilig."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Du magst es klar und praktisch.",
+          "student_text": "You like things clear and practical.",
+          "student_text_de": "Du magst es klar und praktisch.",
+          "student_reason": "So we stick to clear, practical tasks with one answer.",
+          "student_reason_de": "Deshalb bleiben wir bei klaren, praktischen Aufgaben mit einer Antwort.",
           "ai_instructions": [
             "Keep content concrete and practical, and explain why it is useful.",
             "Use short, guided tasks with one clear answer.",
             "Avoid open-ended puzzles until the student is confident."
-          ],
-          "student_reason": "Deshalb bleiben wir bei klaren, praktischen Aufgaben mit einer Antwort."
+          ]
         },
         "medium": {
-          "student_text": "Du magst eine Mischung aus klaren Schritten und einer guten Herausforderung.",
+          "student_text": "You like a mix of clear steps and a good challenge.",
+          "student_text_de": "Du magst eine Mischung aus klaren Schritten und einer guten Herausforderung.",
           "ai_instructions": [
             "Mix guided tasks with an occasional open question or challenge."
           ]
         },
         "high": {
-          "student_text": "Du magst echte Herausforderungen.",
+          "student_text": "You enjoy a real challenge.",
+          "student_text_de": "Du magst echte Herausforderungen.",
+          "student_reason": "So there are open questions and puzzles to dig deeper.",
+          "student_reason_de": "Deshalb gibt es offene Fragen und Knobelaufgaben zum Vertiefen.",
           "ai_instructions": [
             "Add open questions, 'why' prompts, and challenge problems.",
             "Offer optional deep dives and let the student explore different solutions."
-          ],
-          "student_reason": "Deshalb gibt es offene Fragen und Knobelaufgaben zum Vertiefen."
+          ]
         }
-      }
+      },
+      "title_de": "Wie du gern denkst",
+      "hint_de": "Ob du knifflige Aufgaben magst oder es lieber klar und einfach hast."
     },
     {
       "id": "self_belief",
       "name": "Self-belief",
-      "title": "Dir selbst vertrauen",
-      "hint": "Wie sicher du dich beim Lernen fühlst.",
+      "title": "Trusting yourself",
+      "hint": "How sure you feel about handling learning.",
       "measures": "How confident the student is in their own ability to learn and solve tasks (self-efficacy).",
       "why_it_matters": "Decides how fast difficulty rises and how much early success and encouragement the student needs.",
       "based_on": [
@@ -462,54 +534,64 @@
       "items": [
         {
           "id": "sb1",
-          "text": "Wenn ich mich anstrenge, kann ich auch schwierige Themen verstehen.",
+          "text": "If I put in the effort, I can understand even hard topics.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn ich mich anstrenge, kann ich auch schwierige Themen verstehen."
         },
         {
           "id": "sb2",
-          "text": "Wenn etwas neu für mich ist, traue ich mir zu, es herauszufinden.",
+          "text": "When something is new to me, I trust myself to figure it out.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn etwas neu für mich ist, traue ich mir zu, es herauszufinden."
         },
         {
           "id": "sb3",
-          "text": "Die meisten Lernaufgaben, die ich bekomme, schaffe ich.",
+          "text": "I can handle most learning tasks I'm given.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Die meisten Lernaufgaben, die ich bekomme, kann ich bewältigen."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Du zweifelst schnell, ob du das schaffst.",
+          "student_text": "You quickly doubt whether you can do it.",
+          "student_text_de": "Du zweifelst schnell, ob du das schaffst.",
+          "student_reason": "So we start with tasks you will manage and build up slowly.",
+          "student_reason_de": "Deshalb starten wir mit Aufgaben, die du sicher schaffst, und steigern langsam.",
           "ai_instructions": [
             "Start below the student's level so the first tasks are clear wins.",
             "Raise difficulty slowly and only after success.",
             "Point out concrete progress often ('You can now do X, which you couldn't yesterday').",
             "Give specific, encouraging feedback; never compare with others."
-          ],
-          "student_reason": "Deshalb starten wir mit Aufgaben, die du sicher schaffst, und steigern langsam."
+          ]
         },
         "medium": {
-          "student_text": "Du traust dir das Meiste zu, und das soll so bleiben.",
+          "student_text": "You trust yourself with most things, and we'll keep it that way.",
+          "student_text_de": "Du traust dir das Meiste zu, und das soll so bleiben.",
           "ai_instructions": [
             "Start at the student's level and point out progress at the end of each session."
           ]
         },
         "high": {
-          "student_text": "Du bist selbstbewusst.",
+          "student_text": "You're confident.",
+          "student_text_de": "Du bist selbstbewusst.",
+          "student_reason": "So we start at your level or a little above.",
+          "student_reason_de": "Deshalb starten wir auf deinem Niveau oder etwas darüber.",
           "ai_instructions": [
             "Start at or slightly above the student's level and keep the challenge up."
-          ],
-          "student_reason": "Deshalb starten wir auf deinem Niveau oder etwas darüber."
+          ]
         }
-      }
+      },
+      "title_de": "Dir selbst vertrauen",
+      "hint_de": "Wie sicher du dich beim Lernen fühlst."
     },
     {
       "id": "bouncing_back",
       "name": "Bouncing back",
-      "title": "Wenn etwas schiefgeht",
-      "hint": "Wie du mit Fehlern und frustrierenden Momenten umgehst.",
+      "title": "When things go wrong",
+      "hint": "How you deal with mistakes and frustrating moments.",
       "measures": "How well the student copes with everyday setbacks such as mistakes, frustration, and pressure (academic buoyancy).",
       "why_it_matters": "Decides feedback tone, how mistakes are shown, and when to suggest a break.",
       "based_on": [
@@ -521,55 +603,66 @@
       "items": [
         {
           "id": "bb1",
-          "text": "Wenn ich etwas falsch mache, kann ich es abhaken und weitermachen.",
+          "text": "When I get something wrong, I can shake it off and keep going.",
           "reverse": false,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn ich etwas falsch mache, kann ich es abhaken und weitermachen."
         },
         {
           "id": "bb2",
-          "text": "Ein einziger Fehler oder eine schlechte Note kann mir den ganzen Tag verderben.",
+          "text": "One mistake or bad mark can ruin my whole day.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Ein Fehler oder eine schlechte Note kann mir den ganzen Tag verderben."
         },
         {
           "id": "bb3",
-          "text": "Wenn Lernen frustrierend wird, gebe ich schnell auf.",
+          "text": "When learning gets frustrating, I give up quickly.",
           "reverse": true,
-          "priority": "high"
+          "priority": "high",
+          "text_de": "Wenn Lernen frustrierend wird, gebe ich schnell auf."
         },
         {
           "id": "bb4",
-          "text": "Ich komme gut mit viel Druck aus Schule oder Lernen klar.",
+          "text": "I can handle a lot of pressure from school or studying.",
           "reverse": false,
-          "priority": "low"
+          "priority": "low",
+          "text_de": "Ich komme mit viel Druck von Schule oder Studium gut klar."
         }
       ],
       "bands": {
         "low": {
-          "student_text": "Fehler treffen dich hart.",
+          "student_text": "Mistakes hit you hard.",
+          "student_text_de": "Fehler treffen dich hart.",
+          "student_reason": "So there are no points, no red marks, and a calm, warm tone.",
+          "student_reason_de": "Deshalb gibt es keine Punkte, keine roten Striche und einen ruhigen, warmen Ton.",
           "ai_instructions": [
             "Frame mistakes as 'not yet' and show the fix right away.",
             "Avoid scores, red marks, streak losses, and visible timers.",
             "After two mistakes in a row, make the next task easier or suggest a short break.",
             "Keep the tone calm and warm."
-          ],
-          "student_reason": "Deshalb gibt es keine Punkte, keine roten Striche und einen ruhigen, warmen Ton."
+          ]
         },
         "medium": {
-          "student_text": "Du fängst dich meistens wieder, und wir halten das Feedback klar und freundlich.",
+          "student_text": "You usually bounce back, and we'll keep feedback clear and kind.",
+          "student_text_de": "Du fängst dich meistens wieder, und wir halten das Feedback klar und freundlich.",
           "ai_instructions": [
             "Give clear, kind feedback with the correct answer and a short explanation."
           ]
         },
         "high": {
-          "student_text": "Rückschläge werfen dich nicht um.",
+          "student_text": "Setbacks don't throw you.",
+          "student_text_de": "Rückschläge werfen dich nicht um.",
+          "student_reason": "So we can be direct, and points or timed tasks are possible.",
+          "student_reason_de": "Deshalb dürfen wir direkt sein, und Punkte oder Zeitaufgaben sind möglich.",
           "ai_instructions": [
             "Direct feedback is fine.",
             "Scores, streaks, and timed challenges can be used if the student enjoys them."
-          ],
-          "student_reason": "Deshalb dürfen wir direkt sein, und Punkte oder Zeitaufgaben sind möglich."
+          ]
         }
-      }
+      },
+      "title_de": "Wenn etwas schiefgeht",
+      "hint_de": "Wie du mit Fehlern und frustrierenden Momenten umgehst."
     }
   ],
   "priority": "Each item is high or low priority: 20 high, 10 low. Scoring uses every answered item regardless of priority."

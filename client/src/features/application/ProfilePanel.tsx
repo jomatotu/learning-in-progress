@@ -1,32 +1,82 @@
 import type { ReactNode } from 'react'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { deckBands, useSurvey } from '@/lib/survey'
+import { entryFor, labelFor, optionMessages } from './options'
 import type { Profile } from './profile'
 
+const messages = defineMessages({
+  en: {
+    aria: 'Your learning profile',
+    label: 'Your learning profile',
+    title: 'What we know so far',
+    you: 'You',
+    goal: 'Goal',
+    learning: 'Learning',
+    howYouLearn: 'How you learn',
+    worksForYou: 'Works for you',
+    step: (n: number) => `Step ${n}`,
+    material: (n: number) => `${n} ${n === 1 ? 'item' : 'items'} of material`,
+    answered: (n: number, total: number) =>
+      `${n} of ${total} questions answered`,
+    cards: (n: number, total: number) => `${n} of ${total} cards confirmed`,
+    hard: (text: string) => `Hard: ${text}`,
+    summary: 'Your profile',
+    note: 'You can see and change everything here. We only use it to build your tool.',
+  },
+  de: {
+    aria: 'Dein Lernprofil',
+    label: 'Dein Lernprofil',
+    title: 'Was wir bisher wissen',
+    you: 'Du',
+    goal: 'Ziel',
+    learning: 'Thema',
+    howYouLearn: 'Wie du lernst',
+    worksForYou: 'Was für dich passt',
+    step: (n: number) => `Schritt ${n}`,
+    material: (n: number) => `${n} ${n === 1 ? 'Material' : 'Materialien'}`,
+    answered: (n: number, total: number) =>
+      `${n} von ${total} Fragen beantwortet`,
+    cards: (n: number, total: number) => `${n} von ${total} Karten bestätigt`,
+    hard: (text: string) => `Schwer: ${text}`,
+    summary: 'Dein Profil',
+    note: 'Du kannst hier alles sehen und ändern. Wir nutzen es nur, um dein Werkzeug zu bauen.',
+  },
+})
+
+// A label line and its value line(s). Both sit on the sheet's 32px rules (see .ruled-paper).
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="mb-3">
-      <span className="label mb-1 block">{label}</span>
-      <div className="text-[0.92rem] break-words">{children}</div>
+    <div>
+      <span className="label block">{label}</span>
+      <div className="text-[0.92rem]">{children}</div>
     </div>
   )
 }
 
 function Pending({ children }: { children: ReactNode }) {
-  return <span className="text-sm text-graphite">{children}</span>
-}
-
-function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="mr-1.5 mb-1.5 inline-block rounded-lg border border-pine bg-pine-soft px-2.5 py-0.5 text-[0.8rem] text-pine-deep">
+    <span className="border-b border-dashed border-graphite text-sm text-graphite">
       {children}
     </span>
   )
 }
 
-// Live summary next to each step, as a quiet column. Shows the student what we know so far.
+function Tag({ children }: { children: ReactNode }) {
+  return (
+    <span className="ruled-tag mr-1.5 inline-block rounded-lg border border-pine bg-pine-soft px-2.5 text-[0.8rem] text-pine-deep">
+      {children}
+    </span>
+  )
+}
+
+// Live summary next to each step, on ruled notebook paper. Shows the student what we know so far.
 function ProfilePanel({ profile }: { profile: Profile }) {
+  const t = useMessages(messages)
+  const options = useMessages(optionMessages)
   const material = (profile.text.trim() ? 1 : 0) + profile.files.length
-  const stage = [profile.stage, profile.stageDetail].filter(Boolean).join(' · ')
+  const stageLabel =
+    entryFor(options.stages, profile.stage)?.label ?? profile.stage
+  const stage = [stageLabel, profile.stageDetail].filter(Boolean).join(' · ')
   const answered = Object.keys(profile.answers).length
   const survey = useSurvey()
   const mirrored = deckBands(survey, profile.bands, profile.answers).length
@@ -34,92 +84,87 @@ function ProfilePanel({ profile }: { profile: Profile }) {
 
   const content = (
     <>
-      <div className="lg:sticky lg:top-8">
-        <span className="label">Dein Lernprofil</span>
-        <p className="mt-1 mb-4 text-[1.15rem] font-semibold">
-          Das wissen wir bisher
-        </p>
+      {/* The rules are painted on this sheet, not on the panel, so they scroll along with the sticky text. */}
+      <div className="ruled-paper lg:sticky lg:top-8">
+        <span className="label block">{t.label}</span>
+        <p className="text-[1.3rem] font-semibold">{t.title}</p>
+        <div className="ruled-gap" />
 
-        <Row label="Du">
+        <Row label={t.you}>
           {profile.name || stage ? (
             <p>{[profile.name, stage].filter(Boolean).join(' · ')}</p>
           ) : (
-            <Pending>noch leer</Pending>
+            <Pending>{t.step(1)}</Pending>
           )}
         </Row>
-        <Row label="Ziel">
+        <Row label={t.goal}>
           {profile.goalType || profile.goal ? (
-            <p>{profile.goalType || profile.goal}</p>
+            <p>
+              {profile.goalType
+                ? labelFor(options.goalTypes, profile.goalType)
+                : profile.goal}
+            </p>
           ) : (
-            <Pending>noch leer</Pending>
+            <Pending>{t.step(2)}</Pending>
           )}
         </Row>
-        <Row label="Thema">
+        <Row label={t.learning}>
           {profile.topic ? (
             <>
               <p>{profile.topic}</p>
               {material > 0 && (
-                <p className="text-graphite">
-                  {material} {material === 1 ? 'Eintrag' : 'Einträge'} Material
-                </p>
+                <p className="text-graphite">{t.material(material)}</p>
               )}
             </>
           ) : (
-            <Pending>noch leer</Pending>
+            <Pending>{t.step(2)}</Pending>
           )}
         </Row>
-        <Row label="Wie du lernst">
+        <Row label={t.howYouLearn}>
           {answered > 0 || mirrored > 0 ? (
             <>
-              {mirrored > 0 && (
-                <p>
-                  {mirrored} von {survey.deck.length} Karten bestätigt
-                </p>
-              )}
-              {answered > 0 && (
-                <p>
-                  {answered} von {totalQuestions} Fragen beantwortet
-                </p>
-              )}
+              {mirrored > 0 && <p>{t.cards(mirrored, survey.deck.length)}</p>}
+              {answered > 0 && <p>{t.answered(answered, totalQuestions)}</p>}
             </>
           ) : (
-            <Pending>noch leer</Pending>
+            <Pending>{t.step(4)}</Pending>
           )}
         </Row>
-        <Row label="Das klappt bei dir">
+        <Row label={t.worksForYou}>
           {profile.likes.length > 0 || profile.notes || profile.hard ? (
             <>
               {profile.likes.map((like) => (
-                <Tag key={like}>{like}</Tag>
+                <Tag key={like}>{labelFor(options.likes, like)}</Tag>
               ))}
               {profile.hard && (
-                <p className="line-clamp-2">Schwer: {profile.hard}</p>
+                <p className="line-clamp-2">{t.hard(profile.hard)}</p>
               )}
               {profile.notes && <p className="line-clamp-2">{profile.notes}</p>}
             </>
           ) : (
-            <Pending>noch leer</Pending>
+            <Pending>{t.step(3)}</Pending>
           )}
         </Row>
 
-        <p className="mt-4 border-l-[3px] border-pine pl-3 text-sm text-graphite">
-          Du siehst hier alles und kannst alles ändern. Wir nutzen es nur, um
-          deine Lösung zu bauen.
+        <div className="ruled-gap" />
+        <p className="border-l-[3px] border-pine pl-3 text-sm text-graphite">
+          {t.note}
         </p>
       </div>
     </>
   )
 
+  // Beside the form on wide screens; folded away under it on phones and tablets.
   return (
     <>
       <aside
-        aria-label="Dein Lernprofil"
+        aria-label={t.aria}
         className="hidden min-w-0 border-l border-rule bg-sheet/60 px-6 py-5 break-words lg:block"
       >
         {content}
       </aside>
       <details className="border-t border-dashed border-rule px-5 py-3 md:px-8 lg:hidden">
-        <summary className="cursor-pointer font-medium">Dein Profil</summary>
+        <summary className="cursor-pointer font-medium">{t.summary}</summary>
         <div className="pt-4">{content}</div>
       </details>
     </>

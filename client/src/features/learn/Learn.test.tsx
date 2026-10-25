@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router'
+import { LanguageProvider } from '@/components/LanguageProvider'
 import { Learn } from './Learn'
 import { loadPage, saveRun, type LearnRun } from './learnStore'
 
@@ -18,11 +19,13 @@ const run: LearnRun = {
 function renderAt(path: string) {
   render(
     <QueryClientProvider client={new QueryClient()}>
-      <MemoryRouter initialEntries={[path]}>
-        <Routes>
-          <Route path="/learn/:id" element={<Learn />} />
-        </Routes>
-      </MemoryRouter>
+      <LanguageProvider initial="en">
+        <MemoryRouter initialEntries={[path]}>
+          <Routes>
+            <Route path="/learn/:id" element={<Learn />} />
+          </Routes>
+        </MemoryRouter>
+      </LanguageProvider>
     </QueryClientProvider>,
   )
 }
@@ -118,6 +121,6 @@ describe('Learn', () => {
   it('says so when the run is missing', () => {
     renderAt('/learn/nope')
 
-    expect(screen.getByRole('alert')).toHaveTextContent('nicht gefunden')
+    expect(screen.getByRole('alert')).toHaveTextContent('was not found')
   })
 })

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FileText, Type, Upload, X } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import type { Profile } from './profile'
 
@@ -8,14 +9,34 @@ type Mode = 'text' | 'file'
 
 // Upload is off until the server reads files; for now it would send only the file names.
 const modes = [
-  { id: 'text', label: 'Text einfügen', icon: Type, disabled: false },
-  {
-    id: 'file',
-    label: 'Dateien hochladen (bald)',
-    icon: Upload,
-    disabled: true,
-  },
+  { id: 'text', icon: Type, disabled: false },
+  { id: 'file', icon: Upload, disabled: true },
 ] as const
+
+const messages = defineMessages({
+  en: {
+    modes: { text: 'Paste text', file: 'Upload files (soon)' },
+    howToAdd: 'How to add material',
+    pasteLabel: 'Paste your text',
+    pastePlaceholder:
+      'Paste a chapter, your lecture notes, or an exercise sheet',
+    drop: 'Drop files here or choose them',
+    fileTypes: 'PDF, Word, slides, images, or audio',
+    added: 'Added material',
+    remove: (label: string) => `Remove ${label}`,
+  },
+  de: {
+    modes: { text: 'Text einfügen', file: 'Dateien hochladen (bald)' },
+    howToAdd: 'Wie du Material hinzufügst',
+    pasteLabel: 'Füg deinen Text ein',
+    pastePlaceholder:
+      'Füg ein Kapitel, deine Mitschrift oder ein Arbeitsblatt ein',
+    drop: 'Dateien hierher ziehen oder auswählen',
+    fileTypes: 'PDF, Word, Folien, Bilder oder Audio',
+    added: 'Hinzugefügtes Material',
+    remove: (label: string) => `Entfernen: ${label}`,
+  },
+})
 
 // One place to add learning material: one box of pasted text, or files, which are listed below.
 function MaterialInput({
@@ -26,6 +47,7 @@ function MaterialInput({
   update: (patch: Partial<Profile>) => void
 }) {
   const [mode, setMode] = useState<Mode>('text')
+  const t = useMessages(messages)
 
   const addFiles = (files: FileList | null) => {
     if (files?.length) update({ files: [...profile.files, ...files] })
@@ -40,11 +62,8 @@ function MaterialInput({
 
   return (
     <div className="flex flex-col gap-3">
-      <fieldset
-        aria-label="So fügst du Material hinzu"
-        className="flex flex-wrap gap-2"
-      >
-        {modes.map(({ id, label, icon: Icon, disabled }) => (
+      <fieldset aria-label={t.howToAdd} className="flex flex-wrap gap-2">
+        {modes.map(({ id, icon: Icon, disabled }) => (
           <button
             key={id}
             type="button"
@@ -60,17 +79,17 @@ function MaterialInput({
             )}
           >
             <Icon className="size-4" strokeWidth={1.75} aria-hidden />
-            {label}
+            {t.modes[id]}
           </button>
         ))}
       </fieldset>
 
       {mode === 'text' && (
         <Textarea
-          aria-label="Deinen Text einfügen"
+          aria-label={t.pasteLabel}
           value={profile.text}
           onChange={(e) => update({ text: e.target.value })}
-          placeholder="Füg ein Kapitel, deine Mitschrift oder ein Aufgabenblatt ein"
+          placeholder={t.pastePlaceholder}
           // A pasted chapter can be very long, so the box stays 8 rows high and scrolls.
           rows={8}
           className="field-sizing-fixed resize-y overflow-y-auto"
@@ -89,12 +108,8 @@ function MaterialInput({
           }}
         >
           <Upload className="size-6 text-pine" strokeWidth={1.5} aria-hidden />
-          <span className="font-normal">
-            Dateien hierher ziehen oder auswählen
-          </span>
-          <span className="text-sm text-graphite">
-            PDF, Word, Folien, Bilder oder Audio
-          </span>
+          <span className="font-normal">{t.drop}</span>
+          <span className="text-sm text-graphite">{t.fileTypes}</span>
           <input
             type="file"
             multiple
@@ -110,7 +125,7 @@ function MaterialInput({
       {items.length > 0 && (
         <ul
           className="flex max-h-36 flex-col gap-2 overflow-y-auto"
-          aria-label="Hinzugefügtes Material"
+          aria-label={t.added}
         >
           {items.map(({ key, icon: Icon, label, remove }) => (
             <li
@@ -126,7 +141,7 @@ function MaterialInput({
               <button
                 type="button"
                 onClick={remove}
-                aria-label={`${label} entfernen`}
+                aria-label={t.remove(label)}
                 className="rounded-md p-1 hover:bg-sheet"
               >
                 <X className="size-4" aria-hidden />

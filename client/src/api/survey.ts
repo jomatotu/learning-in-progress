@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { request } from '@/api/client'
+import type { Lang } from '@/lib/i18n'
 
 // The learning survey as GET /api/survey returns it. The server owns the questions and does the scoring;
 // the client only shows them and collects answers.
@@ -25,10 +26,16 @@ export type DeckEntry = {
   high: { text: string; reason: string }
 }
 
-export function getSurvey(): Promise<Survey> {
-  return request('/survey')
+// The survey texts come in English or German; ids, order, and priorities are the same in both.
+export function getSurvey(lang: Lang = 'en'): Promise<Survey> {
+  return request(`/survey?lang=${lang}`)
 }
 
-export function useSurveyQuestions() {
-  return useQuery({ queryKey: ['survey'], queryFn: getSurvey })
+// Keeps showing the current survey while another language loads, so the form stays on the same step.
+export function useSurveyQuestions(lang: Lang = 'en') {
+  return useQuery({
+    queryKey: ['survey', lang],
+    queryFn: () => getSurvey(lang),
+    placeholderData: keepPreviousData,
+  })
 }

@@ -1,5 +1,6 @@
 import type { Answers, Survey } from '@/lib/survey'
 import type { Band } from './deck'
+import { optionMessages } from './options'
 
 // Everything the application form collects. Sent to the server as the student profile.
 export type Profile = {
@@ -39,56 +40,23 @@ export const emptyProfile: Profile = {
   about_you: '',
 }
 
-export const stages = [
-  {
-    value: 'Schule',
-    detailLabel: 'In welcher Klasse bist du?',
-    detailPlaceholder: 'z. B. Klasse 10',
-  },
-  {
-    value: 'Ausbildung',
-    detailLabel: 'Was lernst du in deiner Ausbildung?',
-    detailPlaceholder: 'z. B. Elektroniker/in',
-  },
-  {
-    value: 'Studium',
-    detailLabel: 'Was studierst du?',
-    detailPlaceholder: 'z. B. Biologie, 2. Semester',
-  },
-  {
-    value: 'Etwas anderes',
-    detailLabel: 'Erzähl uns ein bisschen mehr',
-    detailPlaceholder: 'z. B. Spanisch-Abendkurs',
-  },
-]
+// The stored values for each choice. Their display texts, in both languages, are in options.ts.
+export const stages = Object.keys(optionMessages.en.stages)
 
-export const goalTypes = [
-  'Eine Prüfung bestehen',
-  'Ein Thema verstehen',
-  'Hausaufgaben schaffen',
-  'Im Unterricht mithalten',
-]
+export const goalTypes = Object.keys(optionMessages.en.goalTypes)
 
-export const likeSuggestions = [
-  'Kurze Videos',
-  'Erst Beispiele',
-  'Vorgelesener Text',
-  'Quizfragen zum Testen',
-  'Kleine Schritte mit Pausen',
-  'Bilder und Diagramme',
-  'Darüber reden',
-  'Weniger Text auf dem Bildschirm',
-]
+export const likeSuggestions = Object.keys(optionMessages.en.likes)
 
 export type StepId =
   'about' | 'goal' | 'notes' | 'deck' | 'survey' | 'summary' | 'review'
 
-export const steps: { id: StepId; title: string }[] = [
-  { id: 'about', title: 'Über dich' },
-  { id: 'goal', title: 'Dein Ziel' },
-  { id: 'notes', title: 'Deine Notizen' },
-  { id: 'deck', title: 'Wie du lernst' },
-  { id: 'review', title: 'Dein Profil prüfen' },
+// Step titles, in both languages, are in options.ts.
+export const steps: { id: StepId }[] = [
+  { id: 'about' },
+  { id: 'goal' },
+  { id: 'notes' },
+  { id: 'deck' },
+  { id: 'review' },
 ]
 
 // One screen per step. The 30-question survey is optional, comes after the deck and gets one screen per category.

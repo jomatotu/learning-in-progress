@@ -187,7 +187,7 @@ async def create_summary(request: SummaryRequest) -> SummaryReply:
     session_id = session_from_token(request.token)
     categories = {c["id"]: c for c in load_scale()["categories"]}
     bands = "\n".join(
-        f"- {categories[cid]['title']}: {categories[cid]['bands'][band]['student_text']}"
+        f"- {categories[cid]['title_de']}: {categories[cid]['bands'][band]['student_text_de']}"
         for cid, band in request.bands.items()
     )
     answers = "\n".join(f"- {a.id}: {ANSWER_LABELS[a.answer]}" for a in request.card_answers)

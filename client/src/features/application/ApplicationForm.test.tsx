@@ -2,6 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { loadRun } from '@/features/learn/learnStore'
+import { LanguageProvider } from '@/components/LanguageProvider'
+import { LanguageToggle } from '@/components/LanguageToggle'
 import type { Survey } from '@/lib/survey'
 import { ApplicationForm } from './ApplicationForm'
 
@@ -85,13 +87,17 @@ const survey: Survey = {
   ],
 }
 
+// The form inside the site's language setting, starting in German (the app default), with the DE | EN switch.
 function renderForm() {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
   render(
     <QueryClientProvider client={client}>
-      <ApplicationForm />
+      <LanguageProvider initial="de">
+        <LanguageToggle />
+        <ApplicationForm />
+      </LanguageProvider>
     </QueryClientProvider>,
   )
 }
@@ -139,7 +145,7 @@ function mockServer(
   let assessCalls = 0
   const fetchMock = vi.fn<typeof fetch>(async (input) => {
     const url = urlOf(input)
-    if (url === '/api/survey') return Response.json(survey)
+    if (url.startsWith('/api/survey')) return Response.json(survey)
     if (url.startsWith('/api/intake/')) return intake(url)
     if (url === '/api/assess')
       return assessCalls++ === 0 ? sse('done', question) : sse('done', finished)
@@ -172,7 +178,10 @@ async function reachDeck(user: ReturnType<typeof userEvent.setup>) {
 }
 
 describe('ApplicationForm', () => {
-  beforeEach(() => sessionStorage.clear())
+  beforeEach(() => {
+    sessionStorage.clear()
+    localStorage.clear()
+  })
   afterEach(() => vi.unstubAllGlobals())
 
   it('asks for a name and a stage before leaving the about step', async () => {
@@ -186,7 +195,7 @@ describe('ApplicationForm', () => {
       screen.getByText('Sag uns, wie wir dich nennen sollen.'),
     ).toBeInTheDocument()
     expect(
-      screen.getByText('Wähl aus, was am besten passt.'),
+      screen.getByText('Wähl das, was am besten passt.'),
     ).toBeInTheDocument()
   })
 
@@ -220,7 +229,7 @@ describe('ApplicationForm', () => {
 
     await user.click(screen.getByRole('button', { name: /weiter/i }))
     expect(
-      screen.getByText('Beantworte jede Aussage oder überspring diesen Teil.'),
+      screen.getByText('Beantworte jede Aussage oder überspring diesen Teil erst mal.'),
     ).toBeInTheDocument()
 
     for (const group of screen.getAllByRole('group')) {
@@ -280,7 +289,7 @@ describe('ApplicationForm', () => {
     ).not.toBeInTheDocument()
 
     await user.click(
-      screen.getByRole('button', { name: /meine lösung bauen/i }),
+      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
     )
 
     // The client sends the raw answers only; scoring is the server's job.
@@ -315,7 +324,7 @@ describe('ApplicationForm', () => {
     await user.click(await screen.findByRole('button', { name: 'Listening' }))
     expect(await screen.findByText(/You like listening/)).toBeInTheDocument()
     await user.click(
-      screen.getByRole('button', { name: /meine seiten bauen/i }),
+      screen.getByRole('button', { name: /^erstellen$/i }),
     )
 
     const [url, target] = openMock.mock.calls[0]
@@ -335,7 +344,7 @@ describe('ApplicationForm', () => {
     await reachDeck(user)
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
-    await user.click(screen.getByRole('button', { name: /magic-seite/i }))
+    await user.click(screen.getByRole('button', { name: /magische seite/i }))
 
     expect(
       await screen.findByRole('heading', { name: /magische lösung/i }),
@@ -409,7 +418,7 @@ describe('ApplicationForm', () => {
 
     expect(screen.getByText('Übersprungen')).toBeInTheDocument()
     await user.click(
-      screen.getByRole('button', { name: /meine lösung bauen/i }),
+      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
     )
     const profileCall = fetchMock.mock.calls.find(
       ([input]) => urlOf(input) === '/api/profile',
@@ -479,11 +488,11 @@ describe('ApplicationForm', () => {
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(
-      screen.getByRole('button', { name: /meine lösung bauen/i }),
+      screen.getByRole('button', { name: /mein werkzeug bauen/i }),
     )
 
     expect(
-      await screen.findByText(/konnten dein profil nicht bauen/i),
+      await screen.findByText(/konnten dein profil nicht erstellen/i),
     ).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: /klingt das nach dir/i }),
@@ -573,7 +582,7 @@ describe('ApplicationForm', () => {
       })
 
       await user.click(
-        screen.getByRole('button', { name: /meine lösung bauen/i }),
+        screen.getByRole('button', { name: /mein werkzeug bauen/i }),
       )
       const profileCall = fetchMock.mock.calls.find(
         ([input]) => urlOf(input) === '/api/profile',
@@ -665,5 +674,27 @@ describe('ApplicationForm', () => {
       ).toHaveValue('Text 2')
       expect(intakeCalls(fetchMock)).toHaveLength(3)
     })
+  })
+
+  it('switches the texts to English without leaving the current step', async () => {
+    const fetchMock = mockServer()
+    const user = userEvent.setup()
+    renderForm()
+    await fillAboutAndGoal(user)
+    expect(
+      screen.getByLabelText(/Was macht Lernen gerade schwer/),
+    ).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Englisch' }))
+
+    expect(
+      await screen.findByLabelText(/What makes learning hard right now/),
+    ).toBeInTheDocument()
+    expect(
+      fetchMock.mock.calls.some(
+        ([input]) => urlOf(input) === '/api/survey?lang=en',
+      ),
+    ).toBe(true)
+    expect(localStorage.getItem('language')).toBe('en')
   })
 })

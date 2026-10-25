@@ -1,51 +1,72 @@
 import { Chip } from './Chip'
 import { Input } from '@/components/ui/input'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { Field } from './Field'
+import { entryFor, optionMessages } from './options'
 import { StepHeading } from './StepHeading'
 import { stages } from './profile'
 import type { StepProps } from './ApplicationForm'
 
+const messages = defineMessages({
+  en: {
+    label: 'About you',
+    hint: 'Just the basics, so we know who we’re building for.',
+    title: 'Who are we',
+    titleEm: 'learning with?',
+    name: 'What should we call you?',
+    stage: 'Where do you learn right now?',
+    interests: 'What are you into?',
+    interestsHint:
+      'Hobbies, games, sports, music. We use them for examples that make sense to you.',
+    interestsPlaceholder: 'Football, Minecraft, drawing',
+  },
+  de: {
+    label: 'Über dich',
+    hint: 'Nur das Wichtigste, damit wir wissen, für wen wir bauen.',
+    title: 'Mit wem',
+    titleEm: 'lernen wir?',
+    name: 'Wie sollen wir dich nennen?',
+    stage: 'Wo lernst du gerade?',
+    interests: 'Was interessiert dich?',
+    interestsHint:
+      'Hobbys, Games, Sport, Musik. Wir nutzen sie für Beispiele, die für dich Sinn ergeben.',
+    interestsPlaceholder: 'Fußball, Minecraft, Zeichnen',
+  },
+})
+
 function AboutStep({ profile, update, errors }: StepProps) {
-  const stage = stages.find((s) => s.value === profile.stage)
+  const t = useMessages(messages)
+  const options = useMessages(optionMessages)
+  const stage = entryFor(options.stages, profile.stage)
 
   return (
     <div>
-      <StepHeading
-        label="Über dich"
-        hint="Nur das Wichtigste, damit wir wissen, für wen wir bauen."
-      >
-        Mit wem <em>lernen wir?</em>
+      <StepHeading label={t.label} hint={t.hint}>
+        {t.title} <em>{t.titleEm}</em>
       </StepHeading>
 
       <div className="grid gap-x-8 gap-y-5 md:grid-cols-2">
-        <Field
-          id="name"
-          label="Wie sollen wir dich nennen?"
-          error={errors.name}
-        >
+        <Field id="name" label={t.name} error={errors.name}>
           <Input
             id="name"
             value={profile.name}
             onChange={(e) => update({ name: e.target.value })}
-            placeholder="z. B. Lina"
+            placeholder="Lina"
             autoComplete="given-name"
             aria-invalid={!!errors.name}
             className="max-w-sm"
           />
         </Field>
 
-        <Field label="Wo lernst du gerade?" error={errors.stage}>
-          <fieldset
-            className="flex flex-wrap gap-2.5"
-            aria-label="Wo lernst du gerade?"
-          >
-            {stages.map((s) => (
+        <Field label={t.stage} error={errors.stage}>
+          <fieldset className="flex flex-wrap gap-2.5" aria-label={t.stage}>
+            {stages.map((value) => (
               <Chip
-                key={s.value}
-                selected={profile.stage === s.value}
-                onClick={() => update({ stage: s.value })}
+                key={value}
+                selected={profile.stage === value}
+                onClick={() => update({ stage: value })}
               >
-                {s.value}
+                {entryFor(options.stages, value)?.label ?? value}
               </Chip>
             ))}
           </fieldset>
@@ -65,15 +86,15 @@ function AboutStep({ profile, update, errors }: StepProps) {
 
         <Field
           id="interests"
-          label="Wofür interessierst du dich?"
-          hint="Hobbys, Spiele, Sport, Musik. Damit machen wir Beispiele, die zu dir passen."
+          label={t.interests}
+          hint={t.interestsHint}
           optional
         >
           <Input
             id="interests"
             value={profile.interests}
             onChange={(e) => update({ interests: e.target.value })}
-            placeholder="z. B. Fußball, Minecraft, Zeichnen"
+            placeholder={t.interestsPlaceholder}
           />
         </Field>
       </div>

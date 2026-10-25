@@ -8,22 +8,36 @@ import { LearningPage } from '@/components/LearningPage'
 import { FeedbackBox } from './FeedbackBox'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { defineMessages, useMessages } from '@/lib/i18n'
 import { loadPage, loadRun, savePage, type LearnRun } from './learnStore'
 import { TUTOR } from '@/lib/tutor'
+
+const messages = defineMessages({
+  en: {
+    notFound:
+      'This learning page was not found. Start again from the playground.',
+    themes: 'Themes',
+    tryAgain: 'Try again',
+  },
+  de: {
+    notFound:
+      'Diese Lernseite wurde nicht gefunden. Starte nochmal im Playground.',
+    themes: 'Themen',
+    tryAgain: 'Nochmal versuchen',
+  },
+})
 
 // Opens in its own tab: generates a page for every picked theme at once and lets the student switch between them.
 export function Learn() {
   const { id = '' } = useParams()
   const [run] = useState(() => loadRun(id))
   const [selected, setSelected] = useState(run?.themes[0]?.theme)
+  const t = useMessages(messages)
 
   if (!run) {
     return (
       <main className="p-6">
-        <p role="alert">
-          Diese Lernseite wurde nicht gefunden. Fang noch einmal im Playground
-          an.
-        </p>
+        <p role="alert">{t.notFound}</p>
       </main>
     )
   }
@@ -32,7 +46,7 @@ export function Learn() {
     <div className="fixed inset-0 flex flex-col bg-background">
       <div
         role="tablist"
-        aria-label="Themen"
+        aria-label={t.themes}
         className="flex flex-wrap gap-2 border-b p-2"
       >
         {run.themes.map((pick) => (
@@ -73,6 +87,7 @@ function ThemePanel({ id, run, theme, hidden }: ThemePanelProps) {
   const generate = useGeneratePage()
   const [saved] = useState(() => loadPage(id, theme))
   const started = useRef(false)
+  const t = useMessages(messages)
 
   function start() {
     const { profile, answers, material } = run
@@ -110,7 +125,7 @@ function ThemePanel({ id, run, theme, hidden }: ThemePanelProps) {
                 {errorMessage(generate.error)}
               </p>
               <Button className="self-start" onClick={start}>
-                Nochmal versuchen
+                {t.tryAgain}
               </Button>
             </>
           ) : (

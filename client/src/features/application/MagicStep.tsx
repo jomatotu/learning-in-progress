@@ -3,17 +3,45 @@ import { Loader2, Sparkles } from 'lucide-react'
 import type { StudentProfile } from '@/api/profile'
 import { errorMessage } from '@/api/errorMessage'
 import { generateSolution } from './solution'
+import { defineMessages, useMessages } from '@/lib/i18n'
 
-// Rotating status lines shown while Hermes builds the Solution Page.
-const buzzwords = [
-  'Dein Profil wird gelesen…',
-  'Deine Lösung wird gebaut…',
-  'Das Material wird angepasst…',
-  'Alles wird geprüft…',
-]
+const messages = defineMessages({
+  de: {
+    // Rotating status lines shown while Hermes builds the Solution Page.
+    buzzwords: [
+      'Dein Profil wird gelesen…',
+      'Deine Lösung wird gebaut…',
+      'Das Material wird angepasst…',
+      'Alles wird geprüft…',
+    ],
+    kicker: 'Für dich gebaut',
+    title: 'Hier entsteht',
+    titleEm: 'deine magische Lösung.',
+    waiting: 'Einen Moment — das dauert ein bis zwei Minuten.',
+    ready: (topic: string) =>
+      `${topic || 'Dein Thema'}, in einer Form, die zu dir passt.`,
+    open: 'Lösung öffnen',
+    failed:
+      'Das hat nicht geklappt. Prüf deine Verbindung und versuch es nochmal.',
+  },
+  en: {
+    buzzwords: [
+      'Reading your profile…',
+      'Building your solution…',
+      'Adapting the material…',
+      'Checking everything…',
+    ],
+    kicker: 'Built for you',
+    title: 'This is where',
+    titleEm: 'your magic solution takes shape.',
+    waiting: 'One moment — this takes one to two minutes.',
+    ready: (topic: string) =>
+      `${topic || 'Your topic'}, in a form that fits you.`,
+    open: 'Open solution',
+    failed: 'That didn’t work. Check your connection and try again.',
+  },
+})
 
-const fallbackError =
-  'Das hat nicht geklappt. Prüf deine Verbindung und versuch es nochmal.'
 
 // The Magic Page: shown after "Build my tool". "Lösung öffnen" has Hermes build the
 // Solution Page, then redirects to it.
@@ -27,18 +55,18 @@ export function MagicStep({
   topic: string
   profileJson: StudentProfile
 }) {
+  const t = useMessages(messages)
+  const { buzzwords } = t
   const [status, setStatus] = useState<'idle' | 'generating' | 'error'>('idle')
   const [error, setError] = useState('')
-  const [buzzword, setBuzzword] = useState(buzzwords[0])
+  const [step, setStep] = useState(0)
+  const buzzword = buzzwords[step % buzzwords.length]
   const interval = useRef<number>(undefined)
 
   const start = () => {
     setStatus('generating')
     interval.current = window.setInterval(() => {
-      setBuzzword(
-        (current) =>
-          buzzwords[(buzzwords.indexOf(current) + 1) % buzzwords.length],
-      )
+      setStep((current) => current + 1)
     }, 2500)
     generateSolution(profileJson).then(
       ({ url }) => {
@@ -46,7 +74,7 @@ export function MagicStep({
       },
       (e: unknown) => {
         window.clearInterval(interval.current)
-        setError(errorMessage(e, fallbackError))
+        setError(errorMessage(e, t.failed))
         setStatus('error')
       },
     )
@@ -67,17 +95,13 @@ export function MagicStep({
         <span className="magic-mark">
           <Sparkles size={34} />
         </span>
-        <span className="kicker">Für dich gebaut</span>
+        <span className="kicker">{t.kicker}</span>
         <h1>
-          Hier entsteht
+          {t.title}
           <br />
-          <em>deine magische Lösung.</em>
+          <em>{t.titleEm}</em>
         </h1>
-        <p>
-          {status === 'generating'
-            ? 'Einen Moment — das dauert ein bis zwei Minuten.'
-            : `${topic || 'Dein Thema'}, in einer Form, die zu dir passt.`}
-        </p>
+        <p>{status === 'generating' ? t.waiting : t.ready(topic)}</p>
 
         {status === 'generating' && (
           <div
@@ -110,7 +134,7 @@ export function MagicStep({
             </>
           ) : (
             <>
-              <Sparkles size={18} /> Lösung öffnen
+              <Sparkles size={18} /> {t.open}
             </>
           )}
         </button>

@@ -14,7 +14,7 @@ def test_survey_lists_all_30_questions_in_category_order():
     # Questions come grouped by category, in the same order as the categories.
     seen = list(dict.fromkeys(q["category"] for q in survey["questions"]))
     assert seen == category_ids
-    assert survey["response_scale"]["labels"][0] == "Stimmt gar nicht"
+    assert survey["response_scale"]["labels"][0] == "Not like me at all"
 
 
 def test_survey_has_20_high_and_10_low_priority_questions():
@@ -30,20 +30,24 @@ def test_survey_keeps_scoring_details_on_the_server():
     assert set(question) == {"id", "category", "text", "priority"}
 
 
+def test_survey_comes_in_german_with_the_same_ids_and_priorities():
+    english = client.get("/api/survey").json()
+    german = client.get("/api/survey", params={"lang": "de"}).json()
+
+    assert [q["id"] for q in german["questions"]] == [q["id"] for q in english["questions"]]
+    assert [q["priority"] for q in german["questions"]] == [q["priority"] for q in english["questions"]]
+    assert german["response_scale"]["labels"][0] == "Trifft gar nicht zu"
+    assert german["categories"][0]["title"] == "Was du schon weißt"
+    # Every German text is really translated, not the English fallback.
+    assert all(g["text"] != e["text"] for g, e in zip(german["questions"], english["questions"]))
+
+
+def test_survey_rejects_unknown_languages():
+    assert client.get("/api/survey", params={"lang": "fr"}).status_code == 422
+
+
 def test_survey_questions_are_generic():
     questions = client.get("/api/survey").json()["questions"]
 
     assert not any("{" in q["text"] for q in questions)
 
-
-def test_survey_is_german():
-    survey = client.get("/api/survey").json()
-
-    assert survey["response_scale"]["labels"] == [
-        "Stimmt gar nicht",
-        "Stimmt eher nicht",
-        "Stimmt ein bisschen",
-        "Stimmt ziemlich",
-        "Stimmt total",
-    ]
-    assert survey["categories"][0]["title"] == "Was du schon weißt"

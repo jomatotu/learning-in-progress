@@ -177,8 +177,9 @@ def get_token(monkeypatch):
     return post_cards().json()["token"]
 
 
+# The summary prompt quotes the German band texts the student saw (German is the UI default).
 def band_text(category, band):
-    return next(c for c in load_scale()["categories"] if c["id"] == category)["bands"][band]["student_text"]
+    return next(c for c in load_scale()["categories"] if c["id"] == category)["bands"][band]["student_text_de"]
 
 
 def test_summary_prompt_has_band_texts_and_card_answers(monkeypatch):

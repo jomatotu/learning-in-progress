@@ -12,7 +12,7 @@
   --color-pine-deep: var(--pine-deep);
   --color-marigold: var(--marigold);
   --color-clay: var(--clay);
-  --shadow-card: 0 24px 70px rgba(60, 53, 88, 0.08);
+  --shadow-card: var(--card-shadow);
 }
 
 .application-page {
@@ -26,6 +26,7 @@
   --pine-deep: #5540b0;
   --marigold: #e1765b;
   --clay: #e67f63;
+  --card-shadow: 0 24px 70px rgba(60, 53, 88, 0.08);
   line-height: 1.6;
 }
 
@@ -59,6 +60,43 @@
 /* Browsers give fieldsets a min-content width, which makes answer groups overflow on phones. */
 .application-page fieldset {
   min-width: 0;
+}
+
+/* Notebook sheet in the profile panel. Every line of text is exactly one 32px row and every gap is a whole
+   row, so text always sits on a rule. Sizes are in px on purpose: the page's 17px root would turn rem
+   spacing into fractions that drift off the rules. --line-offset moves the rules to just under the text. */
+.application-page .ruled-paper {
+  --line-step: 32px;
+  /* Text baselines land 20-23px into each row; moving the rule up 6px puts it 2-5px under the letters. */
+  --line-offset: -6px;
+  padding: var(--line-step) 24px;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  background-color: var(--sheet);
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--line-step) - 1px),
+    var(--pine-soft) calc(var(--line-step) - 1px)
+  );
+  background-size: 100% var(--line-step);
+  background-position: 0 var(--line-offset);
+  line-height: var(--line-step);
+}
+
+.application-page .ruled-paper * {
+  line-height: var(--line-step);
+  margin-block: 0;
+}
+
+.application-page .ruled-paper .ruled-gap {
+  height: var(--line-step);
+}
+
+/* Tags keep their own height but must not make their line taller than one row. Raised so the
+   bottom of each tag rests on its rule. */
+.application-page .ruled-paper .ruled-tag {
+  line-height: 22px;
+  vertical-align: 4px;
 }
 
 /* Quieter button next to main's .primary, for actions such as "Add" or "Copy JSON". */

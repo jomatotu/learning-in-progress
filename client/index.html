@@ -4,8 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Learning in Progress</title>
-    <meta name="description" content="Learning in Progress" />
+    <title>Morph</title>
+    <meta name="description" content="Morph" />
+    <!-- Applies the saved light/dark choice before the page paints, so dark mode never flashes white. -->
+    <script>
+      try {
+        var saved = localStorage.getItem('theme')
+        var dark =
+          saved === 'dark' ||
+          (saved !== 'light' &&
+            matchMedia('(prefers-color-scheme: dark)').matches)
+        if (dark) {
+          document.documentElement.classList.add('dark')
+          document.documentElement.style.colorScheme = 'dark'
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

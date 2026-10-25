@@ -6,6 +6,7 @@
 @import '@fontsource-variable/fraunces';
 @import './features/onboarding/onboarding.css';
 @import './features/application/application.css';
+@import './styles/theme.css';
 
 /* Hermes-written pages may be git-ignored; Tailwind must still scan them. */
 @source './features/application/generated';
