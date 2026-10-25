@@ -1,32 +1,63 @@
 # learning-in-progress
 
-Monorepo for Learning in Progress.
+**Learning in Progress** passt Lernmaterial an die Bedürfnisse und Lernziele
+einer Person an, ohne den fachlichen Inhalt zu verändern.
+
+## Demo
+
+Die Anwendung ist unter
+[binnendifferenzierung.online](https://binnendifferenzierung.online/) verfügbar.
 
 [![Startseite von Learning in Progress](doc/startseite.png)](https://binnendifferenzierung.online/)
 
-Die Anwendung: [binnendifferenzierung.online](https://binnendifferenzierung.online/)
-
 ## Grundidee
 
-Lernende mit Herausforderungen wie Legasthenie oder ADHS haben oft Schwierigkeiten, weil ihr Lernmaterial in einem festen Format kommt, das nicht zu ihrer Art zu lernen passt. Unsere App dreht das um: Nicht die Lernenden passen sich dem Werkzeug an, sondern das Werkzeug passt sich den Lernenden an.
+### Problem
 
-Die Lernenden laden ihr Material hoch und erzählen uns von sich: ihre Herausforderungen, ihre Ziele und alles, von dem sie bereits wissen, dass es für sie funktioniert.
+Lernmaterial liegt meist in einem festen Format vor. Dieses Format kann für
+Lernende, beispielsweise mit Legasthenie oder ADHS, eine zusätzliche Barriere
+darstellen.
 
-Unsere KI recherchiert, was Menschen mit diesem Profil nachweislich hilft, und schlägt eine Lösung vor. Dann baut sie diese Lösung direkt im Browser, mit generativer UI.
+### Lösungsansatz
 
-Beispiele: lange Texte in kurze Abschnitte zerlegt, eine Chat-Oberfläche für Videovorlesungen oder eine Browser-Erweiterung, die jede besuchte Seite neu formatiert. Wir bauen eine Lösung, die Lösungen baut. Die Lernenden müssen nie wissen, wie die Lösung aussehen soll. Sie beschreiben das Problem, wir schlagen vor und wir bauen.
+Nicht die Lernenden passen sich dem Werkzeug an, sondern das Werkzeug passt sich
+den Lernenden an. Aus Lernmaterial, Lernziel und persönlichem Profil entsteht
+eine passende Softwarelösung direkt im Browser. Forschungsergebnisse und die
+Erfahrungen der lernenden Person fließen in den Vorschlag ein.
 
-In einem Satz: Wir verwandeln die Bedürfnisse der Lernenden in funktionierende Software, fundiert in Forschung und ihrer eigenen Realität. Am Wissen ändert sich nichts, nur die Form, in der es ankommt. Wir glauben, dass die meisten Lernbarrieren nicht NUR an der Fähigkeit liegen, SONDERN AUCH an der Diskrepanz zwischen einer Person und dem Format, das ihr gegeben wurde, um ihr Lernziel zu erreichen. Unsere Lösung baut für die Welt, die auf deinen Bildschirm passt :)
+Der fachliche Inhalt bleibt erhalten; nur seine Darstellung und Interaktion
+ändern sich.
 
-Wenn die Technologie von heute so flexibel ist, warum sind wir dann so darauf aus, die Lernenden zu verbiegen?
+### Beispiele
 
-Weitere Informationen zur Entwicklung der Grundidee findest du unter [doc/process.md](doc/process.md).
+- Lange Texte werden in kurze, überschaubare Abschnitte gegliedert.
+- Eine Videovorlesung wird über eine Chat-Oberfläche erschlossen.
+- Eine Browser-Erweiterung formatiert besuchte Seiten passend zum Lernprofil.
 
-## Dokumentation
+Die Lernenden müssen die konkrete Lösung nicht selbst entwerfen. Sie beschreiben
+ihre Situation und das gewünschte Lernziel; die Anwendung schlägt eine passende
+Form vor und erzeugt sie.
 
-Überblick über die Dokumente in `doc/`: [doc/README.md](doc/README.md).
+Weitere Informationen zur Entwicklung der Grundidee stehen in
+[doc/process.md](doc/process.md).
 
-## Aufbau
+## Funktionsweise
+
+1. Lernende geben ihr Lernziel, ihr Lernmaterial und Angaben zu ihrem Profil an.
+2. Die KI ermittelt geeignete Unterstützung und schlägt eine Lösung vor.
+3. Die Anwendung erzeugt daraus eine generative Benutzeroberfläche im Browser.
+
+Der ausführliche fachliche Ablauf steht in der
+[Lösungsstrategie](doc/architecture/04-loesungsstrategie.md).
+
+## Lokaler Einstieg
+
+Client und Server werden getrennt eingerichtet und gestartet:
+
+- [Client einrichten und starten](client/README.md)
+- [Server einrichten und starten](server/README.md)
+
+## Projektstruktur
 
 | Ordner | Inhalt |
 | --- | --- |
@@ -34,11 +65,7 @@ Weitere Informationen zur Entwicklung der Grundidee findest du unter [doc/proces
 | `server/` | API. Setup und Start: [server/README.md](server/README.md) |
 | `doc/` | Prozess und Architektur |
 
-Der fachliche Ablauf steht in der [Lösungsstrategie](doc/architecture/04-loesungsstrategie.md): Lernziel, Charakter / KI-Zwilling, Lernpfadkarte, generative UI, Prüfung.
-
 ## Techstack
-
-**Achtung:** Der Techstack wird gerade noch einmal umgebaut. Die Liste beschreibt nur den aktuellen Stand im Repository und ist keine finale Entscheidung.
 
 Frontend:
 - TypeScript
@@ -50,6 +77,11 @@ Backend:
 
 AI Layer:
 - Gemini
+
+## Dokumentation
+
+Einen Überblick über die Dokumente in `doc/` bietet die
+[Dokumentationsübersicht](doc/README.md).
 
 ## Werkzeuge
 
@@ -71,7 +103,7 @@ Dokumentation der Werkzeuge, Hilfsmittel und Abläufe, die Entwicklung und Lerne
 | IntelliJ IDEA | Entwicklung | im Einsatz |
 | VSCode | Entwicklung | im Einsatz |
 
-### Mitwirken
+## Mitwirken
 
 Beim Hinzufügen eines neuen Werkzeugs:
 
