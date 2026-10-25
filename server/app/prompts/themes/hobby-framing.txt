@@ -1,0 +1,70 @@
+## Step 2: Design — Hobby framing
+
+Build the lesson around the one interest this student cares about most: the material is told as a short journey inside that world, and hard concepts can be clicked to show an analogy from it. The interest is only the wrapper. Every fact stays exactly as in the material. Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- Matching problems to students' own interests, while keeping the content the same, helped them learn more, and low achievers gained the most (Walkington, algebra tutor study).
+- Putting learning in a personal, meaningful context raises motivation and learning (Cordova & Lepper 1996).
+- Interest grows when material connects to something the learner already cares about (Hidi & Renninger, four-phase model of interest).
+- Analogies help understanding when the link between the familiar and the new idea is shown clearly (Richland, analogy research).
+
+Use these short source names in the "Why it looks like this" section.
+
+### Who it fits
+
+Students who lose motivation, find the subject dry or abstract, have ADHD, or say examples help them. It also works for any student who named a clear interest.
+
+### Pick the interest
+
+- Use the single interest that best fits the material and that the student mentioned most strongly in the profile or answers. Use only one interest for the whole lesson.
+- Prefer an interest whose structure maps well onto the material. For example, football teams map well onto body systems working together, and building games map well onto chemical bonds or cell structure.
+- If no interest is given, use an everyday frame the student will know well: cooking, a city, or a school day. Say this in the "Why" section.
+
+### Screens, in this order
+
+1. **Start screen.** The title of the topic, a 2 to 3 sentence opening scene set in the interest's world, and the question this lesson answers. Show how many parts there are and the time, e.g. "5 short parts, about 10 minutes", and a Start button.
+2. **Concept screens, 4 to 7 of them.** Show one key idea per screen, in this order:
+   - a heading;
+   - the fact itself, stated plainly in 2 to 4 short sentences, with key terms in bold;
+   - one sentence that links the fact back to the interest's world;
+   - a short match list (a ul, not a table) of 2 to 3 pairs, each a thing from the interest's world and the real term it stands for ("Waiter → carrier protein").
+   Each screen has a progress label ("Part 2 of 6").
+3. **Check, after every 2 concept screens.** One multiple choice question with 3 options. The question is set in the interest's world, but answering it right requires the real fact. Feedback appears right away and names the correct fact.
+4. **Recap screen.** A two-column list. The left column is the real term or fact, the right column is its match in the interest's world. Include every key idea.
+5. **Done screen.** One sentence that ties the opening scene to what was learned, a short encouraging line, and a "Start again" button.
+
+### Clickable concepts and analogies
+
+- On each concept screen, mark 1 or 2 hard terms as clickable. Never mark more than 2 on one screen, and mark no more than 10 across the whole lesson.
+- A clickable term is a real `<button>` styled as underlined text with a small marker such as "💡". It works with mouse, Enter and Space.
+- Clicking opens a small panel directly under the paragraph, not a floating tooltip. It pushes content down and never covers text. The panel has three labelled parts:
+  - "Analogy": 1 to 3 sentences from the interest's world.
+  - "In real life": one sentence restating the actual fact.
+  - "Where the analogy breaks": one sentence about where the comparison stops working.
+- Only one panel is open at a time. A close button and the Escape key close it, and focus goes back to the term.
+- Write all analogies into the page in advance. Nothing is generated live.
+
+### Always
+
+- Keep the fact and the analogy visibly separate. The plain fact comes first on every screen, and the analogy is always labelled "Analogy".
+- Use one consistent cast of characters and places from the interest across the whole lesson, at most 3 named characters.
+- Make every check answerable only by knowing the real fact, not by knowing the hobby.
+- Make the recap screen show every real term next to its match.
+- "Back" and "Next" always in the same place at the bottom. Nothing advances or times out on its own.
+
+### Adapt to this student
+
+- Choose the interest, its vocabulary, and how deep into the hobby to go (casual fan vs expert), based on how they talk about it.
+- Use shorter screens (2 sentences) and fewer concept screens (4) if attention or reading is hard for them. Use up to 7 screens if they want depth.
+- Match the tone to their age: friendly and grown-up for teenagers, never childish.
+- If they say read-aloud or visuals help, add a "Read aloud" button per screen (speechSynthesis) or simple inline SVG drawings in the interest's world.
+
+### Don't
+
+- Don't let the analogy replace the fact or change it. If an analogy would mislead, leave it out.
+- Don't force the frame on every sentence. One linking sentence and the match list per screen are enough.
+- Don't use more than 2 clickable analogies per screen or mix several hobbies.
+- Don't copy logos, characters or long text from brands, games or clubs. Use generic descriptions ("a blocky building game", "the striker") or invented names.
+- Don't use jokes that mock the student, the hobby, or wrong answers.
+- Don't add extra features like scores, timers, leaderboards, or sound effects.

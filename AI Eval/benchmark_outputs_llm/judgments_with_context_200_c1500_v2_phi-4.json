@@ -1,0 +1,762 @@
+{
+  "2": {
+    "answer": "The core symptoms of Attention Deficit Hyperactivity Disorder (ADHD) are inattention, hyperactivity, and impulsivity. These symptoms can manifest in various behaviors such as difficulty sustaining attention, fidgeting, difficulty remaining seated, and blurting out answers before questions are completed.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies all core symptoms of ADHD as listed in the reference. [✓ core symptoms of ADHD; ✓ inattention; ✓ hyperactivity; ✓ impulsivity]"
+  },
+  "3": {
+    "answer": "The estimated range of children with ADHD in the United States is between 1.46 to 2.46 million.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys the key facts from the reference. [✓ estimated range of children with ADHD in the United States; ✓ 1.46 to 2.46 million]"
+  },
+  "4": {
+    "answer": "The two main categories of behaviors exhibited by children with ADHD are poor sustained attention and hyperactivity-impulsiveness.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies both key categories of behaviors exhibited by children with ADHD as stated in the reference. [✓ Poor sustained attention; ✓ Hyperactivity-impulsiveness]"
+  },
+  "5": {
+    "answer": "The rate of conduct or oppositional defiant disorders among children with ADHD varies from 43 to 93 percent.",
+    "verdict": "correct",
+    "reason": "The candidate accurately states the range of rates as from 43 to 93 percent. [✓ Range of rates for conduct or oppositional defiant disorders among children with ADHD; ✓ The range is from 43 to 93 percent]"
+  },
+  "6": {
+    "answer": "The purpose of an individualized educational program (IEP) for children with ADHD is to integrate appropriate instructional practices, behavioral interventions, and classroom accommodations tailored to the child's unique academic and behavioral needs. The IEP reflects annual goals and necessary special education-related services, supplementary aids, and activities, ensuring that the child's educational activities are coordinated with those provided to other students in the class. This individualized approach helps address the specific challenges and strengths of each child with ADHD, facilitating their academic and behavioral success.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately reflects the key facts from the reference without contradiction. [✓ The IEP combines selected educational practices into a plan; ✓ The IEP is integrated with educational activities provided to other children in the class]"
+  },
+  "7": {
+    "answer": "The three components of successful programs for children with ADHD are:\n\n1. Academic Instruction\n2. Behavioral Interventions\n3. Classroom Accommodations\n\nThese components are integrated into individualized educational programs to address the unique needs of each child with ADHD.",
+    "verdict": "correct",
+    "reason": "The candidate correctly lists all three components as specified in the reference. [✓ Three components of successful programs for children with ADHD; ✓ Academic Instruction; ✓ Behavioral Interventions; ✓ Classroom Accommodations]"
+  },
+  "8": {
+    "answer": "The first major component of the most effective instruction for children with ADHD is effective academic instruction. Teachers can help prepare their students with ADHD by applying the principles of effective teaching when they introduce, conduct, and conclude each lesson. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the first major component as effective academic instruction. [✓ The first major component is effective academic instruction]"
+  },
+  "9": {
+    "answer": "The main goal of using an advance organizer in a lesson for students with ADHD is to prepare them for the day's lesson by summarizing the order of activities, explaining what will be covered, and setting expectations for behavior and learning. This helps structure the lesson and provides a clear framework, which is particularly beneficial for students with ADHD who may struggle with transitions and maintaining focus.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ Prepare students for the day’s lesson; ✓ Outline the sequence of activities; ✓ Include review of previous lesson, new information, group and independent work; ✓ Set expectations for behavior and learning]"
+  },
+  "10": {
+    "answer": "When stating needed materials for a lesson, it is important to identify all materials that the children will need during the lesson, rather than leaving them to figure out on their own what is required. For example, specify that children need their journals and pencils for journal writing or their crayons, scissors, and colored paper for an art project. (Excerpt 4)",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers both key facts from the reference. [✓ Identify all materials needed for the lesson; ✓ Materials should be specified rather than left to the children to figure out]"
+  },
+  "11": {
+    "answer": "Before calling on other students in a lesson for children with ADHD, teachers should periodically question the children’s understanding of the material and probe for correct answers. This helps ensure that the child with ADHD comprehends the content and identifies if they need additional assistance.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers the key facts from the reference. [✓ Teachers should probe for correct answers; ✓ Before calling on other students]"
+  },
+  "12": {
+    "answer": "The recommended time to wait before giving the answer after a child has worked out a question is at least 15 seconds. This allows the child sufficient time to think and respond.",
+    "verdict": "correct",
+    "reason": "The candidate accurately states the recommended time to wait and specifies it as at least 15 seconds. [✓ Recommended time to wait; ✓ At least 15 seconds]"
+  },
+  "13": {
+    "answer": "A recommended practice to reduce test anxiety for students with ADHD is to eliminate or reduce the frequency of timed tests. Allowing students with ADHD more time to complete quizzes and tests can help them demonstrate their knowledge without the added pressure of time constraints. Additionally, providing alternative methods or test formats to demonstrate their knowledge can be beneficial.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers both key facts from the reference. [✓ Eliminate or reduce the frequency of timed tests; ✓ Allow students with ADHD more time to complete quizzes and tests]"
+  },
+  "14": {
+    "answer": "The recommended time frame for providing advance warnings before the end of a lesson is 5 or 10 minutes. This advance warning is particularly important for seatwork and group projects.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference. [✓ Recommended time frame is 5 or 10 minutes; ✓ Advance warning is particularly important for seatwork and group projects]"
+  },
+  "15": {
+    "answer": "The strategy that involves setting aside a fixed time each day for silent reading is called \"D.E.A.R.: Drop Everything and Read\" and \"Sustained Silent Reading.\"",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies both names of the strategy and accurately describes its key components. [✓ The strategy is called D.E.A.R.: Drop Everything and Read; ✓ The strategy is also called Sustained Silent Reading; ✓ It involves setting aside a fixed time each day; ✓ It involves silent reading]"
+  },
+  "16": {
+    "answer": "The activity that involves pairing a child with ADHD with another student who is a strong reader is \"Partner reading activities.\" In this activity, the partners take turns reading orally and listening to each other.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference. [✓ Pairing a child with ADHD with another student who is a strong reader; ✓ Partner reading activities; ✓ Partners take turns reading orally; ✓ Partners listen to each other]"
+  },
+  "17": {
+    "answer": "Board games, such as bingo, are suggested for students to practice phonetically irregular words. Additionally, computer games for phonics are also recommended.",
+    "verdict": "correct",
+    "reason": "The candidate's answer includes all key facts from the reference and adds additional information without contradiction. [✓ Games are suggested for practicing phonetically irregular words; ✓ Board games are an example of such games]"
+  },
+  "18": {
+    "answer": "The activity that involves students writing, mailing, and receiving letters in the classroom is establishing a post office in the classroom. This allows students to write, mail, and receive letters to and from their classmates and teacher.",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately covers all key facts from the reference without contradiction. [✓ Activity involves students writing letters; ✓ Activity involves students mailing letters; ✓ Activity involves students receiving letters; ✓ Activity takes place in the classroom]"
+  },
+  "19": {
+    "answer": "One environment that can be provided for children with ADHD to complete handwriting assignments is a \"quiet place,\" such as a table outside the classroom, where they can work without distractions. This is mentioned in Excerpt 6.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys all key facts from the reference. [✓ Provide a special environment for children with ADHD; ✓ The environment is a quiet place; ✓ The environment is used for handwriting assignments]"
+  },
+  "20": {
+    "answer": "One instructional practice that can help children with ADHD improve their basic computation skills is teaching them to recognize patterns in math, such as understanding that the digits of numbers which are multiples of 9 (e.g., 18, 27, 36) add up to 9.",
+    "verdict": "partially_correct",
+    "reason": "Candidate provides a different instructional practice that does not involve partnering with another student. [✓ Instructional practice; ✓ Help children with ADHD; ✓ Improve basic computation skills; ✗ Partnering with another student to quiz each other]"
+  },
+  "21": {
+    "answer": "One real-life example given for practicing money skills is asking the child to calculate his or her change when paying for lunch in the school cafeteria. Another example is setting up a class store where children can practice calculating change.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the real-life example, calculating change, and the school cafeteria as specified in the reference. [✓ real-life example for practicing money skills; ✓ calculating change; ✓ school cafeteria]"
+  },
+  "22": {
+    "answer": "The role designated for a specific teacher in supporting students with ADHD involves identifying the unique needs of each child, selecting appropriate educational practices, and integrating these into an individualized educational program (IEP) or plan. This includes evaluating the child's academic and behavioral needs, using formal assessments and informal observations, and combining academic instruction, behavioral interventions, and classroom accommodations to create an effective learning environment. The teacher also monitors the physical environment and uses instructional tools to accommodate the special needs of students with ADHD.",
+    "verdict": "incorrect",
+    "reason": "The candidate's answer does not mention the specific role of being an advisor or coordinator, reviewing progress, acting as a liaison, or meeting regularly with the student. [✗ A specific teacher is designated as the student’s advisor or coordinator; ✗ The teacher reviews progress; ✗ The teacher acts as a liaison between home and school; ✗ The teacher meets regularly with the student to plan and organize tasks]"
+  },
+  "23": {
+    "answer": "One practice recommended to help children with ADHD break down long assignments is to provide them with supervised opportunities to break down a long assignment into a sequence of short, interrelated activities. This approach helps manage the complexity and makes the task more manageable for the child. (Excerpt 2)",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys all key facts from the reference. [✓ practice sequencing activities; ✓ breaking down long assignment; ✓ sequence of short, interrelated activities]"
+  },
+  "24": {
+    "answer": "Venn diagrams can be used to help illustrate and organize key concepts in reading, mathematics, or other academic subjects.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference. [✓ Venn diagrams can be used in academic subjects; ✓ Reading is an academic subject that can benefit from Venn diagrams; ✓ Mathematics is an academic subject that can benefit from Venn diagrams; ✓ Other academic subjects can also benefit from Venn diagrams]"
+  },
+  "25": {
+    "answer": "The primary concern when assigning homework to students with ADHD should be the quality of the assignments rather than the quantity. Homework should be used to reinforce skills and review material learned in class, rather than to introduce large amounts of new material. This approach helps in developing effective study skills and ensures that the homework is manageable and meaningful for the students.",
+    "verdict": "correct",
+    "reason": "The candidate correctly conveys both key facts from the reference. [✓ Quality of homework should be the primary concern; ✓ Quantity of homework should not be the primary concern]"
+  },
+  "26": {
+    "answer": "The main purpose of behavioral interventions in the classroom is to assist students in displaying behaviors that are conducive to their own learning and that of their classmates, thereby creating a well-managed environment that minimizes disciplinary problems and maximizes learning opportunities. These interventions focus on teaching appropriate behaviors through positive reinforcement rather than punishment, aiming to improve both behavior and attitudes over the long term.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers the key facts from the reference without contradiction. [✓ Behavioral interventions aim to assist students in displaying behaviors conducive to their own learning; ✓ Behavioral interventions also aim to assist students in displaying behaviors conducive to their classmates' learning]"
+  },
+  "27": {
+    "answer": "When giving praise to students, teachers should focus on specific positive behaviors, provide praise immediately, and vary their statements to maintain effectiveness. Praise should be consistent and sincere, highlighting exactly what the student did right, such as quietly completing a task, rather than general comments. This approach is particularly important for students with ADHD to reinforce desired behaviors effectively.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by emphasizing specific positive behaviors and highlighting exactly what the student did right. [✓ Teachers should focus on specific positive behavior; ✓ Praise should highlight exactly what the student did right]"
+  },
+  "28": {
+    "answer": "Negative consequences are less effective than praise because they may temporarily change behavior but rarely change attitudes, potentially increasing the frequency and intensity of inappropriate behavior by rewarding misbehaving students with attention. Additionally, punishment teaches children what not to do without providing them with the skills needed to do what is expected, whereas positive reinforcement produces long-term changes in attitudes that shape behavior.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering all key facts without contradiction. [✓ Negative consequences rarely change attitudes; ✓ Negative consequences may increase the frequency and intensity of inappropriate behavior; ✓ Negative consequences reward misbehaving students with attention]"
+  },
+  "29": {
+    "answer": "Allowing students with ADHD to leave the classroom briefly serves as an \"escape valve\" outlet, which can help settle them down and enable them to return to the room ready to concentrate.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference answer using paraphrasing and synonyms. [✓ Allowing students with ADHD to leave the classroom briefly; ✓ helps them settle down; ✓ return to the room; ✓ ready to concentrate]"
+  },
+  "30": {
+    "answer": "Effective teachers use the following three types of behavioral prompts with their students:\n\n1. **Verbal Reinforcement**: This involves praising students for appropriate behavior, such as using simple phrases like \"good job\" to encourage positive actions. Teachers frequently praise students with ADHD, looking for behaviors to reinforce before they become distracted.\n\n2. **Private, Discreet Cues**: Teachers provide students with ADHD with subtle signals to help them stay on task and prepare for when they will be called upon, without drawing attention to their differences from other students.\n\n3. **Advance Warnings**: Teachers give students advance notice that a lesson is about to end, helping them transition smoothly and prepare for the next activity. This is particularly helpful for students with ADHD who may struggle with transitions.",
+    "verdict": "correct",
+    "reason": "The candidate's answer includes three types of behavioral prompts, and two of them (private, discreet cues and advance warnings) align with the reference's visual cues and proximity control, while the third is an unspecified prompt. [✓ Three types of behavioral prompts; ✓ Visual cues; ✓ Proximity control; ✓ Other unspecified prompts]"
+  },
+  "31": {
+    "answer": "One hand gesture used to communicate privately with a child with ADHD is a closed fist, which signals that the child knows the answer.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference. [✓ One hand gesture is used; ✓ The gesture is a closed fist; ✓ The gesture is used to communicate privately; ✓ The gesture signals that the child knows the answer]"
+  },
+  "32": {
+    "answer": "The three steps involved in conducting a Functional Behavioral Assessment (FBA) are: (1) observing the behavior and identifying and defining its problematic characteristics, (2) identifying which actions or events precede and follow the behavior, and (3) determining how often the behavior occurs. These steps help in developing an effective intervention and support plan.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Observing the behavior and identifying and defining its problematic characteristics; ✓ Identifying which actions or events precede and follow the behavior; ✓ Determining how often the behavior occurs]"
+  },
+  "33": {
+    "answer": "The primary goal of Positive Behavioral Interventions and Supports (PBIS) is to eliminate problem behavior, replace it with more appropriate behavior, and increase a person’s skills and opportunities for an enhanced quality of life.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately reflects all key facts from the reference. [✓ Eliminate problem behavior; ✓ Replace problem behavior with more appropriate behavior; ✓ Increase a person’s skills and opportunities; ✓ Enhanced quality of life]"
+  },
+  "34": {
+    "answer": "Involving children in the selection of a reward increases their investment in the reward, making them more likely to work towards achieving it. This approach enhances the effectiveness of tangible rewards in reinforcing appropriate behavior.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys both key facts from the reference. [✓ Involving children in the selection of a reward increases their investment in the reward; ✓ Increased investment leads to a higher likelihood of working for the reward]"
+  },
+  "35": {
+    "answer": "If the teacher and student ratings match or are within one point in a self-management system, the student earns points. These points can then be exchanged for privileges. Over time, the teacher's involvement is reduced, and the student becomes responsible for self-monitoring.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys the key facts from the reference. [✓ If teacher and student ratings match or are within one point; ✓ the student earns points]"
+  },
+  "36": {
+    "answer": "The purpose of seating a child with ADHD near the teacher is to provide opportunities for the teacher to monitor and reinforce the child’s on-task behavior, helping them stay focused and engaged in their assigned work.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ The purpose is related to seating a child with ADHD; ✓ The purpose involves the teacher monitoring the child; ✓ The purpose involves reinforcing the child’s on-task behavior]"
+  },
+  "37": {
+    "answer": "Teachers should direct students to a quiet, distraction-free area for study or testing privately and discreetly to avoid the appearance of punishment. This ensures that the space is perceived as a supportive environment rather than a disciplinary measure.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ Direct students privately; ✓ Direct students discreetly; ✓ Avoid appearance of punishment; ✓ Purpose is to create a supportive environment]"
+  },
+  "38": {
+    "answer": "For quiet activities done independently, quiet classical music should be played. This helps communicate to children that a lower level of activity is appropriate.",
+    "verdict": "correct",
+    "reason": "The candidate answer correctly identifies the music type, the context of activities, and specifies quiet classical music as the recommendation. [✓ Music type for quiet activities; ✓ Independently done activities; ✓ Quiet classical music]"
+  },
+  "39": {
+    "answer": "The three main components of a successful strategy for educating children with ADHD are academic instruction, behavioral interventions, and classroom accommodations. These components are integrated into everyday instructional and classroom management practices to improve both academic performance and behavior, creating an enhanced learning environment for all students.",
+    "verdict": "correct",
+    "reason": "The candidate accurately lists and covers all three main components mentioned in the reference. [✓ Three main components; ✓ Academic instruction; ✓ Behavioral interventions; ✓ Classroom accommodations]"
+  },
+  "40": {
+    "answer": "The Acting Director of the Office of Special Education Programs is Alexa Posny, as mentioned in Excerpt 1.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the Acting Director and the name. [✓ Acting Director of the Office of Special Education Programs; ✓ Alexa Posny]"
+  },
+  "41": {
+    "answer": "If the 877 service is not available in your area, you should call 1-800-872-5327 (1-800-USA-LEARN).",
+    "verdict": "correct",
+    "reason": "The candidate correctly provides the alternative number and its alternate format as specified in the reference. [✓ Alternative number to call if 877 service is not available; ✓ Phone number: 1-800-872-5327; ✓ Phone number: 1-800-USA-LEARN]"
+  },
+  "42": {
+    "answer": "If appropriate instructional methodologies and interventions are not implemented for children with ADHD, potential consequences include difficulties with academics and forming relationships with peers. These challenges arise because children with ADHD may struggle to attend to tasks and meet classroom expectations with minimal distraction, which can hinder their ability to acquire necessary information, complete assignments, and participate in classroom activities and discussions.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Potential consequences of not implementing appropriate instructional methodologies and interventions for children with ADHD; ✓ Difficulties with academics; ✓ Difficulties with forming relationships with peers]"
+  },
+  "43": {
+    "answer": "Children with ADHD in the United States are estimated to constitute 3–5 percent of the student population.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys the key facts from the reference. [✓ Percentage of student population with ADHD; ✓ Estimated range of the percentage (3–5 percent)]"
+  },
+  "44": {
+    "answer": "The DSM-IV describes three subtypes of ADHD: predominantly inattentive, predominantly hyperactive-impulsive, and combined types.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys all key facts from the reference. [✓ DSM-IV describes ADHD subtypes; ✓ There are three subtypes; ✓ Subtypes are: predominantly inattentive, predominantly hyperactive-impulsive, and combined types]"
+  },
+  "45": {
+    "answer": "The rate of anxiety or mood disorders among children with ADHD ranges from 13 to 51 percent. (Burt et al., 2001; Forness et al., 1998; Jensen et al., 1997; Jensen et al., 1993).",
+    "verdict": "correct",
+    "reason": "The candidate accurately states the range of rates as 13 to 51 percent. [✓ Range of rates for anxiety or mood disorders among children with ADHD; ✓ The range is from 13 to 51 percent]"
+  },
+  "46": {
+    "answer": "The three-pronged strategy used by successful teachers to educate children with ADHD involves: \n\n1. **Evaluating the child’s individual needs and strengths**: This includes assessing both academic and behavioral needs through formal and informal methods, considering the settings where challenging behaviors occur, and identifying the child's strengths to build on them.\n\n2. **Selecting appropriate educational practices**: This involves choosing suitable academic instruction, behavioral interventions, and classroom accommodations tailored to the child's specific needs.\n\n3. **Integrating these practices into an individualized educational program (IEP)**: The selected practices are combined into an IEP or another individualized plan, which is then integrated with the educational activities provided to other children in the class.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Identifying the child's unique needs; ✓ Selecting appropriate educational practices; ✓ Combining these practices into an individualized educational program (IEP) or other individualized plan]"
+  },
+  "47": {
+    "answer": "The purpose of an Individualized Education Program (IEP) for children receiving special education services is to create a tailored educational plan that reflects the child's annual goals and the special education-related services, along with supplementary aids and services necessary for attaining those goals. It integrates appropriate instructional practices to meet the child's academic and behavioral needs, ensuring these are aligned with the educational activities provided to other children in the class. The IEP is developed in consultation with educators, parents, and other relevant parties.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ IEP reflects annual goals; ✓ IEP includes special education-related services; ✓ IEP includes supplementary aids and services; ✓ IEP is necessary for attaining goals]"
+  },
+  "48": {
+    "answer": "The techniques suggested for children with ADHD not only help these students by enhancing their learning and behavior but also benefit other children in the classroom. Many of these strategies improve the overall learning environment, making them useful for all students, not just those with ADHD. Additionally, these practices are applicable across different age groups, including older students.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers both key facts from the reference. [✓ The techniques benefit other children in the classroom who do not have ADHD; ✓ The techniques enhance learning for children with ADHD]"
+  },
+  "49": {
+    "answer": "One teaching practice that helps students with ADHD learn best is providing a carefully structured academic lesson. This involves the teacher explaining what they want the children to learn in the current lesson and placing these skills and knowledge in the context of previous lessons. Additionally, effective teachers preview their expectations about what students will learn and how they should behave during the lesson. (Excerpt 7)",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering all key facts. [✓ Providing a carefully structured academic lesson; ✓ The teacher explains what students will learn; ✓ Skills are placed in the context of previous lessons]"
+  },
+  "50": {
+    "answer": "Simplifying instructions, choices, and scheduling for students with ADHD is important because these students often struggle with transitions and may not deal well with change. Providing minimal rules and choices helps them understand clearly what is expected of them, reducing confusion and helping them stay on task. This structure and consistency are crucial for managing their impulsiveness and hyperactivity, ultimately supporting their ability to focus and succeed in the classroom. (Referenced from Excerpt 3)",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by emphasizing the importance of simplicity in expectations for ADHD students and its positive outcomes. [✓ Simpler expectations improve comprehension and completion by ADHD students.; ✓ Simplification leads to timely and productive outcomes.]"
+  },
+  "51": {
+    "answer": "Teachers should avoid bringing attention to differences between ADHD students and their classmates when providing cues. Additionally, they should avoid the use of sarcasm and criticism.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies both sarcasm and criticism as things teachers should avoid. [✓ Avoid sarcasm; ✓ Avoid criticism]"
+  },
+  "52": {
+    "answer": "The purpose of asking probing questions in a lesson is to encourage students to think deeply and demonstrate their understanding of the material. By allowing sufficient time for students to work out answers and following up with additional questions, teachers can assess students' mastery of the lesson and identify areas where they may need further clarification or assistance. This approach helps ensure that students are actively engaged and comprehending the content being taught.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering all key facts about the purpose of probing questions. [✓ allow children sufficient time to work out the answer; ✓ ask follow-up questions; ✓ opportunity to demonstrate what they know; ✓ purpose is to allow children sufficient time to work out the answer and ask follow-up questions]"
+  },
+  "53": {
+    "answer": "Timed tests may be problematic for children with ADHD because they can preoccupy the child with the elapsed time, preventing them from demonstrating their true knowledge. This can lead to increased test anxiety and may not accurately reflect the child's understanding of the material. Allowing more time and providing alternative methods to demonstrate knowledge can help mitigate these issues. (Excerpt 2)",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers both key facts from the reference. [✓ Timed tests may prevent children with ADHD from demonstrating their true knowledge; ✓ Children with ADHD may be preoccupied with elapsed time during timed tests]"
+  },
+  "54": {
+    "answer": "The strategy is called \"Think-Pair-Share.\"",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the strategy name and covers all key components of the Think-Pair-Share method. [✓ strategy name; ✓ students think about a topic; ✓ pair with a partner; ✓ share ideas with the group]"
+  },
+  "55": {
+    "answer": "The purpose of silent reading time for children with ADHD is to improve their reading comprehension skills. Establishing a fixed time each day for silent reading, such as through programs like D.E.A.R. (Drop Everything and Read) and Sustained Silent Reading, provides structured opportunities for these children to engage with reading material, which can help enhance their ability to understand and retain information.",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately covers both key facts from the reference. [✓ The purpose is to improve reading comprehension skills; ✓ It is specifically for children with ADHD who are poor readers]"
+  },
+  "56": {
+    "answer": "The method that involves creating visual representations of a story's main events is using storyboards. This technique is mentioned in both Excerpt 1 and Excerpt 2, where students are asked to make storyboards that illustrate the sequence of main events in a story.",
+    "verdict": "correct",
+    "reason": "The candidate accurately identifies storyboards as the method and covers all key facts from the reference. [✓ method involves creating visual representations; ✓ story's main events; ✓ storyboards; ✓ illustrate the sequence of main events]"
+  },
+  "57": {
+    "answer": "One practice that helps children with ADHD in writing assignments is to \"identify and teach the child classroom standards for acceptable written work, such as format and style.\" This provides clear guidelines and expectations, which can assist children with ADHD in organizing and structuring their writing tasks effectively.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys both key facts from the reference. [✓ Identify classroom standards for acceptable written work; ✓ Teach the child these standards]"
+  },
+  "58": {
+    "answer": "The technique involves asking the child to close their eyes and visualize a paragraph that the teacher reads aloud. This is mentioned in Excerpt 1 under \"Visualize compositions.\"",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Students close their eyes; ✓ Students visualize a paragraph; ✓ The paragraph is read aloud by the teacher; ✓ This technique is called 'Visualize compositions']"
+  },
+  "59": {
+    "answer": "One computer-based activity suggested for practicing basic computation is scheduling computer time for the child to drill and practice basic computations using appropriate games.",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately covers all key facts from the reference. [✓ Computer-based activity; ✓ Practicing basic computation; ✓ Scheduling computer time; ✓ Using appropriate games]"
+  },
+  "60": {
+    "answer": "The organizational tool suggested for children with ADHD to help manage assignments for different academic subjects is color-coded folders. These folders help organize assignments for various subjects such as reading, mathematics, social science, and science.",
+    "verdict": "correct",
+    "reason": "The candidate accurately identifies the organizational tool and its purpose as described in the reference. [✓ organizational tool suggested for children with ADHD; ✓ help manage assignments for different academic subjects; ✓ color-coded folders]"
+  },
+  "61": {
+    "answer": "One benefit of well-managed classrooms is that they prevent many disciplinary problems and provide an environment that is most favorable for learning, allowing teachers to spend more time assisting students rather than addressing off-task behaviors. (Excerpt 5)",
+    "verdict": "correct",
+    "reason": "The candidate answer includes both key facts from the reference answer, either directly or through paraphrasing. [✓ prevent many disciplinary problems; ✓ provide an environment most favorable for learning]"
+  },
+  "62": {
+    "answer": "The main purpose of giving specific praise to students is to reinforce and encourage the repetition of positive behaviors by clearly identifying and acknowledging what the student did right. This approach helps students understand exactly which behaviors are desirable, making it more likely they will repeat those behaviors in the future. Specific praise is also more effective when given immediately and sincerely, as it maintains its value and avoids confusion, particularly for students with ADHD.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering the key facts about the purpose of specific praise and its effectiveness when given immediately and sincerely. [✓ To highlight exactly what part of the student’s behavior was desirable; ✓ Specific praise is more effective when given immediately and sincerely]"
+  },
+  "63": {
+    "answer": "Calming manipulatives provide sensory input that can help students with ADHD focus on the lesson by allowing them to quietly manipulate objects. This can reduce distractions and aid in maintaining attention during classroom activities.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ Calming manipulatives provide sensory input; ✓ Sensory input helps students with ADHD attend to the lesson; ✓ Calming manipulatives allow for quiet manipulation of objects; ✓ This helps reduce distractions and maintain attention]"
+  },
+  "64": {
+    "answer": "The purpose of peer mediation programs in schools is to positively impact the behavior of students with ADHD by training students to manage disputes involving their classmates. These programs aim to foster a supportive peer environment and help resolve conflicts effectively.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Peer mediation programs aim to positively impact the behavior of students with ADHD; ✓ The programs train students to manage disputes involving their classmates]"
+  },
+  "65": {
+    "answer": "An open palm is used to signal that a child with ADHD does not know the answer.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys all key facts from the reference. [✓ hand gesture; ✓ used to indicate; ✓ child with ADHD; ✓ does not know the answer]"
+  },
+  "66": {
+    "answer": "Teachers, along with the family and other involved professionals, are involved in evaluating whether behavioral interventions are appropriate for a child with ADHD. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate's answer exactly matches the reference answer. [✓ Teachers are involved in evaluating behavioral interventions for a child with ADHD; ✓ Family is involved in evaluating behavioral interventions for a child with ADHD; ✓ Other involved professionals are involved in evaluating behavioral interventions for a child with ADHD]"
+  },
+  "67": {
+    "answer": "Behavioral contracts and management plans focus on identifying specific academic or behavioral goals for a child with ADHD, along with strategies for responding to inappropriate behavior. They involve setting goals such as completing homework on time and obeying safety rules, and are typically developed with input from parents to ensure the child agrees on the importance of these goals. These plans are usually tailored for individual children rather than entire classes.",
+    "verdict": "partially_correct",
+    "reason": "The candidate covers the focus on goals and strategies but omits the requirement to identify behavior that needs to change. [✓ Behavioral contracts and management plans focus on identifying specific academic or behavioral goals for the child with ADHD; ✗ They include behavior that needs to change; ✓ They include strategies for responding to inappropriate behavior]"
+  },
+  "68": {
+    "answer": "In a token economy system, two types of consequences that can be part of the system are earning points for desired behaviors, such as completing homework assignments on time, and losing points for undesired behaviors, such as not completing homework assignments on time. These points can then be exchanged for tangible rewards.",
+    "verdict": "correct",
+    "reason": "The candidate accurately identifies and covers all key facts from the reference. [✓ Two types of consequences; ✓ earning points for desired behaviors; ✓ losing points for undesired behaviors]"
+  },
+  "69": {
+    "answer": "The main purpose of a self-management system in the context of students with ADHD is to train students to monitor and evaluate their own behavior independently, without constant feedback from the teacher. This system involves the student and teacher rating the student's behavior against a set of criteria, with the goal of gradually reducing teacher involvement and increasing the student's responsibility for self-monitoring. Points earned through matching ratings can be exchanged for privileges, encouraging the student to develop self-regulation skills.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers the key facts from the reference without contradiction. [✓ The main purpose is to train students to monitor and evaluate their own behavior; ✓ The system aims to reduce constant feedback from the teacher]"
+  },
+  "70": {
+    "answer": "Seating a child with ADHD near a student role model provides opportunities for the child to work cooperatively and learn from their peers in the class. This arrangement can help the child with ADHD stay on task and benefit from positive peer influence.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers both key facts from the reference. [✓ To provide opportunities for children to work cooperatively; ✓ To learn from their peers in the class]"
+  },
+  "71": {
+    "answer": "Egg timers can be used to help students during a 30-minute lesson by setting the timer for 10-minute intervals. This allows students to monitor their own progress and manage their time effectively. The timer is placed at the front of the classroom, and students can check it to see how much time remains, helping them stay on track throughout the lesson.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by using egg timers and setting 10-minute intervals. [✓ Use egg timers to help students during a 30-minute lesson; ✓ Set the timer for 10-minute intervals]"
+  },
+  "72": {
+    "answer": "For active group activities, jazz music should be played. This type of music communicates to children that a higher level of activity is appropriate for the lesson.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies jazz as the music type for active group activities. [✓ Music type for active group activities; ✓ Jazz]"
+  },
+  "73": {
+    "answer": "The purpose of incorporating techniques from the three main components—academic instruction, behavioral interventions, and classroom accommodations—into everyday instructional practices is to improve both the academic performance and behavior of students with ADHD. By doing so, teachers create an enhanced learning environment that benefits all students, not just those with ADHD. These techniques help address the unique needs of children with ADHD while also enhancing the learning experience for other students in the classroom.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ The purpose is to improve academic performance; ✓ The purpose is to improve behavior; ✓ The purpose is related to students with ADHD; ✓ The purpose involves incorporating techniques from the three main components]"
+  },
+  "74": {
+    "answer": "The Director of the Research to Practice Division is Louis Danielson.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies Louis Danielson as the Director of the Research to Practice Division. [✓ Director of the Research to Practice Division; ✓ Louis Danielson]"
+  },
+  "75": {
+    "answer": "Individuals who use a telecommunications device for the deaf (TDD) or a teletypewriter (TTY) should call 1-877-576-7734.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the number and the target users. [✓ Individuals using TDD or TTY should use a specific number; ✓ The specific number is 1-877-576-7734]"
+  },
+  "76": {
+    "answer": "ADHD is diagnosed four to nine times more often in boys than in girls.",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately reflects the key facts from the reference. [✓ ADHD is diagnosed more often in boys than in girls; ✓ The ratio is four to nine times higher in boys compared to girls]"
+  },
+  "77": {
+    "answer": "A child with ADHD may be able to focus when receiving frequent reinforcement or under very strict control, as well as in new settings or while interacting one-on-one. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate's answer includes all key facts from the reference and adds additional information without contradiction. [✓ A child with ADHD may be able to focus; ✓ when receiving frequent reinforcement; ✓ or under very strict control]"
+  },
+  "78": {
+    "answer": "65 percent of parents of children aged 6–13 years with an emotional disturbance report that their children also have ADHD. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately conveys all key facts from the reference. [✓ Percentage of parents; ✓ children with emotional disturbance; ✓ report their children also have ADHD; ✓ the percentage is 65 percent]"
+  },
+  "79": {
+    "answer": "The first step in the three-pronged strategy for teaching children with ADHD is to evaluate the child’s individual needs and strengths. This involves assessing both academic and behavioral needs through formal diagnostic assessments and informal classroom observations, often in collaboration with a multidisciplinary team and the child’s parents.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers the key facts from the reference. [✓ Identify the unique needs of the child; ✓ Include how, when, and why the child is inattentive, impulsive, and hyperactive]"
+  },
+  "80": {
+    "answer": "In creating an Individualized Education Program (IEP) for a child with ADHD, it is important to involve other educators and parents in consultation. This collaborative approach ensures that the IEP reflects the child's annual goals, special education-related services, and supplementary aids and services necessary for attaining those goals. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the involvement of educators and parents in creating an IEP. [✓ IEP should be created in consultation with educators; ✓ IEP should be created in consultation with parents]"
+  },
+  "81": {
+    "answer": "The practices have been used most widely with children at the elementary level, although they are also useful for older students. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate answer correctly identifies the age group and confirms the most widespread use of the practices. [✓ practices have been used most widely; ✓ age group is children at the elementary level]"
+  },
+  "82": {
+    "answer": "The purpose of an advance organizer in a lesson is to prepare students for the day's activities by summarizing the order of various activities planned, explaining what will be covered, and setting expectations for both learning and behavior. This helps students, particularly those with ADHD, understand the structure and flow of the lesson, making it easier for them to follow along and stay engaged.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers the key facts from the reference. [✓ Prepare students for the day’s lesson; ✓ Quickly summarize the order of various activities planned]"
+  },
+  "83": {
+    "answer": "The purpose of explaining additional resources to students is to provide them with structured opportunities to review and master academic lessons, especially for those with ADHD who may have different learning and retention needs. By identifying areas where each child requires extra assistance and using special strategies, teachers can help students better understand and retain the material presented in class.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by conveying the purpose of explaining additional resources as providing help in mastering the lesson, though with additional context. [✓ To tell students how to obtain help in mastering the lesson]"
+  },
+  "84": {
+    "answer": "To help students with ADHD stay on task during transitions, teachers should prepare them for transitions in advance, as these students often find transitions particularly challenging. Providing private, discreet cues to stay on task and giving advance warning that they will be called upon can support their participation. Additionally, maintaining structure and consistency, with minimal rules and choices, helps these students understand what is expected of them.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers the key facts from the reference. [✓ Prepare students for transitions; ✓ Transitions are challenging for students with ADHD]"
+  },
+  "85": {
+    "answer": "Before the lesson begins, highlight key words in the instructions on worksheets to help children with ADHD focus on the directions. Prepare the worksheet in advance or underline key words as you and the child read the directions together. Additionally, show children how to identify and highlight a key sentence or have them write it on a separate piece of paper before asking for a summary of the entire book. In math, demonstrate how to underline important facts and operations.",
+    "verdict": "correct",
+    "reason": "The candidate's answer includes both key facts from the reference. [✓ Prepare the worksheet before the lesson begins; ✓ Highlight key words in the instructions]"
+  },
+  "86": {
+    "answer": "One benefit of using assistive technology for students with ADHD is that it makes instruction more visual and allows students to participate actively, which can enhance their learning experience.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys both key facts from the reference. [✓ makes instruction more visual; ✓ allows students to participate actively]"
+  },
+  "87": {
+    "answer": "The document excerpts provided do not mention the D.E.A.R. strategy or its components. Therefore, I cannot provide an answer based on the given excerpts. If you have additional information or context about the D.E.A.R. strategy, I might be able to help further.",
+    "verdict": "incorrect",
+    "reason": "The candidate did not provide any information about the D.E.A.R. strategy or its components. [✗ D.E.A.R. strategy; ✗ two main components; ✗ Drop Everything and Read; ✗ Sustained Silent Reading]"
+  },
+  "88": {
+    "answer": "The activity that allows a child to retell a story they have recently read is \"Storytelling.\" This involves scheduling storytelling sessions where the child can retell a story that they have read recently.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference. [✓ Activity allows a child to retell a story; ✓ Story has been recently read; ✓ Activity is called storytelling; ✓ Sessions are involved]"
+  },
+  "89": {
+    "answer": "The purpose of using computer games for phonics is to provide opportunities for students to drill and practice with phonics or grammar lessons. This interactive approach helps reinforce learning through engaging and repetitive activities.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Use computer games for phonics; ✓ Provide opportunities for students to drill and practice; ✓ Phonics or grammar lessons]"
+  },
+  "90": {
+    "answer": "A tape recorder can be used as an alternative to writing assignments for students. Students can dictate their writing assignments into a tape recorder.",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately covers all key facts from the reference. [✓ A tool can be used as an alternative to writing assignments; ✓ The tool is a tape recorder; ✓ Students dictate writing assignments into the tool]"
+  },
+  "91": {
+    "answer": "The duration of the \"magic minute\" drills is 60 seconds.",
+    "verdict": "partially_correct",
+    "reason": "The candidate correctly states the duration but omits the daily practice and the purpose of the drills. [✓ duration of the 'magic minute' drills; ✗ the drills are performed daily; ✓ the drills are quick; ✗ the drills practice basic computation of math facts]"
+  },
+  "92": {
+    "answer": "Children with ADHD are provided with an assignment notebook to help organize homework and other seatwork. Additionally, they can use color-coded folders to organize assignments for different academic subjects.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the assignment notebook as the item provided to children with ADHD to help organize homework and other seatwork. [✓ An item is provided to children with ADHD; ✓ The item helps organize homework and other seatwork; ✓ The item is an assignment notebook]"
+  },
+  "93": {
+    "answer": "When students' behaviors are not focused on the lesson, the teacher's time is spent interacting with those students instead of assisting others, leading to less time available for helping other students and potentially reducing the overall effectiveness of the lesson. (Excerpt 3)",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys both key facts from the reference. [✓ The teacher's time is spent interacting with students who are not focused on the lesson; ✓ This interaction leaves less time for assisting other students]"
+  },
+  "94": {
+    "answer": "To maintain the effectiveness of praise, teachers should ensure that praise is specific, immediate, varied, consistent, and sincere. Praise should focus on specific positive behaviors, be given promptly after the behavior occurs, use varied statements to avoid losing impact, be consistent across different teachers to prevent confusion, and be sincere to ensure students perceive it as genuine.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering both key facts about varying praise and maintaining consistency. [✓ Teachers should vary their praise statements; ✓ Teachers should be consistent in their approach]"
+  },
+  "95": {
+    "answer": "In social skills classes for children with ADHD, it is suggested to teach appropriate social skills using a structured class, which includes activities like role-playing and modeling different solutions to common social problems. It is important to provide opportunities for the generalization of these skills, allowing children to use them in various settings.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference. [✓ Activity suggested; ✓ Role-playing; ✓ Modeling solutions; ✓ Common social problems]"
+  },
+  "96": {
+    "answer": "The purpose of a Functional Behavioral Assessment (FBA) is to systematically describe problem behavior and identify the environmental factors and surrounding events associated with it. This involves observing the behavior, identifying its problematic characteristics, determining the actions or events that precede and follow the behavior, and assessing how often it occurs. The results are used to develop an effective and efficient intervention and support plan.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ A Functional Behavioral Assessment (FBA) is a systematic process; ✓ It describes problem behavior; ✓ It identifies environmental factors and surrounding events associated with problem behavior]"
+  },
+  "97": {
+    "answer": "Behavioral contracts and management plans are typically created with input from parents and are used with individual children, as opposed to entire classes. The process involves identifying specific academic or behavioral goals for the child with ADHD, along with strategies for responding to inappropriate behavior, and ensuring that the child agrees that the goals are important to master.",
+    "verdict": "partially_correct",
+    "reason": "The candidate only mentions families (parents) and does not mention schools or communities, which are key facts from the reference. [✗ Schools are involved; ✓ Families are involved; ✗ Communities are involved; ✗ Behavioral contracts and management plans are created collaboratively]"
+  },
+  "98": {
+    "answer": "Token economy systems are often used for entire classrooms, as opposed to solely for individual students.",
+    "verdict": "correct",
+    "reason": "The candidate's answer matches the key facts in the reference. [✓ Token economy systems are used for entire classrooms; ✓ They are not solely used for individual students]"
+  },
+  "99": {
+    "answer": "In a self-management system, the exchange system is based on the student earning points if their self-ratings of behavior match or are within one point of the teacher's ratings. These points can then be exchanged for privileges. Over time, the teacher's involvement is reduced, and the student becomes responsible for self-monitoring.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys the key facts about the exchange system in a self-management system. [✓ Exchange system is based on earning points; ✓ Points are exchanged for privileges]"
+  },
+  "100": {
+    "answer": "One special seating arrangement for children with ADHD that promotes cooperative learning is to seat the child near a student role model. This arrangement provides opportunities for children to work cooperatively and learn from their peers in the class.",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately covers all key facts from the reference. [✓ Special seating arrangement for children with ADHD; ✓ Promotes cooperative learning; ✓ Seat the child near a student role model]"
+  },
+  "101": {
+    "answer": "A general rule of thumb for selecting the right desk and chair for children with ADHD is that the desk and chair should be the right size so that the child can put their elbows on the surface of the desk and have their chin fit comfortably in the palm of their hand. This helps reduce the inclination to squirm and fidget.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys both key facts from the reference. [✓ The desk should allow the child to put their elbows on its surface.; ✓ The chair should allow the child to have their chin fit comfortably in the palm of their hand.]"
+  },
+  "102": {
+    "answer": "Incorporating the three main components—academic instruction, behavioral interventions, and classroom accommodations—into classroom management practices empowers teachers to improve both the academic performance and behavior of students with ADHD. This approach not only enhances the learning environment for students with ADHD but also benefits all students in the classroom. By integrating these techniques, teachers create a more inclusive and effective educational setting.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Incorporating the three main components into classroom management practices empowers teachers; ✓ The effect is improving academic performance of students with ADHD; ✓ The effect is improving behavior of students with ADHD]"
+  },
+  "103": {
+    "answer": "The e-mail address to contact for more information about accessible formats is omalternateformatcenter@ed.gov.",
+    "verdict": "correct",
+    "reason": "The candidate correctly provides the email address and specifies its purpose as contact for more information about accessible formats. [✓ email address; ✓ contact for more information about accessible formats]"
+  },
+  "104": {
+    "answer": "One behavior associated with preschool children with ADHD is gross motor overactivity, such as always running or climbing and frequently shifting from one activity to another.",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately covers all key facts from the reference. [✓ behavior associated with preschool children with ADHD; ✓ gross motor overactivity]"
+  },
+  "105": {
+    "answer": "Children with ADHD exhibit symptoms that are more frequent and severe than those of other children of the same age. While other children may occasionally show some signs of inattention or hyperactivity, the symptoms in children with ADHD are more persistent and pronounced.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys all key facts from the reference. [✓ Symptoms are more frequent; ✓ Symptoms are more severe; ✓ Comparison is made to children of the same age]"
+  },
+  "106": {
+    "answer": "According to some studies, the comorbidity rates for ADHD and learning disabilities range from 7 to 92 percent. (DuPaul & Stoner, 1994; Osman, 2000)",
+    "verdict": "correct",
+    "reason": "The candidate accurately reports the range of comorbidity rates as stated in the reference. [✓ comorbidity rates for ADHD and learning disabilities; ✓ range from 7 to 92 percent]"
+  },
+  "107": {
+    "answer": "The three components of the educational practices selected by teachers for children with ADHD are:\n\n1. Academic Instruction\n2. Behavioral Interventions\n3. Classroom Accommodations\n\nThese components are integrated into an individualized educational program to address the unique needs of each child with ADHD.",
+    "verdict": "correct",
+    "reason": "The candidate accurately lists all three components as specified in the reference. [✓ three components of the educational practices; ✓ academic instruction; ✓ behavioral interventions; ✓ classroom accommodations]"
+  },
+  "108": {
+    "answer": "No single educational program will be best for all children with ADHD because no two children with ADHD are alike. Each child has unique needs and strengths, requiring individualized educational programs that integrate academic instruction, behavioral interventions, and classroom accommodations tailored to their specific circumstances.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately reflects the key facts from the reference. [✓ No two children with ADHD are alike; ✓ Each child's needs and responses to educational programs vary; ✓ Individualized educational programs are required]"
+  },
+  "109": {
+    "answer": "Yes, the practices described are useful for older students as well. While they have been used most widely with children at the elementary level, the document emphasizes that these practices are beneficial for older students too. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate answer accurately conveys all key facts from the reference without contradiction. [✓ Practices are useful for older students; ✓ Practices have been used most widely with children at the elementary level; ✓ Document emphasizes benefits for older students; ✓ Practices are beneficial for older students]"
+  },
+  "110": {
+    "answer": "Teachers should avoid bringing attention to differences between ADHD students and their classmates, using sarcasm, and criticism when interacting with students with ADHD. Additionally, they should avoid using toys and objects that can be distracting for both ADHD students and their peers.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the key fact from the reference. [✓ Avoid bringing attention to differences between ADHD students and their classmates]"
+  },
+  "111": {
+    "answer": "One alternative method to help students with ADHD demonstrate their knowledge is to eliminate or reduce the frequency of timed tests. Allowing students with ADHD more time to complete quizzes and tests can help reduce test anxiety and provide them with other opportunities, methods, or test formats to demonstrate their knowledge. (Excerpt 6)",
+    "verdict": "correct",
+    "reason": "The candidate's answer includes the key fact about providing alternative methods to demonstrate knowledge. [✓ Provide alternative opportunities/methods/test formats to demonstrate knowledge]"
+  },
+  "112": {
+    "answer": "The purpose of providing advance warnings before the end of a lesson is to prepare students with ADHD for transitions, helping them to stay on task and manage their time effectively. By announcing how much time remains, teachers help these students adjust to the change and begin preparing for the next activity, which can reduce off-task behavior and improve focus.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering both key facts, even though it adds context about students with ADHD. [✓ To inform students how much time remains; ✓ To help students prepare for the next activity]"
+  },
+  "113": {
+    "answer": "The main goal of individualizing instructional practices for students with ADHD is to address their unique learning needs and strengths, providing structured opportunities for them to review and master academic lessons. This approach helps accommodate different ways of learning and retaining information, ensuring that each child receives the appropriate support to improve their academic performance and behavior.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering both key facts about structured review and the context of the lesson being previously presented to the entire class. [✓ Provide structured opportunities for the child to review and master an academic lesson; ✓ Academic lesson was previously presented to the entire class]"
+  },
+  "114": {
+    "answer": "The activity that involves role-playing different characters in a favorite story is \"Playacting.\" This activity is scheduled for the child to role-play different characters in a favorite story.",
+    "verdict": "correct",
+    "reason": "The candidate accurately identifies the activity as 'Playacting' and covers all key facts from the reference. [✓ Activity involves role-playing different characters; ✓ Activity is related to a favorite story; ✓ Activity is called 'Playacting']"
+  },
+  "115": {
+    "answer": "The two types of games suggested for practicing phonics with children with ADHD are board games, such as bingo, and computer games. These games allow students to practice phonetically irregular words and provide opportunities for drilling and practicing phonics or grammar lessons.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the two types of games as board games and computer games. [✓ Two types of games; ✓ Board games; ✓ Computer games]"
+  },
+  "116": {
+    "answer": "The activity that involves a teacher or another student writing down a story told by a child with ADHD is \"Dictate writing assignments.\" This is mentioned in Excerpt 2.",
+    "verdict": "correct",
+    "reason": "The candidate accurately identifies and covers all key facts from the reference. [✓ Activity involves a teacher or another student; ✓ Writing down a story; ✓ Story is told by a child with ADHD]"
+  },
+  "117": {
+    "answer": "The purpose of color coding arithmetic symbols, such as +, –, and =, is to provide visual cues for children when they are computing whole numbers. This strategy helps children with ADHD by making it easier to distinguish and remember the different operations involved in arithmetic.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ Color coding arithmetic symbols; ✓ Provides visual cues for children; ✓ Computing whole numbers; ✓ Helps distinguish and remember operations]"
+  },
+  "118": {
+    "answer": "The strategy that involves assigning a partner to assist a child with ADHD in managing homework and other tasks is \"Work with a homework partner.\" This involves assigning the child a partner to help record homework and other seatwork in the assignment notebook and file worksheets and other papers in the proper folders.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Assigning a partner to assist a child with ADHD; ✓ Helping record homework and other seatwork in the assignment notebook; ✓ Filing worksheets and other papers in the proper folders; ✓ Strategy is called 'Work with a homework partner']"
+  },
+  "119": {
+    "answer": "The most common form of verbal reinforcement is praise given to a student when he or she begins and completes an activity or exhibits a particular desired behavior. Simple phrases such as “good job” are used to encourage a child to act appropriately.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference. [✓ The most common form of verbal reinforcement is praise; ✓ Praise is given to a student when he or she begins and completes an activity; ✓ Praise is given to a student when he or she exhibits a particular desired behavior]"
+  },
+  "120": {
+    "answer": "The purpose of providing structured opportunities for children with ADHD to use social skills is to ensure the generalization of these skills. This means helping children apply the social skills they learn in structured settings to real-life situations, thereby positively affecting their interactions and the overall school climate. Structured opportunities allow children to practice and reinforce appropriate social behaviors in various contexts.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers the key facts from the reference without contradiction. [✓ The purpose is to ensure the generalization of social skills; ✓ Structured opportunities help apply learned skills to real-life situations]"
+  },
+  "121": {
+    "answer": "The main goal of using behavioral interventions for children with ADHD is to assist students in displaying behaviors that are conducive to their own learning and that of their classmates, thereby preventing disciplinary problems and creating an environment favorable for learning. These interventions aim to teach students how to control their behavior, replacing problem behaviors with more appropriate ones, and enhancing their skills and opportunities for an improved quality of life.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering the key facts about teaching behavior management and replacing problem behaviors. [✓ The main goal is to teach children with ADHD how to manage their own behavior.; ✓ Behavioral interventions aim to replace problem behaviors with more appropriate ones.]"
+  },
+  "122": {
+    "answer": "Involving the child in setting goals for behavioral contracts and management plans is important to ensure that the child agrees that the goals are important to master. This cooperative identification of goals, such as completing homework on time or obeying safety rules, helps increase the child's motivation and commitment to achieving them.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys the key facts from the reference. [✓ Involving the child ensures agreement on the importance of goals; ✓ The child's agreement is essential for mastery of goals]"
+  },
+  "123": {
+    "answer": "A token economy system is used to motivate a child to achieve a goal identified in a behavioral contract by earning points for desired behaviors, such as completing homework on time. Points can be exchanged for tangible rewards, and the system can be applied to entire classrooms or individual students. This approach helps reinforce appropriate behavior and manage classroom dynamics effectively.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers the key facts from the reference without contradiction. [✓ A token economy system is used to motivate a child; ✓ The motivation is tied to achieving a goal identified in a behavioral contract]"
+  },
+  "124": {
+    "answer": "In a self-management system, the teacher initially plays a crucial role by identifying target behaviors, providing a written rating scale, and guiding the student in self-monitoring by comparing ratings with the teacher's. Over time, the teacher's involvement is gradually reduced, allowing the student to take full responsibility for self-monitoring and managing their own behavior.",
+    "verdict": "correct",
+    "reason": "The candidate accurately reflects the key facts from the reference. [✓ The teacher's involvement decreases over time.; ✓ The student becomes responsible for self-monitoring.]"
+  },
+  "125": {
+    "answer": "It is important for the desk and chair used by children with ADHD to be the right size because if they are not, the child will be more inclined to squirm and fidget. Properly sized furniture helps the child maintain a comfortable and stable position, which can reduce distractions and help them focus better on their tasks.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers both key facts from the reference. [✓ It is important for the desk and chair used by children with ADHD to be the right size; ✓ If they are not, the child will be more inclined to squirm and fidget]"
+  },
+  "126": {
+    "answer": "To contact for more information about accessible formats, you can call the U.S. Department of Education’s Alternative Format Center at 202-260-0852 or 202-260-0818.",
+    "verdict": "correct",
+    "reason": "The candidate correctly provides the required telephone numbers for accessible formats. [✓ telephone numbers for accessible formats; ✓ numbers: 202-260-0852 or 202-260-0818]"
+  },
+  "127": {
+    "answer": "Older children with ADHD often exhibit behaviors such as restlessness, fidgeting in their seats, failing to finish schoolwork, working carelessly, and being impulsive, reacting spontaneously without regard to previous plans or necessary tasks and homework. They may also appear more withdrawn and less communicative compared to younger children with ADHD.",
+    "verdict": "correct",
+    "reason": "The candidate's answer includes all key facts from the reference and provides additional relevant information without contradiction. [✓ older children with ADHD in school; ✓ common behavior; ✓ restless; ✓ fidgeting in their seats or playing with their chairs and desks]"
+  },
+  "128": {
+    "answer": "Children with ADHD who have the predominantly inattentive subtype may daydream, act lethargic or restless, and frequently do not finish their academic work. They do not show excessive activity or fidgeting.",
+    "verdict": "correct",
+    "reason": "The candidate correctly mentions that children with ADHD predominantly inattentive subtype may act lethargic or restless, which matches the reference. [✓ Children with ADHD predominantly inattentive subtype may act lethargic or restless]"
+  },
+  "129": {
+    "answer": "When evaluating the settings and contexts for a child with ADHD, it is important to consider the environments in which challenging behaviors occur. This involves assessing both academic and behavioral needs using formal diagnostic assessments and informal classroom observations. Additionally, learning style inventories can be used to identify the child's strengths, enabling instruction to build on their existing abilities. The evaluation should take into account the unique educational needs and strengths of the child, in collaboration with a multidisciplinary team and the child's parents.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers the key facts from the reference. [✓ Consider the settings and contexts where challenging behaviors occur; ✓ Evaluate the environments where challenging behaviors occur]"
+  },
+  "130": {
+    "answer": "Behavioral interventions play a crucial role in successful programs for children with ADHD by helping students display behaviors conducive to their own learning and that of their classmates. These interventions focus on teaching appropriate behaviors through positive reinforcement, such as verbal praise, rather than punishment, which can lead to long-term changes in attitudes and behavior. Techniques include functional behavioral assessments, behavioral contracts, and management plans, as well as strategies like visual cues and proximity control. By addressing individual needs and promoting positive behavior, these interventions create a supportive learning environment that enhances both academic performance and behavior for children with ADHD.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers the key facts from the reference. [✓ Behavioral interventions are one of the three components of successful programs for children with ADHD.; ✓ Behavioral interventions are designed to address the behavioral needs of children with ADHD.]"
+  },
+  "131": {
+    "answer": "In the sentence \"Mary has two apples, and John has three,\" the words that should be underlined are \"two,\" \"and,\" and \"three.\" These words are the key facts and operations needed to solve the problem.",
+    "verdict": "correct",
+    "reason": "The candidate correctly identifies the words 'two', 'and', and 'three' as the ones to be underlined. [✓ two; ✓ and; ✓ three]"
+  },
+  "132": {
+    "answer": "Effective teachers provide advance warning that the lesson is about to end, announce how much time remains, and instruct students on how to begin preparing for the next activity.",
+    "verdict": "incorrect",
+    "reason": "The candidate's answer focuses on providing advance warning and instructions for the next activity, which is not mentioned in the reference. [✗ Effective teachers check completed assignments; ✗ At least some students are involved in the checking process]"
+  },
+  "133": {
+    "answer": "Children with ADHD may need individualized instructional practices because they have unique ways of learning and retaining information, which often do not align with traditional reading and listening methods. These practices help address their specific academic and behavioral needs, allowing them to better focus, participate, and succeed in the classroom. Additionally, no single educational program or practice is suitable for all children with ADHD, necessitating tailored approaches.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Children with ADHD have different ways of learning and retaining information; ✓ Not all learning methods involve traditional reading and listening; ✓ Individualized instructional practices are needed to address these differences]"
+  },
+  "134": {
+    "answer": "A word bank or dictionary is used to keep track of new or difficult sight-vocabulary words. This tool helps students with ADHD by providing a reference for words that are challenging to read.",
+    "verdict": "correct",
+    "reason": "The candidate accurately identifies the tool and its purpose as described in the reference. [✓ A tool is used to keep track of new or difficult sight-vocabulary words; ✓ The tool is a word bank or dictionary]"
+  },
+  "135": {
+    "answer": "The document excerpts provided do not mention picture-letter charts for children with ADHD. Therefore, based on the available information, I cannot determine the purpose of picture-letter charts for children with ADHD. If you have more context or specific excerpts that mention picture-letter charts, I would be happy to help analyze them.",
+    "verdict": "incorrect",
+    "reason": "The candidate's response does not convey the key fact from the reference. [✗ To help children who know sounds but do not know the letters that go with them]"
+  },
+  "136": {
+    "answer": "Effective teachers praise children with ADHD by defining the appropriate behavior and giving specific, immediate praise for positive actions. The praise should focus on exactly what the student did right and should vary to maintain its value. Consistency and sincerity in praise are crucial, as students with ADHD will notice insincere praise, which can make it less effective. For example, instead of praising a student for not disturbing the class, a teacher should praise them for quietly completing a math lesson on time.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering all key facts about how effective teachers should praise children with ADHD. [✓ Effective teachers praise children with ADHD frequently.; ✓ Praise should be given for a behavior before the child gets off task.; ✓ Praise should be specific and immediate.; ✓ Praise should focus on the exact positive action taken.]"
+  },
+  "137": {
+    "answer": "Children with ADHD are encouraged to resolve their problems in a supervised setting through impromptu discussions or problem-solving sessions. For example, when two children are arguing about a game, they are asked to discuss how to settle their differences in a supervised setting, encouraging them to resolve the problem by talking to each other.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference. [✓ Children with ADHD are encouraged to resolve problems; ✓ in a supervised setting; ✓ by talking to each other]"
+  },
+  "138": {
+    "answer": "During a Functional Behavioral Assessment (FBA), the team working with a child exhibiting problem behavior observes the behavior to identify and define its problematic characteristics, determines which actions or events precede and follow the behavior, and assesses how often the behavior occurs. The results are then used to develop an effective and efficient intervention and support plan.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ The role is to observe the behavior; ✓ The role includes identifying and defining the problematic characteristics of the behavior; ✓ The role involves identifying actions or events that precede and follow the behavior; ✓ The role includes determining the frequency of the behavior]"
+  },
+  "139": {
+    "answer": "The main difference between Positive Behavioral Interventions and Supports (PBIS) and behavioral contracts and management plans is their scope and application. PBIS is a comprehensive, school-wide approach that involves designing effective environments to improve behavior across the entire school, involving schools, families, and communities. In contrast, behavioral contracts and management plans are individualized strategies focused on specific academic or behavioral goals for a single child, typically developed with input from parents.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys all key facts from the reference without contradiction. [✓ PBIS is a systems approach used across schools, families, and communities; ✓ Behavioral contracts and management plans are typically used with individual children; ✓ PBIS focuses on improving behavior across the entire school; ✓ Behavioral contracts and management plans focus on specific goals]"
+  },
+  "140": {
+    "answer": "The main idea of using tangible rewards and token economy systems is to motivate and reinforce appropriate behavior in children, particularly those with ADHD. Tangible rewards, such as stickers or privileges, are used to encourage desired behaviors by involving children in selecting rewards they value. Token economy systems involve earning points for specific behaviors, which can be exchanged for rewards, and are often implemented in classroom settings to help children achieve behavioral goals. Both strategies aim to increase positive behavior and provide structured incentives for children to work towards specific objectives.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ The main idea is to reinforce appropriate behavior; ✓ The main idea is to motivate children to achieve goals; ✓ Tangible rewards and structured systems are used; ✓ Rewards are used to encourage desired behaviors]"
+  },
+  "141": {
+    "answer": "Adolescents with ADHD tend to be more withdrawn and less communicative. They are often impulsive, reacting spontaneously without regard to previous plans or necessary tasks and homework. (Excerpt 1)",
+    "verdict": "correct",
+    "reason": "The candidate answer correctly covers both key facts from the reference. [✓ Adolescents with ADHD are more withdrawn; ✓ Adolescents with ADHD are less communicative]"
+  },
+  "142": {
+    "answer": "The overall strategy for the successful instruction of children with ADHD involves a three-pronged approach: \n\n1. **Evaluate the child’s individual needs and strengths**: This includes assessing both academic and behavioral needs through formal and informal methods, considering the settings where challenging behaviors occur, and working with a multidisciplinary team and the child's parents.\n\n2. **Select appropriate educational practices**: Choose practices related to academic instruction, behavioral interventions, and classroom accommodations that meet the child's specific needs.\n\n3. **Integrate these practices into an individualized educational program (IEP) or plan**: Combine the selected practices into a cohesive plan and integrate it with the educational activities provided to other children in the class. This ensures that the child's unique needs are addressed while maintaining a cohesive classroom environment.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ The strategy involves a three-pronged approach; ✓ Evaluate the child's individual needs and strengths; ✓ Select appropriate educational practices; ✓ Integrate these into an individualized plan]"
+  },
+  "143": {
+    "answer": "The strategy that involves instructing students on how to begin preparing for the next lesson is called \"Preview the next lesson.\" This is mentioned in Excerpt 2, where it suggests informing students about what they need to do to prepare for the upcoming lesson.",
+    "verdict": "correct",
+    "reason": "The candidate accurately identifies and covers all key facts from the reference. [✓ Strategy name; ✓ Involves instructing students; ✓ How to begin preparing for the next lesson; ✓ Preview the next lesson]"
+  },
+  "144": {
+    "answer": "The activity that involves playing board games focusing on reading comprehension skills is \"Board games for reading comprehension.\" This activity provides practice with target reading comprehension skills or sight-vocabulary words.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference. [✓ Activity involves playing board games; ✓ Board games focus on reading comprehension skills]"
+  },
+  "145": {
+    "answer": "Verbal reinforcement involves using simple phrases such as \"good job\" to encourage a child to act appropriately. Effective teachers frequently praise children, especially those with ADHD, and look for behaviors to praise before a child gets off task.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Verbal reinforcement uses phrases; ✓ Phrases encourage a child to act appropriately; ✓ Simple phrases are used]"
+  },
+  "146": {
+    "answer": "Offering social skills classes to the general school population can positively affect the school climate by promoting appropriate social interactions and reducing conflicts, benefiting not only children with ADHD but also their peers. This inclusive approach helps generalize the social skills learned, creating a more supportive and harmonious environment for all students.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers the key facts from the reference. [✓ Offering social skills classes to the general school population; ✓ positively affects the school climate]"
+  },
+  "147": {
+    "answer": "The recommended approach for ensuring the child's agreement on goals in Behavioral contracts and management plans is to work with the child to cooperatively identify appropriate goals, such as completing homework assignments on time and obeying safety rules on the school playground. It is important to take the time to ensure that the child agrees that his or her goals are important to master.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ recommended approach; ✓ work with the child; ✓ cooperatively identify goals; ✓ child agrees goals are important]"
+  },
+  "148": {
+    "answer": "Adolescents with ADHD tend to be more withdrawn and less communicative, often reacting impulsively without regard to previous plans or necessary tasks and homework. They may also exhibit restlessness and fidget in their seats.",
+    "verdict": "correct",
+    "reason": "The candidate's answer accurately covers all key facts from the reference without contradiction. [✓ Adolescents with ADHD are impulsive; ✓ They react spontaneously; ✓ They do not consider previous plans; ✓ They do not consider necessary tasks and homework]"
+  },
+  "149": {
+    "answer": "The activity that involves using computer time for drill-and-practice with sight vocabulary words is mentioned in Excerpt 8: \"Computer games for reading comprehension. Schedule computer time for the child to have drill-and-practice with sight vocabulary words.\"",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference. [✓ activity involves using computer time; ✓ drill-and-practice; ✓ sight vocabulary words]"
+  },
+  "150": {
+    "answer": "The main emphasis of Positive Behavioral Interventions and Supports (PBIS) in terms of behavior improvement is to eliminate problem behavior, replace it with more appropriate behavior, and increase a person’s skills and opportunities for an enhanced quality of life. This is achieved by designing effective environments through collaboration among schools, families, and communities.",
+    "verdict": "correct",
+    "reason": "The candidate's answer aligns with the reference by covering all key facts without contradiction. [✓ PBIS emphasizes creating effective environments; ✓ PBIS aims to improve behavior; ✓ PBIS focuses on eliminating problem behavior; ✓ PBIS involves replacing problem behavior with more appropriate behavior]"
+  },
+  "151": {
+    "answer": "ADHD symptoms are typically visible as early as age 3 and can continue into adolescence and adulthood. While it was once assumed to be a childhood disorder that disappeared with adolescence, it is now known that many children with ADHD do not outgrow the condition.",
+    "verdict": "correct",
+    "reason": "The candidate correctly states the age range when ADHD symptoms are typically visible as specified in the reference. [✓ ADHD symptoms are typically visible as early as age 3]"
+  },
+  "152": {
+    "answer": "Recorded books can stimulate interest in traditional reading and reinforce reading lessons. These materials are available from many libraries and can be used to complement reading lessons. Additionally, providing a second set of books and materials for home use can also support reading reinforcement.",
+    "verdict": "correct",
+    "reason": "The candidate accurately covers all key facts from the reference without contradiction. [✓ Recorded books can stimulate interest in traditional reading; ✓ Recorded books can reinforce reading lessons; ✓ Recorded books are available from many libraries]"
+  },
+  "153": {
+    "answer": "A key point about ADHD in relation to adolescence is that while the symptoms may change as children age, many adolescents with ADHD do not outgrow the condition. Adolescents with ADHD tend to be more withdrawn and less communicative, and they often exhibit impulsivity, reacting spontaneously without regard to previous plans or necessary tasks and homework.",
+    "verdict": "correct",
+    "reason": "The candidate accurately conveys the key facts about ADHD in relation to adolescence as stated in the reference. [✓ ADHD symptoms may change as a child ages; ✓ Many children with ADHD do not grow out of it]"
+  }
+}

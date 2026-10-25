@@ -1,0 +1,55 @@
+## Step 2: Design — Simulation missions
+
+Build a simulation missions page: one simple interactive model of what the material describes, where the student completes 3 short missions by changing a setting and seeing what happens, then reviews the key facts and answers a short check. Follow this design exactly. It is deliberately small; everything is decided here, so don't add to it. Adapt only the parts listed under "Adapt to this student". Button labels and screen text in quotes are examples; write them in the material's language.
+
+### Why it works
+
+- Interactive computer simulations with an underlying model improved achievement compared with similar teaching without simulations, and adding scaffolding and feedback improved them further (D'Angelo et al. 2014, SRI meta-analysis of 59 studies).
+- Discovery works when it is guided: unguided exploring did worse than direct teaching, while discovery with feedback, scaffolding and explanations did better (Alfieri et al. 2011, meta-analysis of 164 studies). The missions are that guidance.
+
+Use these short source names in the "Why it looks like this" section.
+
+### Who it fits
+
+Students with ADHD or who lose focus when reading passively, and students who learn better by doing than by reading. It needs material where changing one thing changes another, so there is something to try.
+
+### The model
+
+- One model for the whole page, with 1 or 2 settings the student can change and one result that changes because of them.
+- Each setting is a row of 2 to 4 buttons with aria-pressed. A "Run" button applies one step. Nothing changes on its own: the model only changes when the student presses a button. A short animation of the change, under 1 second, is fine.
+- Draw it as a simple picture on a canvas or inline SVG: dots, bars or simple shapes. Put labels in HTML under the picture.
+- Show the result as text under the picture, e.g. "Average colour: 63 of 100", in an aria-live region.
+- The material's facts decide how it behaves. It must never show something the material contradicts.
+- Keep the code small: one state object, one function that applies a step, one function that draws, and one check function per mission. If the model needs more than that, make the model simpler.
+
+### Screens, in this order
+
+1. Start screen: the question the model answers, one sentence on what the student will do, "3 missions, about 10 minutes", and a Start button.
+2. Mission screens, exactly 3, one per key idea the model can show. Each has:
+   - "Mission 1 of 3" and the mission in one sentence, e.g. "Choose X, press Run three times, and watch what happens to Y."
+   - the model, with only the settings this mission needs, and the result text;
+   - a check that reads the model's state, so the mission is done when the student has actually done it, not by pressing a button;
+   - when done: one sentence explaining what they saw and why, then the "Next" button appears.
+3. Facts screen: the key facts of the material as a short list, every key idea included, key terms in bold.
+4. Check screen: 2 questions, one at a time, 3 options each. A right answer shows a short confirmation. A wrong answer shows a one-sentence explanation and a "Try again" button.
+5. Done screen: what they found out, one line per mission, and a "Start again" button.
+
+### Always
+
+- Progress as text, e.g. "Mission 2 of 3".
+- "Back" and "Next" at the bottom. On a mission screen, "Next" appears only once the mission is done.
+- Going back to a finished mission shows it as done.
+- Every button is at least 44 by 44 CSS pixels (WCAG 2.5.5).
+
+### Adapt to this student
+
+- If attention or reading is hard for them, split each mission sentence into 2 to 3 numbered steps and keep the facts list to one short sentence per fact.
+- Use the student's interests in the explanation sentence of 1 or 2 missions, clearly marked as an example ("Example: …").
+
+### Don't
+
+- Don't add switches, modes, analogies, lab logs, automatic experiments, timers, points, or sound.
+- Don't let the model run, move, or advance on its own.
+- Don't use sliders or anything that needs dragging (WCAG 2.5.7).
+- Don't put facts only in the model: every key idea must also be on the facts screen.
+- Don't build a model that needs more than a few simple rules. Simplify it instead.

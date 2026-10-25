@@ -1,0 +1,160 @@
+/* The /application page, in the main site's look (see ../onboarding/onboarding.css). Everything is scoped to
+   .application-page so the onboarding and playground pages are unaffected. */
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-rule: var(--rule);
+  --color-pine: var(--pine);
+  --color-pine-soft: var(--pine-soft);
+  --color-pine-deep: var(--pine-deep);
+  --color-marigold: var(--marigold);
+  --color-clay: var(--clay);
+  --shadow-card: var(--card-shadow);
+}
+
+.application-page {
+  --paper: #faf9f5;
+  --sheet: #ffffff;
+  --ink: #292632;
+  --graphite: #77727d;
+  --rule: #e5e1d9;
+  --pine: #6955c6;
+  --pine-soft: #f0ecfb;
+  --pine-deep: #5540b0;
+  --marigold: #e1765b;
+  --clay: #e67f63;
+  --card-shadow: 0 24px 70px rgba(60, 53, 88, 0.08);
+  line-height: 1.6;
+}
+
+/* Sizes in the form are in rem, so the root size scales the whole page. Only while /application is open. */
+:root:has(.application-page) {
+  font-size: 17px;
+}
+
+.application-page h1,
+.application-page h2,
+.application-page h3 {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+/* Small grey caps above fields and sections. Purple section labels use main's .kicker. */
+.application-page .label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c8891;
+}
+
+.application-page :focus-visible {
+  outline: 3px solid var(--pine);
+  outline-offset: 2px;
+}
+
+/* Browsers give fieldsets a min-content width, which makes answer groups overflow on phones. */
+.application-page fieldset {
+  min-width: 0;
+}
+
+/* Notebook sheet in the profile panel. Every line of text is exactly one 32px row and every gap is a whole
+   row, so text always sits on a rule. Sizes are in px on purpose: the page's 17px root would turn rem
+   spacing into fractions that drift off the rules. --line-offset moves the rules to just under the text. */
+.application-page .ruled-paper {
+  --line-step: 32px;
+  /* Text baselines land 20-23px into each row; moving the rule up 6px puts it 2-5px under the letters. */
+  --line-offset: -6px;
+  padding: var(--line-step) 24px;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  background-color: var(--sheet);
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--line-step) - 1px),
+    var(--pine-soft) calc(var(--line-step) - 1px)
+  );
+  background-size: 100% var(--line-step);
+  background-position: 0 var(--line-offset);
+  line-height: var(--line-step);
+}
+
+.application-page .ruled-paper * {
+  line-height: var(--line-step);
+  margin-block: 0;
+}
+
+.application-page .ruled-paper .ruled-gap {
+  height: var(--line-step);
+}
+
+/* Tags keep their own height but must not make their line taller than one row. Raised so the
+   bottom of each tag rests on its rule. */
+.application-page .ruled-paper .ruled-tag {
+  line-height: 22px;
+  vertical-align: 4px;
+}
+
+/* Quieter button next to main's .primary, for actions such as "Add" or "Copy JSON". */
+.application-page .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d9d5cc;
+  border-radius: 10px;
+  background: var(--sheet);
+  color: var(--ink);
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+/* Answer options can be a short sentence, so they wrap instead of overflowing on phones. */
+.application-page .secondary-button.wrap {
+  white-space: normal;
+  text-align: left;
+}
+
+.application-page .secondary-button:hover {
+  border-color: var(--pine);
+  color: var(--pine-deep);
+}
+
+/* Text fields in the style of main's .topic-input. Unlayered, so this wins over the shared components' utilities. */
+.application-page [data-slot='input'],
+.application-page [data-slot='textarea'] {
+  min-height: 48px;
+  border: 1px solid #d9d5cc;
+  border-radius: 12px;
+  background: #fbfaf7;
+  padding: 12px 16px;
+  font-size: 1rem;
+}
+
+.application-page [data-slot='textarea'] {
+  min-height: 105px;
+}
+
+.application-page [data-slot='input']:focus-visible,
+.application-page [data-slot='textarea']:focus-visible {
+  outline: none;
+  border-color: var(--pine);
+  box-shadow: 0 0 0 3px #eeeafb;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .application-page *,
+  .application-page *::before,
+  .application-page *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

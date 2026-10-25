@@ -1,0 +1,1681 @@
+[
+  {
+    "question": "What is the title of the report?",
+    "answer": "Teaching Children with Attention Deficit Hyperactivity Disorder: Instructional Strategies and Practices",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Which department produced this report?",
+    "answer": "U.S. Department of Education",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the contract number associated with this report?",
+    "answer": "HS97017002",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Who was the Secretary of the U.S. Department of Education at the time of publication?",
+    "answer": "Margaret Spellings",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "When was the report first printed?",
+    "answer": "February 2004",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Where can the report be ordered online?",
+    "answer": "www.edpubs.org/webstore/Content/search.asp.",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the website address for the U.S. Department of Education’s Web site where the report is available?",
+    "answer": "www.ed.gov/about/offices/list/osers/osep.",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What accessible formats can the document be made available in upon request?",
+    "answer": "Braille, large print, and computer diskette.",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the title of the document?",
+    "answer": "Teaching Children With Attention Deficit Hyperactivity Disorder: Instructional Strategies and Practices",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the main factor that affects a child's academic success according to the passage?",
+    "answer": "A child's academic success is often dependent on his or her ability to attend to tasks and teacher and classroom expectations with minimal distraction.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the name of the study cited in the passage?",
+    "answer": "The study cited in the passage is Forness & Kavale (2001).",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the relationship between ADHD and academic performance according to the passage?",
+    "answer": "According to the passage, ADHD can lead to difficulties with academic performance if appropriate instructional methodologies and interventions are not implemented.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the full name of the diagnostic manual that defines ADHD according to the passage?",
+    "answer": "The fourth edition of the Diagnostic Statistical Manual of Mental Disorders (DSM-IV) of the American Psychiatric Association (APA).",
+    "chunk_id": 5,
+    "pages": "7-8",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the primary way ADHD is defined in the passage?",
+    "answer": "By behaviors exhibited by individuals with ADHD.",
+    "chunk_id": 5,
+    "pages": "7-8",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one behavior exhibited by individuals with ADHD according to the passage?",
+    "answer": "Fidgeting with hands or feet or squirming in their seat.",
+    "chunk_id": 5,
+    "pages": "7-8",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one difficulty that individuals with ADHD may have according to the passage?",
+    "answer": "Difficulty remaining seated when required to do so.",
+    "chunk_id": 5,
+    "pages": "7-8",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one challenge that individuals with ADHD may face in tasks or group situations according to the passage?",
+    "answer": "Difficulty sustaining attention and waiting for a turn.",
+    "chunk_id": 5,
+    "pages": "7-8",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one behavior that individuals with ADHD may exhibit when answering questions according to the passage?",
+    "answer": "Blurting out answers to questions before the questions have been completed.",
+    "chunk_id": 5,
+    "pages": "7-8",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one challenge that individuals with ADHD may have in terms of attention to detail according to the passage?",
+    "answer": "Failing to give close attention to details and avoiding careless mistakes.",
+    "chunk_id": 5,
+    "pages": "7-8",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one example of a behavior that children with ADHD may exhibit when they are not in new settings or interacting one-on-one?",
+    "answer": "Frequently not finishing their academic work.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What percentage of children with ADHD have learning disabilities according to the passage?",
+    "answer": "Approximately a quarter to one-third.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What percentage of children with ADHD have coexisting psychiatric disorders according to the passage?",
+    "answer": "At a much higher rate, but the exact percentage is not specified.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What does the passage state about the practices that benefit students with ADHD?",
+    "answer": "The same practices that benefit students without ADHD are often the ones that benefit students with ADHD.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the title of the document that discusses instructional strategies and practices for children with ADHD?",
+    "answer": "Teaching Children With Attention Deficit Hyperactivity Disorder: Instructional Strategies and Practices.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the main focus of the document?",
+    "answer": "The document focuses on integrating a program using three components to help children with ADHD in a classroom setting and provides instructional strategies and practices.",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the title of the document mentioned in the passage?",
+    "answer": "Academic Instruction 4 Teaching Children With Attention Deficit Hyperactivity Disorder: Instructional Strategies and Practices.",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the general focus of the discussion and techniques provided in the document?",
+    "answer": "The discussion and techniques pertain to the instructional process in general, across subject areas.",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Where can strategies for specific subject areas be found in the document?",
+    "answer": "Strategies for specific subject areas appear in the subsequent subsection titled 'Individualizing Instructional Practices.'",
+    "chunk_id": 10,
+    "pages": "10-11",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one example of reviewing previous lessons for students with ADHD?",
+    "answer": "Reminding children that yesterday’s lesson focused on learning how to regroup in subtraction.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to prepare students for a new lesson according to the passage?",
+    "answer": "Provide an advance organizer by quickly summarizing the order of various activities planned for the day.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is an example of an activity that might be included in a structured lesson for students with ADHD?",
+    "answer": "Reading a story about Paul Bunyan and identifying new vocabulary words in the story.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one specific example of setting learning expectations for students with ADHD?",
+    "answer": "Explaining to students that a language arts lesson will involve reading a story and identifying new vocabulary words.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to set behavioral expectations for students during a lesson?",
+    "answer": "Describe how students are expected to behave during the lesson, such as allowing them to talk quietly to their neighbors while doing seatwork or raising their hands to get attention.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of specifying needed materials for a lesson?",
+    "answer": "Specify that children need their journals and pencils for journal writing or their crayons, scissors, and colored paper for an art project.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to explain additional resources to students?",
+    "answer": "Refer children to a particular page in the textbook for guidance on completing a worksheet.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of simplifying instructions for ADHD students?",
+    "answer": "Communicating expectations in a simple manner to ensure comprehension and timely completion.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the main idea of the passage regarding instructional strategies for ADHD students?",
+    "answer": "Setting clear behavioral expectations, identifying needed materials, explaining additional resources, and simplifying instructions, choices, and scheduling are important strategies for teaching children with ADHD.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one strategy teachers should use to conduct effective lessons for children with ADHD?",
+    "answer": "Be predictable.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "Why is predictability important for children with ADHD according to the passage?",
+    "answer": "Structure and consistency are very important for children with ADHD; many do not deal well with change.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one way teachers can support the participation of students with ADHD in the classroom?",
+    "answer": "Provide students with private, discreet cues to stay on task.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one key aspect of effective teaching for children with ADHD mentioned in the passage?",
+    "answer": "Periodically questioning children’s understanding of the material.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the main purpose of the passage?",
+    "answer": "To provide strategies for teachers to conduct effective lessons for children with ADHD.",
+    "chunk_id": 13,
+    "pages": "12-12",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one example of using audiovisual materials in teaching?",
+    "answer": "Using an overhead projector to demonstrate how to solve an addition problem requiring regrouping.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method to assess student performance during a lesson?",
+    "answer": "Questioning individual students to assess their mastery of the lesson.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to identify students who need additional assistance during a lesson?",
+    "answer": "Watch for signs of lack of comprehension, such as daydreaming or visual or verbal indications of frustration.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy to help students who are struggling with a lesson?",
+    "answer": "Provide these children with extra explanations, or ask another student to serve as a peer tutor for the lesson.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of assessing students doing seatwork?",
+    "answer": "Asking students to demonstrate how they arrived at the answer to a problem.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to evaluate student understanding during a lesson?",
+    "answer": "Asking individual students to state, in their own words, how the main character felt at the end of the story.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the role of peer tutoring in the classroom according to the passage?",
+    "answer": "To provide additional assistance to students who are struggling with a lesson.",
+    "chunk_id": 14,
+    "pages": "12-13",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one way to help students correct their own mistakes in math problems?",
+    "answer": "Remind students to check their calculations and reiterate how they can do so.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a difficult spelling rule that students should be reminded about?",
+    "answer": "Particularly difficult spelling rules that are easy to make errors with.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method to help students focus on their assigned task?",
+    "answer": "Assigning learning partners to work with.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of follow-up directions for a child with ADHD?",
+    "answer": "Asking the child if he or she understood the directions and repeating them together.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to provide follow-up directions in writing for a child with ADHD?",
+    "answer": "Writing the page number for an assignment on the chalkboard and reminding the child to look at it.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to manage noise levels in the classroom?",
+    "answer": "Providing corrective feedback when the noise level exceeds the appropriate level for the lesson.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a practice that can be directed at individual children or the entire class?",
+    "answer": "Reminding students to keep working and focus on their assigned task.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of how teachers can help students identify mistakes in their work?",
+    "answer": "Reminding students to check their calculations in math problems.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy to help students with ADHD by breaking down assignments?",
+    "answer": "Divide work into smaller units by breaking down assignments into smaller, less complex tasks.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of dividing work into smaller units for students with ADHD?",
+    "answer": "Allow students to complete five math problems before presenting them with the remaining five problems.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method to help children with ADHD focus on instructions?",
+    "answer": "Highlight key points by highlighting key words in the instructions on worksheets.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to help children with ADHD identify key sentences when reading?",
+    "answer": "Show children how to identify and highlight a key sentence, or have them write it on a separate piece of paper.",
+    "chunk_id": 16,
+    "pages": "13-14",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one cooperative learning strategy mentioned in the passage?",
+    "answer": "Think-Pair-Share, where students think about a topic, pair with a partner to discuss it, and share ideas with the group.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one assistive technology mentioned that benefits students with ADHD?",
+    "answer": "Computers and projector screens, which make instruction more visual and allow active participation.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one way effective teachers conclude their lessons?",
+    "answer": "By providing advance warning that the lesson is about to end.",
+    "chunk_id": 17,
+    "pages": "14-15",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of a strategy for silent reading time?",
+    "answer": "D.E.A.R.: Drop Everything and Read and Sustained Silent Reading.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way effective teachers identify areas where children with ADHD need extra assistance?",
+    "answer": "By first identifying areas in which each child requires extra assistance.",
+    "chunk_id": 18,
+    "pages": "15-15",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy for helping children with ADHD improve their reading skills?",
+    "answer": "Follow-along reading, where the child reads a story silently while listening to other students or the teacher read it aloud.",
+    "chunk_id": 19,
+    "pages": "15-16",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy recommended for helping children with ADHD master phonics rules?",
+    "answer": "Teach the child mnemonics that provide reminders about hard-to-learn phonics rules, such as 'when two vowels go walking, the first does the talking'.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a word family used to teach phonics?",
+    "answer": "Examples include 'ph' sounds and 'at-bat-cat'.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one tool that can be used to help children who know sounds but not the corresponding letters?",
+    "answer": "Picture-letter charts are used to help children who know sounds but do not know the letters that go with them.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method that allows students to review reading assignments without replacing them?",
+    "answer": "Allow and encourage students to use published book summaries, synopses, and digests of major reading assignments to review (not replace) reading assignments.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the title of the document that includes these instructional strategies?",
+    "answer": "10 Teaching Children With Attention Deficit Hyperactivity Disorder: Instructional Strategies and Practices",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one method to help students recognize parts of a story?",
+    "answer": "Teach the student how to describe the major parts of a story, such as plot, main characters, setting, conflict, and resolution, using a storyboard with parts listed for this purpose.",
+    "chunk_id": 21,
+    "pages": "17-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to require students to check their written work for errors?",
+    "answer": "Require the child to proofread his or her work before turning in written assignments, using a list of items to check when proofreading.",
+    "chunk_id": 21,
+    "pages": "17-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one technique to help children with ADHD who are poor spellers?",
+    "answer": "Use everyday examples of hard-to-spell words by taking advantage of everyday events to teach difficult spelling words in context, such as asking a child eating a cheese sandwich to spell 'sandwich'.",
+    "chunk_id": 21,
+    "pages": "17-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy for assigning spelling words to children with ADHD?",
+    "answer": "Assign spelling words that the child routinely uses in his or her speech each day.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method for helping children with ADHD keep track of frequently misspelled words?",
+    "answer": "Ask the child to keep a personal dictionary of frequently misspelled words.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one activity that involves pairing children with ADHD to practice spelling?",
+    "answer": "Pair the child with another student and ask partners to quiz each other on the spelling of new words.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one tool that can be used to spell out hard-to-learn words for children with ADHD?",
+    "answer": "Use cutout letters or other manipulatives to spell out hard-to-learn words.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to color-code letters in hard-to-spell words for children with ADHD?",
+    "answer": "Color code different letters in hard-to-spell words, such as 'receipt'.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one activity that combines movement with spelling lessons for children with ADHD?",
+    "answer": "Combine movement activities with spelling lessons, such as jumping rope while spelling words out loud.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one tool that can be used to organize frequently misspelled words for children with ADHD?",
+    "answer": "Use 3\" x 5\" index cards of frequently misspelled words sorted alphabetically.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy for helping children with ADHD practice handwriting?",
+    "answer": "Ask the child to practice copying and erasing the target words on a small, individual chalkboard.",
+    "chunk_id": 22,
+    "pages": "17-18",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method taught to children with ADHD to improve their handwriting skills?",
+    "answer": "Using a structured program such as Jan Olsen’s Handwriting Without Tears program.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy to help children with ADHD learn to space words on a page?",
+    "answer": "Teaching the child to use their finger to measure the space between each word.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of a pattern in math that can help children with ADHD?",
+    "answer": "The digits of numbers which are multiples of 9 add up to 9.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to help children with ADHD understand math symbols?",
+    "answer": "Teaching them that the 'plus' in 1 + 3 means to add and that the 'minus' in 5 – 3 means to take away.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the name of a specific program mentioned for teaching handwriting skills to children with ADHD?",
+    "answer": "Jan Olsen’s Handwriting Without Tears program.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one example of a math pattern that involves multiples of 9?",
+    "answer": "The digits of numbers which are multiples of 9 [18, 27, 36 . . . ] add up to 9.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a mnemonic used to teach long division?",
+    "answer": "Don't Miss Susie’s Boat is used to help the student recall the basic steps in long division (i.e., divide, multiply, subtract, and bring down).",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method suggested for color coding arithmetic symbols?",
+    "answer": "Color code basic arithmetic symbols, such as +, –, and =, to provide visual cues for children when they are computing whole numbers.",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to use calculators in teaching basic computation?",
+    "answer": "Ask the child to use a calculator to check addition, subtraction, multiplication, or division.",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a board game suggested for practicing basic computation?",
+    "answer": "Ask the child to play board games to practice adding, subtracting, multiplying, and dividing whole numbers.",
+    "chunk_id": 24,
+    "pages": "19-19",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy taught to children to help them understand word problems?",
+    "answer": "Teach the child to read a word problem two times before beginning to compute the answer.",
+    "chunk_id": 25,
+    "pages": "19-20",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What are examples of clue words that indicate an addition operation in word problems?",
+    "answer": "Words such as 'sum,' 'total,' or 'all together' may indicate an addition operation.",
+    "chunk_id": 25,
+    "pages": "19-20",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of a guiding question students are taught to ask when solving word problems?",
+    "answer": "What is the question asked in the problem?",
+    "chunk_id": 25,
+    "pages": "19-20",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method suggested for students to practice specific target operations in word problems?",
+    "answer": "Ask the student to create and solve word problems that provide practice with specific target operations, such as addition, subtraction, multiplication, or division.",
+    "chunk_id": 25,
+    "pages": "19-20",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one tool suggested for students to check their computations when solving word problems?",
+    "answer": "Ask the student to use a calculator to check computations made in answering assigned word problems.",
+    "chunk_id": 25,
+    "pages": "19-20",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one special material mentioned that can be used to help children with ADHD complete math assignments?",
+    "answer": "Number lines can be provided for the child to use when computing whole numbers.",
+    "chunk_id": 25,
+    "pages": "19-20",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one strategy that involves using real-life events in teaching word problems?",
+    "answer": "Ask the student to create and solve word problems that provide practice with specific target operations, such as addition, subtraction, multiplication, or division. These problems can be based on recent, real-life events in the child’s life.",
+    "chunk_id": 25,
+    "pages": "19-20",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one tool recommended to help children with ADHD organize columns when performing mathematical operations?",
+    "answer": "Graph paper is recommended to help children with ADHD organize columns when adding, subtracting, multiplying, or dividing whole numbers.",
+    "chunk_id": 26,
+    "pages": "20-21",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method suggested to help children with ADHD manage their time?",
+    "answer": "Using a clock or wristwatch to manage time when completing assigned work.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy mentioned to help children with ADHD organize their assignments?",
+    "answer": "Cleaning out desks and book bags to sort through and organize written assignments.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one way to remind students of subject material according to the passage?",
+    "answer": "Using visual aids such as banners, charts, lists, pie graphs, and diagrams throughout the classroom.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one tool suggested to help children with ADHD schedule their assignments?",
+    "answer": "Using a calendar to schedule assignments.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method suggested to help children with ADHD stay on track with their daily activities?",
+    "answer": "Creating a daily activity schedule and taping it to the child’s desk.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy mentioned to help children with ADHD develop study skills?",
+    "answer": "Teaching children with ADHD how to study effectively on their own through the use of specific strategies.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one activity that can help children with ADHD improve their time management skills?",
+    "answer": "Teaching the child how to read and use a clock or wristwatch to manage time when completing assigned work.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to assist children with ADHD in organizing their study materials?",
+    "answer": "Cleaning out desks and book bags to sort through and organize written assignments.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method to help a child with ADHD adapt instructional worksheets?",
+    "answer": "Help the child fold his or her reading worksheet to reveal only one question at a time.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is a tool that can be used to teach note-taking skills to a child with ADHD?",
+    "answer": "Anita Archer’s Skills for School Success (Archer & Gleason, 2002).",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of a checklist that can be provided to a child with ADHD?",
+    "answer": "A checklist of frequent mistakes that he or she frequently makes in written assignments.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to help a child with ADHD prepare for homework assignments?",
+    "answer": "Provide the child with a checklist that identifies categories of items needed for homework assignments.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy to help a child with ADHD manage their workspace during assignments?",
+    "answer": "Teach the child to prepare an uncluttered workspace by clearing away unnecessary books or other materials before beginning seatwork.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What academic subjects can benefit from the use of Venn diagrams according to the passage?",
+    "answer": "Reading, mathematics, or other academic subjects.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one example of a mistake that can be included in a checklist for a child with ADHD?",
+    "answer": "Punctuation or capitalization errors.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to help a child with ADHD organize key academic concepts?",
+    "answer": "Teach the child how to take notes using a program such as Anita Archer’s Skills for School Success.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method to help a child with ADHD when proofreading their work?",
+    "answer": "Teach the child how to use a checklist of frequent mistakes when proofreading his or her work at home and school.",
+    "chunk_id": 28,
+    "pages": "22-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What should homework be used for according to the passage?",
+    "answer": "Homework should be used to reinforce skills and to review material learned in class.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one example of a problem that may arise with students with ADHD when completing homework?",
+    "answer": "Students with ADHD may have difficulty completing their assigned homework due to issues with the difficulty of the assignments or the amount of time spent on them.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one of the main components of effective instruction for children with ADHD?",
+    "answer": "The use of behavioral interventions is one of the main components of effective instruction for children with ADHD.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "Why do children with ADHD often act immaturely according to the passage?",
+    "answer": "Children with ADHD often act immaturely because they have difficulty learning how to control their impulsiveness and hyperactivity.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "How should behavioral interventions be viewed according to the passage?",
+    "answer": "As an opportunity for teaching in the most effective and efficient manner, rather than as an opportunity for punishment.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one of the most important and effective behavioral intervention techniques?",
+    "answer": "Verbal reinforcement of appropriate behavior.",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the title of the section that provides guidance on the use of praise?",
+    "answer": "Effective Behavioral Intervention Techniques",
+    "chunk_id": 30,
+    "pages": "23-23",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is an example of inappropriate praise according to the passage?",
+    "answer": "Praising a student for not disturbing the class.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "When should praise be given to students according to the passage?",
+    "answer": "Praise should be given immediately after the appropriate behavior.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Why is it important to vary praise statements according to the passage?",
+    "answer": "Varying praise statements prevents them from losing their value when repeated.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What happens if teachers give insincere praise according to the passage?",
+    "answer": "Students will notice the insincerity, which makes praise less effective.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one benefit of using positive reinforcement according to the passage?",
+    "answer": "Positive reinforcement produces changes in attitudes that will shape a student’s behavior over the long term.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one technique suggested for dealing with inappropriate behavior in students with ADHD?",
+    "answer": "Selectively ignoring inappropriate behavior is suggested as a technique for dealing with such behavior in students with ADHD.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "When is selectively ignoring inappropriate behavior particularly useful according to the passage?",
+    "answer": "Selectively ignoring inappropriate behavior is particularly useful when the behavior is unintentional or unlikely to recur or is intended solely to gain attention without disrupting the classroom.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one method suggested to help students with ADHD stay focused in class?",
+    "answer": "Removing nuisance items is suggested as a method to help students with ADHD stay focused in class.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the general approach of the passage regarding behavioral intervention strategies?",
+    "answer": "The passage advocates for behavioral intervention strategies that focus on praise and positive reinforcement rather than punishment.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the purpose of removing nuisance items according to the passage?",
+    "answer": "The purpose of removing nuisance items is to reduce distractions for students with ADHD in the classroom.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the effect of punishment according to the passage?",
+    "answer": "Punishment may only teach children what not to do and does not provide them with the skills needed to do what is expected.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one strategy mentioned for helping students with ADHD gain sensory input during lessons?",
+    "answer": "Provide calming manipulatives.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is an example of an 'escape valve' outlet for students with ADHD?",
+    "answer": "Permitting them to leave class for a moment on an errand, such as returning a book to the library.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is activity reinforcement, according to the passage?",
+    "answer": "It is when students are encouraged to perform a less desirable behavior before a preferred one.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the purpose of hurdle helping as described in the passage?",
+    "answer": "To prevent students from becoming frustrated with an assignment by offering encouragement, support, and assistance.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the definition of activity reinforcement as given in the passage?",
+    "answer": "It is a strategy where students are encouraged to perform a less desirable behavior before a preferred one.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one way teachers can assist students with ADHD who are struggling with an assignment?",
+    "answer": "By offering encouragement, support, and assistance, which can include enlisting a peer for support or supplying additional materials.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method teachers can use to help students with ADHD stay on task?",
+    "answer": "Using visual cues, such as pointing at the child while looking them in the eye or holding out the hand, palm down, near the child.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the role of parents in the education of students with ADHD according to the passage?",
+    "answer": "Parents must be included as partners in planning for the student’s success, which includes providing parental input in behavioral intervention strategies, maintaining frequent communication with teachers, and collaborating in monitoring the student’s progress.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one strategy that schools use to involve peers in supporting students with ADHD?",
+    "answer": "Implementing formalized peer mediation programs where students receive training to manage disputes involving their classmates.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way teachers can use proximity control to help students with ADHD focus?",
+    "answer": "Moving to where the child is standing or sitting to increase physical proximity, which helps the child focus and pay attention to what the teacher is saying.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of a visual cue that can be used to remind a student with ADHD to stay on task?",
+    "answer": "Pointing at the child while looking them in the eye.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the main idea of the passage regarding the involvement of parents in the education of students with ADHD?",
+    "answer": "Parents have a critical role in the education of students with ADHD and should be included as partners in planning for the student’s success through collaboration and communication.",
+    "chunk_id": 34,
+    "pages": "25-25",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one instructional strategy mentioned for children with ADHD to manage their own behavior?",
+    "answer": "Social skills classes.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one method suggested for resolving social conflicts among children with ADHD?",
+    "answer": "Conducting impromptu discussions with one student or a small group of students where the conflict arises.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of a social problem that children with ADHD might address in problem solving sessions?",
+    "answer": "Arguing about a game.",
+    "chunk_id": 35,
+    "pages": "25-26",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What are some examples of behavioral interventions mentioned in the passage?",
+    "answer": "Examples of behavioral interventions mentioned in the passage include functional behavioral assessments, positive behavioral interventions and supports, behavioral contracts, management plans, tangible rewards, and token economy systems.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the name of the study cited in the passage regarding Functional Behavioral Assessments?",
+    "answer": "The study cited in the passage regarding Functional Behavioral Assessments is Gable, et al., 1997.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What are some examples of appropriate goals that can be set in Behavioral contracts and management plans?",
+    "answer": "Examples of appropriate goals include completing homework assignments on time and obeying safety rules on the school playground.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the basis of PBIS according to the passage?",
+    "answer": "PBIS is based on a behaviorally based systems approach that is grounded in research regarding behavior in the context of the settings in which it occurs.",
+    "chunk_id": 37,
+    "pages": "26-27",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What are examples of tangible rewards that can be used to reinforce appropriate behavior?",
+    "answer": "Examples of tangible rewards include stickers such as 'happy faces' or sports team emblems, and privileges such as extra time on the computer or lunch with the teacher.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a tangible reward that a student can receive after earning points in a token economy system?",
+    "answer": "An example of a tangible reward is extra time on a computer or a 'free' period on Friday afternoon.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "Who proposed the use of token economy systems according to the passage?",
+    "answer": "Barkley proposed the use of token economy systems in 1990.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one example of a reward a child can earn through a token economy system?",
+    "answer": "A child can earn points for each homework assignment completed on time.",
+    "chunk_id": 38,
+    "pages": "27-27",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one component of a self-management system described in the passage?",
+    "answer": "A written rating scale that includes the performance criteria for each rating.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "How do the teacher and student rate student behavior during an activity in a self-management system?",
+    "answer": "They separately rate student behavior and compare ratings.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the ultimate goal of a self-management system as described in the passage?",
+    "answer": "For the student to become responsible for self-monitoring.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the source of the information about self-management systems in the passage?",
+    "answer": "DuPaul & Stoner as cited in Shinn, Walker, & Stoner, 2002.",
+    "chunk_id": 39,
+    "pages": "27-28",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one strategy teachers can use to create a low-distraction work area for students?",
+    "answer": "Provide a quiet, distraction-free room or area for quiet study time and test taking.",
+    "chunk_id": 41,
+    "pages": "28-29",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one instructional tool mentioned that can help students with ADHD track written words on a page?",
+    "answer": "A pointer, such as a bookmark.",
+    "chunk_id": 41,
+    "pages": "28-29",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the purpose of using egg timers in the classroom according to the passage?",
+    "answer": "To indicate how much time remains in a lesson and help children monitor their progress.",
+    "chunk_id": 41,
+    "pages": "28-29",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is one way teachers can modify the classroom environment to accommodate students with ADHD?",
+    "answer": "Use special instructional tools to modify the classroom learning environment.",
+    "chunk_id": 41,
+    "pages": "28-29",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one example of how teachers can use egg timers in the classroom?",
+    "answer": "Place the timer at the front of the classroom and have children check it to see how much time remains.",
+    "chunk_id": 41,
+    "pages": "28-29",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one method to signal children that the noise level in the room is too high?",
+    "answer": "Turning the classroom lights on and off.",
+    "chunk_id": 42,
+    "pages": "29-29",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the main purpose of using classroom lights and music as described in the passage?",
+    "answer": "To help manage noise levels and signal appropriate activity levels in the classroom.",
+    "chunk_id": 42,
+    "pages": "29-29",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the title of the series of publications mentioned in the passage?",
+    "answer": "Teaching Children With Attention Deficit Hyperactivity Disorder: Instructional Strategies and Practices.",
+    "chunk_id": 43,
+    "pages": "29-30",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the position of this guide within the series of publications?",
+    "answer": "This guide is the second in a series of three publications.",
+    "chunk_id": 43,
+    "pages": "29-30",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the main benefit of using the instructional strategies outlined in the guide?",
+    "answer": "The main benefit is creating an enhanced learning environment for all students.",
+    "chunk_id": 43,
+    "pages": "29-30",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Which group of students does the guide emphasize the strategies are particularly useful for?",
+    "answer": "The guide emphasizes that the strategies are particularly useful for children with ADHD.",
+    "chunk_id": 43,
+    "pages": "29-30",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What is the name of the Assistant Secretary for the Office of Special Education and Rehabilitative Services?",
+    "answer": "John H. Hager",
+    "chunk_id": 0,
+    "pages": "1-3",
+    "review": {
+      "reason": "The question is about specific information from the document, which limits its generalizability and expert answerability.",
+      "single_answer": true,
+      "expert_answerable": false,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the name of the center that provides information about accessible formats?",
+    "answer": "The U.S. Department of Education’s Alternative Format Center.",
+    "chunk_id": 1,
+    "pages": "3-5",
+    "review": {
+      "reason": "The question is clear and has a single answer, but it refers to information specific to the document rather than general knowledge of the subject.",
+      "single_answer": true,
+      "expert_answerable": false,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the role of attention in a student's ability to acquire information and complete assignments?",
+    "answer": "Attention plays a crucial role in a student's ability to acquire necessary information, complete assignments, and participate in classroom activities and discussions.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers, though the passage does provide a clear statement on the role of attention.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the effect of ADHD on a child's ability to participate in classroom activities and discussions?",
+    "answer": "ADHD can affect a child's ability to participate in classroom activities and discussions due to difficulties with attention and focus.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one behavior that children with ADHD, without hyperactivity and impulsivity, may exhibit?",
+    "answer": "Daydreaming.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers, though 'daydreaming' is a correct example.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one reason why children with ADHD may show different behaviors in different situations?",
+    "answer": "Not all of these behaviors appear in all situations.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one additional diagnosis that some children with ADHD may have?",
+    "answer": "Academic or behavioral diagnoses.",
+    "chunk_id": 6,
+    "pages": "8-9",
+    "review": {
+      "reason": "The question is somewhat vague and allows for multiple valid answers, as 'academic or behavioral diagnoses' is a broad category.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the importance of understanding the characteristics of children with disabilities when selecting instructional strategies?",
+    "answer": "It is imperative to understand the characteristics of the child to evaluate and implement successful practices.",
+    "chunk_id": 7,
+    "pages": "9-9",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers, though the passage does provide a clear statement on the importance of understanding characteristics for instructional strategies.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the role of a multidisciplinary team in evaluating a child with ADHD?",
+    "answer": "The multidisciplinary team, along with the child's parents, considers both academic and behavioral needs of the child using formal diagnostic assessments and informal classroom observations.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What types of assessments are used to determine children's strengths in the evaluation process?",
+    "answer": "Assessments such as learning style inventories are used to determine children's strengths and enable instruction to build on their existing abilities.",
+    "chunk_id": 8,
+    "pages": "9-10",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers beyond what is explicitly stated in the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What should be considered when selecting instructional practices for children with ADHD?",
+    "answer": "Instructional practices should meet the academic and behavioral needs of the child, fit the content, be age appropriate, and gain the attention of the child.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers, as the passage emphasizes the importance of individualized approaches and integration of components, not just the listed factors.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "Why is it important to integrate educational activities for children with ADHD with those of other children in the class?",
+    "answer": "To ensure that the child with ADHD receives the same educational opportunities and support as other children in the class.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the role of classroom accommodations in successful programs for children with ADHD?",
+    "answer": "Classroom accommodations are one of the three components of successful programs and are designed to support the academic needs of children with ADHD.",
+    "chunk_id": 9,
+    "pages": "10-10",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What should a teacher do to set learning expectations for students with ADHD?",
+    "answer": "State what students are expected to learn during the lesson, such as explaining that a language arts lesson will involve reading a story and identifying new vocabulary words.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": {
+      "reason": "The question is somewhat vague and could allow for multiple valid answers based on the passage's examples.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the role of reviewing previous lessons in a structured academic lesson?",
+    "answer": "To help students connect new information with what they have learned before, such as by reviewing several problems from the previous lesson.",
+    "chunk_id": 11,
+    "pages": "11-11",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the purpose of follow-up directions for students with ADHD?",
+    "answer": "To guide them with additional instructions after initial directions are given to the class.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one benefit of using word families in teaching phonics?",
+    "answer": "Teach the child to recognize and read word families that illustrate particular phonetic concepts.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one instructional strategy that focuses on teaching children with ADHD about math symbols?",
+    "answer": "Teaching them the meaning of symbols such as 'plus' and 'minus'.",
+    "chunk_id": 23,
+    "pages": "18-19",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one challenge that children with ADHD may face in social situations?",
+    "answer": "Children with ADHD may have difficulty thinking through the social consequences of their actions, which can affect their ability to form friendships with other children in the class.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the purpose of monitoring homework assignments for students with ADHD?",
+    "answer": "The purpose of monitoring homework assignments is to keep track of how well students with ADHD complete their assignments and to discuss and resolve any problems with them and their parents.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What should be considered when evaluating the difficulty of homework assignments for students with ADHD?",
+    "answer": "The difficulty of the assignments and the amount of time the children spend on their homework each night should be considered when evaluating the effectiveness of homework assignments.",
+    "chunk_id": 29,
+    "pages": "22-23",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted in multiple ways, leading to multiple valid answers.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is the importance of consistency in giving praise to students with ADHD?",
+    "answer": "Consistency helps avoid confusion and reinforces appropriate behavior.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": {
+      "reason": "The question is somewhat open-ended and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What are the different forms of assistance that can be provided through hurdle helping?",
+    "answer": "Enlisting a peer for support, supplying additional materials or information.",
+    "chunk_id": 33,
+    "pages": "24-25",
+    "review": {
+      "reason": "The question is somewhat open-ended as it asks for 'different forms of assistance' which could include more examples beyond what is explicitly stated in the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4
+  },
+  {
+    "question": "What is the significance of identifying the environmental factors associated with problem behavior?",
+    "answer": "Identifying the environmental factors associated with problem behavior is significant because it helps in developing an effective and efficient intervention and support plan.",
+    "chunk_id": 36,
+    "pages": "26-26",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one physical classroom accommodation that can help children with ADHD stay on task?",
+    "answer": "Seating the child near the teacher.",
+    "chunk_id": 40,
+    "pages": "28-28",
+    "review": {
+      "reason": "The question is somewhat open-ended as multiple valid answers exist (e.g., seating near the teacher, near a role model, or using instructional tools).",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one challenge that children with ADHD often face in a classroom setting?",
+    "answer": "Adjusting to the structured environment of a classroom.",
+    "chunk_id": 40,
+    "pages": "28-28",
+    "review": {
+      "reason": "The question is somewhat vague and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is one reason why children with ADHD may benefit from physical classroom accommodations?",
+    "answer": "To reduce distractions in the classroom environment.",
+    "chunk_id": 40,
+    "pages": "28-28",
+    "review": {
+      "reason": "The question is somewhat vague and could be interpreted as asking for any number of valid reasons, not just the one explicitly stated in the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 4
+    },
+    "review_score": 4
+  },
+  {
+    "question": "What is the recommended practice for using furniture in the classroom for children with ADHD?",
+    "answer": "The desk and chair used by children with ADHD need to be the right size.",
+    "chunk_id": 42,
+    "pages": "29-29",
+    "review": {
+      "reason": "The question is somewhat vague and could allow for multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What are two examples of follow-up directions for students with ADHD?",
+    "answer": "Oral directions and written directions.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a written follow-up direction for a student with ADHD?",
+    "answer": "Write the page number for an assignment on the chalkboard and remind the child to look at the chalkboard if he or she forgets the assignment.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one way to assist children with ADHD in scheduling their assignments?",
+    "answer": "Use a calendar to schedule assignments and teach the child how to read and use it effectively.",
+    "chunk_id": 27,
+    "pages": "21-22",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is the primary focus of effective behavioral intervention strategies according to the passage?",
+    "answer": "The primary focus is on praise rather than punishment.",
+    "chunk_id": 32,
+    "pages": "24-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "According to the passage, what does a student need to do to acquire necessary information and complete assignments?",
+    "answer": "Attend to tasks and teacher and classroom expectations with minimal distraction.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "What are two examples of materials that should be specified for students during a lesson?",
+    "answer": "Journals and pencils for journal writing, and crayons, scissors, and colored paper for an art project.",
+    "chunk_id": 12,
+    "pages": "11-12",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is one strategy recommended for helping children with ADHD review reading assignments without replacing them?",
+    "answer": "Allow and encourage students to use published book summaries, synopses, and digests of major reading assignments.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "What is an example of a mnemonic used to teach phonics rules to children with ADHD?",
+    "answer": "When two vowels go walking, the first does the talking.",
+    "chunk_id": 20,
+    "pages": "16-17",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "When should teachers give praise to students with ADHD according to the passage?",
+    "answer": "Teachers should give praise immediately after the appropriate behavior is displayed.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Why is it important to vary praise statements for students with ADHD?",
+    "answer": "Varying praise statements helps maintain their effectiveness and prevents students from losing value in the praise.",
+    "chunk_id": 31,
+    "pages": "23-24",
+    "review": {
+      "reason": "The question is somewhat open-ended and could have multiple valid answers based on the passage.",
+      "single_answer": false,
+      "expert_answerable": true,
+      "score": 3
+    },
+    "review_score": 3
+  },
+  {
+    "question": "What is an example of how students can check their calculations in math problems?",
+    "answer": "Remind students to reiterate how they can check their calculations.",
+    "chunk_id": 15,
+    "pages": "13-13",
+    "review": "filter: open-ended (many valid answers)"
+  },
+  {
+    "question": "According to the passage, what enables a student to acquire necessary information, complete assignments, and participate in classroom activities and discussions?",
+    "answer": "The ability to attend to tasks and teacher and classroom expectations with minimal distraction.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": "filter: mentions the source or the bibliography"
+  },
+  {
+    "question": "Which researchers are cited in the passage regarding the relationship between ADHD and academic success?",
+    "answer": "Forness and Kavale.",
+    "chunk_id": 3,
+    "pages": "5-7",
+    "review": "filter: mentions the source or the bibliography"
+  }
+]

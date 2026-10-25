@@ -1,0 +1,384 @@
+import { useEffect, useRef, useState } from 'react'
+import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react'
+import { useCreateProfile } from '@/api/profile'
+import { useSurveyQuestions } from '@/api/survey'
+import { defineMessages, useLanguage, useMessages } from '@/lib/i18n'
+import {
+  questionsIn,
+  SurveyContext,
+  useSurvey,
+  type Survey,
+} from '@/lib/survey'
+import { cn } from '@/lib/utils'
+import { AboutStep } from './AboutStep'
+import { AssessmentScreen } from './AssessmentScreen'
+import { toProfileRequest } from './studentProfile'
+import { GoalStep } from './GoalStep'
+import { MagicStep } from './MagicStep'
+import { NotesStep } from './NotesStep'
+import { optionMessages } from './options'
+import { ProfilePanel } from './ProfilePanel'
+import { ReviewStep } from './ReviewStep'
+import { SurveyStep } from './SurveyStep'
+import {
+  buildScreens,
+  loadProfile,
+  saveProfile,
+  steps,
+  type Profile,
+  type Screen,
+  type StepId,
+} from './profile'
+
+type Ending = 'assess' | 'magic'
+
+export type StepProps = {
+  profile: Profile
+  update: (patch: Partial<Profile>) => void
+  errors: Partial<Record<keyof Profile, string>>
+}
+
+const messages = defineMessages({
+  en: {
+    errors: {
+      name: 'Tell us what to call you.',
+      stage: 'Pick the one that fits best.',
+      topic: 'Tell us the topic, even in a few words.',
+      answers: 'Answer each one, or skip this part for now.',
+    },
+    primary: {
+      continue: 'Continue',
+      build: 'Build my tool',
+      building: 'Building…',
+      magic: 'Magic page',
+    },
+    step: (n: number, total: number) => `Step ${n} of ${total}`,
+    minutesLeft: (n: number) =>
+      `about ${n} ${n === 1 ? 'minute' : 'minutes'} left`,
+    almostDone: 'almost done',
+    saved: 'Saved',
+    buildFailed:
+      'We couldn’t build your profile. Check your connection and try again.',
+    back: 'Back',
+    skipRest: 'Skip the rest',
+    skipPart: 'Skip this part',
+    skipForNow: 'Skip for now',
+    loading: 'Getting things ready…',
+    loadFailed:
+      'We couldn’t load the form. Check your connection and try again.',
+    tryAgain: 'Try again',
+  },
+  de: {
+    errors: {
+      name: 'Sag uns, wie wir dich nennen sollen.',
+      stage: 'Wähl das, was am besten passt.',
+      topic: 'Nenn uns das Thema, gern in wenigen Worten.',
+      answers: 'Beantworte jede Aussage oder überspring diesen Teil erst mal.',
+    },
+    primary: {
+      continue: 'Weiter',
+      build: 'Mein Werkzeug bauen',
+      building: 'Wird gebaut…',
+      magic: 'Magische Seite',
+    },
+    step: (n: number, total: number) => `Schritt ${n} von ${total}`,
+    minutesLeft: (n: number) =>
+      `noch etwa ${n} ${n === 1 ? 'Minute' : 'Minuten'}`,
+    almostDone: 'fast geschafft',
+    saved: 'Gespeichert',
+    buildFailed:
+      'Wir konnten dein Profil nicht erstellen. Prüf deine Verbindung und versuch es nochmal.',
+    back: 'Zurück',
+    skipRest: 'Den Rest überspringen',
+    skipPart: 'Diesen Teil überspringen',
+    skipForNow: 'Erst mal überspringen',
+    loading: 'Wird vorbereitet…',
+    loadFailed:
+      'Wir konnten das Formular nicht laden. Prüf deine Verbindung und versuch es nochmal.',
+    tryAgain: 'Nochmal versuchen',
+  },
+})
+
+type Messages = (typeof messages)['en']
+
+// Returns what's missing before the student can leave this screen.
+function validate(
+  screen: Screen,
+  profile: Profile,
+  survey: Survey,
+  t: Messages,
+): StepProps['errors'] {
+  if (screen.step === 'about') {
+    return {
+      ...(!profile.name.trim() && { name: t.errors.name }),
+      ...(!profile.stage && { stage: t.errors.stage }),
+    }
+  }
+  if (screen.step === 'goal' && !profile.topic.trim()) {
+    return { topic: t.errors.topic }
+  }
+  if (screen.step === 'survey') {
+    const missing = questionsIn(survey, screen.categoryId).some(
+      (question) => profile.answers[question.id] === undefined,
+    )
+    if (missing) {
+      return { answers: t.errors.answers }
+    }
+  }
+  return {}
+}
+
+// The intake flow: about you, your goal, the learning survey, your notes, and a final check.
+function Form() {
+  const survey = useSurvey()
+  const t = useMessages(messages)
+  const options = useMessages(optionMessages)
+  const screens = buildScreens(survey)
+  const [index, setIndex] = useState(0)
+  const [profile, setProfile] = useState<Profile>(loadProfile)
+  const [errors, setErrors] = useState<StepProps['errors']>({})
+  const [finished, setFinished] = useState(false)
+  // Which flow runs after the profile is built: our assessment, or the Magic page.
+  const [ending, setEnding] = useState<Ending>('assess')
+  const createProfile = useCreateProfile()
+  const panel = useRef<HTMLDivElement>(null)
+
+  const screen = screens[index]
+  const step = steps.find((s) => s.id === screen.step)!
+  const counted = steps
+  const stepNumber = counted.findIndex((s) => s.id === screen.step) + 1
+  const minutesLeft = Math.ceil(
+    screens.slice(index).reduce((sum, s) => sum + s.minutes, 0),
+  )
+  const category = survey.categories.find((c) => c.id === screen.categoryId)
+  const part =
+    survey.categories.findIndex((c) => c.id === screen.categoryId) + 1
+
+  useEffect(() => saveProfile(profile), [profile])
+
+  // Move focus to the new question so keyboard and screen reader users start at the top.
+  const shownScreen = useRef(`${index}-${finished}`)
+  useEffect(() => {
+    if (shownScreen.current === `${index}-${finished}`) return
+    shownScreen.current = `${index}-${finished}`
+    panel.current?.querySelector('h2')?.focus({ preventScroll: true })
+    panel.current?.scrollIntoView?.({ block: 'start' })
+  }, [index, finished])
+
+  const update = (patch: Partial<Profile>) => {
+    setProfile((current) => ({ ...current, ...patch }))
+    // Editing a field clears its error.
+    setErrors((current) =>
+      Object.fromEntries(
+        Object.entries(current).filter(([key]) => !(key in patch)),
+      ),
+    )
+  }
+
+  // "Build my tool" and "Magic page": the server scores the survey and returns the student's profile JSON.
+  const buildProfile = (target: Ending) => {
+    if (createProfile.isPending) return
+    setEnding(target)
+    createProfile.mutate(toProfileRequest(profile), {
+      onSuccess: () => setFinished(true),
+    })
+  }
+
+  const moveTo = (target: number) => {
+    setErrors({})
+    createProfile.reset()
+    setIndex(target)
+  }
+
+  const goTo = (id: StepId) => moveTo(screens.findIndex((s) => s.step === id))
+
+  const next = () => {
+    const found = validate(screen, profile, survey, t)
+    setErrors(found)
+    if (Object.keys(found).length) return
+    if (screen.step !== 'review') moveTo(index + 1)
+    else buildProfile('assess')
+  }
+
+  const stepProps = { profile, update, errors }
+  const showPanel = ['about', 'goal', 'notes'].includes(screen.step)
+  const canSkip = screen.step === 'survey' || screen.step === 'notes'
+
+  if (finished && createProfile.data && ending === 'magic') {
+    return <MagicStep topic={profile.topic} profileJson={createProfile.data} />
+  }
+
+  if (finished && createProfile.data) {
+    return (
+      <div ref={panel}>
+        <AssessmentScreen
+          name={profile.name}
+          studentProfile={createProfile.data}
+          onBack={() => setFinished(false)}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div
+      ref={panel}
+      className="overflow-hidden rounded-[20px] border border-rule bg-sheet shadow-card"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-rule px-6 py-4 text-sm md:px-8">
+        <span>
+          <span className="font-medium">
+            {t.step(stepNumber, counted.length)}
+          </span>{' '}
+          · {options.steps[step.id]}
+          <span className="text-graphite">
+            {' '}
+            · {minutesLeft > 0 ? t.minutesLeft(minutesLeft) : t.almostDone}
+          </span>
+        </span>
+        <div className="flex gap-1.5" aria-hidden>
+          {counted.map((s, i) => (
+            <i
+              key={s.id}
+              className={cn(
+                'h-1.5 w-9 rounded-full',
+                i + 1 < stepNumber
+                  ? 'bg-pine'
+                  : i + 1 === stepNumber
+                    ? 'bg-marigold'
+                    : 'bg-rule',
+              )}
+            />
+          ))}
+        </div>
+        <span className="text-graphite">{t.saved}</span>
+      </div>
+
+      <div className={cn('grid', showPanel && 'md:grid-cols-[1.45fr_1fr]')}>
+        <form
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault()
+            next()
+          }}
+          className={cn(
+            'p-6 md:p-10 [&_h2]:outline-none',
+            showPanel &&
+              'border-b border-dashed border-rule md:border-r md:border-b-0',
+            screen.step === 'survey' && 'mx-auto w-full max-w-3xl',
+          )}
+        >
+          {screen.step === 'about' && <AboutStep {...stepProps} />}
+          {screen.step === 'goal' && <GoalStep {...stepProps} />}
+          {screen.step === 'survey' && category && (
+            <SurveyStep {...stepProps} category={category} part={part} />
+          )}
+          {screen.step === 'notes' && <NotesStep {...stepProps} />}
+          {screen.step === 'review' && (
+            <ReviewStep {...stepProps} goTo={goTo} />
+          )}
+
+          {createProfile.isError && (
+            <p
+              role="alert"
+              className="mt-8 border-l-[3px] border-clay pl-3 text-sm"
+            >
+              {t.buildFailed}
+            </p>
+          )}
+
+          <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+            {index > 0 ? (
+              <button
+                type="button"
+                className="text-button inline-flex items-center gap-2 pl-0"
+                onClick={() => moveTo(index - 1)}
+              >
+                <ArrowLeft size={18} aria-hidden />
+                {t.back}
+              </button>
+            ) : (
+              <span />
+            )}
+            <div className="flex items-center gap-3">
+              {screen.step === 'survey' && part < survey.categories.length && (
+                // Skipped parts send no answers; the server leaves their categories out of the profile.
+                <button
+                  type="button"
+                  className="text-button"
+                  onClick={() => goTo('notes')}
+                >
+                  {t.skipRest}
+                </button>
+              )}
+              {canSkip && (
+                <button
+                  type="button"
+                  className="text-button"
+                  onClick={() => moveTo(index + 1)}
+                >
+                  {screen.step === 'survey' ? t.skipPart : t.skipForNow}
+                </button>
+              )}
+              {screen.step === 'review' && (
+                <button
+                  type="button"
+                  className="primary large"
+                  onClick={() => buildProfile('magic')}
+                >
+                  {createProfile.isPending && ending === 'magic'
+                    ? t.primary.building
+                    : t.primary.magic}
+                  <Sparkles size={18} aria-hidden />
+                </button>
+              )}
+              <button type="submit" className="primary large">
+                {createProfile.isPending && ending === 'assess'
+                  ? t.primary.building
+                  : screen.step === 'review'
+                    ? t.primary.build
+                    : t.primary.continue}
+                <ArrowRight size={18} aria-hidden />
+              </button>
+            </div>
+          </div>
+        </form>
+
+        {showPanel && <ProfilePanel profile={profile} />}
+      </div>
+    </div>
+  )
+}
+
+// Loads the survey questions from the server, in the chosen language, before showing the form.
+// A language switch keeps the current survey on screen while the new texts load, so the step stays.
+function ApplicationForm() {
+  const { lang } = useLanguage()
+  const t = useMessages(messages)
+  const survey = useSurveyQuestions(lang)
+
+  if (survey.data) {
+    return (
+      <SurveyContext value={survey.data}>
+        <Form />
+      </SurveyContext>
+    )
+  }
+
+  return (
+    <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
+      {survey.isError ? (
+        <div role="alert">
+          <p>{t.loadFailed}</p>
+          <button className="primary mt-6" onClick={() => survey.refetch()}>
+            {t.tryAgain}
+          </button>
+        </div>
+      ) : (
+        <p className="text-graphite">{t.loading}</p>
+      )}
+    </div>
+  )
+}
+
+export { ApplicationForm }

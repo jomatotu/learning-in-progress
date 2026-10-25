@@ -88,4 +88,13 @@ flowchart LR
 | Lernpfadkarte | Leitet aus Lernziel und Charakter die Lernpfadkarte ab |
 | UI Generation | Lässt aus der Lernpfadkarte die Oberfläche erzeugen und gibt sie an die API zurück |
 
-Lernziel, Charakter und Lernpfadkarte sind `<<Agent>>`. Zur Lernpfadkarte führen `target.json` und `persona.json`, zur UI Generation `prompt.json`. Das Zusammenspiel zur Laufzeit zeigt [6.2 Lernpfad erzeugen](06-laufzeitsicht.md#62-lernpfad-erzeugen).
+Lernziel, Charakter und Lernpfadkarte sind `<<Agent>>`. Zur Lernpfadkarte führen `target.json` und `persona.json`, zur UI Generation `prompt.json`. Das Zusammenspiel zur Laufzeit zeigt [6.2 Lernpfad erzeugen](06-laufzeitsicht.md#62-lernpfad-erzeugen). Die dort genannte eine Rückgabe `ui-artefact.json` ist nicht die aktuelle Auslieferung. Die trägt [5.4 Generative UI](#54-generative-ui).
+
+## 5.4 Generative UI
+
+Die generative Oberfläche hat zwei Formen. Führend ist die HTML-Lernseite, weil der primäre Abschluss „Mein Werkzeug bauen“ und der Playground dorthin führen. Die Solution Page bleibt der zweite Pfad über „Magische Seite“ ([AE-7](09-architekturentscheidungen.md)). Laufzeit: [6.3 Auslieferung](06-laufzeitsicht.md#63-auslieferung). Entscheidung und Grenzen: [8.1 Generative UI](08-querschnittliche-konzepte.md#81-generative-ui).
+
+| Variante | Rolle | Erzeugung | Auslieferung | Route | Sicherheitsgrenze |
+| --- | --- | --- | --- | --- | --- |
+| HTML-Lernseite | führend | `POST /api/generate` je Theme, Ergebnis `{ html }` | `iframe` mit `srcDoc` | `/learn/:id` | `sandbox="allow-scripts"`, zusätzlich CSP des Servers |
+| Solution Page | zweiter Pfad | `POST /api/solution`, Ergebnis `{ url }` und Datei `generated/{uuid}.tsx` | dynamischer Import im App-Origin | `/solution/:uuid` | keine Sandbox; die Komponente ist Anwendungscode |
