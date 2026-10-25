@@ -101,7 +101,7 @@ def test_research_fences_student_data_and_uses_own_session(monkeypatch):
 def test_research_reports_hermes_failure(monkeypatch):
     fake_stream_json(monkeypatch, REPLY, error=hermes.HermesError("Hermes did not return valid JSON"))
 
-    assert events()[-1] == ("error", {"message": "Tabula hat nicht geantwortet. Versuch es nochmal."})
+    assert events()[-1] == ("error", {"message": "Morph hat nicht geantwortet. Versuch es nochmal."})
 
 
 def test_research_rejects_request_without_student():

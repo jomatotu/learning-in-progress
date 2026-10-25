@@ -89,7 +89,7 @@ describe('Learn', () => {
     const frame = await screen.findByTitle('Your learning page')
     expect(frame).toHaveAttribute('srcdoc', '<p>draft</p>')
     expect(frame).toHaveAttribute('sandbox', 'allow-scripts')
-    expect(screen.getByRole('status')).toHaveTextContent('Tabula baut gerade')
+    expect(screen.getByRole('status')).toHaveTextContent('Morph baut gerade')
 
     send(`event: done\ndata: ${JSON.stringify({ html: '<p>final</p>' })}\n\n`)
     await waitFor(() =>
@@ -98,7 +98,7 @@ describe('Learn', () => {
         '<p>final</p>',
       ),
     )
-    expect(screen.queryByText(/Tabula baut gerade/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Morph baut gerade/)).not.toBeInTheDocument()
   })
 
   it('shows saved pages without generating them again', () => {

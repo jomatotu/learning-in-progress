@@ -14,7 +14,7 @@ from app.settings import get_settings
 MODEL = "hermes-agent"
 
 # The name students see for the tutor; Hermes stays the engine behind it.
-TUTOR_NAME = "Tabula"
+TUTOR_NAME = "Morph"
 
 # An agent turn can run tools for several minutes.
 TIMEOUT_SECONDS = 600

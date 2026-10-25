@@ -76,7 +76,7 @@ describe('useGeneratePage', () => {
         .mockResolvedValue(
           sse([
             'error',
-            { message: 'Tabula antwortet gerade nicht. Versuch es nochmal.' },
+            { message: 'Morph antwortet gerade nicht. Versuch es nochmal.' },
           ]),
         ),
     )
@@ -86,7 +86,7 @@ describe('useGeneratePage', () => {
 
     await waitFor(() =>
       expect(result.current.error?.message).toBe(
-        'Tabula antwortet gerade nicht. Versuch es nochmal.',
+        'Morph antwortet gerade nicht. Versuch es nochmal.',
       ),
     )
   })

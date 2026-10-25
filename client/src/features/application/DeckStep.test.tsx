@@ -153,7 +153,7 @@ describe('DeckStep', () => {
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     expect(onDone).not.toHaveBeenCalled()
-    expect(screen.getByText('Tabula fragt')).toBeInTheDocument()
+    expect(screen.getByText('Morph fragt')).toBeInTheDocument()
     expect(screen.getByText('Hermes eins')).toBeInTheDocument()
     expect(screen.queryByText('Das heißt für dich')).toBeNull()
 
