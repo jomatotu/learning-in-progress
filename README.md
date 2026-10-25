@@ -79,7 +79,8 @@ Backend:
 - FastAPI
 
 AI Layer:
-- Gemini
+- DeepSeek
+- Hermes
 
 ## Dokumentation
 
