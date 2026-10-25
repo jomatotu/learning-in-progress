@@ -51,6 +51,10 @@ CSP = (
 
 DOCTYPE = re.compile(r"<!doctype html[^>]*>", re.IGNORECASE)
 
+# How much new page text Hermes writes between two live previews, so the student sees the page grow without the
+# preview reloading on every token.
+PREVIEW_STEP = 1500
+
 
 class GenerateRequest(BaseModel):
     profile: dict[str, Any] = Field(description="Student profile from the intake form.")
@@ -93,6 +97,11 @@ def prepare_page(reply: str) -> str | None:
     return start.group() + CSP + reply[start.end() : end + len("</html>")]
 
 
+# The half-written page as a renderable document: cut at the last complete tag, closed, and with our CSP first.
+def preview_page(reply: str) -> str | None:
+    return prepare_page(reply[: reply.rfind(">") + 1] + "</body></html>")
+
+
 # Turns the reply so far into a short status line for the student.
 # Before the page starts, show the last line Hermes wrote; once the page starts, show how much is written.
 def progress_text(reply: str) -> str:
@@ -110,10 +119,11 @@ class Turn:
         self.used_browser = False
 
 
-# Streams one Hermes turn as "status" (the current step) and "reasoning" (Hermes thinking, in chunks) events,
-# collecting the reply in `turn`.
+# Streams one Hermes turn as "status" (the current step), "reasoning" (Hermes thinking, in chunks) and "preview" (the
+# page so far, every PREVIEW_STEP characters once it starts) events, collecting the reply in `turn`.
 async def stream_turn(prompt: str, session_id: str, turn: Turn, status: str) -> AsyncIterator[str]:
     reasoning = TextBatch()
+    previewed = 0
     async for kind, piece in hermes.stream_hermes(prompt, session_id=session_id):
         if kind == "reasoning":
             if text := reasoning.add(piece):
@@ -125,6 +135,10 @@ async def stream_turn(prompt: str, session_id: str, turn: Turn, status: str) -> 
         else:
             turn.reply += piece
             new_status = progress_text(turn.reply)
+            start = DOCTYPE.search(turn.reply)
+            if start and len(turn.reply) - start.start() >= previewed + PREVIEW_STEP:
+                previewed = len(turn.reply) - start.start()
+                yield sse("preview", {"html": preview_page(turn.reply)})
         if new_status != status:
             status = new_status
             yield sse("status", {"text": status})

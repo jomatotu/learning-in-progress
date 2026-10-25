@@ -62,6 +62,25 @@ def test_generate_streams_progress_then_page_with_csp(monkeypatch):
     ]
 
 
+def test_generate_streams_throttled_previews_with_csp_once_the_page_starts(monkeypatch):
+    plan = "Ich plane die Seite.\n" * 200
+    page = "<!DOCTYPE html><html><body>" + "<p>Wasser wandert.</p>" * 300 + "</body></html>"
+    reply = plan + page
+    fake_stream(monkeypatch, [("text", reply[i : i + 100]) for i in range(0, len(reply), 100)])
+
+    sent = events()
+
+    previews = [data["html"] for event, data in sent if event == "preview"]
+    assert 1 < len(previews) <= len(page) // generate.PREVIEW_STEP + 1
+    for html in previews:
+        assert html.startswith("<!DOCTYPE html>" + generate.CSP + "<html><body><p>")
+        assert html.endswith("></body></html>")
+    first_preview = next(i for i, (event, _) in enumerate(sent) if event == "preview")
+    page_started = next(i for i, (_, data) in enumerate(sent) if "geschrieben" in data.get("text", ""))
+    assert page_started < first_preview
+    assert sent[-1] == ("done", {"html": generate.prepare_page(reply)})
+
+
 def test_generate_sends_status_only_when_it_changes(monkeypatch):
     fake_stream(monkeypatch, [("tool", "Suche im Web…"), ("reasoning", "a"), ("tool", "Suche im Web…"), ("text", PAGE)])
 

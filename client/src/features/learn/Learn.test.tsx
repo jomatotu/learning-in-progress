@@ -66,6 +66,41 @@ describe('Learn', () => {
     expect(second).toBeVisible()
   })
 
+  it('shows the half-written page live, then swaps to the finished one', async () => {
+    let send = (_text: string) => {}
+    const body = new ReadableStream<Uint8Array>({
+      start(controller) {
+        send = (text) => {
+          controller.enqueue(new TextEncoder().encode(text))
+          if (text.startsWith('event: done')) controller.close()
+        }
+      },
+    })
+    vi.stubGlobal(
+      'fetch',
+      vi.fn<typeof fetch>(() => Promise.resolve(new Response(body))),
+    )
+    const id = saveRun({ ...run, themes: [run.themes[1]] })
+    renderAt(`/learn/${id}`)
+
+    send(
+      `event: preview\ndata: ${JSON.stringify({ html: '<p>draft</p>' })}\n\n`,
+    )
+    const frame = await screen.findByTitle('Your learning page')
+    expect(frame).toHaveAttribute('srcdoc', '<p>draft</p>')
+    expect(frame).toHaveAttribute('sandbox', 'allow-scripts')
+    expect(screen.getByRole('status')).toHaveTextContent('Hermes baut gerade')
+
+    send(`event: done\ndata: ${JSON.stringify({ html: '<p>final</p>' })}\n\n`)
+    await waitFor(() =>
+      expect(screen.getByTitle('Your learning page')).toHaveAttribute(
+        'srcdoc',
+        '<p>final</p>',
+      ),
+    )
+    expect(screen.queryByText(/Hermes baut gerade/)).not.toBeInTheDocument()
+  })
+
   it('shows saved pages without generating them again', () => {
     const fetchMock = vi.fn<typeof fetch>()
     vi.stubGlobal('fetch', fetchMock)
