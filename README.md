@@ -1,6 +1,6 @@
 # learning-in-progress
 
-Monorepo for Learning in Progress.
+Monorepo for Morph.
 
 ## Grundidee
 

@@ -16,14 +16,14 @@ export function ApplicationPage() {
   return (
     <main className="app-shell application-page">
       <header className="topbar">
-        <h1 className="sr-only">Learning in Progress</h1>
+        <h1 className="sr-only">Morph</h1>
         <Link to="/" className="brand" aria-label={t.home}>
           <span className="brand-mark">
             <span />
             <span />
             <span />
           </span>
-          <span>learning in progress</span>
+          <span>morph</span>
         </Link>
         <div className="flex items-center gap-3">
           <LanguageToggle />

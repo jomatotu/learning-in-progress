@@ -1,6 +1,6 @@
-# Style guide: Learning in Progress
+# Style guide: Morph
 
-Everything needed to rebuild the Learning in Progress look in any project: colours, type, spacing, components, and the rules behind them. Every value here comes from the live code:
+Everything needed to rebuild the Morph look in any project: colours, type, spacing, components, and the rules behind them. Every value here comes from the live code:
 
 - Main site (`/`): [client/src/features/onboarding/onboarding.css](../../client/src/features/onboarding/onboarding.css)
 - Application page (`/application`): [client/src/features/application/application.css](../../client/src/features/application/application.css)
@@ -316,12 +316,12 @@ Always switch animations off under `prefers-reduced-motion: reduce`.
 | 2 | 24px | `#e67f63` coral |
 | 3 | 18px | `#89b6a1` mint |
 
-- **Wordmark:** "learning in progress", lowercase, DM Sans 700, 21px, letter-spacing -0.6px, `#22202d`, 10px after the mark.
+- **Wordmark:** "morph", lowercase, DM Sans 700, 21px, letter-spacing -0.6px, `#22202d`, 10px after the mark.
 
 ```html
 <a class="brand" href="/">
   <span class="brand-mark"><span></span><span></span><span></span></span>
-  <span>learning in progress</span>
+  <span>morph</span>
 </a>
 ```
 

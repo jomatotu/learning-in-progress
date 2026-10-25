@@ -32,7 +32,7 @@ export function Topbar({ step, onHome }: TopbarProps) {
           <span />
           <span />
         </span>
-        <span>learning in progress</span>
+        <span>morph</span>
       </button>
       {step > 0 && (
         <div className="stepper" aria-label={t.step(step + 1)}>
