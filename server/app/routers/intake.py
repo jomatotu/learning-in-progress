@@ -46,7 +46,7 @@ class IntakeRequest(BaseModel):
 
 
 class Card(BaseModel):
-    id: str
+    id: str = Field(pattern=r"^c\d{1,2}$")
     text: str = Field(min_length=1, max_length=200)
     yes: str | None
     no: str | None
@@ -115,6 +115,10 @@ class SummaryReply(BaseModel):
     about_you: str | None
 
 
+def session_id(session_hex: str) -> str:
+    return f"lip-intake-{session_hex}"
+
+
 def sign(session_hex: str) -> str:
     return f"{session_hex}.{hmac.new(TOKEN_KEY, session_hex.encode(), hashlib.sha256).hexdigest()}"
 
@@ -124,7 +128,7 @@ def session_from_token(token: str) -> str:
     session_hex = token.split(".")[0]
     if not TOKEN_PATTERN.fullmatch(token) or not hmac.compare_digest(token, sign(session_hex)):
         raise HTTPException(status_code=403, detail="Das hat nicht geklappt. Starte die Fragen bitte nochmal.")
-    return f"lip-intake-{session_hex}"
+    return session_id(session_hex)
 
 
 def intake_model() -> dict[str, str | None]:
@@ -145,7 +149,7 @@ async def ask_checked[T: BaseModel](message: str, schema: type[T], session_id: s
 
 
 # Runs one Hermes call with a time limit; any failure to deliver is logged and becomes None.
-async def run_intake[T: BaseModel](message: str, schema: type[T], session_id: str, seconds: int) -> T | None:
+async def run_intake[T: BaseModel](message: str, schema: type[T], session_id: str, seconds: float) -> T | None:
     try:
         async with asyncio.timeout(seconds):
             return await ask_checked(message, schema, session_id)
@@ -164,7 +168,7 @@ async def create_cards(request: IntakeRequest) -> CardsReply:
     session_hex = uuid.uuid4().hex
     data = request.model_dump()
     message = CARDS_PROMPT.replace("{{DATA}}", json.dumps(data, ensure_ascii=False, indent=2))
-    tree = await run_intake(message, CardTree, f"lip-intake-{session_hex}", CARDS_TIMEOUT_SECONDS)
+    tree = await run_intake(message, CardTree, session_id(session_hex), CARDS_TIMEOUT_SECONDS)
     return CardsReply(token=sign(session_hex), cards=tree.cards if tree else [])
 
 
