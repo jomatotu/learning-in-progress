@@ -24,6 +24,8 @@ def basic_password(header: str | None) -> str | None:
 # Shared access code as HTTP Basic password; the username is ignored.
 # No WWW-Authenticate challenge on 401: the client asks for the code once and keeps it, so the browser never prompts.
 async def require_access(request: Request, settings: Annotated[Settings, Depends(get_settings)]) -> None:
+    if not settings.access_required:
+        return
     code = settings.access_code.get_secret_value().strip() if settings.access_code else ""
     # An empty code counts as unset: it must never open the gate.
     if not code:

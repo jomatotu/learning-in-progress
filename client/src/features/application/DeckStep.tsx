@@ -257,15 +257,8 @@ function DeckStep({
     ? (hermesCards?.find((c) => c.id === hermesId) ?? null)
     : null
   const shown = history.length
-  // Morph cards keep the last base state, so only base snapshots count as extra high cards.
-  const extra = [...history, { state, hermesId }].filter(
-    (s) => !s.hermesId && s.state.asked === 'high',
-  ).length
-  // A Hermes path is at most 3 cards; count them once the cards are here.
-  const total = Math.max(
-    deck.length + extra + Math.min(hermesCards?.length ?? 0, 3),
-    shown + 1,
-  )
+  // A fixed estimate (base cards + a Morph path of at most 3), so the count doesn't jump as answers or Morph cards arrive.
+  const total = Math.max(deck.length + 3, shown + 1)
   const isLast = state.index === deck.length - 1
   const t = useMessages(messages)
   const hint = leaving ?? passed(pull.dx, pull.width)
@@ -278,7 +271,7 @@ function DeckStep({
 
   return (
     // Focusable root: a tap or click on the card keeps focus in the deck, so the arrow keys keep working.
-    <div ref={root} tabIndex={-1} className="outline-none">
+    <div ref={root} tabIndex={-1} style={{ outline: 'none' }}>
       <StepHeading label={t.label(hermes ? TUTOR : entry.title)} hint={t.hint}>
         {t.title} <em>{t.titleEm}</em>
       </StepHeading>

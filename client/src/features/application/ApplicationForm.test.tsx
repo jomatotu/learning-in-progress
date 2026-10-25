@@ -453,7 +453,7 @@ describe('ApplicationForm', () => {
     await user.click(screen.getByRole('button', { name: 'Zurück' }))
 
     expect(screen.getByText('Das Thema ist neu für dich.')).toBeInTheDocument()
-    expect(screen.getByText('Karte 1 von etwa 2')).toBeInTheDocument()
+    expect(screen.getByText('Karte 1 von etwa 5')).toBeInTheDocument()
   })
 
   it('goes back from the review to the last survey part when survey answers exist', async () => {

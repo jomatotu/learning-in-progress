@@ -63,7 +63,7 @@ describe('DeckStep', () => {
     expect(screen.getByText('Das heißt für dich')).toBeInTheDocument()
     expect(screen.getByText('Low A')).toBeInTheDocument()
     expect(screen.getByText('Deshalb low A')).toBeInTheDocument()
-    expect(screen.getByText('Karte 1 von etwa 2')).toBeInTheDocument()
+    expect(screen.getByText('Karte 1 von etwa 5')).toBeInTheDocument()
   })
 
   it('Stimmt sets the low band and shows the next category', async () => {
@@ -73,11 +73,11 @@ describe('DeckStep', () => {
     expect(screen.getByText('Low B')).toBeInTheDocument()
   })
 
-  it('Eher nicht shows the high card and grows the estimate; a second Eher nicht means medium', async () => {
+  it('Eher nicht shows the high card and keeps the estimate; a second Eher nicht means medium', async () => {
     const { user, onBands } = setup()
     await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
     expect(screen.getByText('High A')).toBeInTheDocument()
-    expect(screen.getByText('Karte 2 von etwa 3')).toBeInTheDocument()
+    expect(screen.getByText('Karte 2 von etwa 5')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
     expect(onBands).toHaveBeenLastCalledWith({ a: 'medium' })
   })
@@ -131,7 +131,7 @@ describe('DeckStep', () => {
     expect(onBack).toHaveBeenCalledOnce()
   })
 
-  it('Zurück undoes the last answer, including the band and the estimate', async () => {
+  it('Zurück undoes the last answer, including the band', async () => {
     const { user, onBands, onBack } = setup()
     await user.click(screen.getByRole('button', { name: /stimmt/i }))
     expect(screen.getByText('Low B')).toBeInTheDocument()
@@ -142,9 +142,9 @@ describe('DeckStep', () => {
     expect(onBack).not.toHaveBeenCalled()
 
     await user.click(screen.getByRole('button', { name: 'Eher nicht' }))
-    expect(screen.getByText('Karte 2 von etwa 3')).toBeInTheDocument()
+    expect(screen.getByText('Karte 2 von etwa 5')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Zurück' }))
-    expect(screen.getByText('Karte 1 von etwa 2')).toBeInTheDocument()
+    expect(screen.getByText('Karte 1 von etwa 5')).toBeInTheDocument()
     expect(screen.getByText('Low A')).toBeInTheDocument()
   })
 

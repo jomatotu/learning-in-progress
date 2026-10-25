@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     hermes_intake_provider: str | None = None
     # Unset means gated routes answer 503.
     access_code: SecretStr | None = None
+    # False only behind another login (Vercel deployment protection); everywhere else the code stays required.
+    access_required: bool = True
     app_origins: Annotated[list[str], NoDecode] = [
         "http://localhost:5173",
         "http://localhost:5174",

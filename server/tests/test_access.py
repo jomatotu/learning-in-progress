@@ -1,3 +1,4 @@
+import asyncio
 import base64
 
 import pytest
@@ -151,3 +152,13 @@ def test_whitespace_only_code_is_503():
     use_code("  \n")
     with TestClient(app) as client:
         assert post(client, auth=("x", "")).status_code == 503
+
+
+# Behind another login (Vercel deployment protection) the code can be switched off; the default stays on.
+def test_access_check_can_be_switched_off_by_setting():
+    # Returns before it looks at the request, so no request and no Hermes call are needed.
+    assert asyncio.run(require_access(None, Settings(access_code=SecretStr("abc"), access_required=False))) is None
+
+
+def test_access_check_is_on_by_default():
+    assert Settings().access_required is True

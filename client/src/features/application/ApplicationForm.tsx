@@ -25,7 +25,6 @@ import { GoalStep } from './GoalStep'
 import { MagicStep } from './MagicStep'
 import { NotesStep } from './NotesStep'
 import { optionMessages } from './options'
-import { ProfilePanel } from './ProfilePanel'
 import { ReviewStep } from './ReviewStep'
 import { SummaryStep } from './SummaryStep'
 import { SurveyStep } from './SurveyStep'
@@ -305,7 +304,6 @@ function Form() {
   }
 
   const stepProps = { profile, update, errors }
-  const showPanel = ['about', 'goal', 'notes'].includes(screen.step)
   const canSkip = screen.step === 'survey' || screen.step === 'notes'
   const isDeck = screen.step === 'deck'
   const hasOwnButtons = isDeck || screen.step === 'summary'
@@ -357,12 +355,7 @@ function Form() {
         <span className="text-graphite">{t.saved}</span>
       </div>
 
-      <div
-        className={cn(
-          'grid flex-1',
-          showPanel && 'lg:grid-cols-[minmax(0,1fr)_17rem]',
-        )}
-      >
+      <div className="grid flex-1">
         <form
           noValidate
           onSubmit={(e) => {
@@ -469,8 +462,6 @@ function Form() {
             </div>
           </div>
         </form>
-
-        {showPanel && <ProfilePanel profile={profile} />}
       </div>
     </div>
   )
