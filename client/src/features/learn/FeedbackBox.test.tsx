@@ -23,7 +23,7 @@ describe('FeedbackBox', () => {
     ).toBeInTheDocument()
     const [url, init] = fetchMock.mock.calls[0]
     expect(url).toBe('/api/feedback')
-    expect(JSON.parse(String(init?.body))).toEqual({
+    expect(JSON.parse(init?.body as string)).toEqual({
       student_id: expect.stringMatching(/^[0-9a-f-]{36}$/),
       theme: 'chunked',
       text: 'Mehr Bilder',

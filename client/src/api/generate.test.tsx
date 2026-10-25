@@ -61,7 +61,11 @@ describe('useGeneratePage', () => {
     expect(result.current.status).toBe('Thinking…')
     expect(result.current.reasoning).toBe('First the research.')
     expect(fetchMock.mock.calls[0][0]).toBe('/api/generate')
-    expect(fetchMock.mock.calls[0][1]?.body).toBe(JSON.stringify(input))
+    const sent = fetchMock.mock.calls[0][1]?.body
+    expect(JSON.parse(typeof sent === 'string' ? sent : '{}')).toEqual({
+      ...input,
+      student_id: expect.stringMatching(/^[0-9a-f-]{36}$/),
+    })
   })
 
   it('fails with the message from an error event', async () => {

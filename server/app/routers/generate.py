@@ -13,7 +13,7 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAIError
 from pydantic import BaseModel, Field
 
-from app import hermes, themes
+from app import hermes, learner, themes
 from app.routers.assess import Answer
 from app.sse import TextBatch, sse
 
@@ -63,6 +63,7 @@ class GenerateRequest(BaseModel):
     theme: themes.ThemeName = Field(
         default=themes.DEFAULT_THEME, description="The theme to build, usually the assessment's top pick."
     )
+    student_id: learner.StudentId | None = None
 
 
 # Fills the prompt with the chosen theme's design and the student's data.
@@ -74,7 +75,7 @@ def fill_prompt(request: GenerateRequest) -> str:
         .replace("{{PROFILE}}", json.dumps(request.profile, ensure_ascii=False, indent=2))
         .replace("{{ANSWERS}}", json.dumps(answers, ensure_ascii=False, indent=2))
         .replace("{{MATERIAL}}", request.material)
-    )
+    ) + (f"\n\n{notes}" if (notes := learner.notes_block(request.student_id)) else "")
 
 
 # Fills the test prompt with the theme's design and the written page. The page goes in last, so text inside it

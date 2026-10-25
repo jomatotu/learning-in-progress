@@ -5,6 +5,7 @@ import { errorMessage } from '@/api/errorMessage'
 import { useGeneratePage } from '@/api/generate'
 import { HermesProgress } from '@/components/HermesProgress'
 import { LearningPage } from '@/components/LearningPage'
+import { FeedbackBox } from './FeedbackBox'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { loadPage, loadRun, savePage, type LearnRun } from './learnStore'
@@ -92,7 +93,12 @@ function ThemePanel({ id, run, theme, hidden }: ThemePanelProps) {
   return (
     <div role="tabpanel" hidden={hidden} className="flex flex-1 flex-col">
       {html ? (
-        <LearningPage html={html} />
+        <>
+          <LearningPage html={html} />
+          <div className="mx-auto w-full max-w-3xl p-6">
+            <FeedbackBox theme={theme} />
+          </div>
+        </>
       ) : generate.preview && !generate.isError ? (
         <LivePreview html={generate.preview} status={generate.status} />
       ) : (
@@ -128,17 +134,14 @@ function LivePreview({ html, status }: LivePreviewProps) {
   return (
     <div className="relative flex flex-1 flex-col">
       <LearningPage html={html} />
-      <p
-        role="status"
-        className="absolute right-3 bottom-3 flex items-center gap-2 rounded-full border bg-background/90 px-3 py-1 text-sm shadow"
-      >
+      <output className="absolute right-3 bottom-3 flex items-center gap-2 rounded-full border bg-background/90 px-3 py-1 text-sm shadow">
         <span
           aria-hidden="true"
           className="size-2 animate-pulse rounded-full bg-primary motion-reduce:animate-none"
         />
         Hermes baut gerade…
         <span className="text-muted-foreground">{status}</span>
-      </p>
+      </output>
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import type { Answer, Profile, ThemeName } from '@/api/assess'
 import { streamResult, type StreamProgress } from '@/api/client'
 import { useStreamProgress } from '@/api/progress'
+import { studentId } from '@/api/studentId'
 
 export type GenerateInput = {
   profile: Profile
@@ -19,7 +20,10 @@ export function generatePage(
   input: GenerateInput,
   progress: StreamProgress,
 ): Promise<BuiltPage> {
-  return streamResult('/generate', { body: input, ...progress })
+  return streamResult('/generate', {
+    body: { ...input, student_id: studentId() },
+    ...progress,
+  })
 }
 
 export function useGeneratePage() {

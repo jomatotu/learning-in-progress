@@ -11,7 +11,7 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAIError
 from pydantic import BaseModel, Field
 
-from app import hermes
+from app import hermes, learner
 from app.routers.profile import Goal, Preferences, Student
 from app.sse import TextBatch, sse
 
@@ -37,6 +37,7 @@ class ResearchRequest(BaseModel):
     preferences: Preferences = Preferences()
     learning_instructions: dict[str, list[str]] = {}
     about_you: str = Field(default="", max_length=1000)
+    student_id: learner.StudentId | None = None
 
 
 class Finding(BaseModel):
@@ -68,7 +69,7 @@ def findings_block(findings: list[Finding]) -> str:
 # Lets Hermes research strategies for this student and yields server-sent events: "status" (progress and the
 # tool it is using) and "reasoning" while it works, then "done" with the findings or "error".
 async def research_events(request: ResearchRequest) -> AsyncIterator[str]:
-    message = PROMPT.replace("{{DATA}}", json.dumps(request.model_dump(), ensure_ascii=False, indent=2))
+    message = PROMPT.replace("{{DATA}}", json.dumps(request.model_dump(exclude={"student_id"}), ensure_ascii=False, indent=2))
 
     yield sse("status", {"text": STATUS})
     reasoning = TextBatch()
@@ -99,6 +100,9 @@ async def research_events(request: ResearchRequest) -> AsyncIterator[str]:
 
     # Only real web links count as sources; anything else can't have been opened.
     findings = [f for f in result.findings if is_web_url(f.source_url)]
+    # Kept for later sessions, so the next page starts from what was already found.
+    if request.student_id and findings:
+        learner.remember(request.student_id, "research", "; ".join(f"{f.strategy} ({f.source_url})" for f in findings))
     yield sse("done", {"findings": [f.model_dump() for f in findings], "summary": result.summary})
 
 

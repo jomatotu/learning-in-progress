@@ -120,8 +120,19 @@ function urlOf(input: RequestInfo | URL) {
 // Answers GET /api/survey with the survey above, POST /api/profile with `profileResponse`, and POST /api/assess
 // with one question, then the picked themes. Intake requests get `intake`; the default is a failed request, so the
 // deck ends after the base cards.
+// What POST /api/profile returns when a test doesn't care: a complete but empty profile.
+const emptyStudentProfile = {
+  scale_version: 'test',
+  student: { name: '', stage: '', stage_detail: '', interests: '' },
+  goal: { type: '', in_their_words: '' },
+  material: { topic: '', text: '', files: [] },
+  learning_instructions: {},
+  preferences: { likes_learning_with: [], notes: '', hard: '' },
+  about_you: '',
+}
+
 function mockServer(
-  profileResponse: Response = Response.json({}),
+  profileResponse: Response = Response.json(emptyStudentProfile),
   intake: (url: string) => Promise<Response> = async () =>
     new Response(null, { status: 500 }),
 ) {
@@ -507,8 +518,9 @@ describe('ApplicationForm', () => {
       JSON.parse(typeof call[1]?.body === 'string' ? call[1].body : '{}')
 
     it('requests the cards once when leaving the notes, not again on Zurück and forward', async () => {
-      const fetchMock = mockServer(Response.json({}), async () =>
-        Response.json({ token: 't', cards }),
+      const fetchMock = mockServer(
+        Response.json(emptyStudentProfile),
+        async () => Response.json({ token: 't', cards }),
       )
       const user = userEvent.setup()
       renderForm()
@@ -526,10 +538,12 @@ describe('ApplicationForm', () => {
     })
 
     it('runs through Hermes cards and the summary into the review and the profile', async () => {
-      const fetchMock = mockServer(Response.json({}), async (url) =>
-        url.endsWith('/cards')
-          ? Response.json({ token: 't', cards })
-          : Response.json({ about_you: 'Du magst Fußball.' }),
+      const fetchMock = mockServer(
+        Response.json(emptyStudentProfile),
+        async (url) =>
+          url.endsWith('/cards')
+            ? Response.json({ token: 't', cards })
+            : Response.json({ about_you: 'Du magst Fußball.' }),
       )
       const user = userEvent.setup()
       renderForm()
@@ -568,7 +582,10 @@ describe('ApplicationForm', () => {
     })
 
     it('still ends the deck and reaches the review when the card request never resolves', async () => {
-      mockServer(Response.json({}), () => new Promise<Response>(() => {}))
+      mockServer(
+        Response.json(emptyStudentProfile),
+        () => new Promise<Response>(() => {}),
+      )
       const user = userEvent.setup()
       renderForm()
       await reachDeck(user)
@@ -581,7 +598,7 @@ describe('ApplicationForm', () => {
     })
 
     it('Zurück from the review goes to the summary when Hermes cards exist', async () => {
-      mockServer(Response.json({}), async (url) =>
+      mockServer(Response.json(emptyStudentProfile), async (url) =>
         url.endsWith('/cards')
           ? Response.json({ token: 't', cards: [cards[1]] })
           : Response.json({ about_you: null }),
@@ -600,7 +617,7 @@ describe('ApplicationForm', () => {
     })
 
     it('keeps the token when Hermes returns no cards, so the summary still runs', async () => {
-      mockServer(Response.json({}), async (url) =>
+      mockServer(Response.json(emptyStudentProfile), async (url) =>
         url.endsWith('/cards')
           ? Response.json({ token: 't', cards: [] })
           : Response.json({ about_you: 'Du magst Fußball.' }),
@@ -619,10 +636,12 @@ describe('ApplicationForm', () => {
 
     it('asks again and clears the confirmed text when the answers changed after the summary', async () => {
       let summaries = 0
-      const fetchMock = mockServer(Response.json({}), async (url) =>
-        url.endsWith('/cards')
-          ? Response.json({ token: 't', cards: [cards[1]] })
-          : Response.json({ about_you: `Text ${++summaries}` }),
+      const fetchMock = mockServer(
+        Response.json(emptyStudentProfile),
+        async (url) =>
+          url.endsWith('/cards')
+            ? Response.json({ token: 't', cards: [cards[1]] })
+            : Response.json({ about_you: `Text ${++summaries}` }),
       )
       const user = userEvent.setup()
       renderForm()

@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { streamResult, type StreamProgress } from '@/api/client'
 import type { StudentProfile } from '@/api/profile'
 import { useStreamProgress } from '@/api/progress'
+import { studentId } from '@/api/studentId'
 
 // One strategy Hermes found on the web for this student, with the page it read it on.
 export type Finding = {
@@ -25,6 +26,7 @@ export function researchBody(profile: StudentProfile) {
     preferences,
     learning_instructions,
     about_you,
+    student_id: studentId(),
   }
 }
 
