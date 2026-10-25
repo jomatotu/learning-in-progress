@@ -19,7 +19,7 @@ Node 24 (see `.nvmrc`).
 
 ## Secrets
 
-Never put API keys (e.g. Gemini) in `VITE_*` env vars: they are bundled into the
+Never put API keys (e.g. the Hermes key) in `VITE_*` env vars: they are bundled into the
 browser code. Keep keys on the Python server.
 
 ## Solution Pages
