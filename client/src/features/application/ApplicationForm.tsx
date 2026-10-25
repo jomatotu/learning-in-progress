@@ -96,7 +96,10 @@ function Form() {
   } | null>(null)
   const [cardAnswers, setCardAnswers] = useState<CardAnswer[]>([])
   const cardsAsked = useRef(false)
-  const summaryAsked = useRef<Promise<string | null> | null>(null)
+  const summaryAsked = useRef<{
+    key: string
+    promise: Promise<string | null>
+  } | null>(null)
 
   const screen = screens[index]
   // The optional survey counts as part of the "Wie du lernst" step.
@@ -165,31 +168,49 @@ function Form() {
     cardsAsked.current = true
     requestCards(toIntakeBody(profile)).then(
       ({ token, cards }) => {
-        if (token && Array.isArray(cards) && cards.length > 0) {
-          setHermes({ token, cards })
+        if (token) {
+          setHermes({ token, cards: Array.isArray(cards) ? cards : [] })
         }
       },
       () => {},
     )
   }
 
-  // One summary request for the whole session, even if the student comes back to this step.
-  const loadSummary = () => {
-    summaryAsked.current ??= requestSummary({
-      token: hermes?.token ?? '',
-      bands: Object.fromEntries(
-        deckBands(survey, profile.bands, profile.answers).map((id) => [
-          id,
-          profile.bands[id],
-        ]),
-      ),
-      card_answers: cardAnswers,
-    }).then(
-      (reply) => reply.about_you,
-      () => null,
-    )
-    return summaryAsked.current
+  const summaryBody = {
+    token: hermes?.token ?? '',
+    bands: Object.fromEntries(
+      deckBands(survey, profile.bands, profile.answers).map((id) => [
+        id,
+        profile.bands[id],
+      ]),
+    ),
+    card_answers: cardAnswers,
   }
+  const summaryKey = JSON.stringify([
+    summaryBody.bands,
+    summaryBody.card_answers,
+  ])
+
+  // One summary request per set of answers, even if the student comes back to this step.
+  const loadSummary = () => {
+    if (summaryAsked.current?.key !== summaryKey) {
+      summaryAsked.current = {
+        key: summaryKey,
+        promise: requestSummary(summaryBody).then(
+          (reply) => reply.about_you,
+          () => null,
+        ),
+      }
+    }
+    return summaryAsked.current.promise
+  }
+
+  // Changed answers make the summary stale: forget it and the text the student confirmed.
+  useEffect(() => {
+    if (!summaryAsked.current || summaryAsked.current.key === summaryKey) return
+    summaryAsked.current = null
+    setProfile((current) => ({ ...current, about_you: '' }))
+  }, [summaryKey])
 
   const edit = (id: StepId) => {
     goTo(id)

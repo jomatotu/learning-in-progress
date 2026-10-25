@@ -504,5 +504,53 @@ describe('ApplicationForm', () => {
         screen.getByText('Hat diesmal nicht geklappt – kein Problem.'),
       ).toBeInTheDocument()
     })
+
+    it('keeps the token when Hermes returns no cards, so the summary still runs', async () => {
+      mockServer(Response.json({}), async (url) =>
+        url.endsWith('/cards')
+          ? Response.json({ token: 't', cards: [] })
+          : Response.json({ about_you: 'Du magst Fußball.' }),
+      )
+      const user = userEvent.setup()
+      render(<ApplicationForm />)
+      await reachDeck(user)
+      await user.click(
+        await screen.findByRole('button', { name: 'Weiß nicht' }),
+      )
+      await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+      expect(
+        await screen.findByLabelText('Das habe ich verstanden'),
+      ).toHaveValue('Du magst Fußball.')
+    })
+
+    it('asks again and clears the confirmed text when the answers changed after the summary', async () => {
+      let summaries = 0
+      const fetchMock = mockServer(Response.json({}), async (url) =>
+        url.endsWith('/cards')
+          ? Response.json({ token: 't', cards: [cards[1]] })
+          : Response.json({ about_you: `Text ${++summaries}` }),
+      )
+      const user = userEvent.setup()
+      render(<ApplicationForm />)
+      await reachDeck(user)
+      await user.click(await screen.findByRole('button', { name: /stimmt/i }))
+      await user.click(screen.getByRole('button', { name: /stimmt/i }))
+      await user.click(await screen.findByRole('button', { name: /stimmt/i }))
+      await user.click(
+        await screen.findByRole('button', { name: /stimmt so/i }),
+      )
+      expect(screen.getByText('Text 1')).toBeVisible()
+
+      await user.click(screen.getByRole('button', { name: 'Zurück' }))
+      await user.click(screen.getByRole('button', { name: 'Zurück' }))
+      await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+      await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+      await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+
+      expect(
+        await screen.findByLabelText('Das habe ich verstanden'),
+      ).toHaveValue('Text 2')
+      expect(intakeCalls(fetchMock)).toHaveLength(3)
+    })
   })
 })

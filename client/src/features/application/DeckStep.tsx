@@ -193,7 +193,7 @@ function DeckStep({
         <button type="button" className="text-button" onClick={back}>
           Zurück
         </button>
-        {isLast && (
+        {isLast && !hermes && (
           <button type="button" className="text-button" onClick={onSurvey}>
             Genauer? 30 kurze Fragen
           </button>

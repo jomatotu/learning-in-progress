@@ -205,4 +205,13 @@ describe('DeckStep', () => {
       { id: 'c1', answer: 'eher_nicht' },
     ])
   })
+
+  it('hides the 30-question offer while a Hermes card is shown', async () => {
+    const { user } = setup(hermes)
+    await user.keyboard('{Enter}')
+    expect(screen.getByText('Genauer? 30 kurze Fragen')).toBeInTheDocument()
+    await user.keyboard('{Enter}')
+    expect(screen.getByText('Hermes eins')).toBeInTheDocument()
+    expect(screen.queryByText('Genauer? 30 kurze Fragen')).toBeNull()
+  })
 })

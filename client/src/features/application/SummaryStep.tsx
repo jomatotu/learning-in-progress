@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import { Field } from './Field'
@@ -22,6 +22,8 @@ function SummaryStep({
     profile.about_you ? 'ready' : 'loading',
   )
   const [text, setText] = useState(profile.about_you)
+  const area = useRef<HTMLTextAreaElement>(null)
+  const waited = useRef(phase === 'loading')
 
   // Runs once on mount; the form caches the request, so coming back here asks Hermes nothing new.
   useEffect(() => {
@@ -40,6 +42,11 @@ function SummaryStep({
     }
     // oxlint-disable-next-line react/exhaustive-deps
   }, [])
+
+  // The summary arrived while the student waited: move them to it.
+  useEffect(() => {
+    if (phase === 'ready' && waited.current) area.current?.focus()
+  }, [phase])
 
   const keep = () => {
     update({ about_you: text.trim() })
@@ -71,6 +78,7 @@ function SummaryStep({
       {phase === 'ready' && (
         <Field id="about_you" label="Das habe ich verstanden">
           <Textarea
+            ref={area}
             id="about_you"
             value={text}
             maxLength={1000}

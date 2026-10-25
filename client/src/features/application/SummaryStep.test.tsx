@@ -75,4 +75,10 @@ describe('SummaryStep', () => {
     )
     expect(load).not.toHaveBeenCalled()
   })
+
+  it('moves focus to the textarea when the summary arrives', async () => {
+    setup(async () => 'Du magst Fußball.')
+    const area = await screen.findByLabelText('Das habe ich verstanden')
+    expect(area).toHaveFocus()
+  })
 })
