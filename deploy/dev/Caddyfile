@@ -1,0 +1,22 @@
+# Dev-mode site: Caddy terminates TLS for the public hostname and forwards every
+# request - including Vite's HMR websocket - to the dev server on loopback.
+# Rendered to /etc/caddy/Caddyfile by deploy/dev/install.sh (replaces SITE_HOST).
+#
+# This is the hot-reload setup. For the static production build, see
+# .hermes/plans/2026-10-24_231500-serve-client-https-root.md.
+
+SITE_HOST {
+	encode zstd gzip
+
+	header {
+		# Dev responses change on every edit; a cached index.html or module would
+		# silently undo hot reload.
+		Cache-Control "no-store"
+		-Server
+	}
+
+	# Caddy upgrades the websocket transparently, so no extra matcher is needed.
+	# Vite's own /api proxy (localhost:8000) sits behind this, so /api needs no
+	# separate route here.
+	reverse_proxy 127.0.0.1:5173
+}
