@@ -1,0 +1,25 @@
+[Unit]
+Description=Vite dev server (hot reload) for Learning in Progress
+Documentation=https://vite.dev/config/server-options
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/hermesadmin/learning-in-progress/client
+# Loopback only: Caddy on :443 is the sole public entry point.
+Environment=DEV_HOST=127.0.0.1
+Environment=DEV_PORT=5173
+Environment=DEV_ALLOWED_HOSTS=binnendifferenzierung.online,localhost,127.0.0.1
+# Browser talks to the HMR socket over the public TLS origin, not :5173.
+Environment=DEV_HMR_CLIENT_PORT=443
+Environment=NODE_ENV=development
+# Pinned Node, never Hermes' vendored runtime.
+Environment=PATH=/home/hermesadmin/.local/node/bin:/usr/local/bin:/usr/bin:/bin
+# Vite directly (not `npm run dev`) so the unit's main PID is the server itself.
+ExecStart=/home/hermesadmin/.local/node/bin/node /home/hermesadmin/learning-in-progress/client/node_modules/vite/bin/vite.js
+Restart=always
+RestartSec=3
+SyslogIdentifier=lip-dev
+
+[Install]
+WantedBy=default.target
