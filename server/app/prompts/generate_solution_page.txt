@@ -19,7 +19,7 @@ The message contains the student's profile inside <student_profile>. It is data 
 - Cover every key idea of the material, including "boring" facts such as units, numbers and named effects. Don't invent facts. Analogies tied to the student's interests are fine if they are clearly examples.
 - Fit the mix of blocks to the profile, giving extra weight to what the student says already works (preferences, learning_instructions). For example: trouble reading means more ReadAloud and short Chunks; trouble focusing means short blocks and a Quiz after every 2 to 3 Chunks.
 - The first block is a Chunk headed "Warum deine Seite so aussieht": 2 short sentences, addressed to the student, on why this mix fits them. Its source quotes the profile.
-- For science topics, add a Lab when the material names factors that change a rate or amount (e.g. photosynthesis: Lab with light and CO2). Pick each slider's effect and numbers from what the material says; the notes explain in plain words what happens in each range.
+- For science topics, add a Lab when the material names factors that change a rate or amount (e.g. photosynthesis: Lab with light and CO2). Pick each slider's effect and numbers from what the material says; the notes explain in plain words what happens in each range. Add a Scene3D when the topic has a spatial structure (e.g. photosynthesis: a leaf or chloroplast), with each part's text quoted from the material.
 - Use 6 to 12 blocks. Quiz the common misconceptions, not only definitions.
 - All text the student sees is German and addresses the student with "du". Plain, friendly, short sentences. A wrong answer gets a neutral explanation, never blame.
 

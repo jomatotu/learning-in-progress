@@ -3,6 +3,7 @@ import { defineRegistry } from '@json-render/react'
 import { catalog } from './catalog'
 import { Card, Flashcard, Original, Quiz, ReadAloud, SafeBlock } from './blocks'
 import { Lab } from './Lab'
+import { Scene3D } from './Scene3D'
 
 export const { registry } = defineRegistry(catalog, {
   components: {
@@ -57,6 +58,11 @@ export const { registry } = defineRegistry(catalog, {
     Lab: ({ props }) => (
       <SafeBlock>
         <Lab {...props} />
+      </SafeBlock>
+    ),
+    Scene3D: ({ props }) => (
+      <SafeBlock>
+        <Scene3D {...props} />
       </SafeBlock>
     ),
   },

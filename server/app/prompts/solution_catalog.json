@@ -18,7 +18,8 @@
                 "Quiz",
                 "ReadAloud",
                 "Steps",
-                "Lab"
+                "Lab",
+                "Scene3D"
               ]
             },
             "props": {
@@ -357,6 +358,81 @@
           "sliders",
           "output",
           "notes",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "Scene3D",
+      "description": "A rotatable 3D model built from simple shapes with labelled parts; tapping a part shows its sentence from the material. Use it for things with a spatial structure (e.g. a leaf, a chloroplast, a cell, an atom).",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "parts": {
+            "minItems": 2,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Short name of the part, e.g. \"Thylakoid\"."
+                },
+                "shape": {
+                  "type": "string",
+                  "enum": [
+                    "sphere",
+                    "box",
+                    "cylinder",
+                    "torus"
+                  ]
+                },
+                "position": {
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "description": "[x, y, z], each between -3 and 3. The model is centred on [0, 0, 0]."
+                },
+                "size": {
+                  "type": "number",
+                  "description": "Between 0.2 and 2."
+                },
+                "color": {
+                  "type": "string",
+                  "description": "Hex color, e.g. \"#4caf50\"."
+                },
+                "text": {
+                  "type": "string",
+                  "description": "The sentence from the material about this part, word for word."
+                }
+              },
+              "required": [
+                "label",
+                "shape",
+                "position",
+                "size",
+                "color",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "source": {
+            "type": "string",
+            "description": "The exact sentence(s) from the student material this block is based on, copied word for word."
+          }
+        },
+        "required": [
+          "title",
+          "parts",
           "source"
         ],
         "additionalProperties": false

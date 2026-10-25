@@ -116,6 +116,38 @@ export const formats = {
     description:
       'An interactive experiment: the student moves 1 to 3 sliders (the factors) and a live chart shows how the output changes. Use it for science topics where factors change a rate or amount (e.g. photosynthesis: light, CO2, temperature). Only model relationships the material states or clearly implies.',
   },
+  Scene3D: {
+    props: z.object({
+      title: z.string(),
+      parts: z
+        .array(
+          z.object({
+            label: z
+              .string()
+              .describe('Short name of the part, e.g. "Thylakoid".'),
+            shape: z.enum(['sphere', 'box', 'cylinder', 'torus']),
+            position: z
+              .array(z.number())
+              .length(3)
+              .describe(
+                '[x, y, z], each between -3 and 3. The model is centred on [0, 0, 0].',
+              ),
+            size: z.number().describe('Between 0.2 and 2.'),
+            color: z.string().describe('Hex color, e.g. "#4caf50".'),
+            text: z
+              .string()
+              .describe(
+                'The sentence from the material about this part, word for word.',
+              ),
+          }),
+        )
+        .min(2)
+        .max(8),
+      source,
+    }),
+    description:
+      'A rotatable 3D model built from simple shapes with labelled parts; tapping a part shows its sentence from the material. Use it for things with a spatial structure (e.g. a leaf, a chloroplast, a cell, an atom).',
+  },
 }
 
 export const catalog = defineCatalog(schema, {
