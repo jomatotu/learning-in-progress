@@ -28,7 +28,7 @@ Weitere Informationen zur Entwicklung der Grundidee findest du unter [doc/proces
 | --- | --- |
 | `client/` | Web-Frontend. Setup und Scripts: [client/README.md](client/README.md) |
 | `server/` | API. Setup und Start: [server/README.md](server/README.md) |
-| `doc/` | Konzept, Prozess und Architektur |
+| `doc/` | Prozess und Architektur |
 
 Der fachliche Ablauf steht in der [Lösungsstrategie](doc/architecture/04-loesungsstrategie.md): Lernziel, Charakter / KI-Zwilling, Lernpfadkarte, generative UI, Prüfung.
 
