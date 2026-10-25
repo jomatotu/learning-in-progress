@@ -14,7 +14,7 @@ const messages = defineMessages({
     learning: 'Learning',
     howYouLearn: 'How you learn',
     worksForYou: 'Works for you',
-    step: (n: number) => `Step ${n}`,
+    empty: 'nothing yet',
     material: (n: number) => `${n} ${n === 1 ? 'item' : 'items'} of material`,
     answered: (n: number, total: number) =>
       `${n} of ${total} questions answered`,
@@ -32,7 +32,7 @@ const messages = defineMessages({
     learning: 'Thema',
     howYouLearn: 'Wie du lernst',
     worksForYou: 'Was für dich passt',
-    step: (n: number) => `Schritt ${n}`,
+    empty: 'noch leer',
     material: (n: number) => `${n} ${n === 1 ? 'Material' : 'Materialien'}`,
     answered: (n: number, total: number) =>
       `${n} von ${total} Fragen beantwortet`,
@@ -54,11 +54,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 }
 
 function Pending({ children }: { children: ReactNode }) {
-  return (
-    <span className="border-b border-dashed border-graphite text-sm text-graphite">
-      {children}
-    </span>
-  )
+  return <span className="text-sm text-graphite">{children}</span>
 }
 
 function Tag({ children }: { children: ReactNode }) {
@@ -69,7 +65,7 @@ function Tag({ children }: { children: ReactNode }) {
   )
 }
 
-// Live summary next to each step, on ruled notebook paper. Shows the student what we know so far.
+// Live summary next to each step, as a quiet column. Shows the student what we know so far.
 function ProfilePanel({ profile }: { profile: Profile }) {
   const t = useMessages(messages)
   const options = useMessages(optionMessages)
@@ -85,16 +81,16 @@ function ProfilePanel({ profile }: { profile: Profile }) {
   const content = (
     <>
       {/* The rules are painted on this sheet, not on the panel, so they scroll along with the sticky text. */}
-      <div className="ruled-paper lg:sticky lg:top-8">
+      <div className="lg:sticky lg:top-8">
         <span className="label block">{t.label}</span>
         <p className="text-[1.3rem] font-semibold">{t.title}</p>
-        <div className="ruled-gap" />
+        <div className="h-4" />
 
         <Row label={t.you}>
           {profile.name || stage ? (
             <p>{[profile.name, stage].filter(Boolean).join(' · ')}</p>
           ) : (
-            <Pending>{t.step(1)}</Pending>
+            <Pending>{t.empty}</Pending>
           )}
         </Row>
         <Row label={t.goal}>
@@ -105,7 +101,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
                 : profile.goal}
             </p>
           ) : (
-            <Pending>{t.step(2)}</Pending>
+            <Pending>{t.empty}</Pending>
           )}
         </Row>
         <Row label={t.learning}>
@@ -117,7 +113,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               )}
             </>
           ) : (
-            <Pending>{t.step(2)}</Pending>
+            <Pending>{t.empty}</Pending>
           )}
         </Row>
         <Row label={t.howYouLearn}>
@@ -127,7 +123,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               {answered > 0 && <p>{t.answered(answered, totalQuestions)}</p>}
             </>
           ) : (
-            <Pending>{t.step(4)}</Pending>
+            <Pending>{t.empty}</Pending>
           )}
         </Row>
         <Row label={t.worksForYou}>
@@ -142,11 +138,11 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               {profile.notes && <p className="line-clamp-2">{profile.notes}</p>}
             </>
           ) : (
-            <Pending>{t.step(3)}</Pending>
+            <Pending>{t.empty}</Pending>
           )}
         </Row>
 
-        <div className="ruled-gap" />
+        <div className="h-4" />
         <p className="border-l-[3px] border-pine pl-3 text-sm text-graphite">
           {t.note}
         </p>
