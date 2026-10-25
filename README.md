@@ -2,6 +2,10 @@
 
 Monorepo for Learning in Progress.
 
+[![Startseite von Learning in Progress](doc/startseite.png)](https://binnendifferenzierung.online/)
+
+Die Anwendung: [binnendifferenzierung.online](https://binnendifferenzierung.online/)
+
 ## Grundidee
 
 Lernende mit Herausforderungen wie Legasthenie oder ADHS haben oft Schwierigkeiten, weil ihr Lernmaterial in einem festen Format kommt, das nicht zu ihrer Art zu lernen passt. Unsere App dreht das um: Nicht die Lernenden passen sich dem Werkzeug an, sondern das Werkzeug passt sich den Lernenden an.
