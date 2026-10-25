@@ -1,4 +1,10 @@
-import { render, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { DeckEntry } from '@/lib/survey'
 import type { HermesCard } from '@/api/intake'
@@ -204,6 +210,110 @@ describe('DeckStep', () => {
     expect(onCardAnswers).toHaveBeenLastCalledWith([
       { id: 'c1', answer: 'eher_nicht' },
     ])
+  })
+
+  it('keeps the estimate steady on Morph cards after a last high card', async () => {
+    const { user } = setup(hermes)
+    await user.keyboard('{Enter}{Backspace}{Enter}')
+    expect(screen.getByText('Hermes eins')).toBeInTheDocument()
+    expect(screen.getByText('Karte 4 von etwa 5')).toBeInTheDocument()
+    await user.keyboard('{Enter}')
+    expect(screen.getByText('Hermes zwei')).toBeInTheDocument()
+    expect(screen.getByText('Karte 5 von etwa 5')).toBeInTheDocument()
+  })
+
+  describe('swipe', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals()
+    })
+
+    // A 300px wide card, so the swipe threshold is 90px.
+    function card() {
+      const el = screen.getByTestId('deck-card')
+      vi.spyOn(el, 'getBoundingClientRect').mockReturnValue(
+        new DOMRect(0, 0, 300, 200),
+      )
+      return el
+    }
+
+    function drag(el: HTMLElement, dx: number) {
+      fireEvent.pointerDown(el, { pointerId: 1, clientX: 100, button: 0 })
+      fireEvent.pointerMove(el, { pointerId: 1, clientX: 100 + dx })
+    }
+
+    function swipe(el: HTMLElement, dx: number) {
+      drag(el, dx)
+      fireEvent.pointerUp(el, { pointerId: 1, clientX: 100 + dx })
+    }
+
+    it('swiping right past the threshold answers Stimmt', async () => {
+      const { onBands } = setup()
+      const el = card()
+      drag(el, 150)
+      expect(within(el).getByText('Stimmt')).toBeInTheDocument()
+      fireEvent.pointerUp(el, { pointerId: 1, clientX: 250 })
+      await waitFor(() => expect(screen.getByText('Low B')).toBeInTheDocument())
+      expect(onBands).toHaveBeenCalledOnce()
+      expect(onBands).toHaveBeenLastCalledWith({ a: 'low' })
+    })
+
+    it('swiping left past the threshold answers Eher nicht', async () => {
+      setup()
+      swipe(card(), -150)
+      await waitFor(() =>
+        expect(screen.getByText('High A')).toBeInTheDocument(),
+      )
+    })
+
+    it('a short drag springs back without answering', async () => {
+      const { onBands } = setup()
+      const el = card()
+      swipe(el, 20)
+      expect(within(el).queryByText('Stimmt')).toBeNull()
+      await new Promise((r) => setTimeout(r, 400))
+      expect(onBands).not.toHaveBeenCalled()
+      expect(screen.getByText('Low A')).toBeInTheDocument()
+      expect(el.style.transform).toBe('')
+    })
+
+    it('ignores buttons while the card flies off, so one swipe is one answer', async () => {
+      const { user, onBands } = setup()
+      swipe(card(), 150)
+      await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+      await waitFor(() => expect(screen.getByText('Low B')).toBeInTheDocument())
+      expect(onBands).toHaveBeenCalledOnce()
+      expect(onBands).toHaveBeenLastCalledWith({ a: 'low' })
+    })
+
+    it('arrow keys answer while focus is in the deck, not in a field', async () => {
+      const { user, onBands } = setup()
+      await user.click(screen.getByLabelText('frei'))
+      await user.keyboard('{ArrowRight}{ArrowLeft}')
+      expect(onBands).not.toHaveBeenCalled()
+
+      screen.getByRole('button', { name: 'Zurück' }).focus()
+      await user.keyboard('{ArrowRight}')
+      await waitFor(() => expect(screen.getByText('Low B')).toBeInTheDocument())
+      expect(onBands).toHaveBeenLastCalledWith({ a: 'low' })
+      await user.keyboard('{ArrowLeft}')
+      await waitFor(() =>
+        expect(screen.getByText('High B')).toBeInTheDocument(),
+      )
+    })
+
+    it('answers at once, without fly-off, under reduced motion', () => {
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn((query: string) => ({ matches: query.includes('reduce') })),
+      )
+      const { onBands } = setup()
+      const el = card()
+      drag(el, 150)
+      expect(el.style.transform).not.toContain('rotate')
+      fireEvent.pointerUp(el, { pointerId: 1, clientX: 250 })
+      expect(onBands).toHaveBeenLastCalledWith({ a: 'low' })
+      expect(screen.getByText('Low B')).toBeInTheDocument()
+    })
   })
 
   it('hides the 30-question offer while a Hermes card is shown', async () => {
