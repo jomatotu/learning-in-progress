@@ -59,6 +59,9 @@ Client und Server werden getrennt eingerichtet und gestartet:
 
 ## Projektstruktur
 
+Das Projekt ist als **Monorepo** organisiert: Frontend, Backend und
+Dokumentation werden gemeinsam in diesem Repository versioniert.
+
 | Ordner | Inhalt |
 | --- | --- |
 | `client/` | Web-Frontend. Setup und Scripts: [client/README.md](client/README.md) |
