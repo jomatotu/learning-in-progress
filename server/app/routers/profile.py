@@ -1,7 +1,9 @@
+from typing import Literal
+
 from fastapi import APIRouter
 from pydantic import BaseModel, Field, field_validator
 
-from app.scale import evaluate, item_ids, load_scale
+from app.scale import category_ids, evaluate, item_ids, load_scale
 
 router = APIRouter(tags=["profile"])
 
@@ -29,6 +31,7 @@ class Material(BaseModel):
 class Preferences(BaseModel):
     likes_learning_with: list[str] = []
     notes: str = ""
+    hard: str = Field(default="", description="What makes learning hard for them right now, in their words.")
 
 
 class ProfileRequest(BaseModel):
@@ -36,7 +39,18 @@ class ProfileRequest(BaseModel):
     goal: Goal
     material: Material
     answers: dict[str, int] = Field(description="Survey answers by item id, from 1 to 5. Skipped items are left out.")
+    bands: dict[str, Literal["low", "medium", "high"]] = Field(
+        default={}, description="Bands the student confirmed in the intake deck, by category id."
+    )
     preferences: Preferences = Preferences()
+
+    @field_validator("bands")
+    @classmethod
+    def check_bands(cls, bands: dict[str, str]) -> dict[str, str]:
+        unknown = set(bands) - category_ids()
+        if unknown:
+            raise ValueError(f"Unknown categories: {', '.join(sorted(unknown))}")
+        return bands
 
     @field_validator("answers")
     @classmethod
@@ -66,7 +80,7 @@ class StudentProfile(BaseModel):
 # instructions that apply to them. No raw answers or scores. Nothing is stored.
 @router.post("/profile")
 async def create_profile(request: ProfileRequest) -> StudentProfile:
-    results = evaluate(request.answers)
+    results = evaluate(request.answers, request.bands)
     return StudentProfile(
         scale_version=load_scale()["version"],
         student=request.student,

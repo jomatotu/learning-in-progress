@@ -33,6 +33,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
     profile.texts.length + profile.links.length + profile.files.length
   const stage = [profile.stage, profile.stageDetail].filter(Boolean).join(' · ')
   const answered = Object.keys(profile.answers).length
+  const mirrored = Object.keys(profile.bands).length
   const totalQuestions = useSurvey().questions.length
 
   return (
@@ -75,16 +76,21 @@ function ProfilePanel({ profile }: { profile: Profile }) {
           )}
         </Row>
         <Row label="Wie du lernst">
-          {answered > 0 ? (
-            <p>
-              {answered} von {totalQuestions} Fragen beantwortet
-            </p>
+          {answered > 0 || mirrored > 0 ? (
+            <>
+              {mirrored > 0 && <p>{mirrored} von 8 Karten bestätigt</p>}
+              {answered > 0 && (
+                <p>
+                  {answered} von {totalQuestions} Fragen beantwortet
+                </p>
+              )}
+            </>
           ) : (
-            <Pending>Schritt 3</Pending>
+            <Pending>Schritt 4</Pending>
           )}
         </Row>
         <Row label="Das klappt bei dir">
-          {profile.likes.length > 0 || profile.notes ? (
+          {profile.likes.length > 0 || profile.notes || profile.hard ? (
             <>
               {profile.likes.map((like) => (
                 <Tag key={like}>{like}</Tag>
@@ -92,7 +98,7 @@ function ProfilePanel({ profile }: { profile: Profile }) {
               {profile.notes && <p className="line-clamp-2">{profile.notes}</p>}
             </>
           ) : (
-            <Pending>Schritt 4</Pending>
+            <Pending>Schritt 3</Pending>
           )}
         </Row>
 

@@ -77,7 +77,8 @@
             "Start with a short overview of how the topic fits together.",
             "Teach with worked examples before asking them to solve anything alone.",
             "Define every technical term the first time it appears."
-          ]
+          ],
+          "student_reason": "Deshalb erklären wir dir erst das Wichtigste und zeigen Beispiele, bevor du selbst rechnest."
         },
         "medium": {
           "student_text": "Du kennst schon einiges, darauf bauen wir auf.",
@@ -92,7 +93,8 @@
             "Skip introductions to basics and avoid repeating what they know.",
             "Lead with problems and challenges; give step-by-step guidance only when asked.",
             "Focus on gaps, edge cases, and applying the knowledge."
-          ]
+          ],
+          "student_reason": "Deshalb überspringen wir die Grundlagen und fangen gleich mit Aufgaben an."
         }
       }
     },
@@ -144,7 +146,8 @@
             "Give instructions as a numbered list they can see while working.",
             "Add a one-line recap after every chunk.",
             "Place labels and explanations directly next to the picture or example they belong to."
-          ]
+          ],
+          "student_reason": "Deshalb zeigen wir dir eine Idee pro Bildschirm und fassen kurz zusammen."
         },
         "medium": {
           "student_text": "Du kommst mit einer Menge auf einmal klar, mit einer kurzen Zusammenfassung zwischendurch.",
@@ -158,7 +161,8 @@
           "ai_instructions": [
             "Longer explanations and several connected ideas per screen are fine.",
             "Keep recaps brief; don't over-split the material."
-          ]
+          ],
+          "student_reason": "Deshalb dürfen Erklärungen länger sein und mehrere Ideen zusammen zeigen."
         }
       }
     },
@@ -214,7 +218,8 @@
             "Offer a focus mode that shows only the current sentence or block and dims everything else.",
             "Show visible progress after every step.",
             "Avoid long passive content such as long videos or long pages of text."
-          ]
+          ],
+          "student_reason": "Deshalb machen wir kurze Einheiten mit kleinen Aufgaben zwischendurch."
         },
         "medium": {
           "student_text": "Du kannst eine Weile konzentriert bleiben, mit einer kurzen Rückfrage zwischendurch.",
@@ -228,7 +233,8 @@
           "ai_instructions": [
             "Longer sessions and longer content are fine.",
             "Keep interruptions and check-ins to a minimum."
-          ]
+          ],
+          "student_reason": "Deshalb dürfen die Einheiten länger sein, und wir unterbrechen dich selten."
         }
       }
     },
@@ -284,7 +290,8 @@
             "Use a large, clear font with extra line and letter spacing; never justify text.",
             "Explain key words in a small glossary and show them visually where possible.",
             "Prefer audio, diagrams, and examples over long text."
-          ]
+          ],
+          "student_reason": "Deshalb lesen wir dir Texte vor und halten sie kurz und einfach."
         },
         "medium": {
           "student_text": "Lesen klappt, und bei langen Texten bieten wir dir Vorlesen an.",
@@ -297,7 +304,8 @@
           "student_text": "Lesen fällt dir leicht.",
           "ai_instructions": [
             "Text is a good format for this student; no special reading support is needed."
-          ]
+          ],
+          "student_reason": "Deshalb dürfen Texte ganz normal bleiben, ohne extra Hilfen."
         }
       }
     },
@@ -353,7 +361,8 @@
             "Show one task at a time with a clear start button.",
             "Make time visible: how long a step takes and how much is left.",
             "Acknowledge every finished step right away."
-          ]
+          ],
+          "student_reason": "Deshalb bekommst du einen fertigen Plan und einen winzigen ersten Schritt."
         },
         "medium": {
           "student_text": "Du schaffst es, dich selbst anzutreiben, und ein Plan hilft dir dabei.",
@@ -367,7 +376,8 @@
           "ai_instructions": [
             "Let the student plan and choose the order.",
             "Offer tools such as checklists or timers as options, not rules."
-          ]
+          ],
+          "student_reason": "Deshalb planst du selbst und wählst die Reihenfolge."
         }
       }
     },
@@ -417,7 +427,8 @@
             "Keep content concrete and practical, and explain why it is useful.",
             "Use short, guided tasks with one clear answer.",
             "Avoid open-ended puzzles until the student is confident."
-          ]
+          ],
+          "student_reason": "Deshalb bleiben wir bei klaren, praktischen Aufgaben mit einer Antwort."
         },
         "medium": {
           "student_text": "Du magst eine Mischung aus klaren Schritten und einer guten Herausforderung.",
@@ -430,7 +441,8 @@
           "ai_instructions": [
             "Add open questions, 'why' prompts, and challenge problems.",
             "Offer optional deep dives and let the student explore different solutions."
-          ]
+          ],
+          "student_reason": "Deshalb gibt es offene Fragen und Knobelaufgaben zum Vertiefen."
         }
       }
     },
@@ -475,7 +487,8 @@
             "Raise difficulty slowly and only after success.",
             "Point out concrete progress often ('You can now do X, which you couldn't yesterday').",
             "Give specific, encouraging feedback; never compare with others."
-          ]
+          ],
+          "student_reason": "Deshalb starten wir mit Aufgaben, die du sicher schaffst, und steigern langsam."
         },
         "medium": {
           "student_text": "Du traust dir das Meiste zu, und das soll so bleiben.",
@@ -487,7 +500,8 @@
           "student_text": "Du bist selbstbewusst, deshalb können wir direkt auf deinem Niveau starten.",
           "ai_instructions": [
             "Start at or slightly above the student's level and keep the challenge up."
-          ]
+          ],
+          "student_reason": "Deshalb starten wir auf deinem Niveau oder etwas darüber."
         }
       }
     },
@@ -538,7 +552,8 @@
             "Avoid scores, red marks, streak losses, and visible timers.",
             "After two mistakes in a row, make the next task easier or suggest a short break.",
             "Keep the tone calm and warm."
-          ]
+          ],
+          "student_reason": "Deshalb gibt es keine Punkte, keine roten Striche und einen ruhigen, warmen Ton."
         },
         "medium": {
           "student_text": "Du fängst dich meistens wieder, und wir halten das Feedback klar und freundlich.",
@@ -551,7 +566,8 @@
           "ai_instructions": [
             "Direct feedback is fine.",
             "Scores, streaks, and timed challenges can be used if the student enjoys them."
-          ]
+          ],
+          "student_reason": "Deshalb dürfen wir direkt sein, und Punkte oder Zeitaufgaben sind möglich."
         }
       }
     }

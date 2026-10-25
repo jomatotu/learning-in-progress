@@ -9,7 +9,7 @@ REQUEST = {
     "student": {"name": "Peter", "stage": "School", "stage_detail": "Grade 10", "interests": "Minecraft"},
     "goal": {"type": "Finish homework", "in_their_words": "", "deadline": None},
     "material": {"topic": "Linear equations", "texts": [], "links": [], "files": []},
-    "preferences": {"likes_learning_with": ["Short videos"], "notes": "Timers stress me out."},
+    "preferences": {"likes_learning_with": ["Short videos"], "notes": "Timers stress me out.", "hard": ""},
 }
 
 

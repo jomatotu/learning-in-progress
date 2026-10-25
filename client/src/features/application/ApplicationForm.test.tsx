@@ -53,6 +53,32 @@ const survey: Survey = {
       priority: 'low',
     },
   ],
+  deck: [
+    {
+      category: 'prior_knowledge',
+      title: 'Was du schon weißt',
+      low: {
+        text: 'Das Thema ist neu für dich.',
+        reason: 'Deshalb fangen wir vorn an.',
+      },
+      high: {
+        text: 'Du kennst dich aus.',
+        reason: 'Deshalb überspringen wir Grundlagen.',
+      },
+    },
+    {
+      category: 'working_memory',
+      title: 'Dinge im Kopf behalten',
+      low: {
+        text: 'Eine Sache pro Bildschirm.',
+        reason: 'Deshalb zeigen wir eine Idee.',
+      },
+      high: {
+        text: 'Du jonglierst Ideen.',
+        reason: 'Deshalb dürfen es mehrere sein.',
+      },
+    },
+  ],
 }
 
 function urlOf(input: RequestInfo | URL) {
@@ -77,6 +103,16 @@ async function fillAboutAndGoal(user: ReturnType<typeof userEvent.setup>) {
   await user.click(screen.getByRole('button', { name: /weiter/i }))
 
   await user.type(screen.getByLabelText('Was lernst du gerade?'), 'Fractions')
+  await user.click(screen.getByRole('button', { name: /weiter/i }))
+}
+
+// About, goal and notes done: the deck is next.
+async function reachDeck(user: ReturnType<typeof userEvent.setup>) {
+  await fillAboutAndGoal(user)
+  await user.type(
+    screen.getByLabelText(/Was macht Lernen gerade schwer/),
+    'Lange Texte',
+  )
   await user.click(screen.getByRole('button', { name: /weiter/i }))
 }
 
@@ -115,12 +151,16 @@ describe('ApplicationForm', () => {
     expect(screen.getByText('Schritt 2 von 5')).toBeInTheDocument()
   })
 
-  it('shows the questions from the server and asks for every answer in a part', async () => {
+  it('shows the survey questions after "Genauer?" on the last deck card and asks for every answer in a part', async () => {
     mockServer()
     const user = userEvent.setup()
     render(<ApplicationForm />)
-    await fillAboutAndGoal(user)
+    await reachDeck(user)
 
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(
+      screen.getByRole('button', { name: 'Genauer? 30 kurze Fragen' }),
+    )
     expect(screen.getByText('I know a lot.')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: /weiter/i }))
@@ -138,7 +178,7 @@ describe('ApplicationForm', () => {
     ).toBeInTheDocument()
   })
 
-  it('sends raw answers on "Meine Lösung bauen" and shows the JSON the server returns', async () => {
+  it('sends deck bands and raw answers on "Meine Lösung bauen" and shows the JSON the server returns', async () => {
     const fetchMock = mockServer(
       Response.json({
         learning_instructions: { prior_knowledge: ['Skip the basics.'] },
@@ -146,9 +186,13 @@ describe('ApplicationForm', () => {
     )
     const user = userEvent.setup()
     render(<ApplicationForm />)
-    await fillAboutAndGoal(user)
+    await reachDeck(user)
 
-    // Answer "Stimmt total" on the first part, skip the second.
+    // Deck: "Stimmt" on the first card, then the 30 questions from the last card.
+    await user.click(screen.getByRole('button', { name: /stimmt/i }))
+    await user.click(
+      screen.getByRole('button', { name: 'Genauer? 30 kurze Fragen' }),
+    )
     for (const radio of screen.getAllByRole('radio', {
       name: /stimmt total/i,
     })) {
@@ -156,44 +200,59 @@ describe('ApplicationForm', () => {
     }
     await user.click(screen.getByRole('button', { name: /weiter/i }))
     await user.click(screen.getByRole('button', { name: /überspringen/i }))
-    await user.click(screen.getByRole('button', { name: 'Kurze Videos' }))
-    await user.click(screen.getByRole('button', { name: /weiter/i }))
 
     expect(
       screen.getByRole('heading', { name: /klingt das nach dir/i }),
     ).toBeInTheDocument()
     expect(screen.getByText('3 von 5 Fragen beantwortet')).toBeInTheDocument()
+    expect(screen.getByText('Das Thema ist neu für dich.')).toBeInTheDocument()
 
     await user.click(
       screen.getByRole('button', { name: /meine lösung bauen/i }),
     )
 
-    // The client sends the raw answers only; scoring is the server's job.
     const profileCall = fetchMock.mock.calls.find(
       ([input]) => urlOf(input) === '/api/profile',
     )
     const sent = profileCall?.[1]?.body
     const body = JSON.parse(typeof sent === 'string' ? sent : '{}')
     expect(body.answers).toEqual({ pk1: 5, pk2: 5, pk3: 5 })
+    expect(body.bands).toEqual({ prior_knowledge: 'low' })
+    expect(body.preferences.hard).toBe('Lange Texte')
     expect(body.material.topic).toBe('Fractions')
 
     expect(
       await screen.findByRole('heading', { name: /magische lösung/i }),
     ).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: /lösung öffnen/i }),
-    ).toBeInTheDocument()
+  })
+
+  it('reaches the review and builds when every deck card is skipped', async () => {
+    const fetchMock = mockServer()
+    const user = userEvent.setup()
+    render(<ApplicationForm />)
+    await reachDeck(user)
+
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+
+    expect(screen.getByText('Übersprungen')).toBeInTheDocument()
+    await user.click(
+      screen.getByRole('button', { name: /meine lösung bauen/i }),
+    )
+    const profileCall = fetchMock.mock.calls.find(
+      ([input]) => urlOf(input) === '/api/profile',
+    )
+    const sent = profileCall?.[1]?.body
+    expect(JSON.parse(typeof sent === 'string' ? sent : '{}').bands).toEqual({})
   })
 
   it('stays on the review with a message when the server can’t build the profile', async () => {
     mockServer(new Response(null, { status: 500 }))
     const user = userEvent.setup()
     render(<ApplicationForm />)
-    await fillAboutAndGoal(user)
-    for (let i = 0; i < survey.categories.length; i++) {
-      await user.click(screen.getByRole('button', { name: /überspringen/i }))
-    }
-    await user.click(screen.getByRole('button', { name: /überspringen/i }))
+    await reachDeck(user)
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
+    await user.click(screen.getByRole('button', { name: 'Weiß nicht' }))
     await user.click(
       screen.getByRole('button', { name: /meine lösung bauen/i }),
     )

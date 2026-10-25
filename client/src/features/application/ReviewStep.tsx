@@ -38,8 +38,17 @@ function ReviewStep({
   profile,
   goTo,
 }: StepProps & { goTo: (step: StepId) => void }) {
+  const survey = useSurvey()
   const answered = Object.keys(profile.answers).length
-  const questions = useSurvey().questions.length
+  const questions = survey.questions.length
+  // The deck only has texts for low and high; a medium band is described by its title.
+  const mirrored = survey.deck.flatMap((entry) => {
+    const band = profile.bands[entry.category]
+    if (!band) return []
+    const text =
+      band === 'medium' ? `${entry.title}: mal so, mal so.` : entry[band].text
+    return [{ category: entry.category, text }]
+  })
   const material =
     profile.texts.length + profile.links.length + profile.files.length
   const stage = [profile.stage, profile.stageDetail].filter(Boolean).join(' · ')
@@ -94,15 +103,38 @@ function ReviewStep({
           </p>
         </Section>
 
-        <Section title="Wie du lernst" onEdit={() => goTo('survey')}>
-          <p>
-            {answered === 0
-              ? 'Übersprungen'
-              : `${answered} von ${questions} Fragen beantwortet`}
-          </p>
+        <Section title="Wie du lernst" onEdit={() => goTo('deck')}>
+          {mirrored.length > 0 && (
+            <ul className="mb-2 flex flex-col gap-1.5">
+              {mirrored.map(({ category, text }) => (
+                <li key={category} className="[overflow-wrap:anywhere]">
+                  {text}
+                </li>
+              ))}
+            </ul>
+          )}
+          {answered > 0 && (
+            <p className="text-graphite">
+              {answered} von {questions} Fragen beantwortet
+            </p>
+          )}
+          {answered === 0 && mirrored.length === 0 && <p>Übersprungen</p>}
+          <button
+            type="button"
+            onClick={() => goTo('survey')}
+            className="text-button mt-1 pl-0"
+          >
+            Genauer? 30 kurze Fragen
+          </button>
         </Section>
 
         <Section title="Deine Notizen" onEdit={() => goTo('notes')}>
+          {profile.hard && (
+            <p className="mb-2 whitespace-pre-line">
+              <span className="text-graphite">Schwer: </span>
+              {profile.hard}
+            </p>
+          )}
           {profile.likes.length > 0 && (
             <ul
               className="mb-2 flex flex-wrap gap-1.5"
@@ -121,7 +153,8 @@ function ReviewStep({
           {profile.notes ? (
             <p className="whitespace-pre-line">{profile.notes}</p>
           ) : (
-            !profile.likes.length && <Empty>Noch keine Notizen</Empty>
+            !profile.likes.length &&
+            !profile.hard && <Empty>Noch keine Notizen</Empty>
           )}
         </Section>
       </div>

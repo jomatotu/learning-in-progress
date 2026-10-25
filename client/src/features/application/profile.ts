@@ -1,4 +1,5 @@
 import type { Answers, Survey } from '@/lib/survey'
+import type { Band } from './deck'
 
 // Everything the application form collects. Sent to the server as the student profile.
 export type Profile = {
@@ -14,8 +15,10 @@ export type Profile = {
   links: string[]
   files: File[]
   answers: Answers
+  bands: Record<string, Band>
   likes: string[]
   notes: string
+  hard: string
 }
 
 export const emptyProfile: Profile = {
@@ -31,8 +34,10 @@ export const emptyProfile: Profile = {
   links: [],
   files: [],
   answers: {},
+  bands: {},
   likes: [],
   notes: '',
+  hard: '',
 }
 
 export const stages = [
@@ -76,17 +81,17 @@ export const likeSuggestions = [
   'Weniger Text auf dem Bildschirm',
 ]
 
-export type StepId = 'about' | 'goal' | 'survey' | 'notes' | 'review'
+export type StepId = 'about' | 'goal' | 'notes' | 'deck' | 'survey' | 'review'
 
 export const steps: { id: StepId; title: string }[] = [
   { id: 'about', title: 'Über dich' },
   { id: 'goal', title: 'Dein Ziel' },
-  { id: 'survey', title: 'Wie du lernst' },
   { id: 'notes', title: 'Deine Notizen' },
+  { id: 'deck', title: 'Wie du lernst' },
   { id: 'review', title: 'Dein Profil prüfen' },
 ]
 
-// One screen per step, except the survey, which gets one screen per category.
+// One screen per step. The 30-question survey is optional, comes after the deck and gets one screen per category.
 export type Screen = { step: StepId; categoryId?: string; minutes: number }
 
 const surveyMinutes = 5
@@ -95,12 +100,13 @@ export function buildScreens(survey: Survey): Screen[] {
   return [
     { step: 'about', minutes: 1 },
     { step: 'goal', minutes: 2 },
+    { step: 'notes', minutes: 1 },
+    { step: 'deck', minutes: 1 },
     ...survey.categories.map((c) => ({
       step: 'survey' as const,
       categoryId: c.id,
       minutes: surveyMinutes / survey.categories.length,
     })),
-    { step: 'notes', minutes: 1 },
     { step: 'review', minutes: 1 },
   ]
 }

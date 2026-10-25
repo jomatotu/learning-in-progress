@@ -43,6 +43,15 @@ function NotesStep({ profile, update }: StepProps) {
           </fieldset>
         </Field>
 
+        <Field id="hard" label="Was macht Lernen gerade schwer?" optional>
+          <Textarea
+            id="hard"
+            value={profile.hard}
+            onChange={(e) => update({ hard: e.target.value })}
+            placeholder="z. B. Ich fange nicht an, oder ich verliere mitten im Text den Faden."
+          />
+        </Field>
+
         <Field id="notes" label="Deine eigenen Notizen" optional>
           <Textarea
             id="notes"

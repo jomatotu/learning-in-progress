@@ -10,6 +10,7 @@ import {
 import { cn } from '@/lib/utils'
 import { AboutStep } from './AboutStep'
 import { createProfile, type StudentProfileJson } from './studentProfile'
+import { DeckStep } from './DeckStep'
 import { GoalStep } from './GoalStep'
 import { MagicStep } from './MagicStep'
 import { NotesStep } from './NotesStep'
@@ -67,12 +68,13 @@ function validate(
 const primaryLabel: Record<StepId, string> = {
   about: 'Weiter',
   goal: 'Weiter',
-  survey: 'Weiter',
   notes: 'Weiter',
+  deck: 'Weiter',
+  survey: 'Weiter',
   review: 'Meine Lösung bauen',
 }
 
-// The intake flow: about you, your goal, the learning survey, your notes, and a final check.
+// The intake flow: about you, your goal, your notes, the yes/no deck (with the optional 30-question survey), and a final check.
 function Form() {
   const survey = useSurvey()
   const screens = buildScreens(survey)
@@ -84,11 +86,16 @@ function Form() {
   const panel = useRef<HTMLDivElement>(null)
 
   const screen = screens[index]
-  const step = steps.find((s) => s.id === screen.step)!
+  // The optional survey counts as part of the "Wie du lernst" step.
+  const stepId = screen.step === 'survey' ? 'deck' : screen.step
+  const step = steps.find((s) => s.id === stepId)!
   const counted = steps
-  const stepNumber = counted.findIndex((s) => s.id === screen.step) + 1
+  const stepNumber = counted.findIndex((s) => s.id === stepId) + 1
   const minutesLeft = Math.ceil(
-    screens.slice(index).reduce((sum, s) => sum + s.minutes, 0),
+    screens
+      .slice(index)
+      .filter((s) => s.step !== 'survey' || screen.step === 'survey')
+      .reduce((sum, s) => sum + s.minutes, 0),
   )
   const category = survey.categories.find((c) => c.id === screen.categoryId)
   const part =
@@ -146,6 +153,7 @@ function Form() {
   const stepProps = { profile, update, errors }
   const showPanel = ['about', 'goal', 'notes'].includes(screen.step)
   const canSkip = screen.step === 'survey' || screen.step === 'notes'
+  const isDeck = screen.step === 'deck'
 
   if (finished && result.status === 'ready') {
     return <MagicStep topic={profile.topic} profileJson={result.data} />
@@ -204,6 +212,15 @@ function Form() {
         >
           {screen.step === 'about' && <AboutStep {...stepProps} />}
           {screen.step === 'goal' && <GoalStep {...stepProps} />}
+          {isDeck && (
+            <DeckStep
+              deck={survey.deck}
+              bands={profile.bands}
+              onBands={(bands) => update({ bands })}
+              onDone={() => goTo('review')}
+              onSurvey={() => goTo('survey')}
+            />
+          )}
           {screen.step === 'survey' && category && (
             <SurveyStep {...stepProps} category={category} part={part} />
           )}
@@ -245,12 +262,14 @@ function Form() {
                   Überspringen
                 </button>
               )}
-              <button type="submit" className="primary large">
-                {result.status === 'loading'
-                  ? 'Wird gebaut…'
-                  : primaryLabel[screen.step]}
-                <ArrowRight size={18} aria-hidden />
-              </button>
+              {!isDeck && (
+                <button type="submit" className="primary large">
+                  {result.status === 'loading'
+                    ? 'Wird gebaut…'
+                    : primaryLabel[screen.step]}
+                  <ArrowRight size={18} aria-hidden />
+                </button>
+              )}
             </div>
           </div>
         </form>

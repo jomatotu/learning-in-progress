@@ -1,0 +1,147 @@
+import { useEffect, useRef, useState } from 'react'
+import { ArrowRight } from 'lucide-react'
+import type { DeckEntry } from '@/lib/survey'
+import { StepHeading } from './StepHeading'
+import {
+  answerBands,
+  nextDeckState,
+  type Band,
+  type DeckAnswer,
+  type DeckState,
+} from './deck'
+
+const SECONDS_PER_CARD = 3
+
+// Fields and buttons handle keys themselves; a shortcut there would answer twice or eat typing.
+function keepsKey(key: string, target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false
+  if (target.closest('input, textarea, select, [contenteditable]')) return true
+  return key === 'Enter' && !!target.closest('button, a')
+}
+
+// One yes/no card per screen: what the band would mean for the student, and why. "Eher nicht" on the
+// first card shows the opposite card, so a category takes one or two cards.
+function DeckStep({
+  deck,
+  bands,
+  onBands,
+  onDone,
+  onSurvey,
+}: {
+  deck: DeckEntry[]
+  bands: Record<string, Band>
+  onBands: (bands: Record<string, Band>) => void
+  onDone: () => void
+  onSurvey: () => void
+}) {
+  const [state, setState] = useState<DeckState>({
+    index: 0,
+    asked: 'low',
+    bands,
+  })
+  const [extra, setExtra] = useState(0)
+  const [shown, setShown] = useState(0)
+
+  const answer = (choice: DeckAnswer) => {
+    onBands(answerBands(state, choice, deck))
+    const next = nextDeckState(state, choice, deck)
+    if (next === 'done') return onDone()
+    if (next.asked === 'high') setExtra((n) => n + 1)
+    setShown((n) => n + 1)
+    setState(next)
+  }
+
+  // The key handler always calls the latest answer().
+  const latest = useRef(answer)
+  useEffect(() => {
+    latest.current = answer
+  })
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return
+      if (e.key !== 'Enter' && e.key !== 'Backspace') return
+      if (keepsKey(e.key, e.target)) return
+      e.preventDefault()
+      latest.current(e.key === 'Enter' ? 'stimmt' : 'eher_nicht')
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  const entry = deck[state.index]
+  const card = entry[state.asked]
+  const total = deck.length + extra
+  const minutes = Math.max(
+    1,
+    Math.ceil(((total - shown) * SECONDS_PER_CARD) / 60),
+  )
+  const isLast = state.index === deck.length - 1
+
+  return (
+    <div>
+      <StepHeading
+        label={`Wie du lernst · ${entry.title}`}
+        hint="Eine kurze Frage pro Karte. Du kannst alles später ändern."
+      >
+        Stimmt das <em>für dich?</em>
+      </StepHeading>
+
+      <div className="mb-3 flex flex-wrap justify-between gap-x-4 text-sm text-graphite">
+        <span>
+          Karte {shown + 1} von ~{total}
+        </span>
+        <span>noch ~{minutes} Min</span>
+      </div>
+
+      <div aria-live="polite" className="rounded-[18px] bg-ink p-6 text-white">
+        <span className="mb-2 block text-[0.7rem] font-bold tracking-[0.04em] text-[#bcb0f2]">
+          Das heißt für dich
+        </span>
+        <p className="text-[1.2rem] leading-snug font-semibold [overflow-wrap:anywhere]">
+          {card.text}
+        </p>
+      </div>
+      <p className="mx-0.5 mt-3 mb-6 text-sm [overflow-wrap:anywhere] text-graphite">
+        {card.reason}
+      </p>
+
+      <div className="grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          className="secondary-button justify-center py-3.5"
+          onClick={() => answer('eher_nicht')}
+        >
+          Eher nicht
+        </button>
+        <button
+          type="button"
+          className="primary large"
+          onClick={() => answer('stimmt')}
+        >
+          Stimmt
+          <ArrowRight size={18} aria-hidden />
+        </button>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+        <button
+          type="button"
+          className="text-button pl-0"
+          onClick={() => answer('weiss_nicht')}
+        >
+          Weiß nicht
+        </button>
+        {isLast && (
+          <button type="button" className="text-button" onClick={onSurvey}>
+            Genauer? 30 kurze Fragen
+          </button>
+        )}
+      </div>
+      <p className="mt-2 hidden text-xs text-graphite md:block">
+        Tastatur: Enter = Stimmt · Rücktaste = Eher nicht
+      </p>
+    </div>
+  )
+}
+
+export { DeckStep }

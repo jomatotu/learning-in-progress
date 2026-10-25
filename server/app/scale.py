@@ -53,5 +53,19 @@ def score_category(category: dict[str, Any], answers: dict[str, int]) -> Categor
     return CategoryResult(category["id"], category["name"], score, band, category["bands"][band]["ai_instructions"])
 
 
-def evaluate(answers: dict[str, int]) -> list[CategoryResult]:
-    return [score_category(category, answers) for category in load_scale()["categories"]]
+def category_ids() -> set[str]:
+    return {category["id"] for category in load_scale()["categories"]}
+
+
+# Survey answers decide a category's band; for the rest, the deck's band is used. No answer and no band: left out.
+def evaluate(answers: dict[str, int], bands: dict[str, str] | None = None) -> list[CategoryResult]:
+    results = []
+    for category in load_scale()["categories"]:
+        result = score_category(category, answers)
+        band = (bands or {}).get(category["id"])
+        if result.band == "unknown" and band:
+            result = CategoryResult(
+                category["id"], category["name"], None, band, category["bands"][band]["ai_instructions"]
+            )
+        results.append(result)
+    return results

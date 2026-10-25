@@ -24,9 +24,11 @@ export function toProfileRequest(profile: Profile) {
       files: profile.files.map((f) => f.name),
     },
     answers: profile.answers,
+    bands: profile.bands,
     preferences: {
       likes_learning_with: profile.likes,
       notes: profile.notes,
+      hard: profile.hard,
     },
   }
 }

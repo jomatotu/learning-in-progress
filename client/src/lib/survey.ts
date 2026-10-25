@@ -12,6 +12,14 @@ export type Survey = {
     text: string
     priority: 'high' | 'low'
   }[]
+  deck: DeckEntry[]
+}
+
+export type DeckEntry = {
+  category: string
+  title: string
+  low: { text: string; reason: string }
+  high: { text: string; reason: string }
 }
 
 export type SurveyCategory = Survey['categories'][number]
