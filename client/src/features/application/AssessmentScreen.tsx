@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Check, Copy } from 'lucide-react'
 import { themeTitles, useAssess, type Answer } from '@/api/assess'
 import type { StudentProfile } from '@/api/profile'
+import type { Research } from '@/api/research'
 import { HermesProgress } from '@/components/HermesProgress'
 import { saveRun } from '@/features/learn/learnStore'
+import { ResearchCard } from './ResearchCard'
 import { materialText, profileForHermes } from './studentProfile'
 
-// Shown after "Build my tool": Hermes asks a few questions, picks the themes, and Generate opens the pages in a new tab.
+// Shown after "Meine Lösung bauen": Hermes asks a few questions and researches the web for this student at the same
+// time, picks the themes, and the build button opens the pages in a new tab.
 function AssessmentScreen({
   name,
   studentProfile,
@@ -18,6 +21,7 @@ function AssessmentScreen({
 }) {
   const assess = useAssess()
   const [answers, setAnswers] = useState<Answer[]>([])
+  const [research, setResearch] = useState<Research | null>(null)
   const profile = profileForHermes(studentProfile)
   const material = materialText(studentProfile)
   const started = useRef(false)
@@ -43,8 +47,9 @@ function AssessmentScreen({
   // Generates in a new tab, so this page keeps the answers and can open the pages again.
   function generate() {
     if (!themes) return
+    // Findings that arrived in time go along in the profile, so the page applies what Hermes found.
     const id = saveRun({
-      profile,
+      profile: research ? { ...profile, research: research.findings } : profile,
       answers,
       material,
       themes,
@@ -54,12 +59,12 @@ function AssessmentScreen({
 
   return (
     <div className="rounded-[20px] border border-rule bg-sheet p-8 shadow-card md:p-14">
-      <span className="kicker">Your profile is ready</span>
+      <span className="kicker">Dein Profil ist fertig</span>
       <h2
         tabIndex={-1}
         className="mt-3 max-w-[22ch] text-[2.2rem] outline-none md:text-[2.8rem]"
       >
-        Thanks, {name}. <em>A few quick questions.</em>
+        Danke, {name}. <em>Noch ein paar kurze Fragen.</em>
       </h2>
 
       {answers.length > 0 && (
@@ -101,7 +106,7 @@ function AssessmentScreen({
         {themes && (
           <div className="flex flex-col gap-4">
             <p className="text-xl font-medium">
-              These fit you best, best first:
+              Das passt am besten zu dir, das Beste zuerst:
             </p>
             <ol className="flex list-decimal flex-col gap-2 pl-6">
               {themes.map((pick) => (
@@ -116,7 +121,7 @@ function AssessmentScreen({
               className="primary large self-start"
               onClick={generate}
             >
-              Generate
+              Meine Seiten bauen
               <ArrowRight size={18} aria-hidden />
             </button>
           </div>
@@ -130,16 +135,20 @@ function AssessmentScreen({
               className="primary mt-4"
               onClick={() => assess.mutate({ profile, answers, material })}
             >
-              Try again
+              Nochmal versuchen
             </button>
           </div>
         )}
       </div>
 
+      <div className="mt-8">
+        <ResearchCard profile={studentProfile} onDone={setResearch} />
+      </div>
+
       <ProfileJson profile={studentProfile} />
 
       <button className="text-button mt-6 pl-0" onClick={onBack}>
-        Back to my profile
+        Zurück zu meinem Profil
       </button>
     </div>
   )
@@ -162,7 +171,7 @@ function ProfileJson({ profile }: { profile: StudentProfile }) {
   return (
     <details className="mt-10 rounded-2xl border border-rule bg-paper">
       <summary className="cursor-pointer px-5 py-4 font-normal">
-        See your profile JSON
+        Dein Profil als JSON
       </summary>
       <div className="border-t border-rule p-5">
         <div className="mb-3 flex justify-end">
@@ -172,7 +181,7 @@ function ProfileJson({ profile }: { profile: StudentProfile }) {
             ) : (
               <Copy size={16} aria-hidden />
             )}
-            {copied ? 'Copied' : 'Copy JSON'}
+            {copied ? 'Kopiert' : 'JSON kopieren'}
           </button>
         </div>
         <pre className="max-h-96 overflow-auto rounded-xl bg-sheet p-4 font-mono text-[0.78rem] leading-relaxed">

@@ -285,7 +285,7 @@ describe('ApplicationForm', () => {
     expect(body.material.topic).toBe('Fractions')
 
     expect(
-      await screen.findByRole('heading', { name: /thanks, lina/i }),
+      await screen.findByRole('heading', { name: /danke, lina/i }),
     ).toBeInTheDocument()
     expect(screen.getByText(/"Skip the basics\."/)).toBeInTheDocument()
 
@@ -302,7 +302,9 @@ describe('ApplicationForm', () => {
 
     await user.click(await screen.findByRole('button', { name: 'Listening' }))
     expect(await screen.findByText(/You like listening/)).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: /generate/i }))
+    await user.click(
+      screen.getByRole('button', { name: /meine seiten bauen/i }),
+    )
 
     const [url, target] = openMock.mock.calls[0]
     expect(target).toBe('_blank')

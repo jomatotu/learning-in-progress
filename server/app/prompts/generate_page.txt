@@ -2,7 +2,7 @@ You are building a personal learning tool for one student. Students with learnin
 
 ## The student
 
-Profile (who they are, their goal, interests, and any learning_instructions from our learning survey; follow those wherever Step 2 leaves room):
+Profile (who they are, their goal, interests, and any learning_instructions from our learning survey; follow those wherever Step 2 leaves room. If it has `research`, those are strategies you found on the web for this student in an earlier session, each with its source: apply them wherever Step 2 leaves room, and name the ones you used, with their source, in "Why it looks like this"):
 {{PROFILE}}
 
 Answers from our assessment questions, including what already works for them:
