@@ -216,6 +216,44 @@
   border-color: #cfcdc7;
 }
 
+/* Graustufen in dark mode: the same matte look, but dark grey paper and light ink. */
+:root.dark[data-look='graustufen'] {
+  background: #1c1c1b;
+}
+
+:root.dark[data-look='graustufen'] body,
+:root.dark[data-look='graustufen'] .app-shell,
+:root.dark[data-look='graustufen'] .application-page {
+  background: #1c1c1b;
+  color: #ecebe7;
+}
+
+:root.dark[data-look='graustufen'] .topbar {
+  background: #242423;
+  border-color: #3d3c39;
+}
+
+:root.dark[data-look='graustufen'] .application-page {
+  --paper: #1c1c1b;
+  --sheet: #242423;
+  --ink: #ecebe7;
+  --graphite: #b4b2ac;
+  --rule: #3d3c39;
+  --pine: #ecebe7;
+  --pine-soft: #2c2c2a;
+  --pine-deep: #ecebe7;
+  --marigold: #a8a6a0;
+  --clay: #a8a6a0;
+}
+
+:root.dark[data-look='graustufen'] [data-slot='card'],
+:root.dark[data-look='graustufen'] [data-slot='input'],
+:root.dark[data-look='graustufen'] [data-slot='textarea'] {
+  background: #242423;
+  border-color: #3d3c39;
+  color: #ecebe7;
+}
+
 :root[data-look='graustufen'] .hero-art::before,
 :root[data-look='graustufen'] .orbit,
 :root[data-look='graustufen'] .magic-orbit,

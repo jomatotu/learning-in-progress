@@ -72,7 +72,17 @@ export function MagicStep({
     )
   }
 
-  useEffect(() => () => window.clearTimeout(timer.current), [])
+  // Starts on arrival: the student already clicked build, a second click felt like a dead end.
+  // The ref keeps StrictMode's second effect run from starting Hermes twice.
+  const started = useRef(false)
+  useEffect(() => {
+    if (!started.current) {
+      started.current = true
+      start()
+    }
+    return () => window.clearTimeout(timer.current)
+    // oxlint-disable-next-line react/exhaustive-deps
+  }, [])
 
   if (spec) {
     return (
