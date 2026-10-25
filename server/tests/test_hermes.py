@@ -174,3 +174,21 @@ def test_stream_hermes_json_raises_after_second_invalid_reply(monkeypatch):
     with pytest.raises(hermes.HermesError, match="valid JSON"):
         asyncio.run(collect(hermes.stream_hermes_json("Pick one", Pick, "lip-test-1")))
 
+
+
+def test_ask_hermes_sends_model_and_provider_when_set(monkeypatch):
+    calls = fake_client(monkeypatch, "ok")
+
+    asyncio.run(hermes.ask_hermes("Hi", model="m", provider="bedrock"))
+
+    assert calls[0]["model"] == "m"
+    assert calls[0]["extra_body"] == {"provider": "bedrock"}
+
+
+def test_ask_hermes_without_model_keeps_the_default(monkeypatch):
+    calls = fake_client(monkeypatch, "ok")
+
+    asyncio.run(hermes.ask_hermes("Hi"))
+
+    assert calls[0]["model"] == "hermes-agent"
+    assert "extra_body" not in calls[0]

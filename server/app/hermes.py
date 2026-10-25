@@ -58,14 +58,23 @@ def chat_messages(message: str, instructions: str | None) -> list[dict[str, str]
 # Sends one message to the Hermes agent and returns its reply.
 # Hermes keeps the history per session_id, so send only the new message. Prefix IDs (e.g. "lip-peter-1") because the team shares one Hermes.
 # Without a session_id Hermes derives one from the messages, so identical requests would share a history.
-async def ask_hermes(message: str, session_id: str | None = None, instructions: str | None = None) -> str:
+# `model` is only honoured by the gateway together with an explicit `provider`; unset keeps the Hermes default.
+async def ask_hermes(
+    message: str,
+    session_id: str | None = None,
+    instructions: str | None = None,
+    model: str | None = None,
+    provider: str | None = None,
+) -> str:
     headers = {"X-Hermes-Session-Id": session_id} if session_id else {}
     # The SDK retries failed requests with the same headers, so this key stops Hermes from running the turn twice.
     headers["Idempotency-Key"] = str(uuid.uuid4())
+    extra = {"extra_body": {"provider": provider}} if provider else {}
     response = await get_client().chat.completions.create(
-        model=MODEL,
+        model=model or MODEL,
         messages=chat_messages(message, instructions),
         extra_headers=headers,
+        **extra,
     )
     choice = response.choices[0]
     if choice.finish_reason in ("error", "cancelled"):

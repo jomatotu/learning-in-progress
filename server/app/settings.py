@@ -10,6 +10,9 @@ class Settings(BaseSettings):
 
     hermes_base_url: str | None = None
     hermes_api_key: SecretStr | None = None
+    # Model and provider for the intake cards and summary; unset means the Hermes profile default.
+    hermes_intake_model: str | None = None
+    hermes_intake_provider: str | None = None
     # Unset means gated routes answer 503.
     access_code: SecretStr | None = None
     app_origins: Annotated[list[str], NoDecode] = [

@@ -27,6 +27,7 @@ def test_profile_returns_the_student_json_with_only_their_instructions():
     assert response.json() == {
         "scale_version": load_scale()["version"],
         **REQUEST,
+        "about_you": "",
         "learning_instructions": {"attention": instructions("attention", "low")},
     }
 

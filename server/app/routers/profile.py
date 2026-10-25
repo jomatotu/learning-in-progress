@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Annotated, Literal
 
 from fastapi import APIRouter
 from pydantic import BaseModel, Field, field_validator
@@ -9,15 +9,15 @@ router = APIRouter(tags=["profile"])
 
 
 class Student(BaseModel):
-    name: str
-    stage: str = ""
-    stage_detail: str = ""
-    interests: str = ""
+    name: str = Field(max_length=60)
+    stage: str = Field(default="", max_length=80)
+    stage_detail: str = Field(default="", max_length=120)
+    interests: str = Field(default="", max_length=300)
 
 
 class Goal(BaseModel):
     type: str = ""
-    in_their_words: str = ""
+    in_their_words: str = Field(default="", max_length=500)
     deadline: str | None = None
 
 
@@ -29,7 +29,7 @@ class Material(BaseModel):
 
 
 class Preferences(BaseModel):
-    likes_learning_with: list[str] = []
+    likes_learning_with: list[Annotated[str, Field(max_length=60)]] = Field(default=[], max_length=10)
     notes: str = Field(default="", max_length=800)
     hard: str = Field(default="", max_length=800, description="What makes learning hard for them right now, in their words.")
 
@@ -43,6 +43,7 @@ class ProfileRequest(BaseModel):
         default={}, description="Bands the student confirmed in the intake deck, by category id."
     )
     preferences: Preferences = Preferences()
+    about_you: str = Field(default="", max_length=1000, description="The summary the student confirmed in the intake.")
 
     @field_validator("bands")
     @classmethod
@@ -74,6 +75,7 @@ class StudentProfile(BaseModel):
         description="The prompts chosen for this student, by category. Skipped categories are left out."
     )
     preferences: Preferences
+    about_you: str = ""
 
 
 # Scores the survey answers and returns the student's profile JSON: what they told us, plus only the
@@ -88,4 +90,5 @@ async def create_profile(request: ProfileRequest) -> StudentProfile:
         material=request.material,
         learning_instructions={r.id: r.ai_instructions for r in results if r.band != "unknown"},
         preferences=request.preferences,
+        about_you=request.about_you,
     )
